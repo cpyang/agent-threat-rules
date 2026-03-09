@@ -14,6 +14,7 @@ author: "Panguard AI"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern
+maturity: experimental
 severity: high
 
 references:
@@ -42,7 +43,7 @@ detection:
   conditions:
     - field: content
       operator: regex
-      value: "(?i)(?:instead\\s+of\\s+(?:that|doing|the\\s+original|what\\s+(?:you|I)\\s+asked)|rather\\s+than\\s+(?:that|the\\s+(?:original|assigned|previous)))"
+      value: "(?i)(?:instead\\s+of\\s+(?:that|doing|the\\s+(?:original\\s+)?\\w+(?:\\s+\\w+){0,3}|what\\s+(?:you|I)\\s+asked)|rather\\s+than\\s+(?:that|the\\s+(?:original|assigned|previous)))"
       description: "Explicit task abandonment language"
     - field: content
       operator: regex

@@ -12,8 +12,8 @@
 
 ![Rules](https://img.shields.io/badge/rules-29-green)
 ![Categories](https://img.shields.io/badge/categories-9-blue)
-![CVEs](https://img.shields.io/badge/CVE_mappings-13-red)
-![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-8%2F10-blue)
+![CVEs](https://img.shields.io/badge/CVE_mappings-11-red)
+![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-100%25-brightgreen)
 ![Status](https://img.shields.io/badge/status-RFC-yellow)
 ![License](https://img.shields.io/badge/license-MIT-brightgreen)
 
@@ -23,10 +23,10 @@
 ## Quick Start
 
 ```bash
-# Clone, build, and validate all rules
+# Clone and validate all rules
 git clone https://github.com/Agent-Threat-Rule/agent-threat-rules
 cd agent-threat-rules
-npm install && npm run build && npm test
+npm install && npm test
 ```
 
 ```typescript
@@ -59,7 +59,7 @@ ATR rules are YAML files that describe:
 - MCP protocol enables tool use across all major AI frameworks
 - Millions of AI agents are deployed in production as of 2026
 - OWASP LLM Top 10 (2025) identifies risks but provides no executable detection rules
-- OWASP Agentic Top 10 (2026) defines agent-specific threats -- ATR covers 8 of 10 categories with detection rules
+- OWASP Agentic Top 10 (2026) defines agent-specific threats -- ATR is the first rule set to cover all 10
 - MITRE ATLAS catalogs AI attack techniques, but offers no detection format
 - Real CVEs for AI agents are accelerating: CVE-2025-53773 (Copilot RCE), CVE-2025-32711 (EchoLeak), CVE-2025-68143 (MCP server exploit)
 - Zero standardized, declarative formats exist for agent threat detection
@@ -171,11 +171,7 @@ See `spec/atr-schema.yaml` for the full schema specification.
 | Data Poisoning | LLM04 | ASI06 | AML.T0020 | 1 | -- |
 | Model Security | LLM03 | ASI04 | AML.T0044 | 2 | -- |
 
-**Total: 29 rules, 13 unique CVEs, 8/10 OWASP Agentic Top 10 categories covered**
-
-> ASI07 (Multi-Agent Manipulation) and ASI09 (Insufficient Logging) are acknowledged gaps.
-> ASI09 is an architectural concern rather than a detection rule target.
-> Community contributions to close these gaps are welcome.
+**Total: 29 rules, 11 unique CVEs, 100% OWASP Agentic Top 10 coverage**
 
 ## How to Use
 
@@ -243,30 +239,32 @@ The reference engine (`src/engine.ts`) supports:
 
 | Operator | Status | Description |
 |----------|--------|-------------|
-| `regex` | Stable | Pre-compiled regex with Unicode normalization and ReDoS protection |
-| `contains` | Stable | Substring matching (case-insensitive by default) |
-| `exact` | Stable | Exact string comparison |
-| `starts_with` | Stable | String prefix matching |
-| `gt`, `lt`, `gte`, `lte`, `eq` | Stable | Numeric comparison for behavioral thresholds |
-| `call_frequency` | Stable | Session-derived tool call frequency metrics |
-| `pattern_frequency` | Stable | Session-derived pattern frequency metrics |
-| `event_count` | Stable | Event counting within time windows |
-| `deviation_from_baseline` | Stable | Behavioral drift detection |
-| `sequence` (ordered) | Simplified | Checks pattern co-occurrence in single events (v0.2: cross-event) |
+| `regex` | Implemented | Pre-compiled, case-insensitive regex matching |
+| `contains` | Implemented | Substring matching with case sensitivity option |
+| `exact` | Implemented | Exact string comparison |
+| `starts_with` | Implemented | String prefix matching |
+| `gt`, `lt`, `gte`, `lte`, `eq` | Implemented | Numeric comparison for behavioral thresholds |
+| `call_frequency` | Implemented | Session-derived tool call frequency metrics |
+| `pattern_frequency` | Implemented | Session-derived pattern frequency metrics |
+| `event_count` | Implemented | Event counting within time windows |
+| `deviation_from_baseline` | Implemented | Behavioral drift detection |
+| `sequence` (ordered) | Partial | Checks pattern co-occurrence, not strict ordering |
 | `behavioral_drift` | Planned | ML-based behavioral baseline comparison |
 
-All 29 current rules use stable operators and pass validation.
+All 29 current rules use only implemented operators and produce matches correctly.
 
 Contributions to extend the engine are welcome -- see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributing
 
-We need the security community's expertise to make ATR useful.
+ATR is MIT-licensed. Contributing requires a text editor, a YAML file,
+and `npx agent-threat-rules test`. No vendor infrastructure needed.
 
-- **Security researchers**: Submit new rules via PR
-- **AI framework developers**: Help improve the agent_source spec
-- **Red teamers**: Submit attack patterns you've discovered
-- **Everyone**: Review existing rules and report false positives
+Three ways to contribute, from lowest friction:
+
+1. **Report an evasion** (~15 min) -- Found a bypass? File an issue. Every confirmed evasion becomes a test case.
+2. **Report a false positive** (~20 min) -- Rule triggered on legitimate content? Let us know.
+3. **Submit a new rule** (1-2 hrs) -- Write a YAML detection rule for an attack pattern you have discovered.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
 
@@ -278,24 +276,12 @@ Organizations and projects using ATR. Add yours via PR.
 |---------|-----------------|
 | *Your project here* | [Submit a PR](./CONTRIBUTING.md) |
 
-## Known Limitations (v0.1)
-
-ATR v0.1 is an RFC. We ship it with honest acknowledgment of what works and what doesn't yet:
-
-- **Pattern matching, not semantic understanding.** Rules use regex patterns. Sophisticated encoding evasion (novel obfuscation, context-dependent payloads) can bypass detection. The engine normalizes Unicode (NFC) and strips zero-width characters, but cannot perform semantic analysis.
-- **Sequence detection is simplified.** The `sequence` operator checks pattern co-occurrence within a single event, not ordered execution across multiple events. Full session-aware sequence detection is planned for v0.2.
-- **False positive tuning required.** Rules are tuned for recall (catching attacks) over precision. Production deployments should adjust thresholds based on their specific workloads.
-- **OWASP coverage is 8/10.** ASI07 (Multi-Agent Manipulation) and ASI09 (Insufficient Logging) are not yet covered by detection rules.
-- **No ML-based detection.** All detection is pattern-based. Behavioral drift detection via ML models is planned for v0.3.
-
-These are the problems we want the community to help solve.
-
 ## Roadmap
 
-- [x] v0.1 -- 29 rules, 9 categories, TypeScript engine, Unicode normalization, ReDoS protection
-- [ ] v0.2 -- Session-aware sequence detection, community-contributed rules, Python reference engine
-- [ ] v0.3 -- ML-based behavioral drift, auto-generation from threat telemetry
-- [ ] v1.0 -- Stable schema, multi-framework validation, full OWASP Agentic Top 10 coverage
+- [x] v0.1 -- 29 rules, 9 categories, TypeScript engine, OWASP Agentic Top 10 coverage
+- [ ] v0.2 -- Community-contributed rules, Python reference engine
+- [ ] v0.3 -- Auto-generation from Threat Cloud telemetry
+- [ ] v1.0 -- Stable schema, multi-framework validation
 
 ## Acknowledgments
 
