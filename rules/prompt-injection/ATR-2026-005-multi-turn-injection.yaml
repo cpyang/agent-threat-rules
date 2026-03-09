@@ -10,8 +10,10 @@ description: >
   progressive request escalation patterns, refusal fatigue phrases, and conversation
   history manipulation. Each pattern targets a specific phase of the multi-turn attack
   lifecycle using only the regex operator for engine compatibility.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: medium
 
 references:

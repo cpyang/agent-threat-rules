@@ -11,8 +11,10 @@ description: >
   dual-response formatting, encoding-wrapped jailbreaks, and anti-policy/filter bypass
   language. Patterns are anchored with word boundaries and context windows to minimize
   false positives on legitimate security discussions.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: high
 
 references:

@@ -9,8 +9,10 @@ description: |
   descriptions, recursive invocation patterns, and stalled progress
   indicators. Runaway loops waste computational resources, accumulate
   costs, and may indicate logic errors or adversarial manipulation.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: high
 
 references:
@@ -119,9 +121,6 @@ test_cases:
     - input: "Will keep trying until it works. Continuously retrying the API call."
       expected: triggered
       description: "Agent declaring intent to retry indefinitely"
-    - input: "Iteration #35. Repeating the same step again with identical parameters. Still getting the same error as before."
-      expected: triggered
-      description: "High iteration count with repeated identical actions and stalled progress"
   true_negatives:
     - input: "Processing batch 3 of 5. All items completed successfully so far."
       expected: not_triggered

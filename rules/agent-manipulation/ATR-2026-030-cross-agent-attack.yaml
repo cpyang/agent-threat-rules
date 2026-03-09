@@ -10,8 +10,10 @@ description: |
   or manipulates message format conventions to deceive target agents.
   These attacks exploit trust relationships between agents to achieve
   unauthorized actions, data exfiltration, or safety bypass.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: critical
 
 references:
@@ -21,6 +23,7 @@ references:
     - "LLM05:2025 - Improper Output Handling"
   owasp_agentic:
     - "ASI01:2026 - Agent Goal Hijack"
+    - "ASI07:2026 - Insecure Inter-Agent Communication"
     - "ASI10:2026 - Rogue Agents"
   mitre_atlas:
     - "AML.T0051 - Prompt Injection"

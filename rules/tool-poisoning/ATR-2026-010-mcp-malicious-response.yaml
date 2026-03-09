@@ -11,8 +11,10 @@ description: >
   substitution, base64 decode-and-execute, process substitution, IFS/variable expansion
   evasion, privilege escalation, PowerShell-specific attack patterns, Python/Node reverse
   shells, encoded command execution, and prompt injection within tool responses.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: critical
 
 references:

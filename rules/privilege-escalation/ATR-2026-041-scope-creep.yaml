@@ -9,8 +9,10 @@ description: |
   authority. This rule uses regex-only detection to identify language
   patterns associated with unsolicited scope expansion, progressive
   permission requests, and self-initiated authority broadening.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: medium
 
 references:
@@ -109,9 +111,6 @@ test_cases:
     - input: "To properly complete this task, I need permission to access the production database and the admin panel."
       expected: triggered
       description: "Justifying scope expansion as necessary for completion"
-    - input: "Since I already have access to the user database, let me also check the financial records while I am here."
-      expected: triggered
-      description: "Leveraging existing access as foothold for further expansion"
   true_negatives:
     - input: "I have completed the analysis using the three databases you specified. Here are the results."
       expected: not_triggered

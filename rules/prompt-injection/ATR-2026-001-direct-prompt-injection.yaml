@@ -9,8 +9,10 @@ description: >
   wrapped payloads (base64, hex, unicode homoglyphs), and zero-width character obfuscation
   of injection keywords. Patterns are designed for evasion resistance with word boundary
   anchors, flexible whitespace, and synonym coverage based on published attack taxonomies.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: high
 
 references:

@@ -7,8 +7,10 @@ description: >
   remember false information, update its own instructions, or modify its persistent
   behavior across sessions. Successful memory poisoning can establish persistent
   backdoors that survive context resets and affect all future interactions.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: high
 
 references:

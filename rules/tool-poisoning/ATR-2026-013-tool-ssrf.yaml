@@ -12,8 +12,10 @@ description: >
   token headers, IPv6 loopback and mapped addresses, and hostname-based internal
   service discovery. IP encoding evasion techniques (decimal, octal, hex) are
   specifically addressed.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: critical
 
 references:
@@ -27,7 +29,9 @@ references:
   mitre_attack:
     - "T1090 - Proxy"
     - "T1071 - Application Layer Protocol"
-  cve: []
+  cve:
+    - "CVE-2019-5418"
+    - "CVE-2021-21311"
 
 tags:
   category: tool-poisoning

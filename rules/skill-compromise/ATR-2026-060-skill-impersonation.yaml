@@ -9,8 +9,10 @@ description: |
   name patterns that mimic legitimate skills. This goes beyond simple
   typo detection to cover the full supply chain attack surface for
   MCP skill registries and tool marketplaces.
-author: "ATR Community"
+author: "Panguard AI"
 date: "2026/03/08"
+schema_version: "0.1"
+detection_tier: pattern
 severity: high
 
 references:
