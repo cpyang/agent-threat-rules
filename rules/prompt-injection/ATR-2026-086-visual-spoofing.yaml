@@ -1,5 +1,5 @@
 title: "Visual Spoofing via RTL Override, Punycode, and Homoglyph Injection"
-id: ATR-PRED-2026-008
+id: ATR-2026-086
 status: draft
 description: >
   Detects injection attempts that use visual spoofing techniques including

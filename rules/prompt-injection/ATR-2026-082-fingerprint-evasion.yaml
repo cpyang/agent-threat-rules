@@ -1,5 +1,5 @@
 title: "Behavioral Fingerprint Detection Evasion"
-id: ATR-PRED-2026-003
+id: ATR-2026-082
 status: draft
 description: >
   Detects attempts to evade behavioral drift detection and fingerprinting

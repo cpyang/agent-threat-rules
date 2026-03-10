@@ -1,5 +1,5 @@
 title: "Detection Rule Probing and Evasion Testing"
-id: ATR-PRED-2026-009
+id: ATR-2026-087
 status: draft
 description: >
   Detects attempts to probe, test, or enumerate detection rules and security

@@ -1,5 +1,5 @@
 title: "Polymorphic Skill and Capability Aliasing Attack"
-id: ATR-PRED-2026-011
+id: ATR-2026-089
 status: draft
 description: >
   Detects injection attempts that use polymorphic techniques to disguise

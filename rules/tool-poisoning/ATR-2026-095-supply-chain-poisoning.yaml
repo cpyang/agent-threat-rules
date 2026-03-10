@@ -1,5 +1,5 @@
 title: "MCP Tool Supply Chain Poisoning"
-id: ATR-PRED-2026-004
+id: ATR-2026-095
 status: draft
 description: >
   Detects tool poisoning attacks targeting the MCP (Model Context Protocol)

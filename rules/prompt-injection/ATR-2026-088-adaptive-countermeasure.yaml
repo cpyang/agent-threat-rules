@@ -1,5 +1,5 @@
 title: "Adaptive Countermeasure Against Behavioral Monitoring"
-id: ATR-PRED-2026-010
+id: ATR-2026-088
 status: draft
 description: >
   Detects injection payloads that instruct an agent to actively counteract

@@ -1,5 +1,5 @@
 title: "Skill Registry Poisoning and Compromised Tool Distribution"
-id: ATR-PRED-2026-024
+id: ATR-2026-096
 status: draft
 description: >
   Detects supply chain attacks that target skill/tool registries and

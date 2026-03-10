@@ -1,5 +1,5 @@
 title: "Threat Intelligence Exfiltration and Rule Enumeration"
-id: ATR-PRED-2026-012
+id: ATR-2026-090
 status: draft
 description: >
   Detects attempts to extract threat intelligence, enumerate detection rules,

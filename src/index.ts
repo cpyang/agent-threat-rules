@@ -15,8 +15,10 @@ export { loadRuleFile, loadRulesFromDirectory, validateRule } from './loader.js'
 export { ModuleRegistry } from './modules/index.js';
 export type { ATRModule, ModuleCondition, ModuleResult } from './modules/index.js';
 export { SessionModule } from './modules/session.js';
+/** @beta - Experimental, not production-tested */
 export { SemanticModule } from './modules/semantic.js';
 export type { SemanticModuleConfig } from './modules/semantic.js';
+/** @beta - Experimental, not production-tested */
 export { SkillFingerprintStore } from './skill-fingerprint.js';
 export type {
   SkillFingerprint,

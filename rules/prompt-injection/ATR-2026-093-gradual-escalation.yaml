@@ -1,5 +1,5 @@
 title: "Gradual Capability Escalation via Incremental Introduction"
-id: ATR-PRED-2026-026
+id: ATR-2026-093
 status: draft
 description: >
   Detects attacks that use gradual, sub-threshold capability introductions to

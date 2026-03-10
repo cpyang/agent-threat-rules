@@ -1,5 +1,5 @@
 title: "Indirect Prompt Injection via Tool Responses"
-id: ATR-PRED-2026-005
+id: ATR-2026-083
 status: draft
 description: >
   Detects indirect prompt injection payloads embedded in tool responses, API

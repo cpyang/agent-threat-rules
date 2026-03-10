@@ -25,7 +25,7 @@ const VALID_SEVERITIES = ['critical', 'high', 'medium', 'low', 'informational'];
 const VALID_CATEGORIES = [
   'prompt-injection', 'tool-poisoning', 'context-exfiltration',
   'agent-manipulation', 'privilege-escalation', 'excessive-autonomy',
-  'data-poisoning', 'model-abuse',
+  'data-poisoning', 'model-abuse', 'skill-compromise',
 ];
 const VALID_SOURCE_TYPES = [
   'llm_io', 'tool_call', 'mcp_exchange', 'agent_behavior',

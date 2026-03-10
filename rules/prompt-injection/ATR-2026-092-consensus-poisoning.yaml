@@ -1,5 +1,5 @@
 title: "Multi-Agent Consensus Poisoning and Sybil Attack"
-id: ATR-PRED-2026-025
+id: ATR-2026-092
 status: draft
 description: >
   Detects attacks targeting multi-agent consensus systems through coordinated
