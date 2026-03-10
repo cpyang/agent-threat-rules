@@ -1,6 +1,10 @@
 <div align="center">
 
-# ATR -- Agent Threat Rules
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="assets/logo-light.png" />
+  <img alt="ATR - Agent Threat Rules" src="assets/logo-light.png" width="480" />
+</picture>
 
 ### The Detection Standard for the AI Agent Era
 
