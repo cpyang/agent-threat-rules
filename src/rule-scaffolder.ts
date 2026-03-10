@@ -89,14 +89,25 @@ function buildRegexPattern(payload: string): string {
   return `(?i)${keywords.map((k) => `(?=.*${escapeRegex(k)})`).join('')}`;
 }
 
-function generateId(): string {
+function generateId(existingIds: ReadonlySet<string> = new Set()): string {
   const year = new Date().getFullYear();
-  const seq = String(Math.floor(Math.random() * 900) + 100);
-  return `ATR-${year}-${seq}`;
+  const maxAttempts = 800;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const seq = String(Math.floor(Math.random() * 900) + 100);
+    const id = `ATR-${year}-${seq}`;
+    if (!existingIds.has(id)) {
+      return id;
+    }
+  }
+  throw new Error('Unable to generate a unique ATR rule ID after maximum attempts');
 }
 
 function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0];
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}/${mm}/${dd}`;
 }
 
 export class RuleScaffolder {
@@ -113,13 +124,13 @@ export class RuleScaffolder {
    * Generate a complete ATR YAML rule from structured input.
    * Returns a ScaffoldResult with the YAML string, generated ID, and any warnings.
    */
-  scaffold(input: ScaffoldInput): ScaffoldResult {
+  scaffold(input: ScaffoldInput, existingIds: ReadonlySet<string> = new Set()): ScaffoldResult {
     const warnings = this.validateInput(input);
 
     const severity = input.severity ?? 'medium';
     const sourceType = input.agentSourceType ?? CATEGORY_TO_SOURCE_TYPE[input.category];
     const field = CATEGORY_TO_FIELD[input.category];
-    const id = generateId();
+    const id = generateId(existingIds);
     const date = getCurrentDate();
 
     const conditions: ATRArrayCondition[] = input.examplePayloads.map(

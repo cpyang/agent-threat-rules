@@ -115,7 +115,7 @@ detection:
     # -- Layer 12: Invisible instruction via whitespace or encoding --
     - field: tool_response
       operator: regex
-      value: "(?i)[\\x{200B}\\x{200C}\\x{200D}\\x{FEFF}\\x{2060}]{3,}.{0,200}(ignore|override|execute|call|send|disregard|you\\s+must|instruction)"
+      value: "(?i)[\\u200B\\u200C\\u200D\\uFEFF\\u2060]{3,}.{0,200}(ignore|override|execute|call|send|disregard|you\\s+must|instruction)"
       description: "Zero-width characters preceding injection keywords in tool output"
 
     # -- Layer 13: Multi-signal combination -- tool output claiming to be system --

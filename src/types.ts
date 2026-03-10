@@ -50,6 +50,7 @@ export type ATRAction =
 
 export interface ATRReferences {
   owasp_llm?: string[];
+  owasp_agentic?: string[];
   mitre_atlas?: string[];
   mitre_attack?: string[];
   cve?: string[];

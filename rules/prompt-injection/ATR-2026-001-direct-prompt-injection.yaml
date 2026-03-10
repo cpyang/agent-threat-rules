@@ -117,13 +117,13 @@ detection:
     # -- Layer 12: Unicode homoglyph obfuscation --
     - field: user_input
       operator: regex
-      value: "[\\x{0400}-\\x{04FF}\\x{0370}-\\x{03FF}\\x{2100}-\\x{214F}]+(gn[\\x{0400}-\\x{04FF}\\x{0370}-\\x{03FF}]re|verr[\\x{0400}-\\x{04FF}\\x{0370}-\\x{03FF}]de|yst[\\x{0400}-\\x{04FF}\\x{0370}-\\x{03FF}]m)"
+      value: "[\\u0400-\\u04FF\\u0370-\\u03FF\\u2100-\\u214F]+(gn[\\u0400-\\u04FF\\u0370-\\u03FF]re|verr[\\u0400-\\u04FF\\u0370-\\u03FF]de|yst[\\u0400-\\u04FF\\u0370-\\u03FF]m)"
       description: "Cyrillic/Greek homoglyph substitution in injection keywords"
 
     # -- Layer 13: Zero-width character insertion between keywords --
     - field: user_input
       operator: regex
-      value: "(?i)i[\\x{200B}\\x{200C}\\x{200D}\\x{FEFF}\\x{2060}]+g[\\x{200B}\\x{200C}\\x{200D}\\x{FEFF}\\x{2060}]*n[\\x{200B}\\x{200C}\\x{200D}\\x{FEFF}\\x{2060}]*o[\\x{200B}\\x{200C}\\x{200D}\\x{FEFF}\\x{2060}]*r[\\x{200B}\\x{200C}\\x{200D}\\x{FEFF}\\x{2060}]*e"
+      value: "(?i)i[\\u200B\\u200C\\u200D\\uFEFF\\u2060]+g[\\u200B\\u200C\\u200D\\uFEFF\\u2060]*n[\\u200B\\u200C\\u200D\\uFEFF\\u2060]*o[\\u200B\\u200C\\u200D\\uFEFF\\u2060]*r[\\u200B\\u200C\\u200D\\uFEFF\\u2060]*e"
       description: "Zero-width character insertion splitting the word 'ignore'"
 
     # -- Layer 14: Hex/URL-encoded injection payloads --

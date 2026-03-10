@@ -30,6 +30,7 @@ const VALID_CATEGORIES = [
 const VALID_SOURCE_TYPES = [
   'llm_io', 'tool_call', 'mcp_exchange', 'agent_behavior',
   'multi_agent_comm', 'context_window', 'memory_access',
+  'skill_lifecycle', 'skill_permission', 'skill_chain',
 ];
 const VALID_ACTIONS = [
   'block_input', 'block_output', 'block_tool', 'quarantine_session',
@@ -165,16 +166,35 @@ function validateRule(filePath: string): ValidationResult {
 
     // Validate regex patterns don't cause errors
     if (detection?.['conditions']) {
-      const conditions = detection['conditions'] as Record<string, Record<string, unknown>>;
-      for (const [condName, condDef] of Object.entries(conditions)) {
-        const patterns = condDef['patterns'] as string[] | undefined;
-        const matchType = condDef['match_type'] as string | undefined;
-        if (patterns && matchType === 'regex') {
-          for (const pattern of patterns) {
+      const conditions = detection['conditions'];
+      if (Array.isArray(conditions)) {
+        // Array format: [{field, operator, value, description?}, ...]
+        for (const cond of conditions as Array<Record<string, unknown>>) {
+          if (cond['operator'] === 'regex' && typeof cond['value'] === 'string') {
+            let pattern = cond['value'];
+            // Strip leading (?i) flag (JS uses 'i' flag on RegExp instead)
+            pattern = pattern.replace(/^\(\?i\)/, '');
             try {
-              new RegExp(pattern, 'i');
+              new RegExp(pattern);
             } catch (e) {
-              errors.push(`Invalid regex in ${condName}: ${pattern} (${e instanceof Error ? e.message : String(e)})`);
+              const desc = cond['description'] ?? cond['field'] ?? 'unknown';
+              errors.push(`Invalid regex in condition (${desc}): ${cond['value']} (${e instanceof Error ? e.message : String(e)})`);
+            }
+          }
+        }
+      } else {
+        // Named-map format: {condName: {patterns, match_type, ...}, ...}
+        const namedConditions = conditions as Record<string, Record<string, unknown>>;
+        for (const [condName, condDef] of Object.entries(namedConditions)) {
+          const patterns = condDef['patterns'] as string[] | undefined;
+          const matchType = condDef['match_type'] as string | undefined;
+          if (patterns && matchType === 'regex') {
+            for (const pattern of patterns) {
+              try {
+                new RegExp(pattern, 'i');
+              } catch (e) {
+                errors.push(`Invalid regex in ${condName}: ${pattern} (${e instanceof Error ? e.message : String(e)})`);
+              }
             }
           }
         }

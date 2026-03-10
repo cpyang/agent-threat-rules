@@ -249,9 +249,9 @@ We currently have rules across 9 categories, mapped to OWASP and MITRE standards
 | Prompt Injection | LLM01 | ASI01 | AML.T0051 | 5 + 15 predicted | CVE-2025-53773, CVE-2025-32711, CVE-2026-24307 |
 | Tool Poisoning | LLM01/LLM05 | ASI02, ASI05 | AML.T0053 | 4 + 2 predicted | CVE-2025-68143/68144/68145, CVE-2025-6514, CVE-2025-59536, CVE-2026-21852 |
 | Context Exfiltration | LLM02/LLM07 | ASI01, ASI03, ASI06 | AML.T0056/T0057 | 3 | CVE-2025-32711, CVE-2026-24307 |
-| Agent Manipulation | LLM01/LLM06 | ASI01, ASI10 | AML.T0043 | 3 | -- |
+| Agent Manipulation | LLM01/LLM06 | ASI01, ASI10 | AML.T0043 | 5 | -- |
 | Privilege Escalation | LLM06 | ASI03 | AML.T0050 | 2 | CVE-2026-0628 |
-| Excessive Autonomy | LLM06/LLM10 | ASI05 | AML.T0046 | 2 | -- |
+| Excessive Autonomy | LLM06/LLM10 | ASI05 | AML.T0046 | 3 | -- |
 | Skill Compromise | LLM03/LLM06 | ASI02, ASI03, ASI04 | AML.T0010 | 7 | CVE-2025-59536, CVE-2025-68143/68144 |
 | Data Poisoning | LLM04 | ASI06 | AML.T0020 | 1 | -- |
 | Model Security | LLM03 | ASI04 | AML.T0044 | 2 | -- |
