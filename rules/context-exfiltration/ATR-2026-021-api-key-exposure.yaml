@@ -9,7 +9,7 @@ description: |
   secret assignment patterns. Credential leakage in agent output poses a
   critical security risk leading to unauthorized access, lateral movement,
   financial loss, and full account compromise.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

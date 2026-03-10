@@ -10,7 +10,7 @@ description: |
   or manipulates message format conventions to deceive target agents.
   These attacks exploit trust relationships between agents to achieve
   unauthorized actions, data exfiltration, or safety bypass.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

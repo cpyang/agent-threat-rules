@@ -8,7 +8,7 @@ description: >
   of higher-privilege agents, or bypass orchestrator controls through direct
   agent-to-agent messaging. This enables lateral movement across agent boundaries
   and unauthorized access to restricted tools or data.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

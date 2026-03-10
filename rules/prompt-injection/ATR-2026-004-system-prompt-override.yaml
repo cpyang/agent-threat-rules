@@ -11,7 +11,7 @@ description: >
   blocks, instruction replacement without delimiters, configuration object injection,
   and multi-format delimiter abuse. This is critical-severity as successful exploitation
   grants full control over agent behavior.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

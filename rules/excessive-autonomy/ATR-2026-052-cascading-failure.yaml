@@ -10,7 +10,7 @@ description: |
   incorrect signals. These patterns exploit the "trust the previous
   stage" assumption in multi-step agent workflows.
   Note: This rule detects textual descriptions of cascading failure patterns, not live cascading failures. Structural cascade prevention requires behavioral monitoring.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/09"
 schema_version: "0.1"
 detection_tier: pattern

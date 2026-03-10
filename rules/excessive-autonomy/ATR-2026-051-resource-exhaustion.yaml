@@ -9,7 +9,7 @@ description: |
   as SELECT * without LIMIT, mass iteration directives, unbounded batch
   sizes, and fork/spawn patterns that can degrade system performance or
   cause denial of service.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

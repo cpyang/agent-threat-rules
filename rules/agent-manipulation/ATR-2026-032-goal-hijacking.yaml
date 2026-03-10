@@ -10,7 +10,7 @@ description: |
   failure, unauthorized actions, data leakage, or resource waste.
   This rule uses regex-only detection on both user input and agent output
   to identify redirection language patterns.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

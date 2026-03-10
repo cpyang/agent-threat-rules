@@ -25,12 +25,11 @@ const VALID_SEVERITIES = ['critical', 'high', 'medium', 'low', 'informational'];
 const VALID_CATEGORIES = [
   'prompt-injection', 'tool-poisoning', 'context-exfiltration',
   'agent-manipulation', 'privilege-escalation', 'excessive-autonomy',
-  'data-poisoning', 'model-abuse', 'skill-compromise',
+  'data-poisoning', 'model-abuse',
 ];
 const VALID_SOURCE_TYPES = [
   'llm_io', 'tool_call', 'mcp_exchange', 'agent_behavior',
   'multi_agent_comm', 'context_window', 'memory_access',
-  'skill_lifecycle', 'skill_permission', 'skill_chain',
 ];
 const VALID_ACTIONS = [
   'block_input', 'block_output', 'block_tool', 'quarantine_session',

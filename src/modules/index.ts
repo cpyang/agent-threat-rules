@@ -6,12 +6,13 @@
  *
  * Built-in modules:
  * - session: Cross-event behavioral analysis using SessionTracker
+ * - semantic: AI-driven semantic threat analysis using LLM-as-judge (v0.2)
  *
  * Reserved namespaces (planned):
- * - embedding: Semantic similarity detection (v0.2)
- * - protocol: MCP/transport-level inspection (v0.2)
- * - entropy: Information-theoretic anomaly detection (v0.3)
- * - tokenizer: Token-level analysis for smuggling detection (v0.3)
+ * - embedding: Vector similarity detection (v0.3)
+ * - protocol: MCP/transport-level inspection (v0.3)
+ * - entropy: Information-theoretic anomaly detection (v0.4)
+ * - tokenizer: Token-level analysis for smuggling detection (v0.4)
  *
  * @module agent-threat-rules/modules
  */
@@ -123,6 +124,7 @@ export class ModuleRegistry {
   /** Reserved module namespaces (cannot be registered by third parties) */
   private static readonly RESERVED = new Set([
     'session',
+    'semantic',
     'embedding',
     'protocol',
     'entropy',

@@ -9,7 +9,7 @@ description: |
   descriptions, recursive invocation patterns, and stalled progress
   indicators. Runaway loops waste computational resources, accumulate
   costs, and may indicate logic errors or adversarial manipulation.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

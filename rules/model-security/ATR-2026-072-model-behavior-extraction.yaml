@@ -7,7 +7,7 @@ description: >
   use repeated boundary-testing prompts, confidence score harvesting, and systematic
   parameter probing to reverse-engineer the model's internal behavior, enabling
   model cloning, bypass development, or intellectual property theft.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

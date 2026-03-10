@@ -9,7 +9,7 @@ description: |
   authority. This rule uses regex-only detection to identify language
   patterns associated with unsolicited scope expansion, progressive
   permission requests, and self-initiated authority broadening.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

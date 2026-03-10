@@ -12,7 +12,7 @@ description: >
   response structures, subtle action-required patterns, and steganographic instruction
   embedding. Patterns are designed to require multiple signals where possible to reduce
   false positives.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern

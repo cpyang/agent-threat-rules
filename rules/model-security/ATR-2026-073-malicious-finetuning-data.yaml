@@ -8,7 +8,7 @@ description: >
   with malicious behaviors such as bypassing safety filters, exfiltrating data, or
   executing unauthorized actions. This rule inspects fine-tuning data uploads and
   training example submissions.
-author: "Panguard AI"
+author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern
