@@ -44,6 +44,7 @@ ${BOLD}Usage:${RESET}
   atr validate <rule.yaml|dir>             Validate rule file(s)
   atr test <rule.yaml|dir>                 Run embedded test cases
   atr stats [--rules <dir>]                Show rule collection statistics
+  atr guard [--rules <dir>] [--dry-run]    Start as Claude Code hook (stdio)
   atr mcp                                  Start MCP server (stdio transport)
   atr scaffold                             Interactive rule scaffolding
 
@@ -51,6 +52,9 @@ ${BOLD}Options:${RESET}
   --rules <dir>    Custom rules directory (default: bundled rules)
   --json           Output results as JSON
   --severity <s>   Minimum severity to report (critical|high|medium|low|informational)
+  --dry-run        Log actions without executing (guard mode)
+  --fail-open      Default to allow on errors (guard mode, default: true)
+  --timeout <ms>   Evaluation timeout in ms (guard mode, default: 5000)
   --help           Show this help message
 
 ${BOLD}Examples:${RESET}
@@ -65,6 +69,9 @@ ${BOLD}Examples:${RESET}
 
   ${DIM}# Show stats for bundled rules${RESET}
   atr stats
+
+  ${DIM}# Run as a Claude Code guard hook${RESET}
+  atr guard --rules ./my-rules
 
   ${DIM}# Start MCP server for AI agent integration${RESET}
   atr mcp
@@ -83,7 +90,7 @@ function parseArgs(argv: string[]): { command: string; target: string; options: 
   for (let i = 1; i < args.length; i++) {
     if (args[i].startsWith('--')) {
       const key = args[i].slice(2);
-      if (key === 'json' || key === 'help') {
+      if (key === 'json' || key === 'help' || key === 'dry-run' || key === 'fail-open') {
         options[key] = 'true';
       } else {
         options[key] = args[++i] ?? '';
@@ -575,6 +582,33 @@ function cmdStats(options: Record<string, string>): void {
   console.log('');
 }
 
+// --- GUARD command ---
+
+async function cmdGuard(options: Record<string, string>): Promise<void> {
+  const rulesDir = options['rules'] ? resolve(options['rules']) : RULES_DIR;
+  const dryRun = options['dry-run'] === 'true';
+  const failOpen = options['fail-open'] !== 'false';
+  const timeoutMs = options['timeout'] ? parseInt(options['timeout'], 10) : 5000;
+
+  const { ActionExecutor } = await import('./action-executor.js');
+  const { StdioAdapter } = await import('./adapters/stdio-adapter.js');
+  const { HookHandler } = await import('./hook-handler.js');
+
+  const engine = new ATREngine({ rulesDir });
+  const ruleCount = await engine.loadRules();
+
+  const adapter = new StdioAdapter();
+  const executor = new ActionExecutor({ adapter, dryRun });
+  const handler = new HookHandler({ engine, executor, timeoutMs, failOpen });
+
+  process.stderr.write(
+    `[atr-guard] Loaded ${ruleCount} rules from ${rulesDir}` +
+    `${dryRun ? ' (dry-run)' : ''}\n`
+  );
+
+  await handler.startStdioLoop();
+}
+
 // --- MCP command ---
 
 async function cmdMcp(): Promise<void> {
@@ -691,6 +725,9 @@ async function main(): Promise<void> {
       break;
     case 'stats':
       cmdStats(options);
+      break;
+    case 'guard':
+      await cmdGuard(options);
       break;
     case 'mcp':
       await cmdMcp();

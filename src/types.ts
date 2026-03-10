@@ -189,3 +189,67 @@ export interface ATRMatch {
   confidence: number;
   timestamp: string;
 }
+
+/** Verdict outcome from evaluating matched rules */
+export type VerdictOutcome = 'allow' | 'ask' | 'deny';
+
+/** Verdict returned after evaluating an event against all rules */
+export interface ATRVerdict {
+  readonly outcome: VerdictOutcome;
+  readonly reason: string;
+  readonly matchCount: number;
+  readonly highestSeverity: ATRSeverity | null;
+  readonly highestConfidence: number;
+  readonly actions: readonly ATRAction[];
+  readonly matches: readonly ATRMatch[];
+  readonly timestamp: string;
+}
+
+/** Result of executing a single action */
+export interface ActionResult {
+  readonly action: ATRAction;
+  readonly success: boolean;
+  readonly message: string;
+  readonly timestamp: string;
+}
+
+/** Context provided to platform adapters when executing actions */
+export interface ExecutionContext {
+  readonly event: AgentEvent;
+  readonly matches: readonly ATRMatch[];
+  readonly verdict: ATRVerdict;
+  readonly sessionId?: string;
+  readonly metadata?: Readonly<Record<string, unknown>>;
+}
+
+/** Platform-specific adapter for executing ATR actions */
+export interface PlatformAdapter {
+  readonly name: string;
+  blockInput(ctx: ExecutionContext): Promise<ActionResult>;
+  blockOutput(ctx: ExecutionContext): Promise<ActionResult>;
+  blockTool(ctx: ExecutionContext): Promise<ActionResult>;
+  quarantineSession(ctx: ExecutionContext): Promise<ActionResult>;
+  resetContext(ctx: ExecutionContext): Promise<ActionResult>;
+  alert(ctx: ExecutionContext): Promise<ActionResult>;
+  snapshot(ctx: ExecutionContext): Promise<ActionResult>;
+  escalate(ctx: ExecutionContext): Promise<ActionResult>;
+  reducePermissions(ctx: ExecutionContext): Promise<ActionResult>;
+  killAgent(ctx: ExecutionContext): Promise<ActionResult>;
+}
+
+/** Hook input from Claude Code / agent host */
+export interface HookInput {
+  readonly hook: 'PreToolUse' | 'PostToolUse';
+  readonly tool_name: string;
+  readonly tool_input: Readonly<Record<string, unknown>>;
+  readonly session_id?: string;
+  readonly timestamp?: string;
+}
+
+/** Hook output to Claude Code / agent host */
+export interface HookOutput {
+  readonly decision: VerdictOutcome;
+  readonly reason?: string;
+  readonly message?: string;
+  readonly matched_rules?: readonly string[];
+}

@@ -1,6 +1,5 @@
 /**
  * Skill Behavioral Fingerprint
- * Skill 行為指紋追蹤器
  *
  * Tracks what each skill "normally does" across invocations, then detects
  * behavioral drift when a previously-trusted skill starts acting differently.
@@ -8,10 +7,6 @@
  * Solves the "installed then turns malicious" scenario:
  * - First N invocations: build fingerprint (what APIs, what patterns, what scope)
  * - After fingerprint stabilizes: flag any deviation as anomaly
- *
- * 追蹤每個 skill 的「正常行為」，然後在行為偏移時偵測：
- * - 前 N 次呼叫：建立指紋
- * - 指紋穩定後：任何偏離都標記為異常
  *
  * @module agent-threat-rules/skill-fingerprint
  */
@@ -184,9 +179,6 @@ export class SkillFingerprintStore {
   /**
    * Record a skill invocation and detect behavioral anomalies.
    * Returns anomalies if the fingerprint was stable and new capabilities appeared.
-   *
-   * 記錄 skill 呼叫並偵測行為異常。
-   * 如果指紋已穩定且出現新能力，回傳異常列表。
    */
   recordInvocation(
     skillName: string,
@@ -319,7 +311,6 @@ export class SkillFingerprintStore {
 
   /**
    * Get an immutable fingerprint snapshot for a skill.
-   * 取得某 skill 的不可變指紋快照。
    */
   getFingerprint(skillName: string): SkillFingerprint | undefined {
     const fp = this.fingerprints.get(skillName);
@@ -363,7 +354,6 @@ export class SkillFingerprintStore {
 
   /**
    * Reset a skill's fingerprint (e.g., after a legitimate update).
-   * 重置 skill 指紋（例如合法更新後）。
    */
   resetFingerprint(skillName: string): void {
     this.fingerprints.delete(skillName);
@@ -371,7 +361,6 @@ export class SkillFingerprintStore {
 
   /**
    * Evict fingerprints not seen since cutoffMs ago.
-   * 清除超過 cutoffMs 未活動的指紋。
    */
   cleanup(cutoffMs: number): number {
     const cutoff = Date.now() - cutoffMs;

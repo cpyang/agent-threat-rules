@@ -1,10 +1,16 @@
 /**
  * atr_scan MCP tool - Scan content for agent threats
+ *
+ * Runs all configured detection layers:
+ * - Layer 1: Regex pattern matching (always)
+ * - Layer 2: Skill behavioral fingerprinting (if configured)
+ * - Layer 3: Semantic LLM-as-judge (if configured and triggered)
+ *
  * @module agent-threat-rules/mcp-tools/scan
  */
 
 import type { ATREngine } from '../engine.js';
-import type { AgentEvent, AgentEventType, ATRSeverity } from '../types.js';
+import type { AgentEvent, AgentEventType } from '../types.js';
 
 export interface ScanInput {
   content: string;
@@ -29,10 +35,10 @@ const VALID_EVENT_TYPES: ReadonlySet<string> = new Set([
   'multi_agent_message',
 ]);
 
-export function handleScan(engine: ATREngine, args: Record<string, unknown>): {
+export async function handleScan(engine: ATREngine, args: Record<string, unknown>): Promise<{
   content: Array<{ type: string; text: string }>;
   isError?: boolean;
-} {
+}> {
   const content = args['content'];
   if (typeof content !== 'string' || content.trim().length === 0) {
     return {
@@ -71,8 +77,10 @@ export function handleScan(engine: ATREngine, args: Record<string, unknown>): {
     },
   };
 
-  const matches = engine.evaluate(event);
-  const filtered = matches.filter(
+  // Use evaluateWithVerdict() to run all configured layers
+  const { verdict, layersUsed } = await engine.evaluateWithVerdict(event);
+
+  const filtered = verdict.matches.filter(
     (m) => (SEVERITY_ORDER[m.rule.severity] ?? 0) >= minIdx
   );
 
@@ -80,6 +88,11 @@ export function handleScan(engine: ATREngine, args: Record<string, unknown>): {
     threats_found: filtered.length,
     scan_timestamp: event.timestamp,
     event_type: eventTypeRaw,
+    layers_used: layersUsed,
+    verdict: {
+      outcome: verdict.outcome,
+      reason: verdict.reason,
+    },
     matches: filtered.map((m) => ({
       rule_id: m.rule.id,
       title: m.rule.title,

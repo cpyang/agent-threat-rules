@@ -62,7 +62,7 @@ response:
     - snapshot
   auto_response_threshold: high
   message_template: >
-    [ATR-PRED-2026-007] Multi-layer security audit evasion attempt detected.
+    [ATR-2026-085] Multi-layer security audit evasion attempt detected.
     Category: prompt-injection, Severity: high.
 
 test_cases:

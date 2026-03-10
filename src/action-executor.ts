@@ -1,0 +1,165 @@
+/**
+ * Action Executor - Executes ATR response actions via platform adapters.
+ *
+ * Deduplicates actions, sorts by priority, and delegates execution
+ * to a PlatformAdapter. Handles per-action errors so one failure
+ * does not block the rest.
+ *
+ * @module agent-threat-rules/action-executor
+ */
+
+import type {
+  ATRAction,
+  ActionResult,
+  ExecutionContext,
+  PlatformAdapter,
+} from './types.js';
+
+/** Priority order: lower number = higher priority (executed first) */
+const ACTION_PRIORITY: Readonly<Record<ATRAction, number>> = {
+  kill_agent: 0,
+  block_input: 1,
+  block_output: 2,
+  block_tool: 3,
+  quarantine_session: 4,
+  reduce_permissions: 5,
+  reset_context: 6,
+  alert: 7,
+  escalate: 8,
+  snapshot: 9,
+};
+
+/** Map action names to PlatformAdapter method names */
+const ACTION_METHOD_MAP: Readonly<Record<ATRAction, keyof PlatformAdapter>> = {
+  block_input: 'blockInput',
+  block_output: 'blockOutput',
+  block_tool: 'blockTool',
+  quarantine_session: 'quarantineSession',
+  reset_context: 'resetContext',
+  alert: 'alert',
+  snapshot: 'snapshot',
+  escalate: 'escalate',
+  reduce_permissions: 'reducePermissions',
+  kill_agent: 'killAgent',
+};
+
+export interface ActionExecutorConfig {
+  readonly adapter: PlatformAdapter;
+  readonly dryRun?: boolean;
+  readonly onActionComplete?: (result: ActionResult) => void;
+}
+
+export class ActionExecutor {
+  private readonly adapter: PlatformAdapter;
+  private readonly dryRun: boolean;
+  private readonly onActionComplete?: (result: ActionResult) => void;
+
+  constructor(config: ActionExecutorConfig) {
+    this.adapter = config.adapter;
+    this.dryRun = config.dryRun ?? false;
+    this.onActionComplete = config.onActionComplete;
+  }
+
+  /**
+   * Execute all actions from the verdict context.
+   *
+   * Actions are deduplicated, sorted by priority, and executed
+   * sequentially. Each action is wrapped in try/catch so a single
+   * failure does not prevent subsequent actions from running.
+   *
+   * Returns a frozen array of ActionResult.
+   */
+  async execute(context: ExecutionContext): Promise<readonly ActionResult[]> {
+    const actions = this.deduplicateAndSort(context.verdict.actions);
+    const results: ActionResult[] = [];
+
+    for (const action of actions) {
+      const result = await this.executeOne(action, context);
+      results.push(result);
+
+      if (this.onActionComplete) {
+        this.onActionComplete(result);
+      }
+    }
+
+    return Object.freeze(results);
+  }
+
+  /**
+   * Deduplicate actions and sort by priority (highest priority first).
+   */
+  private deduplicateAndSort(
+    actions: readonly ATRAction[]
+  ): readonly ATRAction[] {
+    const unique = [...new Set(actions)];
+    return unique.sort((a, b) => {
+      const pa = ACTION_PRIORITY[a] ?? 99;
+      const pb = ACTION_PRIORITY[b] ?? 99;
+      return pa - pb;
+    });
+  }
+
+  /**
+   * Execute a single action, returning a result even on failure.
+   */
+  private async executeOne(
+    action: ATRAction,
+    context: ExecutionContext
+  ): Promise<ActionResult> {
+    const timestamp = new Date().toISOString();
+
+    if (this.dryRun) {
+      return Object.freeze({
+        action,
+        success: true,
+        message: `[dry-run] Would execute: ${action}`,
+        timestamp,
+      });
+    }
+
+    try {
+      const methodName = ACTION_METHOD_MAP[action];
+      if (!methodName) {
+        return Object.freeze({
+          action,
+          success: false,
+          message: `Unknown action: ${action}`,
+          timestamp,
+        });
+      }
+
+      const method = this.adapter[methodName] as
+        | ((ctx: ExecutionContext) => Promise<ActionResult>)
+        | undefined;
+
+      if (typeof method !== 'function') {
+        return Object.freeze({
+          action,
+          success: false,
+          message: `Adapter "${this.adapter.name}" does not implement: ${methodName}`,
+          timestamp,
+        });
+      }
+
+      return await method.call(this.adapter, context);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return Object.freeze({
+        action,
+        success: false,
+        message: `Action "${action}" failed: ${message}`,
+        timestamp,
+      });
+    }
+  }
+
+  /** Get the adapter name for diagnostics */
+  getAdapterName(): string {
+    return this.adapter.name;
+  }
+
+  /** Check if dry-run mode is enabled */
+  isDryRun(): boolean {
+    return this.dryRun;
+  }
+}

@@ -172,8 +172,8 @@ function validateRule(filePath: string): ValidationResult {
         for (const cond of conditions as Array<Record<string, unknown>>) {
           if (cond['operator'] === 'regex' && typeof cond['value'] === 'string') {
             let pattern = cond['value'];
-            // Strip leading (?i) flag (JS uses 'i' flag on RegExp instead)
-            pattern = pattern.replace(/^\(\?i\)/, '');
+            // Strip leading inline flags (JS uses RegExp flags instead)
+            pattern = pattern.replace(/^\(\?[imsx]+\)/, '');
             try {
               new RegExp(pattern);
             } catch (e) {

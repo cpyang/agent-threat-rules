@@ -62,7 +62,7 @@ response:
     - snapshot
   auto_response_threshold: high
   message_template: >
-    [ATR-PRED-2026-005] Indirect prompt injection detected in tool response.
+    [ATR-2026-083] Indirect prompt injection detected in tool response.
     Category: prompt-injection, Severity: high.
 
 test_cases:

@@ -18,9 +18,23 @@ import type {
   AgentEvent,
   ATRPatternCondition,
   ATRBehavioralCondition,
+  ATRVerdict,
+  ActionResult,
 } from './types.js';
 import { loadRulesFromDirectory, loadRuleFile } from './loader.js';
 import type { SessionTracker } from './session-tracker.js';
+import { computeVerdict } from './verdict.js';
+import type { ActionExecutor } from './action-executor.js';
+import type { SkillFingerprintStore } from './skill-fingerprint.js';
+import { SemanticModule } from './modules/semantic.js';
+import type { SemanticLayerConfig } from './layer-integration.js';
+import {
+  resolveSkillId,
+  runFingerprintLayer,
+  shouldRunSemanticLayer,
+  createSemanticModuleFromConfig,
+  runSemanticLayer,
+} from './layer-integration.js';
 
 /** Map agent event types to ATR source types */
 const EVENT_TYPE_TO_SOURCE: Record<string, string> = {
@@ -51,13 +65,26 @@ export interface ATREngineConfig {
   hotReload?: boolean;
   /** Optional session tracker for behavioral detection across events */
   sessionTracker?: SessionTracker;
+  /** Optional Layer 2: Skill behavioral fingerprinting (no LLM required) */
+  fingerprintStore?: SkillFingerprintStore;
+  /** Optional Layer 3: Semantic LLM-as-judge analysis (requires API key) */
+  semanticModule?: SemanticLayerConfig;
 }
 
 export class ATREngine {
   private rules: ATRRule[] = [];
   private readonly compiledPatterns = new Map<string, Map<string, RegExp[]>>();
+  private readonly semanticModuleInstance: SemanticModule | null;
 
-  constructor(private readonly config: ATREngineConfig = {}) {}
+  constructor(private readonly config: ATREngineConfig = {}) {
+    // Initialize Layer 3 semantic module if config provided
+    if (config.semanticModule) {
+      const moduleConfig = createSemanticModuleFromConfig(config.semanticModule);
+      this.semanticModuleInstance = new SemanticModule(moduleConfig);
+    } else {
+      this.semanticModuleInstance = null;
+    }
+  }
 
   /**
    * Load rules from configured directory and/or pre-loaded rules.
@@ -136,6 +163,16 @@ export class ATREngine {
     const sessionId = event.sessionId;
     if (this.config.sessionTracker && sessionId) {
       this.config.sessionTracker.recordEvent(sessionId, event, allMatchedPatterns);
+    }
+
+    // Layer 2: Skill behavioral fingerprinting (optional, no LLM)
+    const fingerprintStore = this.config.fingerprintStore;
+    if (fingerprintStore) {
+      const skillId = resolveSkillId(event);
+      if (skillId) {
+        const layer2Matches = runFingerprintLayer(fingerprintStore, event, skillId);
+        matches.push(...layer2Matches);
+      }
     }
 
     // Sort by severity (critical first) then confidence
@@ -373,7 +410,7 @@ export class ATREngine {
 
     if (compiled) {
       for (let i = 0; i < compiled.length; i++) {
-        if (safeRegexTest(compiled[i]!, fieldValue)) {
+        if (safeRegexTest(compiled[i]!, fieldValue) || (rawFieldValue && safeRegexTest(compiled[i]!, rawFieldValue))) {
           matchedPatterns.push(cond.patterns[i] ?? 'unknown');
           return true;
         }
@@ -511,10 +548,26 @@ export class ATREngine {
   /**
    * Evaluate a sequence condition against the current event.
    *
-   * Limitation (v0.1): This checks whether patterns from multiple steps
-   * co-occur in the current event's content. It does NOT track ordered
-   * execution across separate events or enforce time windows.
-   * Full session-aware sequence detection is planned for v0.2.
+   * @limitation SINGLE-EVENT ONLY (v0.1)
+   * This implementation is fundamentally limited: it checks whether patterns
+   * from multiple sequence steps co-occur within a SINGLE event's content.
+   *
+   * What it does NOT do (and claims to via the schema):
+   * - Does NOT track ordered execution across separate events
+   * - Does NOT enforce the `within` time window between steps
+   * - Does NOT respect the `ordered` flag (treats all as unordered)
+   * - Does NOT correlate steps across different event types
+   *
+   * As a result, sequence rules only fire when an attacker's multi-step
+   * payload appears in one message. Real multi-turn attack chains that
+   * spread steps across separate events will NOT be detected.
+   *
+   * The `matchCount >= 2` threshold is arbitrary and can produce false
+   * negatives for 2-step sequences (requires both steps in one event)
+   * and false positives for long sequences (only 2 of N steps needed).
+   *
+   * Full session-aware sequence detection is planned for a future version
+   * and will require integration with SessionTracker.
    */
   private evaluateSequenceCondition(
     cond: Record<string, unknown>,
@@ -710,6 +763,70 @@ export class ATREngine {
     }
 
     this.compiledPatterns.set(rule.id, ruleMap);
+  }
+
+  /**
+   * Evaluate an event and compute a verdict with optional action execution.
+   *
+   * Combines evaluate() + computeVerdict() + optional ActionExecutor
+   * into a single call for convenience.
+   */
+  async evaluateWithVerdict(
+    event: AgentEvent,
+    executor?: ActionExecutor
+  ): Promise<{
+    verdict: ATRVerdict;
+    actionResults: readonly ActionResult[];
+    layersUsed: readonly string[];
+  }> {
+    const layersUsed: string[] = ['layer1-regex'];
+    let matches = this.evaluate(event);
+
+    // Layer 2 runs synchronously inside evaluate(), but track if it was configured
+    if (this.config.fingerprintStore) {
+      layersUsed.push('layer2-fingerprint');
+    }
+
+    // Layer 3: Semantic LLM-as-judge (async, conditional)
+    if (this.semanticModuleInstance && shouldRunSemanticLayer(matches, event)) {
+      layersUsed.push('layer3-semantic');
+      const semanticMatches = await runSemanticLayer(
+        this.semanticModuleInstance,
+        event,
+        matches,
+      );
+      if (semanticMatches.length > 0) {
+        // Merge and re-sort immutably
+        const merged = [...matches, ...semanticMatches];
+        const severityOrder: Record<string, number> = {
+          critical: 0, high: 1, medium: 2, low: 3, informational: 4,
+        };
+        merged.sort((a, b) => {
+          const aSev = severityOrder[a.rule.severity] ?? 4;
+          const bSev = severityOrder[b.rule.severity] ?? 4;
+          if (aSev !== bSev) return aSev - bSev;
+          return b.confidence - a.confidence;
+        });
+        matches = merged;
+      }
+    }
+
+    const verdict = computeVerdict(matches);
+
+    let actionResults: readonly ActionResult[] = Object.freeze([]);
+
+    if (executor && verdict.actions.length > 0) {
+      const context = Object.freeze({
+        event,
+        matches,
+        verdict,
+        sessionId: event.sessionId,
+        metadata: event.metadata ? Object.freeze({ ...event.metadata }) : undefined,
+      });
+      actionResults = await executor.execute(context);
+    }
+
+    return { verdict, actionResults, layersUsed: Object.freeze(layersUsed) };
   }
 
   /** Get loaded rule count */

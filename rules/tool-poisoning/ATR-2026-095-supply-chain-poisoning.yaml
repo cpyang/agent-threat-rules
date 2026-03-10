@@ -68,7 +68,7 @@ response:
     - kill_agent
   auto_response_threshold: critical
   message_template: >
-    [ATR-PRED-2026-004] MCP tool supply chain poisoning detected.
+    [ATR-2026-095] MCP tool supply chain poisoning detected.
     Category: tool-poisoning, Severity: critical.
 
 test_cases:

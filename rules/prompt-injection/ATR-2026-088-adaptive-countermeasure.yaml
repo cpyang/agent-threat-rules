@@ -62,7 +62,7 @@ response:
     - snapshot
   auto_response_threshold: high
   message_template: >
-    [ATR-PRED-2026-010] Adaptive countermeasure against behavioral monitoring detected.
+    [ATR-2026-088] Adaptive countermeasure against behavioral monitoring detected.
     Category: prompt-injection, Severity: high.
 
 test_cases:

@@ -202,7 +202,7 @@ export async function createMCPServer(): Promise<Server> {
 
     switch (name) {
       case 'atr_scan':
-        return handleScan(engine, toolArgs);
+        return await handleScan(engine, toolArgs);
 
       case 'atr_list_rules':
         return handleListRules(engine, toolArgs);

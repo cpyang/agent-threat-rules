@@ -62,7 +62,7 @@ response:
     - snapshot
   auto_response_threshold: high
   message_template: >
-    [ATR-PRED-2026-012] Threat intelligence exfiltration or rule enumeration attempt detected.
+    [ATR-2026-090] Threat intelligence exfiltration or rule enumeration attempt detected.
     Category: prompt-injection, Severity: high.
 
 test_cases:

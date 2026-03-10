@@ -60,7 +60,7 @@ response:
     - snapshot
   auto_response_threshold: medium
   message_template: >
-    [ATR-PRED-2026-009] Detection rule probing attempt detected.
+    [ATR-2026-087] Detection rule probing attempt detected.
     Category: prompt-injection, Severity: medium.
 
 test_cases:

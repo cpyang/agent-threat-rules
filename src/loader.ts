@@ -38,8 +38,8 @@ export function loadRulesFromDirectory(dirPath: string): ATRRule[] {
     } else if (stat.isFile() && (extname(entry) === '.yaml' || extname(entry) === '.yml')) {
       try {
         rules.push(loadRuleFile(fullPath));
-      } catch {
-        // Skip invalid rule files — logged at caller level
+      } catch (err) {
+        console.warn(`[ATR] Failed to load rule file ${fullPath}: ${err instanceof Error ? err.message : String(err)}`);
       }
     }
   }

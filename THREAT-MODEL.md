@@ -164,15 +164,15 @@ Regex and threshold-based detection. Sub-millisecond per event, deterministic, z
 
 **Limits:** Cannot detect paraphrase, multilingual, or semantically novel attacks.
 
-### Layer 2: Embedding Similarity (v0.2 -- shipped (v0.2))
+### Layer 2: SkillFingerprintStore -- Behavioral Fingerprinting (v0.2 -- shipped)
 
-Vector distance comparison against curated attack embeddings. An `embedding_similarity` operator will compare input embeddings to known attack embeddings and trigger when cosine similarity exceeds a threshold.
+Behavioral fingerprinting via capability drift detection. The SkillFingerprintStore tracks what each skill "normally does" across invocations, building a baseline of filesystem operations, network targets, environment variable accesses, process executions, and output patterns. Once the fingerprint stabilizes, any deviation is flagged as an anomaly.
 
-**Strengths:** Catches paraphrase attacks, multilingual injection, and semantic variants that evade regex. Language-agnostic by design.
+**Strengths:** Catches "installed then turns malicious" supply-chain attacks, behavioral drift, and capability expansion that evade static pattern matching. No external model dependency.
 
-**Limits:** Requires an embedding model (~100ms latency per evaluation). Susceptible to adversarial perturbation of embeddings. Threshold tuning affects false positive rates.
+**Limits:** Requires a warm-up period (default: 10 invocations) before fingerprint stabilizes. Cannot detect attacks that occur during the learning phase. Legitimate skill updates require fingerprint resets.
 
-### Layer 3: LLM-as-Judge (v0.3 -- shipped (v0.2))
+### Layer 3: LLM-as-Judge (v0.2 -- shipped)
 
 An LLM evaluates suspicious content flagged by Layer 1 or Layer 2. Intended for high-stakes decisions where false negatives are unacceptable.
 
@@ -198,7 +198,7 @@ The tiers are additive. A production deployment runs all three, with Layer 1 han
 
 5. **Protect rule integrity.** ATR assumes rule files have not been tampered with. Store rules in version-controlled, integrity-verified locations. An attacker who can modify ATR rules can disable all detection.
 
-6. **Plan for multilingual deployments.** If your agents process non-English input, ATR v0.1 provides no injection detection for those languages. Implement additional controls until Layer 2 (embedding similarity) is available.
+6. **Plan for multilingual deployments.** ATR-2026-001 includes Layer 16 covering Chinese, Spanish, German, Japanese, and Arabic injection patterns. For languages not yet covered, implement additional controls or contribute new detection patterns.
 
 ## MiroFish Predictive Threat Intelligence (2026-03)
 

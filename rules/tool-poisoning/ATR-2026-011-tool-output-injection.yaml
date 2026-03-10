@@ -38,7 +38,7 @@ tags:
   confidence: high
 
 agent_source:
-  type: tool_call
+  type: mcp_exchange
   framework:
     - any
   provider:

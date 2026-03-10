@@ -64,7 +64,7 @@ response:
     - snapshot
   auto_response_threshold: high
   message_template: >
-    [ATR-PRED-2026-006] Structured data injection detected.
+    [ATR-2026-084] Structured data injection detected.
     Category: prompt-injection, Severity: high.
 
 test_cases:

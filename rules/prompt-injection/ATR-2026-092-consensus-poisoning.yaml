@@ -70,7 +70,7 @@ response:
     - kill_agent
   auto_response_threshold: critical
   message_template: >
-    [ATR-PRED-2026-025] Multi-agent consensus poisoning or Sybil attack detected.
+    [ATR-2026-092] Multi-agent consensus poisoning or Sybil attack detected.
     Category: prompt-injection, Severity: critical.
 
 test_cases:

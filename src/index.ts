@@ -25,10 +25,18 @@ export type {
   BehaviorAnomaly,
   SkillFingerprintConfig,
 } from './skill-fingerprint.js';
+export type { SemanticLayerConfig } from './layer-integration.js';
 export { RuleScaffolder } from './rule-scaffolder.js';
 export type { ScaffoldInput, ScaffoldResult, ScaffoldOptions } from './rule-scaffolder.js';
 export { CoverageAnalyzer } from './coverage-analyzer.js';
 export type { CoverageGap, CoverageReport } from './coverage-analyzer.js';
+export { computeVerdict, SEVERITY_RANK, isAutoResponseEnabled } from './verdict.js';
+export { ActionExecutor } from './action-executor.js';
+export type { ActionExecutorConfig } from './action-executor.js';
+export { DefaultAdapter } from './adapters/default-adapter.js';
+export { StdioAdapter } from './adapters/stdio-adapter.js';
+export { HookHandler } from './hook-handler.js';
+export type { HookHandlerConfig } from './hook-handler.js';
 export type {
   ATRRule,
   ATRMatch,
@@ -53,4 +61,11 @@ export type {
   ATRBehavioralCondition,
   ATRSequenceCondition,
   ATRSequenceStep,
+  VerdictOutcome,
+  ATRVerdict,
+  ActionResult,
+  ExecutionContext,
+  PlatformAdapter,
+  HookInput,
+  HookOutput,
 } from './types.js';

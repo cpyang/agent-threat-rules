@@ -70,7 +70,7 @@ response:
     - kill_agent
   auto_response_threshold: critical
   message_template: >
-    [ATR-PRED-2026-024] Skill registry poisoning or compromised tool distribution detected.
+    [ATR-2026-096] Skill registry poisoning or compromised tool distribution detected.
     Category: tool-poisoning, Severity: critical.
 
 test_cases:

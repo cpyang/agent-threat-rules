@@ -63,7 +63,7 @@ response:
     - kill_agent
   auto_response_threshold: critical
   message_template: >
-    [ATR-PRED-2026-002] Semantic evasion via multi-turn prompt injection detected.
+    [ATR-2026-081] Semantic evasion via multi-turn prompt injection detected.
     Category: prompt-injection, Severity: critical.
 
 test_cases:

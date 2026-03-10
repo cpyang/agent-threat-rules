@@ -63,7 +63,7 @@ response:
     - snapshot
   auto_response_threshold: high
   message_template: >
-    [ATR-PRED-2026-011] Polymorphic skill or capability aliasing attack detected.
+    [ATR-2026-089] Polymorphic skill or capability aliasing attack detected.
     Category: prompt-injection, Severity: high.
 
 test_cases:
