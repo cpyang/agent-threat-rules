@@ -13,7 +13,7 @@ AI Agent 時代的開放威脅偵測標準 -- 由社群共同定義
 [![GitHub Watchers](https://img.shields.io/github/watchers/Agent-Threat-Rule/agent-threat-rules?style=flat-square)](https://github.com/Agent-Threat-Rule/agent-threat-rules/watchers)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Status](https://img.shields.io/badge/status-RFC-yellow?style=flat-square)](#roadmap)
-[![Rules](https://img.shields.io/badge/rules-49-blue?style=flat-square)](#coverage-map)
+[![Rules](https://img.shields.io/badge/rules-32_experimental_+_17_draft-blue?style=flat-square)](#coverage-map)
 [![MCP](https://img.shields.io/badge/MCP-6_tools-purple?style=flat-square)](#mcp-server)
 
 [English](#what-is-atr) | [Quick Start](docs/quick-start.md) | [Contributing](CONTRIBUTING.md) | [Schema](docs/schema-spec.md)
