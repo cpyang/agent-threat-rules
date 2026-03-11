@@ -1,6 +1,6 @@
 # ATR Coverage Report
 
-Generated: 2026-03-10 | Rules: 32 | Version: 0.1.0
+Generated: 2026-03-11 | Rules: 49 (32 experimental + 17 draft) | Version: 0.2.1
 
 ## OWASP Top 10 for Agentic Applications (2026) Coverage
 
@@ -17,12 +17,12 @@ Generated: 2026-03-10 | Rules: 32 | Version: 0.1.0
 | ASI09 | Insufficient Logging and Monitoring | (no explicit ASI09 references found in rules) | Gap |
 | ASI10 | Rogue Agents | ATR-2026-030, 074 | Covered |
 
-**Coverage: 8 of 10 risks fully covered, 1 partially covered, 1 gap.**
+**Coverage: 6 of 10 risks covered, 2 partial, 2 gaps.**
 
 Notes:
-- ASI07 (Multi-Agent Manipulation): While ATR-2026-030, 032, and 074 detect cross-agent attacks, they reference ASI01, ASI03, and ASI10 rather than ASI07 explicitly. These rules do provide substantial coverage of multi-agent attack vectors.
-- ASI08 (Agentic RAG Poisoning): ATR-2026-070 directly addresses RAG and knowledge base poisoning but maps to ASI06 rather than ASI08. The detection coverage exists under a different OWASP mapping.
-- ASI09 (Insufficient Logging and Monitoring): ATR is a detection rule format, not a logging/monitoring platform. This risk is architectural and would be addressed by the engine implementation, not by detection rules.
+- ASI07 (Multi-Agent Manipulation): No rules explicitly target ASI07. Some cross-agent patterns exist under ASI01/ASI10 (ATR-2026-030, 032, 074) but multi-agent protocol-level attacks are not addressed.
+- ASI08 (Agentic RAG Poisoning): ATR-2026-070 covers textual RAG poisoning but maps to ASI06, not ASI08. Embedding-level poisoning is not covered.
+- ASI09 (Insufficient Logging and Monitoring): Out of scope for detection rules. This is an engine/platform concern.
 
 ## OWASP LLM Top 10 (2025) Coverage
 
@@ -39,11 +39,12 @@ Notes:
 | LLM09 | Misinformation | (no explicit LLM09 references found) | Gap |
 | LLM10 | Unbounded Consumption | ATR-2026-050, 051, 072 | Covered |
 
-**Coverage: 8 of 10 risks covered, 2 gaps.**
+**Coverage: 7 of 10 risks covered, 3 gaps.**
 
 Notes:
-- LLM04 (Data and Model Poisoning): ATR-2026-070 and 073 address data poisoning and malicious fine-tuning but map to LLM01/LLM03 rather than LLM04. Functional coverage exists.
-- LLM09 (Misinformation): No rules currently target misinformation or hallucination detection. This is a known limitation of regex-based detection; misinformation detection typically requires semantic analysis.
+- LLM04 (Data and Model Poisoning): No rules explicitly target LLM04. ATR-2026-070 and 073 address related patterns but map to LLM01/LLM03.
+- LLM09 (Misinformation): No rules target misinformation or hallucination detection. Requires semantic analysis beyond regex.
+- Detection is regex-based; sophisticated attacks using paraphrasing or semantic manipulation may evade detection (see [LIMITATIONS.md](LIMITATIONS.md)).
 
 ## CVE Coverage
 
@@ -63,7 +64,7 @@ Notes:
 | CVE-2026-21852 | MCP server compromise | ATR-2026-010 |
 | CVE-2026-0628 | Privilege escalation via agent tools | ATR-2026-040 |
 
-**Total: 13 CVEs mapped across 16 rules.**
+**Total: 13 CVE references mapped to 16 rules.** Mappings are based on attack pattern similarity; empirical validation against CVE payloads has not been performed.
 
 ## MITRE ATLAS Coverage
 

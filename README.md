@@ -256,9 +256,9 @@ We currently have rules across 9 categories, mapped to OWASP and MITRE standards
 | Data Poisoning | LLM04 | ASI06 | AML.T0020 | 1 | -- |
 | Model Security | LLM03 | ASI04 | AML.T0044 | 2 | -- |
 
-**49 total rules** (32 stable + 17 AI-predicted drafts). Categories like Data Poisoning and Excessive Autonomy have minimal coverage. If you have expertise in these areas, your contributions would be especially valuable.
+**49 total rules** (32 experimental + 17 AI-predicted drafts). Categories like Data Poisoning and Excessive Autonomy have minimal coverage and known gaps exist (see [COVERAGE.md](COVERAGE.md#known-gaps)). Contributions in these areas are especially welcome.
 
-**49 條規則**（32 條穩定 + 17 條 AI 預測草案）。像 Data Poisoning 和 Excessive Autonomy 這些類別的覆蓋率還很低。如果你在這些領域有專長，你的貢獻會特別有價值。
+**49 條規則**（32 條實驗性 + 17 條 AI 預測草案）。Data Poisoning 和 Excessive Autonomy 等類別覆蓋率仍低，且存在已知缺口（見 [COVERAGE.md](COVERAGE.md#known-gaps)）。歡迎在這些領域貢獻。
 
 ---
 
@@ -392,11 +392,13 @@ const semantic = new SemanticModule({
 });
 ```
 
-A MiroFish swarm intelligence simulation (14 AI agents, 40 rounds) predicted:
-- **30-40%** detection rate with Layer 1 alone
+A MiroFish swarm simulation (14 AI agents, 40 rounds) estimated:
+- **30-40%** detection rate with Layer 1 (regex) alone
 - **70-80%** detection rate with all three layers combined
 
-MiroFish 群體智慧模擬（14 個 AI agents，40 輪）預測：靜態規則匹配只有 30-40% 偵測率，三層架構可達 70-80%。
+These are simulation estimates, not empirical measurements. Real-world detection rates will vary by attack sophistication and deployment configuration.
+
+MiroFish 群體模擬（14 個 AI agents，40 輪）估計：靜態規則匹配約 30-40% 偵測率，三層架構約 70-80%。此為模擬估計值，非實測數據。
 
 See [THREAT-MODEL.md](THREAT-MODEL.md) for detailed analysis and known bypass techniques.
 
