@@ -82,6 +82,15 @@ export function handleSubmitProposal(args: Record<string, unknown>): {
     };
   }
 
+  if (mitreRefs !== undefined) {
+    if (!Array.isArray(mitreRefs) || mitreRefs.some((r: unknown) => typeof r !== 'string')) {
+      return {
+        content: [{ type: 'text', text: 'Error: "mitre_refs" must be an array of strings.' }],
+        isError: true,
+      };
+    }
+  }
+
   const scaffolder = new RuleScaffolder();
   const result = scaffolder.scaffold({
     title: title.trim(),

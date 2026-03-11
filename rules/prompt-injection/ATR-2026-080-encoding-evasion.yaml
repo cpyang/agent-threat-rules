@@ -41,7 +41,7 @@ detection:
       description: "Runtime decoding of encoded payload"
     - field: user_input
       operator: regex
-      value: "(?i)\\\\u(0{0,2}[0-9a-f]{2,4}\\s*){5,}"
+      value: "(?i)(\\\\u0{0,2}[0-9a-f]{2,4}\\s*){5,}"
       description: "Sequence of Unicode escape characters forming hidden instructions"
     - field: user_input
       operator: regex

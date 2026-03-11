@@ -141,8 +141,12 @@ detection:
     # -- Layer 16: Multilingual injection patterns (top 5 languages) --
     - field: user_input
       operator: regex
-      value: "(忽略|无视|忘记|覆盖|跳过|放弃|丢弃).{0,10}(之前的|先前的|以前的|原来的|现有的|当前的).{0,10}(指令|指示|规则|提示|约束|限制|配置|安全|防护)"
-      description: "Chinese (Simplified): Instruction override patterns"
+      value: "(忽略|无视|忘记|覆盖|跳过|放弃|丢弃).{0,10}(之前的|先前的|以前的|原来的|现有的|当前的|其他|其余|所有|全部|一切).{0,10}(指令|指示|规则|提示|约束|限制|配置|安全|防护|内容|东西|消息|信息)"
+      description: "Chinese (Simplified): Instruction override patterns (expanded)"
+    - field: user_input
+      operator: regex
+      value: "(忽略|無視|忘記|覆蓋|跳過|放棄|丟棄|不要管|別管|不用理).{0,10}(之前的|先前的|以前的|原來的|現有的|當前的|其他|其餘|所有|全部|一切).{0,10}(指令|指示|規則|提示|約束|限制|配置|安全|防護|內容|東西|消息|訊息)"
+      description: "Chinese (Traditional): Instruction override patterns (expanded)"
     - field: user_input
       operator: regex
       value: "(從現在開始|今後|此後).{0,10}(你是|你將|扮演|成為|變成|作為).{0,10}(沒有|無|不受|去除|移除).{0,10}(限制|約束|規則|安全|過濾|審查)"

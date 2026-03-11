@@ -39,10 +39,17 @@ export async function handleScan(engine: ATREngine, args: Record<string, unknown
   content: Array<{ type: string; text: string }>;
   isError?: boolean;
 }> {
+  const MAX_CONTENT_LENGTH = 500_000;
   const content = args['content'];
   if (typeof content !== 'string' || content.trim().length === 0) {
     return {
       content: [{ type: 'text', text: 'Error: "content" is required and must be a non-empty string.' }],
+      isError: true,
+    };
+  }
+  if (content.length > MAX_CONTENT_LENGTH) {
+    return {
+      content: [{ type: 'text', text: `Error: content exceeds maximum size of ${MAX_CONTENT_LENGTH} characters.` }],
       isError: true,
     };
   }

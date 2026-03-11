@@ -46,7 +46,7 @@ detection:
       description: "Obfuscating malicious code to pass audit analysis"
     - field: user_input
       operator: regex
-      value: "(?i)\\b(hide|conceal|disguise|mask|camouflage)\\s+.{0,20}(malicious|dangerous|harmful|unauthorized)\\s+.{0,20}(behavio|code|function|intent|capabilit|action)\\s+.{0,20}(from|during|in)\\s+.{0,15}(audit|review|scan|check|inspection)"
+      value: "(?i)\\b(hide|conceal|disguise|mask|camouflage)\\s+.{0,20}?(malicious|dangerous|harmful|unauthorized)\\s+.{0,20}?(behavio\\w*|code|function|intent|capabilit\\w*|action)\\s+.{0,20}?(from|during|in)\\s+.{0,25}?(audit|review|scan|check|inspection)"
       description: "Hiding malicious behavior from audit inspection"
 
   condition: any

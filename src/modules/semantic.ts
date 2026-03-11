@@ -276,8 +276,8 @@ export class SemanticModule implements ATRModule {
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        const errText = await response.text().catch(() => 'unknown');
-        throw new Error(`LLM API error ${response.status}: ${errText}`);
+        // Do not include response body in error — it may contain API keys or internal data
+        throw new Error(`LLM API error: HTTP ${response.status}`);
       }
 
       const data = await response.json() as {

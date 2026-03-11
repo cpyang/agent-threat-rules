@@ -1,6 +1,6 @@
 # ATR Coverage Report
 
-Generated: 2026-03-11 | Rules: 49 (32 experimental + 17 draft) | Version: 0.2.1
+Generated: 2026-03-12 | Rules: 52 (35 experimental + 17 draft) | Version: 0.2.1
 
 ## OWASP Top 10 for Agentic Applications (2026) Coverage
 

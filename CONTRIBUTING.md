@@ -3,9 +3,9 @@
 ATR is MIT-licensed. Contributing requires a text editor, a YAML file,
 and `npx agent-threat-rules test`. Nothing else.
 
-No Panguard account. No threat-cloud. No proprietary tooling. No telemetry. No CLA.
+No proprietary tooling. No telemetry. No CLA.
 
-ATR is maintained by Panguard AI but governed as an open standard.
+ATR is community-maintained and governed as an open standard.
 Rules contributed here are MIT-licensed and belong to the community.
 
 ---
@@ -109,20 +109,34 @@ Before submitting, verify:
 
 ---
 
+## Where to Hunt
+
+Not sure what to contribute? **[CONTRIBUTION-GUIDE.md](CONTRIBUTION-GUIDE.md)** maps 12 research
+areas with concrete attack surfaces, data sources, and difficulty levels.
+From 5-minute incident reports to weekend red team fuzzing sessions.
+
+---
+
 ## See ATR in Action (Optional)
 
-Want to see ATR rules working before contributing? Run the skill auditor
-against any MCP skill directory:
+Want to see ATR rules working before contributing? Try scanning some content
+with the CLI:
 
 ```bash
-npx @panguard-ai/panguard-skill-auditor audit <skill-directory>
+npx agent-threat-rules scan events.json
+npx agent-threat-rules stats
 ```
 
-The auditor evaluates AI agent skill manifests against ATR detection patterns.
+Or start the MCP server and test interactively:
+
+```bash
+npx agent-threat-rules mcp
+```
+
 If you notice a gap -- an attack it should catch but does not -- that gap
 is your first rule contribution.
 
-Using the skill auditor is optional. Reading [COVERAGE.md](./COVERAGE.md)
+Reading [COVERAGE.md](./COVERAGE.md)
 and [LIMITATIONS.md](./LIMITATIONS.md) is another way to find what is missing.
 
 ---

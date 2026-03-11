@@ -145,6 +145,9 @@ export interface ATRRule {
   author: string;
   date: string;
   modified?: string;
+  schema_version?: string;
+  detection_tier?: string;
+  maturity?: string;
   severity: ATRSeverity;
   references?: ATRReferences;
   tags: ATRTags;

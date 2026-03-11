@@ -34,11 +34,11 @@ detection:
   conditions:
     - field: user_input
       operator: regex
-      value: "(?i)\\b(rename|alias|remap|redefine|rebind)\\s+.{0,20}(function|tool|skill|capability|command|action|method)\\s+.{0,20}(to|as|into)\\b"
-      description: "Renaming or aliasing tool functions to disguise intent"
+      value: "(?i)\\b(rename|alias|remap|redefine|rebind)\\s+.{0,20}(function|tool|skill|capability|command|action|method)\\s+.{0,30}(to|as|into)\\s+.{0,20}(pass|bypass|evade|avoid|trick|fool|disguise|hide)"
+      description: "Renaming or aliasing tool functions with evasion intent"
     - field: user_input
       operator: regex
-      value: "(?i)\\b(register|create|define|add)\\s+.{0,10}(new\\s+)?(tool|skill|function|capability)\\s+.{0,30}(exec|eval|shell|system|subprocess|os\\.)"
+      value: "(?i)\\b(register|create|define|add)\\s+.{0,10}(new\\s+)?(tool|skill|function|capability)\\s+.{0,50}(exec|eval|shell|system|subprocess|os\\.)"
       description: "Registering new tool capability with dangerous execution primitives"
     - field: user_input
       operator: regex

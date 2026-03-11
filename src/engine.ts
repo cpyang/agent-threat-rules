@@ -61,8 +61,6 @@ export interface ATREngineConfig {
   rulesDir?: string;
   /** Pre-loaded rules (for testing or embedding) */
   rules?: ATRRule[];
-  /** Enable hot-reload of rule files */
-  hotReload?: boolean;
   /** Optional session tracker for behavioral detection across events */
   sessionTracker?: SessionTracker;
   /** Optional Layer 2: Skill behavioral fingerprinting (no LLM required) */

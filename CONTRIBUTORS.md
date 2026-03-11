@@ -7,7 +7,7 @@ and false positive reports to ATR.
 
 | Contributor | Rules | Notable |
 |-------------|-------|---------|
-| Panguard AI | ATR-2026-001 through ATR-2026-077 | Initial 32 rules, 325 test cases |
+| ATR Community | ATR-2026-001 through ATR-2026-099 | Initial 52 rules, 325+ test cases |
 
 ## Evasion Researchers
 

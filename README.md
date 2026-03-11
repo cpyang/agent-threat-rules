@@ -13,10 +13,10 @@ AI Agent 時代的開放威脅偵測標準 -- 由社群共同定義
 [![GitHub Watchers](https://img.shields.io/github/watchers/Agent-Threat-Rule/agent-threat-rules?style=flat-square)](https://github.com/Agent-Threat-Rule/agent-threat-rules/watchers)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Status](https://img.shields.io/badge/status-RFC-yellow?style=flat-square)](#roadmap)
-[![Rules](https://img.shields.io/badge/rules-32_experimental_+_17_draft-blue?style=flat-square)](#coverage-map)
+[![Rules](https://img.shields.io/badge/rules-52_(35_experimental_+_17_draft)-blue?style=flat-square)](#coverage-map)
 [![MCP](https://img.shields.io/badge/MCP-6_tools-purple?style=flat-square)](#mcp-server)
 
-[English](#what-is-atr) | [Quick Start](docs/quick-start.md) | [Contributing](CONTRIBUTING.md) | [Schema](docs/schema-spec.md)
+[English](#what-is-atr) | [Quick Start](docs/quick-start.md) | [Contributing](CONTRIBUTING.md) | [Where to Hunt](CONTRIBUTION-GUIDE.md) | [Schema](docs/schema-spec.md)
 
 </div>
 
@@ -246,19 +246,19 @@ We currently have rules across 9 categories, mapped to OWASP and MITRE standards
 
 | Attack Category | OWASP LLM | OWASP Agentic | MITRE ATLAS | Rules | Real CVEs |
 |---|---|---|---|---|---|
-| Prompt Injection | LLM01 | ASI01 | AML.T0051 | 5 + 15 predicted | CVE-2025-53773, CVE-2025-32711, CVE-2026-24307 |
+| Prompt Injection | LLM01 | ASI01 | AML.T0051 | 6 + 15 predicted | CVE-2025-53773, CVE-2025-32711, CVE-2026-24307 |
 | Tool Poisoning | LLM01/LLM05 | ASI02, ASI05 | AML.T0053 | 4 + 2 predicted | CVE-2025-68143/68144/68145, CVE-2025-6514, CVE-2025-59536, CVE-2026-21852 |
 | Context Exfiltration | LLM02/LLM07 | ASI01, ASI03, ASI06 | AML.T0056/T0057 | 3 | CVE-2025-32711, CVE-2026-24307 |
 | Agent Manipulation | LLM01/LLM06 | ASI01, ASI10 | AML.T0043 | 5 | -- |
 | Privilege Escalation | LLM06 | ASI03 | AML.T0050 | 2 | CVE-2026-0628 |
-| Excessive Autonomy | LLM06/LLM10 | ASI05 | AML.T0046 | 3 | -- |
+| Excessive Autonomy | LLM06/LLM10 | ASI05 | AML.T0046 | 5 | -- |
 | Skill Compromise | LLM03/LLM06 | ASI02, ASI03, ASI04 | AML.T0010 | 7 | CVE-2025-59536, CVE-2025-68143/68144 |
 | Data Poisoning | LLM04 | ASI06 | AML.T0020 | 1 | -- |
 | Model Security | LLM03 | ASI04 | AML.T0044 | 2 | -- |
 
-**49 total rules** (32 experimental + 17 AI-predicted drafts). Categories like Data Poisoning and Excessive Autonomy have minimal coverage and known gaps exist (see [COVERAGE.md](COVERAGE.md#known-gaps)). Contributions in these areas are especially welcome.
+**52 total rules** (35 experimental + 17 AI-predicted drafts). Categories like Data Poisoning have minimal coverage and known gaps exist (see [COVERAGE.md](COVERAGE.md#known-gaps)). Contributions in these areas are especially welcome.
 
-**49 條規則**（32 條實驗性 + 17 條 AI 預測草案）。Data Poisoning 和 Excessive Autonomy 等類別覆蓋率仍低，且存在已知缺口（見 [COVERAGE.md](COVERAGE.md#known-gaps)）。歡迎在這些領域貢獻。
+**52 條規則**（35 條實驗性 + 17 條 AI 預測草案）。Data Poisoning 等類別覆蓋率仍低，且存在已知缺口（見 [COVERAGE.md](COVERAGE.md#known-gaps)）。歡迎在這些領域貢獻。
 
 ---
 
@@ -438,12 +438,12 @@ agent-threat-rules/
   spec/
     atr-schema.yaml             # Schema specification (evolving)
   rules/
-    prompt-injection/            # Prompt injection (5 stable + 15 predicted)
-    tool-poisoning/              # Tool poisoning (4 stable + 2 predicted)
+    prompt-injection/            # Prompt injection (6 experimental + 15 draft)
+    tool-poisoning/              # Tool poisoning (4 experimental + 2 draft)
     context-exfiltration/        # Context exfiltration (3 rules)
     agent-manipulation/          # Agent manipulation (5 rules)
     privilege-escalation/        # Privilege escalation (2 rules)
-    excessive-autonomy/          # Excessive autonomy (3 rules)
+    excessive-autonomy/          # Excessive autonomy (5 rules)
     skill-compromise/            # Skill supply chain (7 rules)
     data-poisoning/              # Data poisoning (1 rule, needs more)
     model-security/              # Model security (2 rules, needs more)
@@ -549,16 +549,11 @@ detection:
       value: "(?i)https?://[^\\s]*[?&#][^\\s]*(?:ignore|disregard|override|forget)\\s+(?:previous|all|your)\\s+(?:instructions?|rules?|prompts?)"
       description: "URL containing instruction override keywords in query/fragment"
 
-  condition_logic: any
+  condition: any
 
 response:
-  default_action: alert
-  actions:
-    - action: alert
-      severity: medium
-      message: "Possible prompt injection embedded in URL parameter"
-    - action: log
-      detail: full_event
+  actions: [alert, snapshot]
+  auto_response_threshold: medium
 
 test_cases:
   true_positives:
@@ -633,8 +628,8 @@ Where we are and where we're headed -- subject to change based on community inpu
 
 我們的現狀和方向 -- 會根據社群回饋調整：
 
-- [x] **v0.1** -- 32 rules, TypeScript engine, OWASP Agentic Top 10 coverage, session tracking
-- [x] **v0.2** -- MCP server (6 tools), Layer 3 semantic detection, 17 AI-predicted rules, skill fingerprinting, rule scaffolder, coverage analyzer, contribution pipeline, 5 documentation guides
+- [x] **v0.1** -- 35 experimental rules, TypeScript engine, OWASP Agentic Top 10 coverage, session tracking
+- [x] **v0.2** -- MCP server (6 tools), Layer 3 semantic detection, 17 AI-predicted draft rules, skill fingerprinting, rule scaffolder, coverage analyzer, contribution pipeline, 5 documentation guides
 - [ ] **v0.3** -- Embedding similarity detection (Layer 2.5), Python reference engine, multi-language rule patterns
 - [ ] **v1.0** -- Stable schema, multi-framework validation, broad adoption
 

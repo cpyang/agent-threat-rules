@@ -210,8 +210,6 @@ function cmdValidate(target: string, options: Record<string, string>): void {
   const files: string[] = [];
 
   if (statSync(targetPath).isDirectory()) {
-    const rules = loadRulesFromDirectory(targetPath);
-    // Re-validate each file individually for error reporting
     collectYamlFiles(targetPath, files);
   } else {
     files.push(targetPath);
@@ -320,9 +318,15 @@ async function cmdTest(target: string, options: Record<string, string>): Promise
     // For testing, normalize extended source types so the engine doesn't filter them out
     const originalSourceType = rule.agent_source?.type;
     const baseSourceType = EXTENDED_SOURCE_TO_BASE[originalSourceType ?? ''];
-    const testRule = baseSourceType
-      ? { ...rule, agent_source: { ...rule.agent_source, type: baseSourceType as ATRRule['agent_source']['type'] } }
-      : rule;
+
+    // Override status so draft/deprecated rules are not skipped during testing
+    const testRule = {
+      ...rule,
+      status: 'experimental' as const,
+      ...(baseSourceType
+        ? { agent_source: { ...rule.agent_source, type: baseSourceType as ATRRule['agent_source']['type'] } }
+        : {}),
+    };
 
     const engine = new ATREngine({ rules: [testRule] });
     await engine.loadRules();
@@ -408,15 +412,24 @@ function buildEventFromTestCase(
     return JSON.stringify(v);
   };
 
-  // Extract fields, handling both flat and object-style test cases.
+  // Extract fields, handling multiple test case formats:
   // Object-style: input: { tool_name: "...", tool_args: "...", response: "..." }
   // Flat-style: input: "...", tool_response: "...", tool_name: "..."
+  // Tool-call-style: tool_call: { name: "...", args: "..." }
   const rawInput = tc['input'];
   let input = '';
   let toolName = str(tc['tool_name']);
   let toolArgs = str(tc['tool_args']);
   let toolResponse = str(tc['tool_response']);
   const agentOutput = str(tc['agent_output']);
+
+  // Handle tool_call: { name, args } format (used by tool_call rules like ATR-2026-098)
+  const rawToolCall = tc['tool_call'];
+  if (rawToolCall !== null && rawToolCall !== undefined && typeof rawToolCall === 'object' && !Array.isArray(rawToolCall)) {
+    const tcObj = rawToolCall as Record<string, unknown>;
+    if (tcObj['name'] && !toolName) toolName = str(tcObj['name']);
+    if (tcObj['args'] && !toolArgs) toolArgs = str(tcObj['args']);
+  }
 
   if (rawInput !== null && rawInput !== undefined && typeof rawInput === 'object' && !Array.isArray(rawInput)) {
     const inputObj = rawInput as Record<string, unknown>;
@@ -521,10 +534,10 @@ function cmdStats(options: Record<string, string>): void {
     byCategory[cat] = (byCategory[cat] ?? 0) + 1;
     bySeverity[rule.severity] = (bySeverity[rule.severity] ?? 0) + 1;
 
-    const maturity = (rule as unknown as Record<string, unknown>)['maturity'] as string ?? 'experimental';
+    const maturity = rule.maturity ?? 'experimental';
     byMaturity[maturity] = (byMaturity[maturity] ?? 0) + 1;
 
-    const tier = (rule as unknown as Record<string, unknown>)['detection_tier'] as string ?? 'pattern';
+    const tier = rule.detection_tier ?? 'pattern';
     byTier[tier] = (byTier[tier] ?? 0) + 1;
 
     if (rule.test_cases) {
@@ -588,7 +601,8 @@ async function cmdGuard(options: Record<string, string>): Promise<void> {
   const rulesDir = options['rules'] ? resolve(options['rules']) : RULES_DIR;
   const dryRun = options['dry-run'] === 'true';
   const failOpen = options['fail-open'] !== 'false';
-  const timeoutMs = options['timeout'] ? parseInt(options['timeout'], 10) : 5000;
+  const parsedTimeout = options['timeout'] ? parseInt(options['timeout'], 10) : 5000;
+  const timeoutMs = (Number.isFinite(parsedTimeout) && parsedTimeout > 0) ? parsedTimeout : 5000;
 
   const { ActionExecutor } = await import('./action-executor.js');
   const { StdioAdapter } = await import('./adapters/stdio-adapter.js');
@@ -708,7 +722,7 @@ async function cmdScaffold(): Promise<void> {
 async function main(): Promise<void> {
   const { command, target, options } = parseArgs(process.argv);
 
-  if (command === 'help' || options['help']) {
+  if (command === 'help' || command === '--help' || command === '-h' || options['help']) {
     printUsage();
     return;
   }
