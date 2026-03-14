@@ -9,8 +9,9 @@
  *   npx agent-threat-rules stats                   Show rule collection stats
  */
 
-import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
-import { resolve, dirname, join } from 'node:path';
+import { readFileSync, writeFileSync, readdirSync, existsSync, statSync, mkdirSync } from 'node:fs';
+import { resolve, dirname, join, sep } from 'node:path';
+import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { ATREngine } from './engine.js';
 import { loadRuleFile, loadRulesFromDirectory, validateRule } from './loader.js';
@@ -45,6 +46,7 @@ ${BOLD}Usage:${RESET}
   atr test <rule.yaml|dir>                 Run embedded test cases
   atr stats [--rules <dir>]                Show rule collection statistics
   atr guard [--rules <dir>] [--dry-run]    Start as Claude Code hook (stdio)
+  atr init [--global]                      Setup ATR guard hook for Claude Code
   atr mcp                                  Start MCP server (stdio transport)
   atr scaffold                             Interactive rule scaffolding
 
@@ -55,6 +57,7 @@ ${BOLD}Options:${RESET}
   --dry-run        Log actions without executing (guard mode)
   --fail-open      Default to allow on errors (guard mode, default: true)
   --timeout <ms>   Evaluation timeout in ms (guard mode, default: 5000)
+  --global         Write hook to ~/.claude/settings.json instead of project (init)
   --help           Show this help message
 
 ${BOLD}Examples:${RESET}
@@ -69,6 +72,9 @@ ${BOLD}Examples:${RESET}
 
   ${DIM}# Show stats for bundled rules${RESET}
   atr stats
+
+  ${DIM}# One-command Claude Code hook setup${RESET}
+  atr init
 
   ${DIM}# Run as a Claude Code guard hook${RESET}
   atr guard --rules ./my-rules
@@ -90,7 +96,7 @@ function parseArgs(argv: string[]): { command: string; target: string; options: 
   for (let i = 1; i < args.length; i++) {
     if (args[i].startsWith('--')) {
       const key = args[i].slice(2);
-      if (key === 'json' || key === 'help' || key === 'dry-run' || key === 'fail-open') {
+      if (key === 'json' || key === 'help' || key === 'dry-run' || key === 'fail-open' || key === 'global') {
         options[key] = 'true';
       } else {
         options[key] = args[++i] ?? '';
@@ -717,6 +723,92 @@ async function cmdScaffold(): Promise<void> {
   console.log(`\n${DIM}Copy this YAML to a .yaml file in rules/${category.trim()}/ and validate with: atr validate <file>${RESET}\n`);
 }
 
+// --- INIT command ---
+
+function cmdInit(options: Record<string, string>): void {
+  const isGlobal = options['global'] === 'true';
+  const cwd = process.cwd();
+
+  // Detect Claude Code project (unless --global)
+  if (!isGlobal) {
+    const hasClaudeDir = existsSync(join(cwd, '.claude'));
+    const hasClaudeMd = existsSync(join(cwd, 'CLAUDE.md'));
+    if (!hasClaudeDir && !hasClaudeMd) {
+      console.error(
+        `${RED}Error: Not a Claude Code project (no .claude/ directory or CLAUDE.md found).${RESET}\n` +
+        `Run this command from your project root, or use ${BOLD}atr init --global${RESET} to configure globally.`
+      );
+      process.exit(1);
+    }
+  }
+
+  const hookEntry = {
+    matcher: '',
+    command: 'npx agent-threat-rules guard',
+  };
+
+  // Determine target settings file
+  const settingsPath = isGlobal
+    ? join(homedir(), '.claude', 'settings.json')
+    : join(cwd, '.claude', 'settings.local.json');
+
+  // Ensure parent directory exists
+  const settingsDir = dirname(settingsPath);
+  if (!existsSync(settingsDir)) {
+    mkdirSync(settingsDir, { recursive: true });
+  }
+
+  // Read existing settings or start fresh
+  let settings: Record<string, unknown> = {};
+  if (existsSync(settingsPath)) {
+    try {
+      const raw = readFileSync(settingsPath, 'utf-8');
+      settings = JSON.parse(raw) as Record<string, unknown>;
+    } catch {
+      console.error(`${RED}Error: Failed to parse ${settingsPath}. Fix it manually or delete it and retry.${RESET}`);
+      process.exit(1);
+    }
+  }
+
+  // Navigate into hooks.PreToolUse, creating structure as needed
+  if (!settings['hooks'] || typeof settings['hooks'] !== 'object') {
+    settings['hooks'] = {};
+  }
+  const hooks = settings['hooks'] as Record<string, unknown>;
+
+  if (!Array.isArray(hooks['PreToolUse'])) {
+    hooks['PreToolUse'] = [];
+  }
+  const preToolUse = hooks['PreToolUse'] as Array<Record<string, unknown>>;
+
+  // Check if hook is already configured
+  const alreadyConfigured = preToolUse.some(
+    (entry) => typeof entry === 'object' && entry !== null && entry['command'] === hookEntry.command
+  );
+
+  if (alreadyConfigured) {
+    console.log(`${GREEN}ATR guard hook already configured${RESET} in ${settingsPath}`);
+    return;
+  }
+
+  // Add the hook entry
+  preToolUse.push(hookEntry);
+
+  // Write back
+  writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n', 'utf-8');
+
+  const relPath = settingsPath.startsWith(cwd + sep)
+    ? settingsPath.slice(cwd.length + 1)
+    : settingsPath;
+
+  console.log(`\n${GREEN}ATR guard hook configured successfully.${RESET}\n`);
+  console.log(`  File: ${relPath}`);
+  console.log(`  Hook: PreToolUse -> npx agent-threat-rules guard\n`);
+  console.log(`${DIM}Every tool call Claude Code makes will now be scanned against ATR`);
+  console.log(`threat detection rules before execution. Suspicious actions will be`);
+  console.log(`flagged with severity and recommendation.${RESET}\n`);
+}
+
 // --- Main ---
 
 async function main(): Promise<void> {
@@ -742,6 +834,9 @@ async function main(): Promise<void> {
       break;
     case 'guard':
       await cmdGuard(options);
+      break;
+    case 'init':
+      cmdInit(options);
       break;
     case 'mcp':
       await cmdMcp();
