@@ -11,3 +11,4 @@ coverage/
 __pycache__/
 mcp-registry.json
 audit-results.json
+audit-v2.json
