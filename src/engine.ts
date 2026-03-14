@@ -623,7 +623,7 @@ export class ATREngine {
       case 'tool_name':
         return event.fields?.['tool_name'] ?? (event.type === 'tool_call' ? event.content : undefined);
       case 'tool_args':
-        return event.fields?.['tool_args'];
+        return event.fields?.['tool_args'] ?? (event.type === 'tool_call' ? event.content : undefined);
       case 'agent_message':
         return event.type === 'multi_agent_message' ? event.content : event.fields?.['agent_message'];
       default:
