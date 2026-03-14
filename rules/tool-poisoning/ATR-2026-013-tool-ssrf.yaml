@@ -99,8 +99,8 @@ detection:
     # -- Layer 9: Internal hostnames --
     - field: tool_args
       operator: regex
-      value: "(?i)(https?://)?[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\\.\\b(internal|local|localhost|localdomain|home|corp|intranet|private|lan|cluster\\.local|svc\\.cluster|consul|vault|etcd|k8s)\\b(:\\d+)?(/|$)"
-      description: "Internal DNS names and Kubernetes/service mesh hostnames"
+      value: "(?i)(?:(?:^|[\\.@])(?:internal|local|localhost|localdomain|home|corp|intranet|private|lan|cluster\\.local|svc\\.cluster|consul|vault|etcd|k8s)(?:\\:\\d+)?(?:/|$)|https?://(?:internal|local|localhost|localdomain|home|corp|intranet|private|lan|cluster\\.local|svc\\.cluster|consul|vault|etcd|k8s)(?:\\:\\d+)?(?:/|$))"
+      description: "Internal DNS names and Kubernetes/service mesh hostnames (requires dot/@ prefix or http scheme to avoid matching filesystem paths like /home/)"
 
     # -- Layer 10: Exotic URI schemes --
     - field: tool_args
@@ -206,3 +206,12 @@ test_cases:
     - tool_args: "search_query=localhost development guide"
       expected: not_triggered
       description: "Text containing localhost as a search term, not a URL"
+    - tool_args: "https://api.openai.com/v1/chat/completions"
+      expected: not_triggered
+      description: "Public AI API endpoint"
+    - tool_args: "https://registry.npmjs.org/express/latest"
+      expected: not_triggered
+      description: "Public npm registry package lookup"
+    - tool_args: "https://storage.googleapis.com/public-bucket/dataset.csv"
+      expected: not_triggered
+      description: "Public cloud storage URL"
