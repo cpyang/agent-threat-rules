@@ -78,3 +78,9 @@ test_cases:
   true_negatives:
     - input: "Please convert this base64 string to text: SGVsbG8gV29ybGQ="
       expected: not_triggered
+    - input: "How do I encode a URL parameter in JavaScript using encodeURIComponent?"
+      expected: not_triggered
+      description: "Legitimate developer question about URL encoding"
+    - input: "The API returns Unicode escaped characters like \\u0041 for letter A. How do I parse them?"
+      expected: not_triggered
+      description: "Legitimate question about Unicode handling in API responses"

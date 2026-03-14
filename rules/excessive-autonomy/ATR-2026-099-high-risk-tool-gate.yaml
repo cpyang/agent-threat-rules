@@ -157,3 +157,18 @@ test_cases:
         args: "{\"items\": [{\"price\": 500}]}"
       expected: not_triggered
       description: "Calculation tool, not financial action"
+    - tool_call:
+        name: "list_transactions"
+        args: "{\"date_range\": \"2026-01-01 to 2026-03-01\"}"
+      expected: not_triggered
+      description: "Read-only transaction listing, not a financial action"
+    - tool_call:
+        name: "read_config"
+        args: "{\"key\": \"notification_settings\"}"
+      expected: not_triggered
+      description: "Reading configuration, not modifying permissions or system"
+    - tool_call:
+        name: "fetch_user_profile"
+        args: "{\"user_id\": \"12345\"}"
+      expected: not_triggered
+      description: "Read-only user profile fetch, not permission modification"

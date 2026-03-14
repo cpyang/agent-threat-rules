@@ -74,3 +74,9 @@ test_cases:
   true_negatives:
     - input: "Our monitoring system tracks behavioral drift to detect anomalies in production"
       expected: not_triggered
+    - input: "Can you explain how browser fingerprinting works and what data points are collected?"
+      expected: not_triggered
+      description: "Legitimate question about web browser fingerprinting technology"
+    - input: "We need to gradually introduce the new API endpoints to avoid breaking existing clients"
+      expected: not_triggered
+      description: "Legitimate gradual rollout discussion without evasion intent"

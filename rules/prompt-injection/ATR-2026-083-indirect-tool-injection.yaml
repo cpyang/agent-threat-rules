@@ -74,3 +74,12 @@ test_cases:
   true_negatives:
     - tool_response: "The API returned a 404 error with message: resource not found"
       expected: not_triggered
+    - tool_response: "Search results: 1. Introduction to Machine Learning, 2. Deep Learning Fundamentals, 3. Neural Network Architectures"
+      expected: not_triggered
+      description: "Normal search results from a tool response"
+    - tool_response: "File saved successfully to /home/user/documents/report.pdf. Size: 2.4 MB."
+      expected: not_triggered
+      description: "Normal file operation result"
+    - tool_response: "Database query completed in 45ms. Returned 128 rows from the users table."
+      expected: not_triggered
+      description: "Normal database query result with performance metrics"

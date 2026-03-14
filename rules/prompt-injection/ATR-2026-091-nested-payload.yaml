@@ -78,3 +78,9 @@ test_cases:
   true_negatives:
     - input: "{\"settings\": {\"theme\": \"dark\", \"language\": \"en\", \"notifications\": true}}"
       expected: not_triggered
+    - input: "{\"order\": {\"items\": [{\"name\": \"Laptop\", \"qty\": 1}], \"shipping\": {\"method\": \"express\", \"address\": \"123 Main St\"}}}"
+      expected: not_triggered
+      description: "Normal nested JSON object with order data"
+    - input: "{\"config\": {\"database\": {\"host\": \"db.example.com\", \"port\": 5432, \"pool_size\": 10}}}"
+      expected: not_triggered
+      description: "Normal deeply nested configuration JSON"

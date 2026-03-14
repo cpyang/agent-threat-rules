@@ -76,3 +76,9 @@ test_cases:
   true_negatives:
     - input: "Our 6-layer audit system checks manifests, permissions, dependencies, and code quality"
       expected: not_triggered
+    - input: "The code passed all three review stages: automated linting, unit tests, and manual review"
+      expected: not_triggered
+      description: "Legitimate description of code passing audit stages"
+    - input: "We use static analysis tools like ESLint and SonarQube to catch code quality issues early"
+      expected: not_triggered
+      description: "Legitimate discussion of static analysis tooling"

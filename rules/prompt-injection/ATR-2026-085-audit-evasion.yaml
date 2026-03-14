@@ -74,3 +74,9 @@ test_cases:
   true_negatives:
     - input: "Our security audit process has 6 layers that check for vulnerabilities"
       expected: not_triggered
+    - input: "What is the best practice for implementing security validation in a REST API?"
+      expected: not_triggered
+      description: "Legitimate question about security best practices"
+    - input: "The audit report shows a trust score of 85 out of 100 for our latest release"
+      expected: not_triggered
+      description: "Legitimate reference to audit results and trust scores in reporting context"

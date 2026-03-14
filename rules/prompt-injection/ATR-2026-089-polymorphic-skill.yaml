@@ -75,3 +75,9 @@ test_cases:
   true_negatives:
     - input: "We should rename the function to better reflect its purpose in the API"
       expected: not_triggered
+    - input: "Can you create a new utility function that reads a CSV file and returns parsed rows?"
+      expected: not_triggered
+      description: "Legitimate request to create a new tool/function without malicious intent"
+    - input: "We use dynamic loading for our plugin system to load modules on demand based on user configuration"
+      expected: not_triggered
+      description: "Legitimate discussion of dynamic module loading architecture"

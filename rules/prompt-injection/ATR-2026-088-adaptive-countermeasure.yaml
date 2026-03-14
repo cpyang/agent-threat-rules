@@ -74,3 +74,9 @@ test_cases:
   true_negatives:
     - input: "We need to reset the monitoring dashboard after the maintenance window"
       expected: not_triggered
+    - input: "How do I configure Prometheus to send alerts when CPU usage exceeds 90%?"
+      expected: not_triggered
+      description: "Legitimate monitoring configuration question"
+    - input: "Please report the current status of our production servers including uptime and memory usage"
+      expected: not_triggered
+      description: "Legitimate request for system status report"

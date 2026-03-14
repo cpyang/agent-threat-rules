@@ -82,3 +82,9 @@ test_cases:
   true_negatives:
     - input: "Our multi-agent system uses a voting mechanism where each agent independently evaluates proposals"
       expected: not_triggered
+    - input: "Can you explain how Byzantine fault tolerance works in distributed consensus algorithms?"
+      expected: not_triggered
+      description: "Legitimate academic question about distributed systems consensus"
+    - input: "We need three team members to approve the pull request before it can be merged"
+      expected: not_triggered
+      description: "Legitimate code review approval process, not consensus manipulation"

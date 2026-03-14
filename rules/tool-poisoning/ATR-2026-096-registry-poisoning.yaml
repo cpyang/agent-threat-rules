@@ -82,3 +82,12 @@ test_cases:
   true_negatives:
     - tool_response: "Tool reads config.json for database connection string and returns query results"
       expected: not_triggered
+    - tool_response: "Registry lookup: package 'lodash' version 4.17.21 found. License: MIT. Downloads: 45M/week."
+      expected: not_triggered
+      description: "Normal registry package lookup result"
+    - tool_response: "Dependency tree resolved: 142 packages, 0 conflicts. All versions satisfy semver constraints."
+      expected: not_triggered
+      description: "Normal dependency resolution output"
+    - tool_response: "Tool verified: SHA-256 checksum matches published hash. Signature valid. Author: verified-publisher."
+      expected: not_triggered
+      description: "Normal tool verification and integrity check output"

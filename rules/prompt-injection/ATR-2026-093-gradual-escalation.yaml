@@ -76,3 +76,9 @@ test_cases:
   true_negatives:
     - input: "We plan to gradually roll out new features over the next three sprints"
       expected: not_triggered
+    - input: "The new version adds support for PDF export and dark mode theme"
+      expected: not_triggered
+      description: "Legitimate version update with new feature additions"
+    - input: "Please grant read-only access to the shared drive for the new intern starting Monday"
+      expected: not_triggered
+      description: "Legitimate single permission grant request without escalation pattern"

@@ -76,3 +76,9 @@ test_cases:
   true_negatives:
     - input: "{\"name\": \"Alice\", \"role\": \"admin\", \"instructions\": \"Send weekly report\"}"
       expected: not_triggered
+    - input: "{\"product\": \"Widget A\", \"price\": 29.99, \"description\": \"High-quality stainless steel widget\"}"
+      expected: not_triggered
+      description: "Normal JSON product data with no injection payload"
+    - input: "Alice,Smith,alice@example.com,Engineering,Senior Developer"
+      expected: not_triggered
+      description: "Normal CSV row with user profile data"

@@ -188,3 +188,12 @@ test_cases:
     - tool_args: "search_query=machine learning algorithms"
       expected: not_triggered
       description: "Normal search query parameter"
+    - tool_args: "{\"template\": \"Hello {{user.name}}, your order #{{order.id}} has shipped.\"}"
+      expected: not_triggered
+      description: "Legitimate template with mustache syntax for user notifications"
+    - tool_name: "list_files"
+      expected: not_triggered
+      description: "Standard file listing tool with non-privileged name"
+    - tool_args: "role=viewer&access_level=readonly"
+      expected: not_triggered
+      description: "Normal parameter setting with non-privileged role values"

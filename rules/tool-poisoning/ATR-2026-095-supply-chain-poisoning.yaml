@@ -80,3 +80,12 @@ test_cases:
   true_negatives:
     - tool_response: "Tool returned: {\"status\": \"success\", \"result\": \"File uploaded to S3 bucket\"}"
       expected: not_triggered
+    - tool_response: "Package installed successfully: express@4.18.2. No vulnerabilities found."
+      expected: not_triggered
+      description: "Normal package installation output"
+    - tool_response: "Build completed. Output written to dist/bundle.js (245 KB). No warnings."
+      expected: not_triggered
+      description: "Normal build tool output"
+    - tool_response: "Code review passed. Linting: 0 errors, 2 warnings. Test coverage: 87%."
+      expected: not_triggered
+      description: "Normal code quality tool output"

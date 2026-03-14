@@ -78,3 +78,9 @@ test_cases:
   true_negatives:
     - input: "We support internationalization with proper Unicode handling"
       expected: not_triggered
+    - input: "Please translate this text from English to Japanese: Good morning"
+      expected: not_triggered
+      description: "Legitimate translation request involving non-Latin scripts"
+    - input: "The domain name example.com is available for registration at $12/year"
+      expected: not_triggered
+      description: "Normal domain name reference without Punycode or spoofing"
