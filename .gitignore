@@ -10,3 +10,4 @@ dist/
 coverage/
 __pycache__/
 mcp-registry.json
+audit-results.json
