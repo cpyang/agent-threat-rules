@@ -9,6 +9,8 @@ Supports two backends:
 
 import json
 import subprocess
+import tempfile
+from pathlib import Path
 from typing import Any
 
 from langchain_core.runnables import RunnableConfig, RunnableLambda
@@ -26,28 +28,64 @@ class ThreatDetectedError(Exception):
         )
 
 
+# Confidence string → float mapping (ATR uses string confidence in rules)
+_CONFIDENCE_MAP = {"high": 0.9, "medium": 0.7, "low": 0.5}
+
+
 def _scan_with_pyatr(text: str) -> list[dict]:
     """Option A: scan using the pyatr Python package."""
     import pyatr
 
-    results = pyatr.scan(text)
+    matches = pyatr.scan(text)
     return [
-        {"rule_id": r.rule_id, "confidence": r.confidence, "description": r.description}
-        for r in results
+        {
+            "rule_id": m.rule_id,
+            "confidence": _CONFIDENCE_MAP.get(m.confidence, 0.5),
+            "description": m.description,
+            "severity": m.severity,
+        }
+        for m in matches
     ]
 
 
 def _scan_with_npx(text: str) -> list[dict]:
-    """Option B: scan using npx agent-threat-rules CLI."""
-    result = subprocess.run(
-        ["npx", "agent-threat-rules", "scan", "--input", text, "--format", "json"],
-        capture_output=True,
-        text=True,
-        timeout=15,
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"ATR scan failed: {result.stderr.strip()}")
-    return json.loads(result.stdout)
+    """Option B: scan using npx agent-threat-rules CLI (writes temp file)."""
+    # The CLI expects a JSON file, not inline text
+    event = {
+        "type": "llm_input",
+        "timestamp": "2026-01-01T00:00:00Z",
+        "content": text,
+        "fields": {"user_input": text},
+    }
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".json", delete=False
+    ) as tmp:
+        json.dump([event], tmp)
+        tmp_path = tmp.name
+
+    try:
+        result = subprocess.run(
+            ["npx", "agent-threat-rules", "scan", tmp_path, "--json"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+        if result.returncode != 0:
+            return []  # Fail open — don't block on scan errors
+        data = json.loads(result.stdout)
+        return [
+            {
+                "rule_id": m.get("ruleId", "unknown"),
+                "confidence": float(m.get("confidence", 0)),
+                "description": m.get("title", ""),
+                "severity": m.get("severity", "medium"),
+            }
+            for m in (data if isinstance(data, list) else [])
+        ]
+    except (subprocess.TimeoutExpired, json.JSONDecodeError, FileNotFoundError):
+        return []  # Fail open
+    finally:
+        Path(tmp_path).unlink(missing_ok=True)
 
 
 def _pick_scanner():
@@ -76,12 +114,15 @@ def atr_guard(threshold: float = 0.7, safe_message: str | None = None):
     def _guard(input_text: str, config: RunnableConfig | None = None) -> str:
         findings = scan(input_text)
         for f in findings:
-            if f.get("confidence", 0) >= threshold:
+            conf = f.get("confidence", 0)
+            if isinstance(conf, str):
+                conf = _CONFIDENCE_MAP.get(conf, 0.5)
+            if conf >= threshold:
                 if safe_message is not None:
                     return safe_message
                 raise ThreatDetectedError(
                     rule_id=f.get("rule_id", "unknown"),
-                    confidence=f["confidence"],
+                    confidence=conf,
                     description=f.get("description", ""),
                 )
         return input_text

@@ -13,7 +13,7 @@ This file tracks real-world usage to validate rule effectiveness, surface false 
 | **Deployer** | PanGuard AI |
 | **Framework** | PanGuard Guard v0.2.x (Node.js) |
 | **Integration method** | npm library (`@panguard-ai/atr` via `GuardATREngine`) |
-| **Rules loaded** | 52 stable rules across 9 categories |
+| **Rules loaded** | 52 rules (35 experimental + 17 draft) across 9 categories |
 | **Since** | v0.2.0 |
 | **Status** | Active |
 

@@ -208,6 +208,17 @@ class ATREngine:
         elif op == "starts_with":
             target = cond.value.lower()
             return normalized.lower().startswith(target) or raw.lower().startswith(target)
+        elif op in ("gt", "lt", "gte", "lte", "eq"):
+            try:
+                field_num = float(normalized)
+                threshold = float(cond.value)
+            except (ValueError, TypeError):
+                return False
+            if op == "gt": return field_num > threshold
+            if op == "lt": return field_num < threshold
+            if op == "gte": return field_num >= threshold
+            if op == "lte": return field_num <= threshold
+            if op == "eq": return field_num == threshold
         return False
 
     def _test_regex(
