@@ -663,14 +663,32 @@ See [CONTRIBUTION-GUIDE.md](CONTRIBUTION-GUIDE.md) for 12 detailed research area
 
 ---
 
-## Adopters
+## ATR is a Detection Layer, Not a Product
 
-Organizations and projects using or evaluating ATR. We'd love to know how you use it.
-使用或評估 ATR 的組織與專案。我們很想知道你怎麼用它。
+ATR detects threats. What you do with those detections is up to you.
 
-| Project | How they use ATR |
-|---------|-----------------|
-| *Your project here* | [Tell us](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) |
+ATR 偵測威脅。怎麼處理偵測結果由你決定。
+
+```
+ATR (this repo)                Your Product / Integration
+┌──────────────────┐           ┌──────────────────────────┐
+│ Rules (YAML)     │  match    │ Block / Allow / Alert     │
+│ Engine (TS + Py) │ ───────→  │ Notify (Slack/Email/TG)  │
+│ CLI / MCP        │  results  │ Dashboard / Learning      │
+│                  │           │ Compliance Reporting      │
+│ Detects threats  │           │ Protects systems          │
+└──────────────────┘           └──────────────────────────┘
+```
+
+See [INTEGRATION.md](INTEGRATION.md) for patterns on building products with ATR.
+
+### Products and Integrations Using ATR
+
+| Project | What they add on top of ATR | Status |
+|---------|----------------------------|--------|
+| [PanGuard Guard](https://github.com/panguard-ai/panguard-ai) | Sigma/YARA rules, Skill Auditor, Threat Cloud, Dashboard, notifications, baseline learning | Production |
+| [LangChain middleware](examples/langchain-middleware/) | Drop-in guardrail for LangChain agent chains | Example |
+| *Your project here* | [Tell us](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) | |
 
 ---
 
