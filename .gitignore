@@ -9,3 +9,4 @@ dist/
 *.key
 coverage/
 __pycache__/
+mcp-registry.json
