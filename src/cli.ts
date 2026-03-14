@@ -743,6 +743,8 @@ function cmdInit(options: Record<string, string>): void {
   }
 
   const hookEntry = {
+    // Empty matcher means "match all tools" in Claude Code hooks —
+    // this is intentional so every tool call is scanned against ATR rules.
     matcher: '',
     command: 'npx agent-threat-rules guard',
   };
@@ -761,11 +763,18 @@ function cmdInit(options: Record<string, string>): void {
   // Read existing settings or start fresh
   let settings: Record<string, unknown> = {};
   if (existsSync(settingsPath)) {
+    let raw: string;
     try {
-      const raw = readFileSync(settingsPath, 'utf-8');
+      raw = readFileSync(settingsPath, 'utf-8');
+    } catch (e) {
+      const code = (e as NodeJS.ErrnoException).code;
+      console.error(`${RED}Error: Cannot read ${settingsPath} (${code ?? 'permission denied'}). Check file permissions.${RESET}`);
+      process.exit(1);
+    }
+    try {
       settings = JSON.parse(raw) as Record<string, unknown>;
     } catch {
-      console.error(`${RED}Error: Failed to parse ${settingsPath}. Fix it manually or delete it and retry.${RESET}`);
+      console.error(`${RED}Error: Invalid JSON in ${settingsPath}. Fix the syntax manually or delete it and retry.${RESET}`);
       process.exit(1);
     }
   }
@@ -781,9 +790,13 @@ function cmdInit(options: Record<string, string>): void {
   }
   const preToolUse = hooks['PreToolUse'] as Array<Record<string, unknown>>;
 
-  // Check if hook is already configured
+  // Check if hook is already configured (validate each element is an object before accessing .command)
   const alreadyConfigured = preToolUse.some(
-    (entry) => typeof entry === 'object' && entry !== null && entry['command'] === hookEntry.command
+    (entry: unknown) =>
+      typeof entry === 'object' &&
+      entry !== null &&
+      !Array.isArray(entry) &&
+      (entry as Record<string, unknown>)['command'] === hookEntry.command
   );
 
   if (alreadyConfigured) {

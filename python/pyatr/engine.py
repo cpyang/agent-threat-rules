@@ -252,22 +252,33 @@ class ATREngine:
         if field_name == default_field or field_name == "content":
             return event.content or None
 
-        # Common aliases.
-        alias_map: dict[str, tuple[str, str | None]] = {
-            "user_input": ("llm_input", None),
-            "agent_output": ("llm_output", None),
-            "tool_response": ("tool_response", None),
-            "tool_name": ("tool_call", "tool_name"),
-            "tool_args": ("tool_call", "tool_args"),
-            "agent_message": ("multi_agent_message", None),
+        # Common aliases -- mirrors the TS engine (engine.ts:616-632).
+        # For most aliases: if event_type matches, return event.content; else check fields.
+        # For tool_name/tool_args: check fields first, fall back to event.content
+        # when event_type is tool_call (matching TS ?? operator behavior).
+        alias_map: dict[str, str] = {
+            "user_input": "llm_input",
+            "agent_output": "llm_output",
+            "tool_response": "tool_response",
+            "agent_message": "multi_agent_message",
         }
         if field_name in alias_map:
-            expected_type, fallback_field = alias_map[field_name]
+            expected_type = alias_map[field_name]
             if event.event_type == expected_type:
                 return event.content or None
-            if fallback_field and fallback_field in event.fields:
-                return event.fields[fallback_field]
             return event.fields.get(field_name)
+
+        # tool_name / tool_args: fields take priority, then fall back to
+        # event.content when event_type is tool_call (matches TS engine behavior:
+        #   event.fields?.['tool_name'] ?? (event.type === 'tool_call' ? event.content : undefined)
+        # )
+        if field_name in ("tool_name", "tool_args"):
+            val = event.fields.get(field_name)
+            if val is not None:
+                return val
+            if event.event_type == "tool_call":
+                return event.content or None
+            return None
 
         # Try metadata.
         return event.metadata.get(field_name)
