@@ -2,6 +2,17 @@
 
 All notable changes to ATR will be documented in this file.
 
+## [0.2.2] - 2026-03-14
+
+### Fixed
+- ReDoS vulnerability in SSRF rule (ATR-2026-013) — O(n^2) backtracking on long hostnames
+- SSRF rule false positive on filesystem paths like /home/user/
+- tool_args field extraction fallback for tool_call events
+
+### Added
+- True negatives for 21 rules with insufficient test coverage (7 had zero, 14 had only 1)
+- Vitest coverage reporting with v8 provider (60%+ threshold on core modules)
+
 ## [0.2.1] - 2026-03-10
 
 ### Changed
