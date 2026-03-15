@@ -436,10 +436,10 @@ async function main(): Promise<void> {
   // Load ATR engine
   const { ATREngine } = await import('../dist/engine.js');
   const engine = new ATREngine({ rulesDir: resolve('rules') });
-  await engine.loadRules();
+  const ruleCount = await engine.loadRules();
 
   console.log(`\n  MCP Skill Auditor v2 (First Principles)`);
-  console.log(`  ATR rules: ${rules.length} | Packages: ${packages.length}`);
+  console.log(`  ATR rules: ${ruleCount} | Packages: ${packages.length}`);
   console.log(`  Scanning: tool descriptions, schemas, supply chain, code patterns`);
   console.log(`  NOT scanning: README, docs, examples\n`);
 
