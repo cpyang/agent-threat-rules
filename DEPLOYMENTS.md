@@ -6,24 +6,24 @@ This file tracks real-world usage to validate rule effectiveness, surface false 
 
 ---
 
-## 1. PanGuard Guard (Self-Dogfood)
+## 1. Guard Integration (Self-Dogfood)
 
 | Field | Value |
 |-------|-------|
-| **Deployer** | PanGuard AI |
-| **Framework** | PanGuard Guard v0.2.x (Node.js) |
-| **Integration method** | npm library (`@panguard-ai/atr` via `GuardATREngine`) |
-| **Rules loaded** | 52 rules (35 experimental + 17 draft) across 9 categories |
+| **Deployer** | ATR Community |
+| **Framework** | Node.js Guard v0.2.x |
+| **Integration method** | npm library (`agent-threat-rules` via custom `GuardATREngine` wrapper) |
+| **Rules loaded** | 61 rules (44 experimental + 17 draft) across 9 categories |
 | **Since** | v0.2.0 |
 | **Status** | Active |
 
 ### Integration Architecture
 
-PanGuard Guard wraps the ATR engine in a `GuardATREngine` class that bridges ATR with the Guard's four-stage detection pipeline:
+The Guard wraps the ATR engine in a `GuardATREngine` class that bridges ATR with a four-stage detection pipeline:
 
 ```
 SecurityEvent
-  -> ATR Layer 1 (regex pattern matching, 52 rules)
+  -> ATR Layer 1 (regex pattern matching, 61 rules)
   -> DetectAgent (merge ATR matches with Sigma/YARA detections)
   -> AnalyzeAgent (LLM triage for complex cases; skipped for whitelisted skills)
   -> RespondAgent (action execution: block_tool, kill_agent, quarantine_session, revoke_skill, reduce_permissions)
@@ -34,8 +34,8 @@ SecurityEvent
 
 Rules are loaded from two sources at startup:
 
-1. **Bundled rules** -- shipped with the `@panguard-ai/atr` npm package (52 rules)
-2. **Cloud rules** -- fetched from Threat Cloud and added via `addCloudRule()` (community-contributed)
+1. **Bundled rules** -- shipped with the npm package (61 rules)
+2. **Cloud rules** -- fetched from a community threat feed and added via `addCloudRule()` (community-contributed)
 
 Hot-reload is enabled for local custom rules.
 
@@ -59,7 +59,7 @@ Five ATR response actions are implemented:
 
 ### Observations
 
-- ATR rules run synchronously on every security event; latency is negligible for 52 rules.
+- ATR rules run synchronously on every security event; latency is negligible for 61 rules.
 - Rule matches merge cleanly with Sigma/YARA detections in a unified `DetectionResult`.
 - Whitelisted skills with no ATR matches skip LLM analysis, reducing cost and latency.
 - Cloud rule sync runs on a 1-hour interval, adding new ATR rules without restart.
@@ -70,10 +70,10 @@ Five ATR response actions are implemented:
 
 | Field | Value |
 |-------|-------|
-| **Deployer** | PanGuard AI |
-| **Framework** | PanGuard Skill Auditor (Node.js, batch mode) |
+| **Deployer** | ATR Community |
+| **Framework** | ATR Skill Auditor (Node.js, batch mode) |
 | **Integration method** | Direct ATR engine evaluation |
-| **Rules loaded** | 52 stable rules |
+| **Rules loaded** | 61 rules |
 | **Date** | 2026-03-14 |
 | **Status** | Completed |
 
@@ -148,5 +148,5 @@ If you are using ATR rules in your project, we welcome deployment reports. They 
 
 | # | Project | Method | Rules | Status |
 |---|---------|--------|-------|--------|
-| 1 | PanGuard Guard | npm (`@panguard-ai/atr`) | 52 | Active |
-| 2 | Batch Skill Audit | Direct engine | 52 | Completed |
+| 1 | Guard Integration | npm (`agent-threat-rules`) | 61 | Active |
+| 2 | Batch Skill Audit | Direct engine | 61 | Completed |

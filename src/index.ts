@@ -4,7 +4,7 @@
  * ATR is the detection layer: it evaluates agent events against rules
  * and returns match results. It does NOT execute response actions,
  * send notifications, or manage dashboards. Those are the responsibility
- * of products built on ATR (e.g., PanGuard, LlamaFirewall, or your own).
+ * of products built on ATR (e.g., LlamaFirewall, or your own).
  *
  * ATR 是偵測層：評估 agent 事件、回傳匹配結果。
  * 不執行回應動作、不發通知、不管 dashboard。
@@ -43,7 +43,7 @@ export { CoverageAnalyzer } from './coverage-analyzer.js';
 export type { CoverageGap, CoverageReport } from './coverage-analyzer.js';
 
 // ── Integration Helpers (for products built on ATR) ─────────────
-// These help products like PanGuard, LlamaFirewall, etc. build
+// These help products like LlamaFirewall, etc. build
 // protection layers on top of ATR detection results.
 export { computeVerdict, SEVERITY_RANK, isAutoResponseEnabled } from './verdict.js';
 export { ActionExecutor } from './action-executor.js';

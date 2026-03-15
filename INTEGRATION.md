@@ -76,7 +76,7 @@ for match in matches:
 | ATR provides (detection) | You build (protection) |
 |---|---|
 | Rule format (YAML schema) | Response policy (what to do on match) |
-| Rule library (52+ rules) | Notification channels (Slack, email, etc.) |
+| Rule library (61+ rules) | Notification channels (Slack, email, etc.) |
 | Evaluation engine (TS + Python) | Dashboard / monitoring UI |
 | Match results with confidence scores | Baseline learning / false positive tuning |
 | Session tracking (basic) | User/role-based policy |
@@ -109,7 +109,7 @@ Agent Process                    ATR Sidecar
 ┌──────────────┐                ┌──────────────┐
 │ Receives     │   event JSON   │ ATR Engine   │
 │ user input   │ ──────────→    │ evaluates    │
-│              │                │ 52 rules     │
+│              │                │ 61 rules     │
 │ Calls tools  │   match JSON   │              │
 │              │ ←──────────    │ returns      │
 │ Your logic   │                │ matches      │
@@ -122,7 +122,7 @@ ATR runs as a separate process (MCP server or HTTP). Your agent queries it per-e
 ### Pattern 4: Embedded Library (full control)
 
 Import ATR as a library. Build your own evaluation pipeline around it.
-This is how PanGuard Guard integrates ATR.
+This pattern gives you full control over the evaluation pipeline.
 
 ```typescript
 import { ATREngine, SessionTracker } from 'agent-threat-rules';
@@ -155,7 +155,6 @@ class MySecurityPipeline {
 
 | Product | What they add on top of ATR |
 |---|---|
-| [PanGuard Guard](https://github.com/panguard-ai/panguard-ai) | Sigma/YARA integration, Skill Auditor, Threat Cloud, Dashboard, 4 notification channels, baseline learning, system service |
 | *Your product here* | [Tell us](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) |
 
 ---

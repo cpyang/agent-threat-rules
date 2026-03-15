@@ -8,7 +8,7 @@ For sharing on social media (X/Twitter, LinkedIn, dev forums). Factual tone, dat
 
 ATR (Agent Threat Rules) first deployment report is live.
 
-52 rules, 9 threat categories, running in production on PanGuard Guard.
+61 rules, 9 threat categories, running in production on Guard integration.
 
 Batch audit of 97 AI skills: 1 critical, 15 high, 66 medium, 15 low.
 
@@ -22,8 +22,8 @@ Data: github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/DEPLOYMENTS.md
 
 We published the first deployment report for Agent Threat Rules (ATR), the open detection rule format for AI agent threats.
 
-**Deployment 1: PanGuard Guard (continuous)**
-- 52 ATR rules loaded from npm package
+**Deployment 1: Guard integration (continuous)**
+- 61 ATR rules loaded from npm package
 - Four-stage pipeline: ATR pattern match -> Detect -> Analyze -> Respond
 - Rules run synchronously on every security event
 - Skill fingerprinting auto-whitelists stable tools; behavioral drift triggers automatic revocation
@@ -34,7 +34,7 @@ We published the first deployment report for Agent Threat Rules (ATR), the open 
 - 15 skills auto-whitelisted after passing all checks
 
 **What we learned:**
-- 52 regex-based rules add negligible latency to the event pipeline
+- 61 regex-based rules add negligible latency to the event pipeline
 - ATR matches merge cleanly with Sigma and YARA detections
 - Cloud rule sync (1-hour interval) adds new rules without restart
 - Whitelisted skills skip LLM analysis, reducing cost
@@ -48,17 +48,17 @@ If you are deploying ATR rules in your framework, we welcome deployment reports 
 
 ## Long Version (Blog Post / Dev Community)
 
-### Title: ATR First Deployment Report -- 52 Rules, 97 Skills Audited
+### Title: ATR First Deployment Report -- 61 Rules, 97 Skills Audited
 
 Agent Threat Rules (ATR) is an open rule format for detecting threats in AI agent systems -- prompt injection, tool poisoning, agent manipulation, privilege escalation, and more.
 
-Today we are publishing the first deployment report after running ATR in production via PanGuard Guard.
+Today we are publishing the first deployment report after running ATR in production via Guard integration.
 
 #### The Setup
 
-PanGuard Guard integrates ATR through a `GuardATREngine` wrapper class that:
+Guard integration integrates ATR through a `GuardATREngine` wrapper class that:
 
-1. Loads 52 stable rules from the `@panguard-ai/atr` npm package at startup
+1. Loads 61 rules from the `agent-threat-rules` npm package at startup
 2. Fetches additional community rules from Threat Cloud on a 1-hour sync interval
 3. Converts every `SecurityEvent` into an `AgentEvent` and evaluates it against all loaded rules
 4. Merges ATR matches into the same detection pipeline as Sigma and YARA results
@@ -73,7 +73,7 @@ ATR rules can trigger five response actions: block_tool, kill_agent, quarantine_
 
 #### Skill Fingerprinting
 
-One integration detail worth highlighting: PanGuard Guard tracks behavioral fingerprints for every tool/skill. When a skill's invocation pattern stabilizes, it is auto-promoted to a whitelist. Whitelisted skills skip expensive LLM analysis but still run through ATR pattern matching.
+One integration detail worth highlighting: Guard integration tracks behavioral fingerprints for every tool/skill. When a skill's invocation pattern stabilizes, it is auto-promoted to a whitelist. Whitelisted skills skip expensive LLM analysis but still run through ATR pattern matching.
 
 If a whitelisted skill's behavior drifts (new filesystem operations, new network targets, capability expansion), the fingerprint system generates a synthetic `ATR-DRIFT-DETECT` match and revokes the whitelist entry. This is the "trust but verify" model applied to AI tooling.
 
@@ -92,7 +92,7 @@ The single critical finding was a skill requesting unrestricted filesystem and n
 
 #### What We Learned
 
-1. **Performance is not a concern at this scale.** 52 regex rules evaluated synchronously add no measurable latency.
+1. **Performance is not a concern at this scale.** 61 regex rules evaluated synchronously add no measurable latency.
 2. **Rule merging works.** ATR, Sigma, and YARA detections flow through the same pipeline without special handling.
 3. **Cloud sync is seamless.** New rules from Threat Cloud are added via `addCloudRule()` without restart.
 4. **The whitelist saves cost.** Skipping LLM analysis for trusted skills reduces API calls significantly.

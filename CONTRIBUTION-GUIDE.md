@@ -421,7 +421,7 @@ Public-facing "AI assistant"
   (appears to have payment / file / email capabilities)
     |
     v
-ATR Engine (all 52 rules active)
+ATR Engine (all 61 rules active)
     |
     v
 Logger (captures ALL incoming messages + ATR matches)

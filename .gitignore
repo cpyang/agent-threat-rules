@@ -9,7 +9,12 @@ dist/
 *.key
 coverage/
 __pycache__/
-mcp-registry.json
-audit-results.json
-audit-v2.json
-dynamic-audit.json
+audit-*.json
+critical-*.json
+llm-batch-*.json
+dynamic-audit*.json
+reanalyze-*.json
+rt-batch-*.json
+mcp-registry*.json
+attack-payloads.json
+audit-v*.json

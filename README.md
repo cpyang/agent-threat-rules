@@ -13,7 +13,7 @@ AI Agent 威脅的開放偵測格式 -- 由社群驅動，邁向標準化
 [![GitHub Watchers](https://img.shields.io/github/watchers/Agent-Threat-Rule/agent-threat-rules?style=flat-square)](https://github.com/Agent-Threat-Rule/agent-threat-rules/watchers)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Status](https://img.shields.io/badge/status-RFC-yellow?style=flat-square)](#roadmap)
-[![Rules](https://img.shields.io/badge/rules-52_(35_experimental_+_17_draft)-blue?style=flat-square)](#coverage-map)
+[![Rules](https://img.shields.io/badge/rules-61_(44_experimental_+_17_draft)-blue?style=flat-square)](#coverage-map)
 [![MCP](https://img.shields.io/badge/MCP-6_tools-purple?style=flat-square)](#mcp-server)
 
 [English](#what-is-atr) | [Quick Start](docs/quick-start.md) | [Contributing](CONTRIBUTING.md) | [Where to Hunt](CONTRIBUTION-GUIDE.md) | [Schema](docs/schema-spec.md)
@@ -260,9 +260,9 @@ We currently have rules across 9 categories, mapped to OWASP and MITRE standards
 | Data Poisoning | LLM04 | ASI06 | AML.T0020 | 1 | -- |
 | Model Security | LLM03 | ASI04 | AML.T0044 | 2 | -- |
 
-**52 total rules** (35 experimental + 17 AI-predicted drafts). Categories like Data Poisoning have minimal coverage and known gaps exist (see [COVERAGE.md](COVERAGE.md#known-gaps)). Contributions in these areas are especially welcome.
+**61 total rules** (44 experimental + 17 AI-predicted drafts). Categories like Data Poisoning have minimal coverage and known gaps exist (see [COVERAGE.md](COVERAGE.md#known-gaps)). Contributions in these areas are especially welcome.
 
-**52 條規則**（35 條實驗性 + 17 條 AI 預測草案）。Data Poisoning 等類別覆蓋率仍低，且存在已知缺口（見 [COVERAGE.md](COVERAGE.md#known-gaps)）。歡迎在這些領域貢獻。
+**61 條規則**（44 條實驗性 + 17 條 AI 預測草案）。Data Poisoning 等類別覆蓋率仍低，且存在已知缺口（見 [COVERAGE.md](COVERAGE.md#known-gaps)）。歡迎在這些領域貢獻。
 
 ---
 
@@ -686,7 +686,6 @@ See [INTEGRATION.md](INTEGRATION.md) for patterns on building products with ATR.
 
 | Project | What they add on top of ATR | Status |
 |---------|----------------------------|--------|
-| [PanGuard Guard](https://github.com/panguard-ai/panguard-ai) | Sigma/YARA rules, Skill Auditor, Threat Cloud, Dashboard, notifications, baseline learning | Production |
 | [LangChain middleware](examples/langchain-middleware/) | Drop-in guardrail for LangChain agent chains | Example |
 | *Your project here* | [Tell us](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) | |
 
@@ -705,7 +704,7 @@ ATR's path follows the same logic:
  (we are here)             (community builds this)     (community earns this)
  ┌─────────────┐           ┌─────────────────┐         ┌──────────────────┐
  │ v0.1-v0.2   │    →      │ v0.3-v0.9       │    →    │ v1.0+            │
- │ 52 rules    │           │ 100+ rules      │         │ 200+ rules       │
+ │ 61 rules    │           │ 100+ rules      │         │ 200+ rules       │
  │ 1 engine    │           │ 3+ engines      │         │ SIEM integrations│
  │ 0 deployments│          │ 10+ deployments │         │ Vendor adoption  │
  │ RFC status  │           │ Community review│         │ Schema freeze    │
@@ -714,7 +713,7 @@ ATR's path follows the same logic:
 
 ### Version roadmap
 
-- [x] **v0.1** -- 35 experimental rules, TypeScript engine, OWASP Agentic Top 10 coverage
+- [x] **v0.1** -- 44 experimental rules, TypeScript engine, OWASP Agentic Top 10 coverage
 - [x] **v0.2** -- MCP server (6 tools), Layer 2-3 detection, skill fingerprinting, contribution pipeline
 - [ ] **v0.3** -- Python reference engine (pyATR), embedding similarity (Layer 2.5), multi-language rule expansion
 - [ ] **v0.5** -- First SIEM backend converter, deployment validation reports from 5+ production environments
@@ -726,7 +725,7 @@ ATR's path follows the same logic:
 |------------|-----|--------|
 | 2+ independent engine implementations | A format used by only one engine is a library, not a standard | 1/2 (TypeScript) |
 | 10+ real-world deployment reports | Detection rates from production, not simulation | 0/10 |
-| 100+ rules with stable status | Enough coverage to be useful as a primary detection layer | 35/100 experimental |
+| 100+ rules with stable status | Enough coverage to be useful as a primary detection layer | 44/100 experimental |
 | Schema review by 3+ security teams | Catch design mistakes before freezing the schema | 0/3 |
 | 0 breaking schema changes for 6 months | Stability signal for adopters | Not started |
 

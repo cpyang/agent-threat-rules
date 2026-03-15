@@ -3,7 +3,7 @@
  * Audit npm MCP packages with ATR Skill Auditor
  *
  * Downloads top MCP packages from npm, extracts them,
- * scans with panguard skill auditor, and outputs findings.
+ * scans with ATR skill auditor, and outputs findings.
  *
  * Usage:
  *   npx tsx scripts/audit-npm-skills.ts [--limit 20] [--output audit-results.json]
