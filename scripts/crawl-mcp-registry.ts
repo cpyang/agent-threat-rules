@@ -97,36 +97,61 @@ async function crawlGitHub(limit: number): Promise<MCPEntry[]> {
 // npm Registry
 // ---------------------------------------------------------------------------
 
-async function crawlNpm(): Promise<MCPEntry[]> {
+async function crawlNpm(npmLimit: number = 10000): Promise<MCPEntry[]> {
   const entries: MCPEntry[] = [];
-  const queries = ['mcp-server', 'mcp', '@modelcontextprotocol', 'model-context-protocol'];
+  const seen = new Set<string>();
+  const queries = [
+    'mcp-server', 'mcp', '@modelcontextprotocol', 'model-context-protocol',
+    'mcp-tool', 'mcp-plugin', 'claude-mcp', 'ai-mcp',
+  ];
+  const pageSize = 250;
 
   for (const q of queries) {
-    try {
-      const resp = await fetch(
-        `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(q)}&size=250`
-      );
-      if (!resp.ok) continue;
+    if (entries.length >= npmLimit) break;
+    let from = 0;
+    let hasMore = true;
 
-      const data = (await resp.json()) as { objects: Array<{ package: Record<string, unknown> }> };
-      for (const obj of data.objects ?? []) {
-        const pkg = obj.package;
-        const name = pkg['name'] as string;
-        if (entries.some((e) => e.npmPackage === name)) continue;
+    while (hasMore && entries.length < npmLimit) {
+      try {
+        const url = `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(q)}&size=${pageSize}&from=${from}`;
+        const resp = await fetch(url);
+        if (!resp.ok) { hasMore = false; continue; }
 
-        entries.push({
-          name,
-          source: 'npm',
-          url: `https://www.npmjs.com/package/${name}`,
-          description: ((pkg['description'] as string) ?? '').slice(0, 200),
-          npmPackage: name,
-          lastUpdated: (pkg['date'] as string) ?? undefined,
-        });
+        const data = (await resp.json()) as {
+          total: number;
+          objects: Array<{ package: Record<string, unknown> }>;
+        };
+        const objects = data.objects ?? [];
+        if (objects.length === 0) { hasMore = false; continue; }
+
+        for (const obj of objects) {
+          const pkg = obj.package;
+          const name = pkg['name'] as string;
+          if (seen.has(name)) continue;
+          seen.add(name);
+
+          entries.push({
+            name,
+            source: 'npm',
+            url: `https://www.npmjs.com/package/${name}`,
+            description: ((pkg['description'] as string) ?? '').slice(0, 200),
+            npmPackage: name,
+            lastUpdated: (pkg['date'] as string) ?? undefined,
+          });
+        }
+
+        from += pageSize;
+        // npm search relevance drops after ~2000 results per query
+        if (from >= 2000 || objects.length < pageSize) {
+          hasMore = false;
+        }
+
+        console.log(`    [npm] q="${q}" from=${from} entries=${entries.length}/${data.total}`);
+        await sleep(300);
+      } catch (err) {
+        console.error(`  npm crawl error: ${err instanceof Error ? err.message : String(err)}`);
+        hasMore = false;
       }
-
-      await sleep(500);
-    } catch (err) {
-      console.error(`  npm crawl error: ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 
@@ -250,8 +275,8 @@ async function main(): Promise<void> {
   const github = await crawlGitHub(limit);
   console.log(`    Found ${github.length} repos`);
 
-  console.log('  [2/3] Crawling npm...');
-  const npm = await crawlNpm();
+  console.log('  [2/3] Crawling npm (with pagination)...');
+  const npm = await crawlNpm(10000);
   console.log(`    Found ${npm.length} packages`);
 
   console.log('  [3/3] Crawling awesome lists...');
