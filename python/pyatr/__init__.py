@@ -4,9 +4,24 @@ from pathlib import Path
 
 from pyatr.types import AgentEvent, ATRMatch, ATRRule
 from pyatr.engine import ATREngine
+from pyatr.validator import validate, ValidationResult, ValidationError
+from pyatr.test_runner import run_tests, TestRunResult, RuleTestResult, TestCaseResult
 
-__version__ = "0.1.0"
-__all__ = ["ATREngine", "AgentEvent", "ATRMatch", "ATRRule", "scan"]
+__version__ = "0.2.0"
+__all__ = [
+    "ATREngine",
+    "AgentEvent",
+    "ATRMatch",
+    "ATRRule",
+    "ValidationError",
+    "ValidationResult",
+    "RuleTestResult",
+    "TestCaseResult",
+    "TestRunResult",
+    "scan",
+    "validate",
+    "run_tests",
+]
 
 # Default rules directory: bundled rules from the npm package or sibling dir
 _DEFAULT_RULES_DIR = Path(__file__).resolve().parent.parent.parent / "rules"

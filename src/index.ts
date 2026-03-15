@@ -42,6 +42,12 @@ export type { ScaffoldInput, ScaffoldResult, ScaffoldOptions } from './rule-scaf
 export { CoverageAnalyzer } from './coverage-analyzer.js';
 export type { CoverageGap, CoverageReport } from './coverage-analyzer.js';
 
+// ── SIEM Converters (Splunk SPL, Elasticsearch Query DSL) ────────
+export { convertRule, convertAllRules } from './converters/index.js';
+export type { ConvertedQuery, SIEMFormat } from './converters/index.js';
+export { ruleToSPL } from './converters/splunk.js';
+export { ruleToElastic } from './converters/elastic.js';
+
 // ── Integration Helpers (for products built on ATR) ─────────────
 // These help products like LlamaFirewall, etc. build
 // protection layers on top of ATR detection results.

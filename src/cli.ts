@@ -45,6 +45,8 @@ ${BOLD}Usage:${RESET}
   atr validate <rule.yaml|dir>             Validate rule file(s)
   atr test <rule.yaml|dir>                 Run embedded test cases
   atr stats [--rules <dir>]                Show rule collection statistics
+  atr convert <splunk|elastic> [--rules <dir>] [--output <file>]
+                                           Convert rules to SIEM query format
   atr guard [--rules <dir>] [--dry-run]    Start as Claude Code hook (stdio)
   atr init [--global]                      Setup ATR guard hook for Claude Code
   atr mcp                                  Start MCP server (stdio transport)
@@ -53,6 +55,7 @@ ${BOLD}Usage:${RESET}
 ${BOLD}Options:${RESET}
   --rules <dir>    Custom rules directory (default: bundled rules)
   --json           Output results as JSON
+  --output <file>  Write output to file instead of stdout (convert)
   --severity <s>   Minimum severity to report (critical|high|medium|low|informational)
   --dry-run        Log actions without executing (guard mode)
   --fail-open      Default to allow on errors (guard mode, default: true)
@@ -81,6 +84,12 @@ ${BOLD}Examples:${RESET}
 
   ${DIM}# Start MCP server for AI agent integration${RESET}
   atr mcp
+
+  ${DIM}# Convert all rules to Splunk SPL${RESET}
+  atr convert splunk --output splunk-queries.txt
+
+  ${DIM}# Convert all rules to Elasticsearch Query DSL${RESET}
+  atr convert elastic --json --output elastic-queries.json
 
   ${DIM}# Interactively scaffold a new rule${RESET}
   atr scaffold
@@ -822,6 +831,50 @@ function cmdInit(options: Record<string, string>): void {
   console.log(`flagged with severity and recommendation.${RESET}\n`);
 }
 
+// --- CONVERT command ---
+
+async function cmdConvert(target: string, options: Record<string, string>): Promise<void> {
+  const validFormats = ['splunk', 'elastic'];
+  if (!target || !validFormats.includes(target)) {
+    console.error(`${RED}Error: Specify format: atr convert <splunk|elastic>${RESET}`);
+    process.exit(1);
+  }
+
+  const format = target as 'splunk' | 'elastic';
+  const rulesDir = options['rules'] ? resolve(options['rules']) : RULES_DIR;
+  const outputFile = options['output'];
+  const jsonOutput = options['json'] === 'true';
+
+  const { convertAllRules } = await import('./converters/index.js');
+
+  const results = convertAllRules(rulesDir, format);
+
+  if (results.length === 0) {
+    console.error(`${RED}Error: No rules found in ${rulesDir}${RESET}`);
+    process.exit(1);
+  }
+
+  let output: string;
+
+  if (jsonOutput) {
+    output = JSON.stringify(results, null, 2);
+  } else if (format === 'elastic') {
+    // For Elastic, JSON output is the natural format
+    output = JSON.stringify(results.map(r => JSON.parse(r.query)), null, 2);
+  } else {
+    // For Splunk, emit each query separated by blank lines
+    output = results.map(r => r.query).join('\n\n' + '='.repeat(80) + '\n\n');
+  }
+
+  if (outputFile) {
+    writeFileSync(resolve(outputFile), output, 'utf-8');
+    console.log(`${GREEN}Converted ${results.length} rules to ${format} format.${RESET}`);
+    console.log(`  Output: ${resolve(outputFile)}`);
+  } else {
+    console.log(output);
+  }
+}
+
 // --- Main ---
 
 async function main(): Promise<void> {
@@ -844,6 +897,9 @@ async function main(): Promise<void> {
       break;
     case 'stats':
       cmdStats(options);
+      break;
+    case 'convert':
+      await cmdConvert(target, options);
       break;
     case 'guard':
       await cmdGuard(options);
