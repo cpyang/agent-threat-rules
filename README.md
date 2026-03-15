@@ -10,7 +10,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Rules](https://img.shields.io/badge/rules-61-blue?style=flat-square)](#what-atr-detects)
-[![Tests](https://img.shields.io/badge/tests-212_passing-green?style=flat-square)](#ecosystem)
+[![Tests](https://img.shields.io/badge/tests-556_passing-green?style=flat-square)](#ecosystem)
 [![Status](https://img.shields.io/badge/status-RFC-yellow?style=flat-square)](#roadmap)
 [![GitHub Stars](https://img.shields.io/github/stars/Agent-Threat-Rule/agent-threat-rules?style=flat-square&color=DAA520)](https://github.com/Agent-Threat-Rule/agent-threat-rules/stargazers)
 
@@ -59,7 +59,7 @@ atr convert elastic               # export rules to Elasticsearch
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| [TypeScript engine](src/engine.ts) | Reference engine with 3-layer detection | 164 tests passing |
+| [TypeScript engine](src/engine.ts) | Reference engine with 3-layer detection | 164 engine tests + 556 rule tests |
 | [Python engine (pyATR)](python/) | `pip install pyatr` -- validate, test, scan | 48 tests passing |
 | [Splunk converter](src/converters/splunk.ts) | `atr convert splunk` -- ATR rules to SPL queries | Shipped |
 | [Elastic converter](src/converters/elastic.ts) | `atr convert elastic` -- ATR rules to Query DSL | Shipped |

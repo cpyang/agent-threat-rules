@@ -80,6 +80,7 @@ Risk scores are computed from weighted signals. The logic is fully open source i
 | MEDIUM | 125 | 9.7% | Moderate signals (e.g., filesystem write + network) |
 | HIGH | 60 | 4.6% | Multiple concerning signals or ATR rule matches |
 | CRITICAL | 115 | 8.9% | High-risk tool permissions, ATR matches, or dangerous combinations |
+| ERROR | 6 | 0.5% | Package could not be analyzed (install failure, invalid format) |
 
 ---
 
