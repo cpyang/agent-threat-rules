@@ -47,6 +47,27 @@ As of March 2026, the npm MCP ecosystem has 2,769+ packages. Most developers ins
 - Static analysis has false positives. A "shell execution" finding means the package _contains_ shell execution code, not that it's malicious.
 - Risk scores are heuristic. CRITICAL does not mean "malware" -- it means the package has multiple high-risk signals that warrant manual review.
 - We scanned npm only. PyPI, GitHub-only, and private MCP servers are not included.
+- Tool extraction uses regex on built JS, which may miss dynamically generated tool registrations.
+- Many "high-risk" capabilities are intentional and legitimate -- a database MCP server is _supposed_ to run SQL queries. The risk is not the capability itself but the _absence of guardrails_ when AI agents invoke these tools autonomously.
+
+## Scoring Methodology
+
+Risk scores are computed from weighted signals. The logic is fully open source in [`scripts/audit-npm-skills-v2.ts:computeVerdict()`](../scripts/audit-npm-skills-v2.ts).
+
+| Signal | Score | Rationale |
+|--------|-------|-----------|
+| Typosquat risk (name similar to popular package) | +30 | Supply chain attack vector |
+| Postinstall script | +15 | Auto-executes before user reviews code |
+| ATR rule match (critical severity) | +25 each | Detects known threat patterns in tool descriptions |
+| ATR rule match (high severity) | +15 each | Detects concerning patterns in tool descriptions |
+| Tool description contains instruction override | +25 | Tool tries to manipulate LLM behavior |
+| Credential access + network requests | +20 | Can exfiltrate secrets |
+| Shell execution + network requests | +10 | Download-and-execute capability |
+| 5+ outbound URLs in code | +5 | Extensive external communication |
+
+**Score thresholds:** 70+ = CRITICAL, 40-69 = HIGH, 15-39 = MEDIUM, 1-14 = LOW, 0 = CLEAN. Maximum score capped at 100.
+
+**Why many legitimate packages score 100:** A database MCP server that exposes DELETE, DROP, and INSERT tools will trigger ATR-2026-099 (high-risk invocation without confirmation) multiple times, each adding +15 or +25. This is _by design_ -- the score reflects the attack surface available to a prompt injection attacker, not the intent of the package author. A package can be well-intentioned AND high-risk.
 
 ---
 
@@ -108,7 +129,7 @@ As of March 2026, the npm MCP ecosystem has 2,769+ packages. Most developers ins
 
 ### Well-known packages with CRITICAL ratings
 
-These are not accusations of malicious intent. They are flagged because they expose high-risk capabilities through MCP tools without guardrails:
+> **Important context:** A CRITICAL rating is NOT a security vulnerability disclosure. It is NOT an accusation of malicious intent. These packages are flagged because they expose powerful capabilities (database writes, file deletion, cloud admin operations) through MCP tools that AI agents can invoke autonomously. The risk is that a prompt injection or tool poisoning attack could abuse these capabilities. Many of these packages are well-engineered and widely used -- their high scores reflect the breadth of their tool surface, not the quality of their code. We welcome corrections from package authors and will update this report accordingly.
 
 | Package | Score | Tools | ATR Matches | Key concern |
 |---------|-------|-------|-------------|-------------|
