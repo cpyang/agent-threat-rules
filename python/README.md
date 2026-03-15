@@ -1,6 +1,6 @@
 # pyATR - Python Reference Engine for Agent Threat Rules
 
-Layer 1 (regex/pattern) reference implementation of the [ATR](https://github.com/panguard/agent-threat-rules) detection engine. Provides rule loading, event evaluation, rule validation, embedded test execution, and statistics.
+Layer 1 (regex/pattern) reference implementation of the [ATR](https://github.com/Agent-Threat-Rule/agent-threat-rules) detection engine. Provides rule loading, event evaluation, rule validation, embedded test execution, and statistics.
 
 ## Installation
 
@@ -97,5 +97,5 @@ pytest tests/ -v
 
 ## Links
 
-- [Agent Threat Rules (ATR) repository](https://github.com/panguard/agent-threat-rules)
-- [TypeScript engine](https://github.com/panguard/agent-threat-rules/tree/main/src)
+- [Agent Threat Rules (ATR) repository](https://github.com/Agent-Threat-Rule/agent-threat-rules)
+- [TypeScript engine](https://github.com/Agent-Threat-Rule/agent-threat-rules/tree/main/src)
