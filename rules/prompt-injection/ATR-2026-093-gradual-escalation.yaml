@@ -34,7 +34,7 @@ detection:
   conditions:
     - field: user_input
       operator: regex
-      value: "(?i)\\b(add|enable|grant|unlock|introduce)\\s+.{0,10}(just|only|a small|minor|slight|one more)\\s+.{0,20}(permiss|capabilit|access|function|privileg|abilit)"
+      value: "(?i)\\b(add|enable|grant|unlock|introduce)\\s+.{0,10}(?<=\\s)(just|only|a small|minor|slight|one more)\\s+.{0,20}(permiss|capabilit|access|function|privileg|abilit)"
       description: "Incremental small permission or capability addition"
     - field: user_input
       operator: regex

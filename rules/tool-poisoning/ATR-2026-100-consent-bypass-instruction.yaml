@@ -41,11 +41,11 @@ detection:
   conditions:
     - field: tool_description
       operator: regex
-      value: "(?:always|directly|automatically)\\s+(?:pass|send|forward)\\s+(?:results?|data|output)\\s+(?:directly\\s+)?to\\s+\\w+\\s+(?:without|skip(?:ping)?)\\s+(?:asking|requiring|requesting)\\s+(?:user|human)\\s+(?:confirmation|approval|consent)"
+      value: "(?:always|directly|automatically)\\s+(?:pass|send|forward)\\s+(?:results?|data|output|them|it|everything)\\s+(?:directly\\s+)?to\\s+(?:the\\s+)?\\w+\\s+(?:without|skip(?:ping)?)\\s+(?:asking|requiring|requesting)\\s+(?:for\\s+)?(?:user|human)\\s+(?:confirmation|approval|consent)"
       description: "Instructions to automatically forward data without user consent"
     - field: tool_description
       operator: regex
-      value: "should\\s+be\\s+(?:passed|sent|forwarded)\\s+directly\\s+(?:to|without)\\s+(?:the\\s+\\w+\\s+tool\\s+)?without\\s+(?:user|human)\\s+(?:confirmation|approval|consent)"
+      value: "should\\s+be\\s+(?:passed|sent|forwarded)\\s+directly\\s+(?:to\\s+(?:the\\s+\\w+\\s+tool\\s+)?)?without\\s+(?:user|human)\\s+(?:confirmation|approval|consent)"
       description: "Directive that data should bypass user confirmation when passed between tools"
   condition: any
   false_positives:

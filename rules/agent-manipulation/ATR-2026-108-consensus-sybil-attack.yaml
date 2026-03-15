@@ -49,7 +49,7 @@ detection:
       description: "Instructions to create multiple fake identities for consensus manipulation"
     - field: content
       operator: regex
-      value: "(?i)(?:vote|approve|reject|endorse)\\s+(?:as|using|from|with)\\s+(?:multiple|different|various|all)\\s+(?:agents?|identit(?:y|ies)|accounts?|personas?)"
+      value: "(?i)(?:vote|approve|reject|endorse)\\s+(?:as|using|from|with)\\s+(?:multiple|different|various|all)\\s+(?:\\w+\\s+)?(?:agents?|identit(?:y|ies)|accounts?|personas?)"
       description: "Instructions to vote using multiple identities"
     - field: content
       operator: regex
@@ -57,7 +57,7 @@ detection:
       description: "Instructions to flood voting or consensus systems"
     - field: content
       operator: regex
-      value: "(?i)(?:coordinate|synchronize|orchestrate)\\s+(?:the\\s+)?(?:votes?|proposals?|approvals?)\\s+(?:across|between|among)\\s+(?:agents?|bots?|accounts?|identit(?:y|ies))"
+      value: "(?i)(?:coordinate|synchronize|orchestrate)\\s+(?:the\\s+)?(?:votes?|proposals?|approvals?)\\s+(?:across|between|among)\\s+(?:(?:all|the|compromised|multiple)\\s+)*(?:agents?|bots?|accounts?|identit(?:y|ies))"
       description: "Coordinated voting across multiple agent identities"
     - field: content
       operator: regex

@@ -437,6 +437,8 @@ function buildEventFromTestCase(
   let toolArgs = str(tc['tool_args']);
   let toolResponse = str(tc['tool_response']);
   const agentOutput = str(tc['agent_output']);
+  const toolDescription = str(tc['tool_description']);
+  const rawContent = str(tc['content']);
 
   // Handle tool_call: { name, args } format (used by tool_call rules like ATR-2026-098)
   const rawToolCall = tc['tool_call'];
@@ -487,7 +489,7 @@ function buildEventFromTestCase(
   // (no tool_name, tool_args, or tool_response), use llm_input event type
   // since the content is natural language, not a tool invocation.
   // This prevents the engine's tool_name fallback from treating text as a tool name.
-  if (type === 'tool_call' && !toolName && !toolArgs && !toolResponse) {
+  if (type === 'tool_call' && !toolName && !toolArgs && !toolResponse && !toolDescription) {
     type = 'llm_input';
   }
 
@@ -499,7 +501,7 @@ function buildEventFromTestCase(
     // If event type is tool_response, engine resolves field:tool_response from event.content
     content = toolResponse;
   } else {
-    content = input || toolResponse || agentOutput || '';
+    content = input || toolDescription || rawContent || toolResponse || agentOutput || '';
   }
 
   const fields: Record<string, string> = {};
@@ -508,6 +510,7 @@ function buildEventFromTestCase(
   if (input) fields['user_input'] = input;
   if (toolResponse) fields['tool_response'] = toolResponse;
   if (agentOutput) fields['agent_output'] = agentOutput;
+  if (toolDescription) fields['tool_description'] = toolDescription;
   // Always set tool_name (even empty) to prevent engine fallback
   // from using event.content as tool_name for tool_call events
   fields['tool_name'] = toolName;

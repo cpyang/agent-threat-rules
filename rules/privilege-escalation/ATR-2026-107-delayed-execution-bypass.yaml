@@ -41,7 +41,7 @@ detection:
   conditions:
     - field: tool_description
       operator: regex
-      value: "(?:scheduled|delayed|background)\\s+(?:tasks|operations|processes)\\s+bypass\\s+(?:normal|standard|regular)\\s+(?:permission|security|access)\\s+checks"
+      value: "(?:scheduled|delayed|background)\\s+(?:tasks|operations|processes)\\s+(?:that\\s+)?bypass\\s+(?:normal|standard|regular)\\s+(?:permission|security|access)\\s+checks"
       description: "Tools explicitly mentioning bypassing permission checks through delayed/scheduled execution"
   condition: any
   false_positives:

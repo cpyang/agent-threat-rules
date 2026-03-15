@@ -37,8 +37,8 @@ detection:
       description: "Callback reference to planted instructions from earlier turns"
     - field: user_input
       operator: regex
-      value: "(?i)\\b(now|okay|good|great|perfect)\\s*[,.]?\\s*(execute|perform|do|carry out|run|complete)\\s+.{0,20}(step|phase|part)\\s*(two|2|three|3|ii|iii|b|c)"
-      description: "Multi-phase attack activation trigger"
+      value: "(?i)\\b(now|okay|good|great|perfect)\\s*[,.]?\\s*(execute|perform|do|carry out|run|complete)\\s+.{0,20}(step|phase|part)\\s*(two|2|three|3|ii|iii|b|c).{0,60}(override|bypass|ignore|disable|remove|skip|disregard).{0,30}(safety|filter|guard|rules?|restrict|securit|polic)"
+      description: "Multi-phase attack activation trigger with malicious context"
     - field: user_input
       operator: regex
       value: "(?i)\\b(pretend|imagine|roleplay|hypothetical|scenario|simulation)\\s+.{0,50}(no\\s+(rules|restrictions|filters|limits|guardrails)|bypass|unrestricted)"
