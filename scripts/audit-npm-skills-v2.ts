@@ -397,6 +397,12 @@ async function main(): Promise<void> {
   const limitIdx = process.argv.indexOf('--limit');
   const limit = limitIdx >= 0 ? parseInt(process.argv[limitIdx + 1]!, 10) : 50;
 
+  const offsetIdx = process.argv.indexOf('--offset');
+  const offset = offsetIdx >= 0 ? parseInt(process.argv[offsetIdx + 1]!, 10) : 0;
+
+  const skipScannedIdx = process.argv.indexOf('--skip-scanned');
+  const skipScannedPath = skipScannedIdx >= 0 ? resolve(process.argv[skipScannedIdx + 1]!) : null;
+
   const outputIdx = process.argv.indexOf('--output');
   const outputPath = outputIdx >= 0
     ? resolve(process.argv[outputIdx + 1]!)
@@ -408,10 +414,24 @@ async function main(): Promise<void> {
     process.exit(1);
   }
   const registry = JSON.parse(readFileSync('mcp-registry.json', 'utf-8'));
-  const packages = registry.entries
+
+  // Build skip set from previously scanned results
+  const skipSet = new Set<string>();
+  if (skipScannedPath && existsSync(skipScannedPath)) {
+    const prev = JSON.parse(readFileSync(skipScannedPath, 'utf-8'));
+    for (const r of prev.results ?? []) skipSet.add(r.package);
+    console.log(`  Skipping ${skipSet.size} previously scanned packages`);
+  }
+
+  const allNpm = registry.entries
     .filter((e: Record<string, unknown>) => e.npmPackage)
-    .map((e: Record<string, unknown>) => ({ name: e.npmPackage as string, url: e.url as string }))
-    .slice(0, limit);
+    .map((e: Record<string, unknown>) => ({ name: e.npmPackage as string, url: e.url as string }));
+
+  const filtered = skipSet.size > 0
+    ? allNpm.filter((p: { name: string }) => !skipSet.has(p.name))
+    : allNpm;
+
+  const packages = filtered.slice(offset, offset + limit);
 
   // Load ATR engine
   const { ATREngine } = await import('../dist/engine.js');
@@ -419,7 +439,7 @@ async function main(): Promise<void> {
   await engine.loadRules();
 
   console.log(`\n  MCP Skill Auditor v2 (First Principles)`);
-  console.log(`  ATR rules: 52 | Packages: ${packages.length}`);
+  console.log(`  ATR rules: ${rules.length} | Packages: ${packages.length}`);
   console.log(`  Scanning: tool descriptions, schemas, supply chain, code patterns`);
   console.log(`  NOT scanning: README, docs, examples\n`);
 
