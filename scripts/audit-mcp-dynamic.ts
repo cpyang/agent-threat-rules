@@ -3,8 +3,19 @@
  * MCP Dynamic Auditor — Level 1 (tools/list only, no tool execution)
  *
  * Starts each MCP server as a child process, sends tools/list via
- * MCP SDK client, extracts real tool descriptions and schemas,
- * then scans with ATR engine.
+ * MCP SDK client, extracts tool descriptions and schemas directly
+ * from the running server, then scans with ATR engine.
+ *
+ * This eliminates false positives from README/doc parsing by scanning
+ * what the LLM actually sees (tool descriptions), not documentation.
+ *
+ * Limitations (honest):
+ * - Accuracy depends on server honesty. A deliberately deceptive server
+ *   can report clean descriptions but behave maliciously at runtime.
+ * - Dynamic tool registration (tools added after Nth call) is invisible.
+ * - Anti-analysis (detect CI environment, behave differently) can evade.
+ * - Semantic paraphrase in descriptions bypasses ATR regex patterns.
+ * - Level 2 (sandbox + runtime monitoring) needed for full coverage.
  *
  * Safe: only reads tool metadata. Does NOT call any tools.
  *

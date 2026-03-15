@@ -1,6 +1,6 @@
 #!/usr/bin/env npx tsx
 /**
- * MCP Skill Auditor v2 — First Principles Approach
+ * MCP Skill Auditor v2 — First Principles Approach (Static)
  *
  * Instead of scanning README/docs (high false positive),
  * we extract and scan what actually matters:
@@ -9,6 +9,12 @@
  *   2. MCP tool schemas (where excessive permissions live)
  *   3. Package name analysis (where supply chain attacks live)
  *   4. Outbound URL patterns in built JS (where exfiltration lives)
+ *
+ * Limitations:
+ * - Extracts tool definitions via regex from built JS, which may miss
+ *   dynamically generated or minified tool registrations.
+ * - Cannot detect runtime-only behavior (use audit-mcp-dynamic.ts for that).
+ * - Use as fallback when dynamic auditor cannot connect to a server.
  *
  * Usage:
  *   npx tsx scripts/audit-npm-skills-v2.ts [--limit 50] [--output audit-v2.json]

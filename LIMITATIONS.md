@@ -129,6 +129,33 @@ Regex-based detection is a first line of defense, not a complete solution. ATR v
 
 Deploy ATR as one layer in a defense-in-depth strategy. Do not rely on it alone.
 
+## Ecosystem Scanning Limitations
+
+ATR includes tools for scanning MCP skills (`scripts/audit-mcp-dynamic.ts`, `scripts/audit-npm-skills-v2.ts`). These have their own limitations:
+
+**Dynamic auditor (tools/list):** Starts MCP servers and requests tool metadata. Eliminates false positives from documentation parsing. However:
+- A deliberately deceptive server can report clean descriptions but behave maliciously at runtime
+- Tools registered dynamically (after Nth call) are invisible to a one-time tools/list query
+- Anti-analysis techniques (detecting CI/scanner environment) can cause a server to hide capabilities
+- Semantic paraphrasing in descriptions bypasses ATR regex patterns
+
+**Static auditor (JS extraction):** Extracts tool definitions from built JavaScript via regex. Fallback when dynamic connection fails. However:
+- Minified or obfuscated code may break extraction patterns
+- Dynamically generated tool definitions are invisible
+- Template literals and computed property names evade regex
+
+**Neither auditor can detect:**
+- Runtime behavior divergence (description says X, code does Y)
+- Delayed activation (behaves normally for N calls, then turns malicious)
+- Network exfiltration during tool execution
+- Side-channel attacks
+
+**Future: Level 2 sandbox analysis** (not yet implemented) would address these by executing tools in an isolated Docker container with network monitoring. Even sandbox analysis can be evaded by sufficiently sophisticated adversaries.
+
+No scanning method provides 100% coverage. ATR scanning is one layer of defense, not a guarantee.
+
+---
+
 ## Reporting Detection Gaps
 
 If you discover an attack that bypasses ATR rules, report it via the process described in [SECURITY.md](./SECURITY.md). False negatives against known attack patterns are treated as security-relevant issues. We will acknowledge within 48 hours and provide a status update within 7 business days.
