@@ -51,8 +51,38 @@ detection:
     # -- Layer 1: Instruction override verbs + target nouns --
     - field: user_input
       operator: regex
-      value: "(?i)\\b(ignore|disregard|forget|override|bypass|skip|abandon|drop|cancel|suppress|nullify|void|revoke|dismiss|discard|reject)\\s+(all\\s+)?(previous|prior|above|earlier|preceding|original|existing|current|initial|default|given|assigned|preset|established)\\s+(instructions?|prompts?|rules?|guidelines?|directives?|constraints?|context|programming|training|protocols?|policies|configuration|parameters|boundaries|guardrails?|safeguards?|restrictions?)"
+      value: "(?i)\\b(ignore|disregard|forget|override|bypass|skip|abandon|drop|cancel|suppress|nullify|void|revoke|dismiss|discard|reject)\\s+(all\\s+)?(previous|prior|above|earlier|preceding|original|existing|current|initial|default|given|assigned|preset|established)\\s+(instructions?|prompts?|rules?|guidelines?|directives?|constraints?|context|programming|training|protocols?|policies|configuration|parameters|boundaries|guardrails?|safeguards?|restrictions?|tasks?|assignments?|information)"
       description: "Instruction override with broad verb and noun synonym coverage"
+
+    # -- Layer 1b: Forget-everything / forget-all shorthand --
+    - field: user_input
+      operator: regex
+      value: "(?i)\\b(forget|ignore|disregard)\\s+(everything|all\\s+(of\\s+)?that|all\\s+about|about\\s+all|that|what\\s+(I|we|you)\\s+(said|told|asked|mentioned))\\s*(before|earlier|previously|above|\\.|,|!|$)"
+      description: "Shorthand forget-everything patterns common in adversarial prompts"
+
+    # -- Layer 1c: Task switching / new task injection --
+    - field: user_input
+      operator: regex
+      value: "(?i)(now\\s+(focus|concentrate|work)\\s+on\\s+(your\\s+)?new\\s+task|new\\s+tasks?\\s+follow|now\\s+I\\s+(have|need|want)\\s+(a\\s+)?(new|different|another)\\s+(task|challenge|assignment)|start\\s+(over|fresh|anew)\\s+with\\s+(a\\s+)?new)"
+      description: "Task switching patterns that redirect agent to attacker-controlled tasks"
+
+    # -- Layer 1d: Broad forget/ignore + everything/that/this --
+    - field: user_input
+      operator: regex
+      value: "(?i)\\b(forget|ignore|disregard|discard)\\s+(about\\s+)?(everything|all|that|this|what\\s+was|what\\s+I)\\s+(previously|before|earlier|said|told|above|prior)?"
+      description: "Broad forget-everything variants including typo-tolerant matching"
+
+    # -- Layer 1e: System prompt extraction --
+    - field: user_input
+      operator: regex
+      value: "(?i)(reveal|show|display|output|print|repeat|provide|give|share|tell)\\s+(me\\s+)?(your|the|all)\\s+(secret|hidden|internal|system|original|previous|initial)?\\s*(instructions?|prompts?|passwords?|secrets?|embeddings?|configuration)"
+      description: "System prompt and secret extraction requests"
+
+    # -- Layer 1f: Contextual task switching with praise prefix --
+    - field: user_input
+      operator: regex
+      value: "(?i)(well\\s+done|good\\s+job|excellent|that'?s?\\s+(enough|done|great|good|perfect)|very\\s+good|simply\\s+great|outstanding|brilliant|that\\s+is\\s+(done|enough|sufficient))[.!,;]?\\s*(now|but|however|next|okay|ok|so)\\s"
+      description: "Praise-then-redirect patterns used to context-switch after flattery"
 
     # -- Layer 2: Persona switching / identity hijacking --
     - field: user_input
@@ -149,8 +179,30 @@ detection:
       description: "Spanish: Instruction override patterns"
     - field: user_input
       operator: regex
-      value: "(?i)(ignoriere|vergiss|missachte|umgehe|verwirf)\\s+(alle\\s+)?(vorherigen?|bisherigen?|aktuellen?|bestehenden?)\\s+(Anweisungen|Regeln|Richtlinien|Anordnungen|Vorgaben|Instruktionen|Beschraenkungen)"
-      description: "German: Instruction override patterns"
+      value: "(?i)(ignoriere|vergiss|missachte|umgehe|verwirf)\\s+(alle[sn]?|die\\s+)?(vorherigen?|bisherigen?|aktuellen?|bestehenden?)?\\s*(Anweisungen|Regeln|Richtlinien|Anordnungen|Vorgaben|Instruktionen|Beschraenkungen|Aufgaben|Informationen|alles)"
+      description: "German: Instruction override patterns (expanded for shorthand forms)"
+    - field: user_input
+      operator: regex
+      value: "(?i)(vergiss|ignoriere|vergessen\\s+Sie)\\s+(alles|das|dies)\\s*(was|davor|zuvor|vorher|bisher)?\\b"
+      description: "German: Forget-everything shorthand"
+    - field: user_input
+      operator: regex
+      value: "(?i)neue\\s+(Aufgabe|Aufgaben|Anweisung|Anweisungen)\\s*(folgen|kommen|sind|:|,)"
+      description: "German: New task injection patterns"
+    - field: user_input
+      operator: regex
+      value: "(?i)(ignorieren\\s+Sie|vergessen\\s+Sie|beachten\\s+Sie\\s+nicht)\\s+(die\\s+)?(obigen?|vorherigen?|bisherigen?)?\\s*(Anweisungen|Regeln|Richtlinien|alles)"
+      description: "German: Formal Sie-form instruction override"
+    - field: user_input
+      operator: regex
+      value: "(?i)ACHTUNG\\s*[-:!]?\\s*(STOPP|STOP|HALT)\\s*[-:!]?"
+      description: "German: Attention-stop pattern used to interrupt agent context"
+
+    # -- Layer 16b: French instruction override --
+    - field: user_input
+      operator: regex
+      value: "(?i)(oubliez?|ignorez?|ne\\s+tenez\\s+pas\\s+compte)\\s+(de\\s+)?(toutes?\\s+)?(les\\s+)?(instructions?|regles|consignes|directives)\\s*(precedentes?|anterieures?|ci-dessus)?"
+      description: "French: Instruction override patterns"
     - field: user_input
       operator: regex
       value: "(تجاهل|انسَ|تخطَّ|ألغِ|أهمل|اترك|اسقط).{0,20}(التعليمات|الأوامر|القواعد|القيود|الإرشادات|التوجيهات).{0,10}(السابقة|الأصلية|الحالية|القديمة)"
