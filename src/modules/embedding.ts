@@ -38,7 +38,7 @@ export interface EmbeddingModuleConfig {
     category: string;
     severity: string;
   }[];
-  /** Cosine similarity threshold (default: 0.82) */
+  /** Cosine similarity threshold (default: 0.65) */
   readonly similarityThreshold?: number;
   /** Top-K results to consider (default: 3) */
   readonly topK?: number;
@@ -83,7 +83,7 @@ export class EmbeddingModule implements ATRModule {
   private initialized = false;
 
   constructor(private readonly config: EmbeddingModuleConfig = {}) {
-    this.threshold = config.similarityThreshold ?? 0.82;
+    this.threshold = config.similarityThreshold ?? 0.65;
     this.topK = config.topK ?? 3;
     this.model = config.model ?? null;
     this.store = new VectorStore(config.attackVectors);

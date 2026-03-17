@@ -927,7 +927,7 @@ export class ATREngine {
           function: 'similarity_search',
           args: { field: 'content' },
           operator: 'gte',
-          threshold: 0.82,
+          threshold: 0.65,
         });
 
         if (embResult.matched) {

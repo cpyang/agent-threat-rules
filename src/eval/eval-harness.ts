@@ -147,7 +147,7 @@ async function tryLoadEmbedding(embeddingsPath: string): Promise<EmbeddingModule
     const data = JSON.parse(readFileSync(embeddingsPath, 'utf-8'));
     const module = new EmbeddingModule({
       attackVectorsData: data,
-      similarityThreshold: 0.78,
+      similarityThreshold: 0.65,
     });
     await module.initialize();
     return module.isAvailable() ? module : null;

@@ -2,7 +2,7 @@
 
 ATR v0.1 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
 
-**Current stats:** 61 rules, 556 test cases (317 true positives, 239 true negatives), 100% pass rate. Plus 64 evasion tests documenting known bypasses.
+**Current stats:** 61 rules, 246 tests passing, 341 eval corpus samples. Plus 64 evasion tests documenting known bypasses.
 
 That pass rate sounds impressive. It is not. It means ATR correctly matches the patterns it was written to match. It says nothing about attacks that use different words to express the same intent.
 
@@ -120,6 +120,66 @@ ATR's long-term architecture is a three-tier detection pipeline. Each tier addre
 **Tier 3: LLM-as-Judge (v0.3 -- planned).** An LLM evaluates suspicious content flagged by Tier 1 or Tier 2. Catches subtle manipulation, context-dependent attacks, and novel categories. Highest latency, highest cost, highest detection capability.
 
 The tiers are additive, not replacements. Tier 1 handles the fast path (block obvious attacks immediately). Tier 3 handles the slow path (evaluate ambiguous cases with deeper analysis).
+
+---
+
+## External Benchmark Results
+
+ATR's self-test corpus produces a 98.8% recall rate. That number is misleading if taken in isolation. Self-tests are written by the same people who wrote the rules -- they test whether ATR matches the patterns it was designed to match. External benchmarks paint a very different picture.
+
+### PINT Benchmark (850 samples)
+
+We evaluated ATR against 850 external samples sourced from deepset/prompt-injections and Lakera's Gandalf dataset. These are real-world prompt injection and jailbreak payloads that ATR was not trained against.
+
+| Metric | Score |
+|--------|-------|
+| Precision | 99.4% |
+| Recall | 37.7% |
+| F1 | 54.7% |
+
+**Precision is high.** When ATR fires, it is almost always correct. This is by design -- regex patterns are specific, so false positives are rare.
+
+**Recall is low.** ATR misses 62.3% of external attack samples. This is the honest cost of regex-based detection.
+
+### Recall Breakdown by Category
+
+| Category | Recall |
+|----------|--------|
+| English jailbreaks | 51.6% |
+| English prompt-injection | 27.6% |
+| Non-English attacks | 24.4% |
+
+Non-English recall at 24.4% is consistent with the multilingual limitation documented above. The rules are English-only; non-English detections occur only when attackers include English keywords alongside non-English text.
+
+### Rule Concentration
+
+Only 6 out of 61 rules fired on external data. ATR-2026-001 (prompt override detection) accounted for over 95% of all detections. The remaining 55 rules contributed zero detections on this corpus. This does not mean those rules are useless -- they target specific attack types (credential leaks, SSRF, tool injection) that are not represented in prompt-injection benchmarks. But it does mean ATR's external detection capability is heavily concentrated in a single rule.
+
+### Self-Test vs. External Recall Gap
+
+| Corpus | Recall |
+|--------|--------|
+| Self-test (341 samples) | 98.8% |
+| External (850 samples) | 37.7% |
+
+The 61-point gap is explained entirely by the paraphrase problem. Self-test samples use the exact phrasings the rules were written to match. External samples express the same malicious intent using different words, sentence structures, and languages. This is the fundamental limitation of regex-based detection, documented extensively in the "What Regex CANNOT Detect" section above.
+
+### Competitive Context
+
+ATR is NOT comparable to ML-based prompt injection classifiers like Meta Prompt Guard, LLM Guard, or Rebuff. Those systems use transformer models to detect semantic equivalence -- they can catch "please disregard your earlier directives" even without a regex for that exact phrase. On benchmarks like PINT, ML classifiers typically achieve 80-95% recall.
+
+The tradeoff:
+
+| Approach | Recall | Latency | Dependencies |
+|----------|--------|---------|--------------|
+| ATR (regex) | ~38% on external data | Sub-millisecond | None |
+| ML classifiers | 80-95% on external data | 10-50x slower | GPU or API |
+
+ATR is not trying to compete with ML classifiers on recall. ATR is a fast first-pass filter for known attack patterns, designed to run at zero latency with zero external dependencies. It catches the low-hanging fruit -- known templates, published exploits, automated attacks -- instantly.
+
+For comprehensive coverage, ATR should be combined with an ML classifier. ATR handles the fast path (block known patterns in <1ms). The ML classifier handles the slow path (evaluate everything else with semantic understanding). This layered approach is described in the roadmap above.
+
+Do not deploy ATR alone and expect it to catch sophisticated adversaries. The benchmark results make this clear.
 
 ---
 
