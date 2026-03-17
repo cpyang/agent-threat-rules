@@ -275,7 +275,7 @@ main() {
   # Step 1: Update MCP registry
   # -----------------------------------------------------------------------
   log ""
-  log "[Step 1/4] Updating MCP registry..."
+  log "[Step 1/5] Updating MCP registry..."
 
   if [[ "$DRY_RUN" == "true" ]]; then
     log "  [DRY-RUN] Would run: npx tsx scripts/crawl-mcp-registry.ts"
@@ -302,7 +302,7 @@ main() {
   fi
 
   log ""
-  log "[Step 2/4] Auditing packages (batch=$BATCH_SIZE, skip previously scanned)..."
+  log "[Step 2/5] Auditing packages (batch=$BATCH_SIZE, skip previously scanned)..."
 
   if [[ "$DRY_RUN" == "true" ]]; then
     log "  [DRY-RUN] Would run: npx tsx scripts/audit-npm-skills-v2.ts --limit $BATCH_SIZE $skip_arg --output $output_file"
@@ -330,7 +330,7 @@ main() {
         --output "$output_file" 2>&1; then
       log "  Audit complete: $output_file"
     else
-      die "Audit script failed."
+      warn "Audit script failed. Continuing with any partial results."
     fi
   fi
 
@@ -338,7 +338,7 @@ main() {
   # Step 3: Extract findings
   # -----------------------------------------------------------------------
   log ""
-  log "[Step 3/4] Extracting findings..."
+  log "[Step 3/5] Extracting findings..."
 
   local threats_found=0
   local packages_scanned=0
@@ -364,23 +364,51 @@ main() {
   fi
 
   # -----------------------------------------------------------------------
+  # Step 3.5: Triage findings (separate report from ATR candidates)
+  # -----------------------------------------------------------------------
+  local triage_file="$REPO_ROOT/triage-report-${TIMESTAMP}.json"
+
+  log ""
+  log "[Step 3.5] Triaging findings..."
+
+  if [[ "$DRY_RUN" == "true" ]]; then
+    log "  [DRY-RUN] Would run: npx tsx scripts/triage-findings.ts --input $MERGED_FILE --output $triage_file"
+  else
+    if [[ -f "$MERGED_FILE" ]]; then
+      if npx tsx scripts/triage-findings.ts \
+          --input "$MERGED_FILE" \
+          --output "$triage_file" 2>&1; then
+        log "  Triage complete: $triage_file"
+      else
+        warn "Triage failed. Continuing with original pipeline."
+      fi
+    fi
+  fi
+
+  # -----------------------------------------------------------------------
   # Step 4: Push to Threat Cloud (optional)
   # -----------------------------------------------------------------------
   local proposals_submitted=0
 
   log ""
-  log "[Step 4/4] Threat Cloud integration..."
+  log "[Step 4/5] Threat Cloud integration..."
 
   if [[ "$PUSH_TC" == "true" ]]; then
     if [[ "$DRY_RUN" == "true" ]]; then
-      log "  [DRY-RUN] Would run: npx tsx scripts/push-to-threat-cloud.ts --input $output_file --tc-url $TC_URL --auto-propose --dry-run"
+      log "  [DRY-RUN] Would run: npx tsx scripts/push-to-threat-cloud.ts --input $output_file --tc-url $TC_URL --auto-propose --triage $triage_file --dry-run"
     else
       if [[ -f "$output_file" ]] && [[ "$threats_found" -gt 0 || "$packages_scanned" -gt 0 ]]; then
         log "  Pushing findings to Threat Cloud at $TC_URL..."
+        local triage_arg=""
+        if [[ -f "$triage_file" ]]; then
+          triage_arg="--triage $triage_file"
+        fi
+        # shellcheck disable=SC2086
         if npx tsx scripts/push-to-threat-cloud.ts \
             --input "$output_file" \
             --tc-url "$TC_URL" \
-            --auto-propose 2>&1; then
+            --auto-propose \
+            $triage_arg 2>&1; then
           log "  Push complete."
           # Count proposals (rough estimate from output)
           proposals_submitted=1
@@ -393,6 +421,30 @@ main() {
     fi
   else
     log "  Skipped (use --push-tc to enable)."
+  fi
+
+  # -----------------------------------------------------------------------
+  # Step 5: Report scan event to TC for metrics
+  # -----------------------------------------------------------------------
+  log ""
+  log "[Step 5/5] Reporting scan event..."
+
+  if [[ "$PUSH_TC" == "true" ]] && [[ "$DRY_RUN" == "false" ]] && [[ "$packages_scanned" -gt 0 ]]; then
+    local confirmed=0 suspicious=0 general=0 clean_count=0
+    if command -v jq &>/dev/null && [[ -f "$triage_file" ]]; then
+      confirmed="$(jq '.summary.confirmed_malicious // 0' "$triage_file" 2>/dev/null || echo 0)"
+      suspicious="$(jq '.summary.highly_suspicious // 0' "$triage_file" 2>/dev/null || echo 0)"
+      general="$(jq '.summary.general_suspicious // 0' "$triage_file" 2>/dev/null || echo 0)"
+      clean_count="$(jq '.summary.clean // 0' "$triage_file" 2>/dev/null || echo 0)"
+    fi
+
+    curl -s -X POST "${TC_URL}/api/scan-events" \
+      -H "Content-Type: application/json" \
+      -d "{\"source\":\"bulk-pipeline\",\"skillsScanned\":$packages_scanned,\"findingsCount\":$threats_found,\"confirmedMalicious\":$confirmed,\"highlySuspicious\":$suspicious,\"generalSuspicious\":$general,\"cleanCount\":$clean_count}" \
+      > /dev/null 2>&1 || warn "Failed to report scan event to TC."
+    log "  Scan event reported."
+  else
+    log "  Skipped."
   fi
 
   # -----------------------------------------------------------------------

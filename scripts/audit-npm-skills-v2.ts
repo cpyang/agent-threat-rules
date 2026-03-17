@@ -27,6 +27,7 @@ import {
 } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
+import { analyzeAST, type ASTAnalysisResult, type ASTFinding } from './ast-analyzer.js';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -63,6 +64,7 @@ interface AuditV2Result {
   tools: ExtractedTool[];
   supplyChain: SupplyChainCheck;
   codeAnalysis: CodeAnalysis;
+  astAnalysis?: ASTAnalysisResult;
   atrMatches: Array<{ ruleId: string; severity: string; title: string; matchedOn: string }>;
   // Verdict
   riskScore: number;
@@ -317,11 +319,19 @@ async function scanWithATR(
 // Verdict
 // ---------------------------------------------------------------------------
 
+/** Severity weight for AST findings */
+const AST_SEVERITY_SCORE: Record<string, number> = {
+  critical: 25,
+  high: 15,
+  medium: 5,
+};
+
 function computeVerdict(
   tools: ExtractedTool[],
   supplyChain: SupplyChainCheck,
   codeAnalysis: CodeAnalysis,
   atrMatches: AuditV2Result['atrMatches'],
+  astAnalysis?: ASTAnalysisResult,
 ): { riskScore: number; riskLevel: string; genuineThreats: string[]; falsePositiveReasons: string[] } {
   const genuineThreats: string[] = [];
   const falsePositiveReasons: string[] = [];
@@ -356,8 +366,6 @@ function computeVerdict(
         score += 25;
       }
       if (pattern === 'credential-access') {
-        // This is often legitimate (password manager tools, etc.)
-        // Only flag if combined with network requests
         if (codeAnalysis.networkRequests) {
           genuineThreats.push(`Tool "${tool.name}" accesses credentials AND makes network requests`);
           score += 20;
@@ -368,7 +376,7 @@ function computeVerdict(
     }
   }
 
-  // Code analysis
+  // Code analysis (L1 regex)
   if (codeAnalysis.shellExecution && codeAnalysis.networkRequests) {
     genuineThreats.push('Shell execution + network requests (potential RCE + exfiltration)');
     score += 10;
@@ -376,6 +384,23 @@ function computeVerdict(
   if (codeAnalysis.outboundUrls.length > 5) {
     genuineThreats.push(`${codeAnalysis.outboundUrls.length} outbound URLs found`);
     score += 5;
+  }
+
+  // AST analysis (L2 data flow) -- higher confidence than regex
+  if (astAnalysis && astAnalysis.findings.length > 0) {
+    const seen = new Set<string>();
+    for (const finding of astAnalysis.findings) {
+      // Dedup by category+file to avoid inflating score
+      const key = `${finding.category}:${finding.file}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      const astScore = AST_SEVERITY_SCORE[finding.severity] ?? 5;
+      score += astScore;
+
+      const flowStr = finding.flow ? ` [${finding.flow.join(' ')}]` : '';
+      genuineThreats.push(`[AST-L2] ${finding.description}${flowStr} (${finding.file}:${finding.line})`);
+    }
   }
 
   score = Math.min(100, score);
@@ -438,9 +463,10 @@ async function main(): Promise<void> {
   const engine = new ATREngine({ rulesDir: resolve('rules') });
   const ruleCount = await engine.loadRules();
 
-  console.log(`\n  MCP Skill Auditor v2 (First Principles)`);
+  console.log(`\n  MCP Skill Auditor v2 (First Principles + AST)`);
   console.log(`  ATR rules: ${ruleCount} | Packages: ${packages.length}`);
-  console.log(`  Scanning: tool descriptions, schemas, supply chain, code patterns`);
+  console.log(`  L1: regex (tool descriptions, supply chain, code patterns)`);
+  console.log(`  L2: AST (data flow, exec chains, obfuscation, backdoors)`);
   console.log(`  NOT scanning: README, docs, examples\n`);
 
   const workDir = join(tmpdir(), 'atr-audit-v2');
@@ -488,14 +514,17 @@ async function main(): Promise<void> {
       // Phase 2: Supply chain analysis
       const supplyChain = analyzeSupplyChain(pkg.name, packageDir);
 
-      // Phase 3: Code analysis
+      // Phase 3: Code analysis (L1 regex)
       const codeAnalysis = analyzeCode(packageDir);
+
+      // Phase 3.5: AST analysis (L2 data flow)
+      const astAnalysis = analyzeAST(packageDir);
 
       // Phase 4: ATR scan on tool descriptions ONLY
       const atrMatches = await scanWithATR(tools, engine);
 
-      // Phase 5: Verdict
-      const verdict = computeVerdict(tools, supplyChain, codeAnalysis, atrMatches);
+      // Phase 5: Verdict (now includes AST findings)
+      const verdict = computeVerdict(tools, supplyChain, codeAnalysis, atrMatches, astAnalysis);
 
       results.push({
         package: pkg.name,
@@ -504,6 +533,7 @@ async function main(): Promise<void> {
         tools,
         supplyChain,
         codeAnalysis,
+        astAnalysis,
         atrMatches,
         ...verdict,
         auditedAt: new Date().toISOString(),
@@ -530,11 +560,16 @@ async function main(): Promise<void> {
   const totalTools = results.reduce((sum, r) => sum + r.tools.length, 0);
   const flagged = results.filter(r => r.riskLevel === 'CRITICAL' || r.riskLevel === 'HIGH');
 
+  const totalASTFindings = results.reduce((sum, r) => sum + (r.astAnalysis?.findings.length ?? 0), 0);
+  const astFilesAnalyzed = results.reduce((sum, r) => sum + (r.astAnalysis?.filesAnalyzed ?? 0), 0);
+
   console.log('\n  ══════════════════════════════════════════════════');
-  console.log('  MCP AUDIT v2 — First Principles Results');
+  console.log('  MCP AUDIT v2 — First Principles + AST Results');
   console.log('  ══════════════════════════════════════════════════');
   console.log(`  Packages scanned: ${results.length}`);
   console.log(`  MCP tools extracted: ${totalTools}`);
+  console.log(`  AST files analyzed: ${astFilesAnalyzed}`);
+  console.log(`  AST findings (L2): ${totalASTFindings}`);
   for (const [level, count] of Object.entries(byLevel).sort())
     console.log(`    ${level}: ${count}`);
 

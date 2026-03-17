@@ -20,6 +20,26 @@ export { loadRuleFile, loadRulesFromDirectory, validateRule } from './loader.js'
 export { SessionTracker } from './session-tracker.js';
 export type { SessionStateSnapshot } from './session-tracker.js';
 
+// ── Tier 0: Invariant Enforcement (hard boundaries) ──────────────
+export { InvariantChecker } from './tier0-invariant.js';
+export type { SkillManifest, InvariantViolation, InvariantViolationType } from './tier0-invariant.js';
+
+// ── Tier 1: Blacklist Provider (known-bad lookup) ────────────────
+export { InMemoryBlacklist, buildBlacklistMatch } from './tier1-blacklist.js';
+export type { BlacklistProvider, BlacklistEntry } from './tier1-blacklist.js';
+
+// ── Shared Capability Extraction ─────────────────────────────────
+export { extractCapabilities } from './capability-extractor.js';
+export type { ExtractedCapabilities } from './capability-extractor.js';
+
+// ── Tier 2.5: Embedding Similarity ───────────────────────────────
+export { EmbeddingModule } from './modules/embedding.js';
+export type { EmbeddingModuleConfig } from './modules/embedding.js';
+export { VectorStore, loadVectorEntries } from './embedding/vector-store.js';
+export type { VectorEntry, SearchResult } from './embedding/vector-store.js';
+export { TransformersJSModel, MockEmbeddingModel } from './embedding/model-loader.js';
+export type { EmbeddingModel } from './embedding/model-loader.js';
+
 // ── Optional Detection Modules (Layer 2-3, beta) ────────────────
 export { ModuleRegistry } from './modules/index.js';
 export type { ATRModule, ModuleCondition, ModuleResult } from './modules/index.js';

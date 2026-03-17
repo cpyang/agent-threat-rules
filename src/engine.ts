@@ -35,6 +35,10 @@ import {
   createSemanticModuleFromConfig,
   runSemanticLayer,
 } from './layer-integration.js';
+import type { InvariantChecker } from './tier0-invariant.js';
+import type { BlacklistProvider } from './tier1-blacklist.js';
+import { buildBlacklistMatch, resolveSkillId as resolveBlacklistSkillId } from './tier1-blacklist.js';
+import type { EmbeddingModule } from './modules/embedding.js';
 
 /** Map agent event types to ATR source types */
 const EVENT_TYPE_TO_SOURCE: Record<string, string> = {
@@ -63,8 +67,14 @@ export interface ATREngineConfig {
   rules?: ATRRule[];
   /** Optional session tracker for behavioral detection across events */
   sessionTracker?: SessionTracker;
+  /** Optional Tier 0: Invariant enforcement (hard boundaries, pre-check) */
+  invariantChecker?: InvariantChecker;
+  /** Optional Tier 1: Skill blacklist provider (known-bad lookup) */
+  blacklistProvider?: BlacklistProvider;
   /** Optional Layer 2: Skill behavioral fingerprinting (no LLM required) */
   fingerprintStore?: SkillFingerprintStore;
+  /** Optional Tier 2.5: Embedding similarity module (requires @xenova/transformers) */
+  embeddingModule?: EmbeddingModule;
   /** Optional Layer 3: Semantic LLM-as-judge analysis (requires API key) */
   semanticModule?: SemanticLayerConfig;
 }
@@ -138,6 +148,34 @@ export class ATREngine {
     const eventSourceType = EVENT_TYPE_TO_SOURCE[event.type];
     const allMatchedPatterns: string[] = [];
 
+    const sessionId = event.sessionId;
+
+    // Tier 0: Invariant enforcement (hard boundaries, pre-check)
+    if (this.config.invariantChecker) {
+      const violations = this.config.invariantChecker.check(event);
+      if (violations.length > 0) {
+        // Record denied event in session tracker for telemetry before returning
+        if (this.config.sessionTracker && sessionId) {
+          this.config.sessionTracker.recordEvent(sessionId, event, ['tier0-invariant-deny']);
+        }
+        return violations.map((v) => this.config.invariantChecker!.buildDenyMatch(v));
+      }
+    }
+
+    // Tier 1: Blacklist lookup (known-bad skills)
+    if (this.config.blacklistProvider) {
+      const skillId = resolveBlacklistSkillId(event);
+      if (skillId) {
+        const entry = this.config.blacklistProvider.lookup(skillId);
+        if (entry) {
+          matches.push(buildBlacklistMatch(entry));
+          // Don't short-circuit -- continue for telemetry, but blacklist match
+          // has critical severity which guarantees DENY verdict
+        }
+      }
+    }
+
+    // Tier 2: Pattern matching (existing regex rules)
     for (const rule of this.rules) {
       // Skip deprecated and draft rules
       if (rule.status === 'deprecated' || rule.status === 'draft') continue;
@@ -157,9 +195,8 @@ export class ATREngine {
       }
     }
 
-    // Record the event in the session tracker if available
-    const sessionId = event.sessionId;
-    if (this.config.sessionTracker && sessionId) {
+    // Update session tracker with matched patterns (already recorded event above)
+    if (this.config.sessionTracker && sessionId && allMatchedPatterns.length > 0) {
       this.config.sessionTracker.recordEvent(sessionId, event, allMatchedPatterns);
     }
 
@@ -780,9 +817,60 @@ export class ATREngine {
     const layersUsed: string[] = ['layer1-regex'];
     let matches = this.evaluate(event);
 
+    // Tier 0 + Tier 1 run inside evaluate(), track them
+    if (this.config.invariantChecker) layersUsed.push('tier0-invariant');
+    if (this.config.blacklistProvider) layersUsed.push('tier1-blacklist');
+
     // Layer 2 runs synchronously inside evaluate(), but track if it was configured
     if (this.config.fingerprintStore) {
       layersUsed.push('layer2-fingerprint');
+    }
+
+    // Tier 2.5: Embedding similarity (async, runs on all events)
+    if (this.config.embeddingModule?.isAvailable()) {
+      layersUsed.push('tier2.5-embedding');
+      try {
+        const embResult = await this.config.embeddingModule.evaluate(event, {
+          module: 'embedding',
+          function: 'similarity_search',
+          args: { field: 'content' },
+          operator: 'gte',
+          threshold: 0.82,
+        });
+
+        if (embResult.matched) {
+          const severity = embResult.value >= 0.95 ? 'critical' as const
+            : embResult.value >= 0.88 ? 'high' as const
+            : 'medium' as const;
+
+          const syntheticMatch: ATRMatch = {
+            rule: {
+              title: `Embedding Match: ${embResult.description}`,
+              id: 'tier2.5-embedding-match',
+              status: 'experimental',
+              description: embResult.description,
+              author: 'atr-engine/tier2.5',
+              date: new Date().toISOString().slice(0, 10),
+              severity,
+              tags: { category: 'prompt-injection', subcategory: 'semantic-similarity', confidence: 'high' },
+              agent_source: { type: 'llm_io' },
+              detection: { conditions: {}, condition: 'tier2.5-runtime' },
+              response: {
+                actions: severity === 'critical'
+                  ? ['block_input', 'alert']
+                  : ['alert'],
+              },
+            } as ATRRule,
+            matchedConditions: ['embedding_similarity'],
+            matchedPatterns: [`similarity=${embResult.value.toFixed(3)}`],
+            confidence: embResult.value,
+            timestamp: new Date().toISOString(),
+          };
+          matches = [...matches, syntheticMatch];
+        }
+      } catch {
+        // Embedding failure is non-fatal
+      }
     }
 
     // Layer 3: Semantic LLM-as-judge (async, conditional)

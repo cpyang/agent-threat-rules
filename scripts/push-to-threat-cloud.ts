@@ -35,6 +35,7 @@ const llmApiKey = getArg('--llm-key') ?? process.env['ANTHROPIC_API_KEY'] ?? '';
 const llmModel = getArg('--llm-model') ?? 'claude-sonnet-4-20250514';
 const dryRun = args.includes('--dry-run');
 const autoPropose = args.includes('--auto-propose');
+const triagePath = getArg('--triage');
 
 // ---------------------------------------------------------------------------
 // Types
@@ -257,8 +258,9 @@ async function generateATRProposals(results: ScanResult[]): Promise<number> {
 }
 
 // ---------------------------------------------------------------------------
-// Phase C: Auto-propose ATR rules from genuineThreats NOT covered by ATR matches
-// Only proposes rules for NEW patterns that existing 61 rules missed.
+// LEGACY FALLBACK: Auto-propose ATR rules from genuineThreats
+// Only used when --triage flag is NOT provided (backward compatibility).
+// New pipeline uses Phase C1 (LLM-based) in the triage path above.
 // ---------------------------------------------------------------------------
 
 interface ThreatPattern {
@@ -471,12 +473,250 @@ async function main() {
     }
   }
 
-  // Phase C: Auto-propose from CRITICAL/HIGH findings (no LLM needed)
+  // Phase C: Route triage results to correct destinations
+  //   C1: ATR candidates (already ATR-matchable) -> /api/atr-proposals
+  //   C2: LLM review (AST findings) -> /api/analyze-skills -> LLM decides ATR or blacklist
+  //   C3: Blacklist only -> /api/skill-threats
   let autoProposalsSent = 0;
+  let llmReviewSent = 0;
+  let blacklistSent = 0;
   if (autoPropose) {
-    console.log('\n  Phase C: Auto-Propose ATR Rules from Findings');
-    autoProposalsSent = await autoProposalFromFindings(results);
-    console.log(`    Auto-proposals submitted: ${autoProposalsSent}`);
+    if (triagePath) {
+      try {
+        const triageData = JSON.parse(readFileSync(resolve(triagePath), 'utf-8')) as {
+          atrCandidates: Array<{
+            package: string;
+            version: string;
+            category: string;
+            riskScore: number;
+            reasons: string[];
+            proposedSeverity?: string;
+            patternKey?: string;
+          }>;
+          llmReviewCandidates?: Array<{
+            package: string;
+            version: string;
+            riskScore: number;
+            riskLevel: string;
+            reasons: string[];
+            patternKey?: string;
+          }>;
+          blacklistCandidates?: Array<{
+            package: string;
+            version: string;
+            riskScore: number;
+            riskLevel: string;
+            reasons: string[];
+            patternKey?: string;
+          }>;
+        };
+
+        // Phase C1: Send top flagged skills to TC LLM for high-quality ATR rule generation
+        // Instead of building regex locally (which LLM rejects as too broad),
+        // send actual tool descriptions to TC's /api/analyze-skills endpoint.
+        // The LLM on TC will produce production-quality rules with proper regex.
+        const atrCandidates = triageData.atrCandidates;
+        console.log(`\n  Phase C1: LLM-Generated ATR Rules (from flagged tool descriptions)`);
+        console.log(`    Candidates: ${atrCandidates.length}`);
+
+        // Collect unique packages with their tool descriptions
+        const seen = new Set<string>();
+        const skillsForLLM: Array<{ package: string; tools: Array<{ name: string; description: string }> }> = [];
+
+        for (const c of atrCandidates) {
+          if (seen.has(c.package)) continue;
+          seen.add(c.package);
+
+          const scanResult = results.find(r => r.package === c.package);
+          if (!scanResult?.tools || scanResult.tools.length === 0) continue;
+
+          // Include ATR match context in descriptions so LLM knows what was flagged
+          const toolsWithContext = scanResult.tools.slice(0, 20).map(t => {
+            const matches = scanResult.atrMatches
+              .filter(m => m.matchedOn?.includes(t.name))
+              .map(m => `${m.ruleId}: ${m.title}`)
+              .join('; ');
+            return {
+              name: t.name,
+              description: t.description + (matches ? `\n[ATR flags: ${matches}]` : ''),
+            };
+          });
+
+          skillsForLLM.push({ package: c.package, tools: toolsWithContext });
+        }
+
+        // Send in batches of 10 (TC limit)
+        console.log(`    Unique skills with tools: ${skillsForLLM.length}`);
+        const batchSize = 10;
+
+        for (let i = 0; i < skillsForLLM.length; i += batchSize) {
+          const batch = skillsForLLM.slice(i, i + batchSize);
+          process.stdout.write(`    [LLM] Batch ${Math.floor(i / batchSize) + 1}: ${batch.map(s => s.package.split('/').pop()).join(', ')}...`);
+
+          if (dryRun) {
+            console.log(' [DRY-RUN]');
+            autoProposalsSent += batch.length;
+            continue;
+          }
+
+          try {
+            const resp = await fetch(`${tcUrl}/api/analyze-skills`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ skills: batch }),
+            });
+
+            if (resp.ok) {
+              const data = await resp.json() as {
+                ok: boolean;
+                data?: { analyzed: number; proposalsCreated: number; results: Array<{ package: string; threatsFound: boolean; proposalCount: number }> };
+              };
+              if (data.ok && data.data) {
+                autoProposalsSent += data.data.proposalsCreated;
+                console.log(` ${data.data.proposalsCreated} rules created`);
+                for (const r of data.data.results) {
+                  if (r.threatsFound) {
+                    console.log(`      -> ${r.package}: ${r.proposalCount} proposal(s)`);
+                  }
+                }
+              } else {
+                console.log(' no proposals');
+              }
+            } else {
+              const errText = await resp.text();
+              console.log(` failed (${resp.status}): ${errText.slice(0, 100)}`);
+            }
+          } catch (err) {
+            console.log(` error: ${err instanceof Error ? err.message : String(err)}`);
+          }
+
+          // Rate limit: 3s between batches
+          if (i + batchSize < skillsForLLM.length) {
+            await new Promise(r => setTimeout(r, 3000));
+          }
+        }
+
+        // Phase C2: LLM review (AST findings -> LLM translates to runtime ATR rules)
+        // Send to TC /api/analyze-skills which uses LLM to evaluate
+        const llmCandidates = triageData.llmReviewCandidates ?? [];
+        console.log(`\n  Phase C2: LLM Review (AST -> runtime ATR translation)`);
+        console.log(`    Candidates: ${llmCandidates.length}`);
+
+        if (llmCandidates.length > 0) {
+          // Group by package, send AST findings as context for LLM to evaluate
+          // The LLM prompt asks: "Can this code-level behavior be detected at runtime?"
+          const packageFindings = new Map<string, string[]>();
+          for (const c of llmCandidates) {
+            const existing = packageFindings.get(c.package) ?? [];
+            existing.push(...c.reasons);
+            packageFindings.set(c.package, existing);
+          }
+
+          // Find tool descriptions for these packages from scan results
+          const llmSkills = Array.from(packageFindings.entries())
+            .slice(0, 10) // Limit LLM calls
+            .map(([pkg, reasons]) => {
+              const scanResult = results.find(r => r.package === pkg);
+              return {
+                package: pkg,
+                tools: (scanResult?.tools ?? []).slice(0, 30).map(t => ({
+                  name: t.name,
+                  description: t.description + '\n[AST findings: ' + reasons.join('; ') + ']',
+                })),
+              };
+            })
+            .filter(s => s.tools.length > 0);
+
+          if (llmSkills.length > 0) {
+            try {
+              const resp = await fetch(`${tcUrl}/api/analyze-skills`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ skills: llmSkills }),
+              });
+
+              if (resp.ok) {
+                const data = await resp.json() as {
+                  ok: boolean;
+                  data?: { analyzed: number; proposalsCreated: number; results: Array<{ package: string; threatsFound: boolean; proposalCount: number }> };
+                };
+                if (data.ok && data.data) {
+                  llmReviewSent = data.data.proposalsCreated;
+                  console.log(`    LLM analyzed: ${data.data.analyzed} skills`);
+                  console.log(`    ATR proposals from LLM: ${llmReviewSent}`);
+                  for (const r of data.data.results) {
+                    if (r.threatsFound) {
+                      console.log(`      [LLM->ATR] ${r.package} -> ${r.proposalCount} proposal(s)`);
+                    }
+                  }
+                }
+              } else {
+                console.log(`    TC LLM analysis unavailable (${resp.status}). Sending to blacklist instead.`);
+                // Fallback: send to blacklist
+                for (const c of llmCandidates) {
+                  await postJSON('/api/skill-threats', {
+                    skillHash: hashSkill(c.package),
+                    skillName: c.package,
+                    riskScore: c.riskScore,
+                    riskLevel: c.riskLevel ?? 'HIGH',
+                    findingSummaries: c.reasons.slice(0, 10).map((r, i) => ({
+                      id: `ast-${i}`,
+                      category: 'code-analysis',
+                      severity: c.riskScore >= 70 ? 'critical' : 'high',
+                      title: r.slice(0, 200),
+                    })),
+                  });
+                  blacklistSent++;
+                }
+              }
+            } catch (err) {
+              console.log(`    LLM review failed: ${err instanceof Error ? err.message : String(err)}`);
+            }
+          }
+        }
+
+        // Phase C3: Blacklist only (can't be runtime-detected)
+        const blCandidates = triageData.blacklistCandidates ?? [];
+        console.log(`\n  Phase C3: Skill Blacklist (not runtime-detectable)`);
+        console.log(`    Candidates: ${blCandidates.length}`);
+
+        for (const c of blCandidates) {
+          process.stdout.write(`    [BL] ${c.package} (score: ${c.riskScore})...`);
+
+          const ok = await postJSON('/api/skill-threats', {
+            skillHash: hashSkill(c.package),
+            skillName: c.package,
+            riskScore: c.riskScore,
+            riskLevel: c.riskLevel ?? 'HIGH',
+            findingSummaries: c.reasons.slice(0, 10).map((r, i) => ({
+              id: `triage-${i}`,
+              category: 'code-analysis',
+              severity: c.riskScore >= 70 ? 'critical' : 'high',
+              title: r.slice(0, 200),
+            })),
+          });
+
+          if (ok) {
+            blacklistSent++;
+            console.log(' submitted');
+          } else {
+            console.log(' failed');
+          }
+        }
+      } catch (err) {
+        console.log(`    Failed to read triage report: ${err instanceof Error ? err.message : String(err)}`);
+        console.log('    Falling back to original auto-propose...');
+        autoProposalsSent = await autoProposalFromFindings(results);
+      }
+    } else {
+      // No triage report -- use original behavior
+      console.log('\n  Phase C: Auto-Propose ATR Rules from Findings (no triage)');
+      autoProposalsSent = await autoProposalFromFindings(results);
+    }
+
+    console.log(`\n    ATR proposals (direct):   ${autoProposalsSent}`);
+    console.log(`    ATR proposals (LLM):     ${llmReviewSent}`);
+    console.log(`    Blacklist threats:        ${blacklistSent}`);
   }
 
   // Phase D: Server-side LLM analysis (TC server has the API key)
@@ -539,9 +779,11 @@ async function main() {
   console.log('  ══════════════════════════════════');
   console.log(`  Threats uploaded:    ${threatsSent}`);
   console.log(`  Whitelist uploaded:  ${whitelistSent}`);
-  console.log(`  ATR proposals:       ${proposalsSent}`);
-  console.log(`  Auto-proposals:      ${autoProposalsSent}`);
-  console.log(`  Server LLM proposals:${serverLLMProposals}`);
+  console.log(`  ATR proposals (LLM B):  ${proposalsSent}`);
+  console.log(`  ATR proposals (direct): ${autoProposalsSent}`);
+  console.log(`  ATR proposals (LLM C2): ${llmReviewSent}`);
+  console.log(`  Blacklist threats:      ${blacklistSent}`);
+  console.log(`  Server LLM proposals:   ${serverLLMProposals}`);
   console.log(`  Dry run:             ${dryRun}`);
   console.log('');
 

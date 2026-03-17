@@ -13,6 +13,10 @@
 
 import { createHash } from 'node:crypto';
 import type { AgentEvent } from './types.js';
+import {
+  extractCapabilities as sharedExtractCapabilities,
+  type ExtractedCapabilities,
+} from './capability-extractor.js';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -78,24 +82,10 @@ interface MutableFingerprint {
 }
 
 // ---------------------------------------------------------------------------
-// Pattern detectors (regex-based, no LLM needed)
+// Capability extraction (shared with tier0-invariant.ts)
 // ---------------------------------------------------------------------------
 
-const FS_WRITE_PATTERN = /(?:write(?:File)?|appendFile|fs\.write|truncate|mkdir|rmdir|unlink|rm\s+-)/i;
-const FS_READ_PATTERN = /(?:read(?:File)?|readdir|stat|access|exists|glob|find\s)/i;
-const FS_DELETE_PATTERN = /(?:unlink|rm\s+-rf|delete(?:File)?|removeDir|rmdir)/i;
-
-const NETWORK_PATTERN = /(?:https?:\/\/|fetch|curl|wget|axios|http\.request|net\.connect|socket)[\s('"]*([a-zA-Z0-9.-]+(?:\.[a-zA-Z]{2,}))/i;
-
-const ENV_PATTERN = /(?:process\.env|os\.environ|getenv|System\.getenv)\[?['"(]?([A-Z_][A-Z0-9_]*)/i;
-const ENV_INLINE_PATTERN = /\$\{?([A-Z_][A-Z0-9_]{2,})\}?/g;
-
-const EXEC_PATTERN = /(?:child_process|spawn|exec(?:File)?|system\(|popen|subprocess|shell_exec|os\.system)\s*\(\s*['"(]?([^\s'")\]]{1,80})/i;
-
-const EXFIL_PATTERN = /(?:base64|btoa|encode|compress|deflate|gzip).*(?:http|fetch|curl|send|post|upload)/i;
-const REDIRECT_PATTERN = /(?:redirect|forward|proxy|tunnel)\s+(?:to\s+)?(?:https?:\/\/)/i;
-
-/** Classify a text content into behavioral capabilities */
+/** Wrapper for shared extractCapabilities, mapping to local format */
 function extractCapabilities(text: string): {
   filesystemOps: string[];
   networkTargets: string[];
@@ -103,47 +93,14 @@ function extractCapabilities(text: string): {
   processExecs: string[];
   outputPatterns: string[];
 } {
-  const result = {
-    filesystemOps: [] as string[],
-    networkTargets: [] as string[],
-    envAccesses: [] as string[],
-    processExecs: [] as string[],
-    outputPatterns: [] as string[],
+  const caps = sharedExtractCapabilities(text);
+  return {
+    filesystemOps: [...caps.filesystemOps],
+    networkTargets: [...caps.networkTargets],
+    envAccesses: [...caps.envAccesses],
+    processExecs: [...caps.processExecs],
+    outputPatterns: [...caps.outputPatterns],
   };
-
-  if (!text || text.length === 0) return result;
-
-  // Limit analysis to first 10KB to prevent ReDoS
-  const safeText = text.slice(0, 10_240);
-
-  // Filesystem
-  if (FS_WRITE_PATTERN.test(safeText)) result.filesystemOps.push('write');
-  if (FS_READ_PATTERN.test(safeText)) result.filesystemOps.push('read');
-  if (FS_DELETE_PATTERN.test(safeText)) result.filesystemOps.push('delete');
-
-  // Network targets
-  const netMatch = safeText.match(NETWORK_PATTERN);
-  if (netMatch?.[1]) result.networkTargets.push(netMatch[1]);
-
-  // Environment variable accesses
-  const envMatch = safeText.match(ENV_PATTERN);
-  if (envMatch?.[1]) result.envAccesses.push(envMatch[1]);
-  // Also check inline env vars like $HOME, ${API_KEY}
-  for (const m of safeText.matchAll(ENV_INLINE_PATTERN)) {
-    if (m[1] && !result.envAccesses.includes(m[1])) {
-      result.envAccesses.push(m[1]);
-    }
-  }
-
-  // Process executions
-  const execMatch = safeText.match(EXEC_PATTERN);
-  if (execMatch?.[1]) result.processExecs.push(execMatch[1]);
-
-  // Output patterns
-  if (EXFIL_PATTERN.test(safeText)) result.outputPatterns.push('exfiltration');
-  if (REDIRECT_PATTERN.test(safeText)) result.outputPatterns.push('redirect');
-
-  return result;
 }
 
 // ---------------------------------------------------------------------------
