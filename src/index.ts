@@ -68,6 +68,12 @@ export type { ConvertedQuery, SIEMFormat } from './converters/index.js';
 export { ruleToSPL } from './converters/splunk.js';
 export { ruleToElastic } from './converters/elastic.js';
 
+// ── Flywheel (auto rule generation + shadow + promotion) ─────────
+export { ShadowEvaluator } from './shadow-evaluator.js';
+export type { PromotionCandidate } from './shadow-evaluator.js';
+export { FlywheelManager } from './flywheel.js';
+export type { FlywheelConfig } from './flywheel.js';
+
 // ── Integration Helpers (for products built on ATR) ─────────────
 // These help products like LlamaFirewall, etc. build
 // protection layers on top of ATR detection results.
