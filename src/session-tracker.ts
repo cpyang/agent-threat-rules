@@ -30,6 +30,8 @@ export interface SessionStateSnapshot {
   readonly eventCount: number;
   readonly oldestEventTimestamp: number | undefined;
   readonly newestEventTimestamp: number | undefined;
+  /** Event history for sequence detection (immutable copies) */
+  readonly events: readonly Readonly<AgentEvent>[];
 }
 
 /** Internal per-session state — never exposed directly */
@@ -152,6 +154,7 @@ export class SessionTracker {
       eventCount: state.events.length,
       oldestEventTimestamp: oldest,
       newestEventTimestamp: newest,
+      events: Object.freeze(state.events.map((e) => e.event)),
     });
   }
 

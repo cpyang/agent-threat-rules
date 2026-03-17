@@ -195,8 +195,8 @@ export class ATREngine {
       }
     }
 
-    // Update session tracker with matched patterns (already recorded event above)
-    if (this.config.sessionTracker && sessionId && allMatchedPatterns.length > 0) {
+    // Record event in session tracker (always, for cross-event sequence detection)
+    if (this.config.sessionTracker && sessionId) {
       this.config.sessionTracker.recordEvent(sessionId, event, allMatchedPatterns);
     }
 
@@ -290,6 +290,16 @@ export class ATREngine {
     index: number,
     matchedPatterns: string[]
   ): boolean {
+    // Sequence condition (has 'steps' array)
+    if (cond['steps'] && Array.isArray(cond['steps'])) {
+      return this.evaluateSequenceCondition(cond, event);
+    }
+
+    // Behavioral condition
+    if (cond['metric'] && cond['operator'] && cond['threshold'] !== undefined) {
+      return this.evaluateBehavioralCondition(cond as unknown as ATRBehavioralCondition, event);
+    }
+
     const field = cond['field'] as string | undefined;
     const operator = cond['operator'] as string | undefined;
     const value = cond['value'] as string | undefined;
@@ -583,26 +593,11 @@ export class ATREngine {
   /**
    * Evaluate a sequence condition against the current event.
    *
-   * @limitation SINGLE-EVENT ONLY (v0.1)
-   * This implementation is fundamentally limited: it checks whether patterns
-   * from multiple sequence steps co-occur within a SINGLE event's content.
-   *
-   * What it does NOT do (and claims to via the schema):
-   * - Does NOT track ordered execution across separate events
-   * - Does NOT enforce the `within` time window between steps
-   * - Does NOT respect the `ordered` flag (treats all as unordered)
-   * - Does NOT correlate steps across different event types
-   *
-   * As a result, sequence rules only fire when an attacker's multi-step
-   * payload appears in one message. Real multi-turn attack chains that
-   * spread steps across separate events will NOT be detected.
-   *
-   * The `matchCount >= 2` threshold is arbitrary and can produce false
-   * negatives for 2-step sequences (requires both steps in one event)
-   * and false positives for long sequences (only 2 of N steps needed).
-   *
-   * Full session-aware sequence detection is planned for a future version
-   * and will require integration with SessionTracker.
+   * Two modes:
+   * 1. Session-aware (when SessionTracker + sessionId available):
+   *    Checks patterns across historical events in the session.
+   *    Respects `ordered` flag and `within` time window.
+   * 2. Single-event fallback: checks if patterns co-occur in one event.
    */
   private evaluateSequenceCondition(
     cond: Record<string, unknown>,
@@ -611,6 +606,102 @@ export class ATREngine {
     const steps = cond['steps'] as Array<Record<string, unknown>>;
     if (!steps || steps.length === 0) return false;
 
+    // Try session-aware detection first
+    const tracker = this.config.sessionTracker;
+    const sessionId = event.sessionId;
+    if (tracker && sessionId) {
+      const sessionResult = this.evaluateSequenceAcrossSession(steps, cond, tracker, sessionId, event);
+      if (sessionResult) return true;
+    }
+
+    // Fallback: single-event check
+    return this.evaluateSequenceSingleEvent(steps, event);
+  }
+
+  /**
+   * Cross-event sequence detection using SessionTracker.
+   * Checks if step patterns have been seen across events in order.
+   */
+  private evaluateSequenceAcrossSession(
+    steps: Array<Record<string, unknown>>,
+    cond: Record<string, unknown>,
+    tracker: SessionTracker,
+    sessionId: string,
+    currentEvent: AgentEvent
+  ): boolean {
+    const ordered = cond['ordered'] !== false; // default: true
+    const withinMs = this.parseWindowMs(cond['within'] as string | undefined);
+    const snapshot = tracker.getSessionSnapshot(sessionId);
+    if (!snapshot) return false;
+
+    // Collect all events: historical + current
+    const allEvents = [...snapshot.events, currentEvent];
+    if (allEvents.length < steps.length) return false;
+
+    // For each step, find the earliest event that matches
+    const stepMatches: Array<{ stepIndex: number; eventIndex: number; timestamp: number }> = [];
+
+    for (let si = 0; si < steps.length; si++) {
+      const step = steps[si]!;
+      const patterns = step['patterns'] as string[] | undefined;
+      if (!patterns) continue;
+
+      for (let ei = 0; ei < allEvents.length; ei++) {
+        const ev = allEvents[ei]!;
+        const content = normalizeUnicode(ev.content);
+        let matched = false;
+
+        for (const pattern of patterns) {
+          try {
+            if (safeRegexTest(new RegExp(pattern, 'i'), content)) {
+              matched = true;
+              break;
+            }
+          } catch {
+            // Invalid regex
+          }
+        }
+
+        if (matched) {
+          stepMatches.push({
+            stepIndex: si,
+            eventIndex: ei,
+            timestamp: new Date(ev.timestamp).getTime(),
+          });
+          break; // First match per step
+        }
+      }
+    }
+
+    // Need all steps to match
+    if (stepMatches.length < steps.length) return false;
+
+    // Check ordering
+    if (ordered) {
+      for (let i = 1; i < stepMatches.length; i++) {
+        if (stepMatches[i]!.eventIndex <= stepMatches[i - 1]!.eventIndex) {
+          return false; // Out of order
+        }
+      }
+    }
+
+    // Check time window
+    if (withinMs > 0) {
+      const firstTs = Math.min(...stepMatches.map((m) => m.timestamp));
+      const lastTs = Math.max(...stepMatches.map((m) => m.timestamp));
+      if (lastTs - firstTs > withinMs) return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Single-event fallback: check if step patterns co-occur in one event.
+   */
+  private evaluateSequenceSingleEvent(
+    steps: Array<Record<string, unknown>>,
+    event: AgentEvent
+  ): boolean {
     const content = normalizeUnicode(event.content);
     let matchCount = 0;
 
@@ -619,8 +710,7 @@ export class ATREngine {
       if (patterns) {
         for (const pattern of patterns) {
           try {
-            const regex = new RegExp(pattern, 'i');
-            if (safeRegexTest(regex, content)) {
+            if (safeRegexTest(new RegExp(pattern, 'i'), content)) {
               matchCount++;
               break;
             }
@@ -633,6 +723,8 @@ export class ATREngine {
 
     return matchCount >= 2;
   }
+
+  // parseWindowMs already defined above (behavioral conditions)
 
   /**
    * Resolve a field value from an agent event.
