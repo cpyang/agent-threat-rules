@@ -65,7 +65,7 @@ export class ShadowEvaluator {
 
       let matched = false;
       for (const cond of conditions) {
-        const c = cond as Record<string, unknown>;
+        const c = cond as unknown as Record<string, unknown>;
         const value = c['value'] as string;
         const field = c['field'] as string;
         if (!value || !field) continue;

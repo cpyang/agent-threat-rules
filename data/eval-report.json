@@ -1,0 +1,767 @@
+{
+  "report": {
+    "timestamp": "2026-03-17T21:09:48.134Z",
+    "corpusSize": 341,
+    "overall": {
+      "precision": 1,
+      "recall": 0.9875389408099688,
+      "f1": 0.9937304075235109,
+      "accuracy": 0.9882697947214076,
+      "fpRate": 0,
+      "confusion": {
+        "tp": 317,
+        "fp": 0,
+        "tn": 20,
+        "fn": 4
+      },
+      "sampleCount": 341
+    },
+    "latency": {
+      "p50": 4.853125000000091,
+      "p95": 10.480249999999842,
+      "p99": 18.159541999999988,
+      "mean": 5.545068782991197,
+      "max": 35.314332999999976
+    },
+    "byCategory": [
+      {
+        "category": "prompt-injection",
+        "metrics": {
+          "precision": 1,
+          "recall": 0.9868421052631579,
+          "f1": 0.9933774834437086,
+          "accuracy": 0.9868421052631579,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 150,
+            "fp": 0,
+            "tn": 0,
+            "fn": 2
+          },
+          "sampleCount": 152
+        },
+        "missedSamples": [
+          "pi-009",
+          "pi-019"
+        ],
+        "falsePositives": []
+      },
+      {
+        "category": "tool-poisoning",
+        "metrics": {
+          "precision": 1,
+          "recall": 0.9833333333333333,
+          "f1": 0.9915966386554621,
+          "accuracy": 0.9833333333333333,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 59,
+            "fp": 0,
+            "tn": 0,
+            "fn": 1
+          },
+          "sampleCount": 60
+        },
+        "missedSamples": [
+          "tp-010"
+        ],
+        "falsePositives": []
+      },
+      {
+        "category": "context-exfiltration",
+        "metrics": {
+          "precision": 1,
+          "recall": 0.9565217391304348,
+          "f1": 0.9777777777777777,
+          "accuracy": 0.9565217391304348,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 22,
+            "fp": 0,
+            "tn": 0,
+            "fn": 1
+          },
+          "sampleCount": 23
+        },
+        "missedSamples": [
+          "ex-009"
+        ],
+        "falsePositives": []
+      },
+      {
+        "category": "skill-compromise",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 8,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0
+          },
+          "sampleCount": 8
+        },
+        "missedSamples": [],
+        "falsePositives": []
+      },
+      {
+        "category": "benign",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 0,
+            "fp": 0,
+            "tn": 20,
+            "fn": 0
+          },
+          "sampleCount": 20
+        },
+        "missedSamples": [],
+        "falsePositives": []
+      },
+      {
+        "category": "agent-manipulation",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 31,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0
+          },
+          "sampleCount": 31
+        },
+        "missedSamples": [],
+        "falsePositives": []
+      },
+      {
+        "category": "data-poisoning",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 9,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0
+          },
+          "sampleCount": 9
+        },
+        "missedSamples": [],
+        "falsePositives": []
+      },
+      {
+        "category": "excessive-autonomy",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 23,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0
+          },
+          "sampleCount": 23
+        },
+        "missedSamples": [],
+        "falsePositives": []
+      },
+      {
+        "category": "model-abuse",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 4,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0
+          },
+          "sampleCount": 4
+        },
+        "missedSamples": [],
+        "falsePositives": []
+      },
+      {
+        "category": "privilege-escalation",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 11,
+            "fp": 0,
+            "tn": 0,
+            "fn": 0
+          },
+          "sampleCount": 11
+        },
+        "missedSamples": [],
+        "falsePositives": []
+      }
+    ],
+    "byDifficulty": [
+      {
+        "difficulty": "easy",
+        "metrics": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 303,
+            "fp": 0,
+            "tn": 12,
+            "fn": 0
+          },
+          "sampleCount": 315
+        }
+      },
+      {
+        "difficulty": "medium",
+        "metrics": {
+          "precision": 1,
+          "recall": 0.7692307692307693,
+          "f1": 0.8695652173913044,
+          "accuracy": 0.8333333333333334,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 10,
+            "fp": 0,
+            "tn": 5,
+            "fn": 3
+          },
+          "sampleCount": 18
+        }
+      },
+      {
+        "difficulty": "hard",
+        "metrics": {
+          "precision": 1,
+          "recall": 0.8,
+          "f1": 0.888888888888889,
+          "accuracy": 0.875,
+          "fpRate": 0,
+          "confusion": {
+            "tp": 4,
+            "fp": 0,
+            "tn": 3,
+            "fn": 1
+          },
+          "sampleCount": 8
+        }
+      }
+    ],
+    "missedAttacks": [
+      {
+        "id": "pi-009",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.980875000000026,
+        "difficulty": "medium",
+        "tier": "regex"
+      },
+      {
+        "id": "pi-019",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 4.832500000000039,
+        "difficulty": "hard",
+        "tier": "embedding"
+      },
+      {
+        "id": "tp-010",
+        "category": "tool-poisoning",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.3954590000000735,
+        "difficulty": "medium",
+        "tier": "regex"
+      },
+      {
+        "id": "ex-009",
+        "category": "context-exfiltration",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 4.491041999999993,
+        "difficulty": "medium",
+        "tier": "regex"
+      }
+    ],
+    "falsePositives": []
+  },
+  "regression": {
+    "passed": true,
+    "violations": []
+  },
+  "corpusStats": {
+    "total": 341,
+    "attacks": 321,
+    "benign": 20,
+    "byCategory": {
+      "prompt-injection": 152,
+      "tool-poisoning": 60,
+      "context-exfiltration": 23,
+      "skill-compromise": 8,
+      "benign": 20,
+      "agent-manipulation": 31,
+      "data-poisoning": 9,
+      "excessive-autonomy": 23,
+      "model-abuse": 4,
+      "privilege-escalation": 11
+    },
+    "byDifficulty": {
+      "easy": 315,
+      "medium": 18,
+      "hard": 8
+    }
+  },
+  "ruleQuality": {
+    "totalRulesEvaluated": 61,
+    "rulesFired": 34,
+    "rulesNeverFired": 28,
+    "topRules": [
+      {
+        "ruleId": "tier2.5-embedding-match",
+        "matchCount": 256,
+        "tpCount": 256,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation",
+          "context-exfiltration",
+          "data-poisoning",
+          "excessive-autonomy",
+          "model-abuse",
+          "privilege-escalation",
+          "prompt-injection",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.8682255649448513
+      },
+      {
+        "ruleId": "ATR-2026-097",
+        "matchCount": 37,
+        "tpCount": 37,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9035714285714288
+      },
+      {
+        "ruleId": "ATR-2026-001",
+        "matchCount": 32,
+        "tpCount": 32,
+        "fpCount": 0,
+        "categories": [
+          "context-exfiltration",
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.8992311507936506
+      },
+      {
+        "ruleId": "ATR-2026-004",
+        "matchCount": 31,
+        "tpCount": 31,
+        "fpCount": 0,
+        "categories": [
+          "data-poisoning",
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9038461538461535
+      },
+      {
+        "ruleId": "ATR-2026-003",
+        "matchCount": 28,
+        "tpCount": 28,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9032552764695625
+      },
+      {
+        "ruleId": "ATR-2026-010",
+        "matchCount": 24,
+        "tpCount": 24,
+        "fpCount": 0,
+        "categories": [
+          "data-poisoning",
+          "prompt-injection",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9066666666666664
+      },
+      {
+        "ruleId": "ATR-2026-012",
+        "matchCount": 21,
+        "tpCount": 21,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "skill-compromise",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9071951857666145
+      },
+      {
+        "ruleId": "ATR-2026-040",
+        "matchCount": 20,
+        "tpCount": 20,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "skill-compromise",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9147142857142858
+      },
+      {
+        "ruleId": "ATR-2026-002",
+        "matchCount": 16,
+        "tpCount": 16,
+        "fpCount": 0,
+        "categories": [
+          "data-poisoning",
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9055288461538461
+      },
+      {
+        "ruleId": "ATR-2026-011",
+        "matchCount": 12,
+        "tpCount": 12,
+        "fpCount": 0,
+        "categories": [
+          "data-poisoning",
+          "prompt-injection",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9070940170940172
+      },
+      {
+        "ruleId": "ATR-2026-063",
+        "matchCount": 12,
+        "tpCount": 12,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "skill-compromise",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.8846626984126984
+      },
+      {
+        "ruleId": "ATR-2026-021",
+        "matchCount": 11,
+        "tpCount": 11,
+        "fpCount": 0,
+        "categories": [
+          "context-exfiltration"
+        ],
+        "avgConfidence": 0.9066666666666664
+      },
+      {
+        "ruleId": "ATR-2026-066",
+        "matchCount": 11,
+        "tpCount": 11,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "skill-compromise",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9204545454545456
+      },
+      {
+        "ruleId": "ATR-2026-099",
+        "matchCount": 11,
+        "tpCount": 11,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.879155844155844
+      },
+      {
+        "ruleId": "ATR-2026-061",
+        "matchCount": 11,
+        "tpCount": 11,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.8989177489177489
+      },
+      {
+        "ruleId": "ATR-2026-076",
+        "matchCount": 10,
+        "tpCount": 10,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation"
+        ],
+        "avgConfidence": 0.7083333333333331
+      },
+      {
+        "ruleId": "ATR-2026-052",
+        "matchCount": 10,
+        "tpCount": 10,
+        "fpCount": 0,
+        "categories": [
+          "excessive-autonomy"
+        ],
+        "avgConfidence": 0.709090909090909
+      },
+      {
+        "ruleId": "ATR-2026-013",
+        "matchCount": 10,
+        "tpCount": 10,
+        "fpCount": 0,
+        "categories": [
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9066666666666665
+      },
+      {
+        "ruleId": "ATR-2026-077",
+        "matchCount": 9,
+        "tpCount": 9,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation",
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.71
+      },
+      {
+        "ruleId": "ATR-2026-005",
+        "matchCount": 9,
+        "tpCount": 9,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.7083333333333331
+      },
+      {
+        "ruleId": "ATR-2026-064",
+        "matchCount": 7,
+        "tpCount": 7,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "skill-compromise",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.8877551020408163
+      },
+      {
+        "ruleId": "ATR-2026-020",
+        "matchCount": 6,
+        "tpCount": 6,
+        "fpCount": 0,
+        "categories": [
+          "context-exfiltration"
+        ],
+        "avgConfidence": 0.9066666666666666
+      },
+      {
+        "ruleId": "ATR-2026-030",
+        "matchCount": 6,
+        "tpCount": 6,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation"
+        ],
+        "avgConfidence": 0.9071428571428571
+      },
+      {
+        "ruleId": "ATR-2026-074",
+        "matchCount": 6,
+        "tpCount": 6,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation"
+        ],
+        "avgConfidence": 0.8119047619047618
+      },
+      {
+        "ruleId": "ATR-2026-051",
+        "matchCount": 6,
+        "tpCount": 6,
+        "fpCount": 0,
+        "categories": [
+          "excessive-autonomy",
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.7409188034188033
+      },
+      {
+        "ruleId": "ATR-2026-032",
+        "matchCount": 5,
+        "tpCount": 5,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation",
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.7474358974358972
+      },
+      {
+        "ruleId": "ATR-2026-060",
+        "matchCount": 5,
+        "tpCount": 5,
+        "fpCount": 0,
+        "categories": [
+          "skill-compromise"
+        ],
+        "avgConfidence": 0.7083333333333333
+      },
+      {
+        "ruleId": "ATR-2026-062",
+        "matchCount": 5,
+        "tpCount": 5,
+        "fpCount": 0,
+        "categories": [
+          "skill-compromise",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.925
+      },
+      {
+        "ruleId": "ATR-2026-072",
+        "matchCount": 5,
+        "tpCount": 5,
+        "fpCount": 0,
+        "categories": [
+          "model-abuse",
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.7142857142857142
+      },
+      {
+        "ruleId": "ATR-2026-050",
+        "matchCount": 4,
+        "tpCount": 4,
+        "fpCount": 0,
+        "categories": [
+          "excessive-autonomy"
+        ],
+        "avgConfidence": 0.7083333333333333
+      },
+      {
+        "ruleId": "ATR-2026-098",
+        "matchCount": 4,
+        "tpCount": 4,
+        "fpCount": 0,
+        "categories": [
+          "excessive-autonomy"
+        ],
+        "avgConfidence": 0.9111111111111111
+      },
+      {
+        "ruleId": "ATR-2026-073",
+        "matchCount": 4,
+        "tpCount": 4,
+        "fpCount": 0,
+        "categories": [
+          "data-poisoning"
+        ],
+        "avgConfidence": 0.8102564102564103
+      },
+      {
+        "ruleId": "ATR-2026-041",
+        "matchCount": 4,
+        "tpCount": 4,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation"
+        ],
+        "avgConfidence": 0.71
+      },
+      {
+        "ruleId": "ATR-2026-065",
+        "matchCount": 2,
+        "tpCount": 2,
+        "fpCount": 0,
+        "categories": [
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.725
+      }
+    ],
+    "weakRules": [],
+    "neverFiredRuleIds": [
+      "ATR-2026-070",
+      "ATR-2026-075",
+      "ATR-2026-080",
+      "ATR-2026-081",
+      "ATR-2026-082",
+      "ATR-2026-083",
+      "ATR-2026-084",
+      "ATR-2026-085",
+      "ATR-2026-086",
+      "ATR-2026-087",
+      "ATR-2026-088",
+      "ATR-2026-089",
+      "ATR-2026-090",
+      "ATR-2026-091",
+      "ATR-2026-092",
+      "ATR-2026-093",
+      "ATR-2026-094",
+      "ATR-2026-095",
+      "ATR-2026-096",
+      "ATR-2026-100",
+      "ATR-2026-101",
+      "ATR-2026-102",
+      "ATR-2026-103",
+      "ATR-2026-104",
+      "ATR-2026-105",
+      "ATR-2026-106",
+      "ATR-2026-107",
+      "ATR-2026-108"
+    ]
+  },
+  "ruleCount": 61,
+  "engine": "ATREngine",
+  "tiers": [
+    "tier2-regex",
+    "tier2.5-embedding"
+  ]
+}

@@ -60,6 +60,8 @@
     "test": "vitest run",
     "dev": "tsc --build --watch",
     "validate": "tsx tests/validate-rules.ts",
+    "eval": "tsx src/eval/run-eval.ts",
+    "eval:pint": "tsx src/eval/run-pint-benchmark.ts",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
