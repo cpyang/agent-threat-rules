@@ -56,12 +56,40 @@ export class FlywheelManager {
     const category = match.rule.tags?.category ?? 'prompt-injection';
     const severity = match.rule.severity ?? 'medium';
 
+    // Build example payloads from ATTACK PATTERNS, not just raw content.
+    // Priority: matched patterns > event fields > event content
+    const payloads: string[] = [];
+
+    // 1. Matched patterns from the Tier 4 detection — these ARE the attack signals
+    if (match.matchedPatterns.length > 0) {
+      payloads.push(...match.matchedPatterns.filter((p) => p.length > 5));
+    }
+
+    // 2. Event fields (tool_args, tool_response, etc.) — more specific than content
+    if (event.fields) {
+      for (const value of Object.values(event.fields)) {
+        if (value && value.length > 10) {
+          payloads.push(value.slice(0, 500));
+        }
+      }
+    }
+
+    // 3. Event content as fallback — but only if we don't have better signals
+    if (payloads.length === 0 && event.content) {
+      payloads.push(event.content.slice(0, 500));
+    }
+
+    // Ensure at least one payload
+    if (payloads.length === 0) {
+      payloads.push(match.rule.description ?? match.rule.title);
+    }
+
     const input: ScaffoldInput = {
       title: `Auto: ${match.rule.description?.slice(0, 60) ?? match.rule.title}`,
       category: category as ScaffoldInput['category'],
       severity: severity as ScaffoldInput['severity'],
       attackDescription: match.rule.description ?? match.matchedPatterns.join('; '),
-      examplePayloads: [event.content?.slice(0, 500) ?? ''],
+      examplePayloads: payloads,
     };
 
     try {

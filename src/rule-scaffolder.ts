@@ -73,12 +73,142 @@ function escapeRegex(str: string): string {
 }
 
 /**
- * Build a case-insensitive regex pattern from a payload string.
- * Extracts significant keywords (length > 3) and creates lookahead assertions,
- * falling back to a simple escaped match for short payloads.
+ * Attack pattern templates by category — reusable regex building blocks
+ * that detect BEHAVIOR, not package names.
  */
-function buildRegexPattern(payload: string): string {
+export const ATTACK_PATTERN_INDICATORS: ReadonlyArray<{
+  /** Regex to test if the payload contains this attack indicator */
+  readonly test: RegExp;
+  /** The detection regex to use in the rule */
+  readonly pattern: string;
+  /** Human-readable description */
+  readonly description: string;
+  /** Which categories this indicator applies to */
+  readonly categories: readonly ATRCategory[];
+}> = [
+  // Shell execution patterns
+  {
+    test: /exec(Sync)?|spawn|child_process|shell|subprocess|popen|os\.system/i,
+    pattern: '(execSync?|spawn|child_process|shell|subprocess|popen|os\\.system)\\s*\\(',
+    description: 'Shell/command execution',
+    categories: ['tool-poisoning', 'skill-compromise', 'privilege-escalation'],
+  },
+  // Dynamic shell with interpolation (RCE)
+  {
+    test: /exec.*\$\{|spawn.*\$\{|`.*\$\{.*`/i,
+    pattern: '(exec|spawn|shell)\\s*\\(.*\\$\\{',
+    description: 'Dynamic shell execution with variable interpolation',
+    categories: ['tool-poisoning', 'skill-compromise'],
+  },
+  // Network exfiltration
+  {
+    test: /fetch|http|request|axios|got|node-fetch|urllib|curl|wget/i,
+    pattern: '(fetch|https?://|request|axios|got|node-fetch|urllib|curl|wget)\\s*\\(?',
+    description: 'Outbound network request',
+    categories: ['context-exfiltration', 'tool-poisoning', 'data-poisoning'],
+  },
+  // Credential/secret access
+  {
+    test: /password|secret|token|credential|api[_\s]?key|auth|cookie/i,
+    pattern: '(password|secret|token|credential|api[_ ]?key|auth_token|cookie)',
+    description: 'Credential/secret access',
+    categories: ['context-exfiltration', 'privilege-escalation', 'tool-poisoning'],
+  },
+  // Environment variable exfiltration
+  {
+    test: /process\.env|os\.environ|getenv|ENV\[/i,
+    pattern: '(process\\.env|os\\.environ|getenv|ENV\\[)',
+    description: 'Environment variable access',
+    categories: ['context-exfiltration', 'tool-poisoning', 'skill-compromise'],
+  },
+  // eval / dynamic code execution
+  {
+    test: /\beval\s*\(|new\s+Function\s*\(|vm\.run/i,
+    pattern: '(\\beval\\s*\\(|new\\s+Function\\s*\\(|vm\\.run)',
+    description: 'Dynamic code execution',
+    categories: ['tool-poisoning', 'skill-compromise'],
+  },
+  // Instruction override (prompt injection)
+  {
+    test: /ignore|disregard|forget|override|overwrite/i,
+    pattern: '(override|overwrite|ignore|disregard|forget)\\s+(previous|prior|above|existing|all|any)\\s+(instructions?|rules?|constraints?|guidelines?|protocols?)',
+    description: 'Instruction override attempt',
+    categories: ['prompt-injection', 'agent-manipulation'],
+  },
+  // Role manipulation
+  {
+    test: /you are now|act as|pretend|new role|system prompt/i,
+    pattern: '(you\\s+are\\s+now|act\\s+as\\s+(a|an|if)|pretend\\s+(to|you)|new\\s+role|system\\s+prompt)',
+    description: 'Role/identity manipulation',
+    categories: ['prompt-injection', 'agent-manipulation'],
+  },
+  // File system destructive operations
+  {
+    test: /rm\s+-rf|rmdir|unlink|deleteFile|fs\.rm/i,
+    pattern: '(rm\\s+-rf|rmdir\\s|unlink\\s*\\(|deleteFile|fs\\.rm)',
+    description: 'Destructive file system operation',
+    categories: ['tool-poisoning', 'excessive-autonomy'],
+  },
+  // Base64/encoding evasion
+  {
+    test: /atob|btoa|base64|Buffer\.from.*encoding|fromCharCode/i,
+    pattern: '(atob|btoa|base64|Buffer\\.from|fromCharCode)\\s*\\(',
+    description: 'Encoding-based payload obfuscation',
+    categories: ['tool-poisoning', 'skill-compromise'],
+  },
+  // Data exfiltration combo (credential + network)
+  {
+    test: /(password|secret|token|key).*(fetch|http|send|post|upload)/i,
+    pattern: '(password|secret|token|api[_ ]?key).*(fetch|https?://|request|send|post|upload)',
+    description: 'Credential access combined with network exfiltration',
+    categories: ['context-exfiltration', 'tool-poisoning'],
+  },
+  // Download + execute combo
+  {
+    test: /(download|fetch|curl|wget).*(exec|eval|spawn)/i,
+    pattern: '(download|fetch|curl|wget).*(exec|eval|spawn|child_process)',
+    description: 'Download and execute pattern',
+    categories: ['tool-poisoning', 'skill-compromise'],
+  },
+];
+
+/**
+ * Build detection regex from a payload string, using category-aware
+ * attack pattern templates instead of naive keyword extraction.
+ *
+ * Priority:
+ * 1. Match known attack indicators in the payload -> use behavioral regex
+ * 2. Combine multiple indicators with alternation for multi-vector attacks
+ * 3. Fall back to keyword extraction only for text that has no code patterns
+ */
+function buildRegexPattern(payload: string, category?: ATRCategory): string {
   const trimmed = payload.trim();
+
+  // Step 1: Find all attack indicators present in this payload
+  const matched = ATTACK_PATTERN_INDICATORS.filter((ind) => {
+    const matchesPayload = ind.test.test(trimmed);
+    const matchesCategory = !category || ind.categories.includes(category);
+    return matchesPayload && matchesCategory;
+  });
+
+  // Step 2: If we found behavioral patterns, use them
+  if (matched.length > 0) {
+    if (matched.length === 1) {
+      return `(?i)${matched[0]!.pattern}`;
+    }
+    // Combine multiple indicators — detect the most specific one
+    // Sort by pattern length (longer = more specific) and take top 3
+    const sorted = [...matched].sort((a, b) => b.pattern.length - a.pattern.length);
+    const top = sorted.slice(0, 3);
+    if (top.length === 1) {
+      return `(?i)${top[0]!.pattern}`;
+    }
+    // Use alternation for multi-vector detection
+    return `(?i)(${top.map((t) => t.pattern).join('|')})`;
+  }
+
+  // Step 3: Fallback — keyword extraction for text-based payloads
+  // (e.g., prompt injection text without code patterns)
   const words = trimmed.split(/\s+/).filter((w) => w.length > 3);
 
   if (words.length === 0) {
@@ -137,8 +267,8 @@ export class RuleScaffolder {
       (payload, idx) => ({
         field,
         operator: 'regex',
-        value: buildRegexPattern(payload),
-        description: `Pattern ${idx + 1}: detects "${payload.trim()}"`,
+        value: buildRegexPattern(payload, input.category),
+        description: `Pattern ${idx + 1}: detects "${payload.trim().slice(0, 80)}"`,
       }),
     );
 
