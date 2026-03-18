@@ -10,9 +10,9 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Rules](https://img.shields.io/badge/rules-61-blue?style=flat-square)](#what-atr-detects)
-[![Tests](https://img.shields.io/badge/tests-556_passing-green?style=flat-square)](#ecosystem)
-[![Status](https://img.shields.io/badge/status-RFC-yellow?style=flat-square)](#roadmap)
-[![GitHub Stars](https://img.shields.io/github/stars/Agent-Threat-Rule/agent-threat-rules?style=flat-square&color=DAA520)](https://github.com/Agent-Threat-Rule/agent-threat-rules/stargazers)
+[![Tests](https://img.shields.io/badge/tests-246_passing-green?style=flat-square)](#ecosystem)
+[![PINT Recall](https://img.shields.io/badge/PINT_recall-39.9%25-orange?style=flat-square)](#evaluation)
+[![Status](https://img.shields.io/badge/status-v0.3.0-yellow?style=flat-square)](#roadmap)
 
 </div>
 
@@ -26,7 +26,7 @@ AI 助理現在可以瀏覽網頁、執行程式碼、使用外部工具。攻�
 npm install agent-threat-rules    # or: pip install pyatr
 
 atr scan events.json              # scan agent traffic for threats
-atr test rules/                   # run 212 built-in tests
+atr test rules/                   # run built-in tests
 atr convert splunk                # export rules to Splunk SPL
 atr convert elastic               # export rules to Elasticsearch
 ```
@@ -41,17 +41,35 @@ atr convert elastic               # export rules to Elasticsearch
 
 | Category | What it catches | Rules | Real CVEs |
 |----------|----------------|-------|-----------|
-| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, [CJK attacks](rules/prompt-injection/) | 21 | CVE-2025-53773, CVE-2025-32711 |
+| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, [CJK attacks](rules/prompt-injection/) | 22 | CVE-2025-53773, CVE-2025-32711 |
 | **Tool Poisoning** | Malicious MCP responses, consent bypass, hidden LLM instructions, schema contradictions | 11 | CVE-2025-68143/68144/68145 |
 | **Skill Compromise** | Typosquatting, description-behavior mismatch, supply chain attacks | 7 | CVE-2025-59536 |
 | **Agent Manipulation** | Cross-agent attacks, goal hijacking, Sybil consensus attacks | 6 | -- |
 | **Excessive Autonomy** | Runaway loops, resource exhaustion, unauthorized financial actions | 5 | -- |
-| **Context Exfiltration** | API key leakage, system prompt theft, disguised analytics collection | 3 | CVE-2026-24307 |
+| **Context Exfiltration** | API key leakage, system prompt theft, disguised analytics collection | 4 | CVE-2026-24307 |
 | **Privilege Escalation** | Scope creep, delayed execution bypass | 3 | CVE-2026-0628 |
 | **Model Security** | Behavior extraction, malicious fine-tuning data | 2 | -- |
 | **Data Poisoning** | RAG/knowledge base tampering | 1 | -- |
 
-> **Limitations:** Regex catches known patterns, not paraphrased attacks. We publish [30 evasion tests](LIMITATIONS.md) showing what we can't catch. See [THREAT-MODEL.md](THREAT-MODEL.md) for honest coverage analysis.
+> **Limitations:** Regex catches known patterns, not paraphrased attacks. We publish [evasion tests](LIMITATIONS.md) showing what we can't catch. See [LIMITATIONS.md](LIMITATIONS.md) for honest benchmark numbers including external PINT results.
+
+---
+
+## Evaluation
+
+We test ATR with our own tests AND external benchmarks we've never seen before:
+
+| Benchmark | Samples | Precision | Recall | F1 |
+|-----------|---------|-----------|--------|-----|
+| Self-test (own rules' test cases) | 341 | 100% | 99.4% | 99.5% |
+| **PINT (external, adversarial)** | **850** | **99.4%** | **39.9%** | **57.0%** |
+
+```bash
+npm run eval        # run self-test evaluation
+npm run eval:pint   # run external PINT benchmark
+```
+
+The gap between 99.4% and 39.9% recall is expected -- regex catches known patterns but misses paraphrases and multilingual attacks. See [LIMITATIONS.md](LIMITATIONS.md) for full analysis.
 
 ---
 
@@ -59,26 +77,30 @@ atr convert elastic               # export rules to Elasticsearch
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| [TypeScript engine](src/engine.ts) | Reference engine with 3-layer detection | 164 engine tests + 556 rule tests |
+| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 246 tests passing |
+| [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v0.3.0 |
 | [Python engine (pyATR)](python/) | `pip install pyatr` -- validate, test, scan | 48 tests passing |
 | [Splunk converter](src/converters/splunk.ts) | `atr convert splunk` -- ATR rules to SPL queries | Shipped |
 | [Elastic converter](src/converters/elastic.ts) | `atr convert elastic` -- ATR rules to Query DSL | Shipped |
 | [MCP server](src/mcp-server.ts) | 6 tools for Claude Code, Cursor, Windsurf | Shipped |
 | [CLI](src/cli.ts) | scan, validate, test, stats, scaffold, convert | Shipped |
+| [CI gate](.github/workflows/eval.yml) | Typecheck + test + eval + validate on every PR | v0.3.0 |
 | Go engine | High-performance scanner for production pipelines | **Help wanted** |
-| GitHub Action | `atr scan` in CI/CD | **Help wanted** |
 
 ---
 
-## Three-Layer Detection
+## Five-Tier Detection
 
-| Layer | Method | Speed | What it catches |
-|-------|--------|-------|-----------------|
-| **Layer 1** | Regex pattern matching | < 1ms | Known attack phrases, encoded payloads, structural patterns |
-| **Layer 2** | Behavioral fingerprinting | < 10ms | Skill drift, anomalous tool behavior, session patterns |
-| **Layer 3** | LLM-as-judge | ~1-5s | Paraphrased attacks, semantic manipulation, subtle framing |
+| Tier | Method | Speed | What it catches |
+|------|--------|-------|-----------------|
+| **Tier 0** | Invariant enforcement | 0ms | Hard boundaries (no eval, no exec without auth) |
+| **Tier 1** | Blacklist lookup | < 1ms | Known-malicious skill hashes |
+| **Tier 2** | Regex pattern matching | < 5ms | Known attack phrases, encoded payloads, credential patterns |
+| **Tier 2.5** | Embedding similarity | ~ 5ms | Paraphrased attacks, multilingual injection |
+| **Tier 3** | Behavioral fingerprinting | ~ 10ms | Skill drift, anomalous tool behavior |
+| **Tier 4** | LLM-as-judge | ~ 500ms | Novel attacks, semantic manipulation |
 
-Layer 1 alone catches ~30-40% of attacks. All three layers combined reach ~70-80% (simulation estimate, not production data). [Layer 3 prompts are open source](docs/layer3-prompt-templates.md).
+99% of events resolve at Tier 0-2.5 (< 5ms, zero cost). Only ambiguous events escalate to higher tiers.
 
 ---
 
@@ -129,21 +151,55 @@ atr convert elastic --output atr-rules.json
 
 ## Contributing
 
-ATR becomes a standard when the community validates it. Here's what matters most:
+ATR needs your help to become a standard. Here's how:
+
+### Easiest way to contribute: scan your skills
+
+```bash
+npx agent-threat-rules scan your-mcp-config.json
+```
+
+Report what ATR found (or missed). **Your real-world detection report is more valuable than 10 new regex patterns.**
+
+### Ways to contribute
 
 | Impact | What to do | Time |
 |--------|-----------|------|
-| **Critical** | [Deploy ATR](docs/deployment-guide.md) in your agent pipeline, report detection stats | 1-2 hours |
-| **Critical** | Build an engine in [Go / Rust / Java](CONTRIBUTING.md) | Weekend |
+| **Critical** | Scan your MCP skills and [report results](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) | 15 min |
+| **Critical** | [Deploy ATR](docs/deployment-guide.md) in your agent pipeline, share detection stats | 1-2 hours |
 | **High** | [Break our rules](CONTRIBUTION-GUIDE.md#5-evasion-research) -- find bypasses, report evasions | 15 min |
 | **High** | Report [false positives](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) from real traffic | 15 min |
 | **High** | [Write a new rule](CONTRIBUTING.md#c-submit-a-new-rule-1-2-hours) for an uncovered attack | 1 hour |
+| **High** | Build an engine in [Go / Rust / Java](CONTRIBUTING.md) | Weekend |
 | **Medium** | Add multilingual attack phrases for your native language | 30 min |
+| **Medium** | Run `npm run eval:pint` and share your results | 5 min |
+
+### Rule contribution workflow
 
 ```
-Your deployment report is worth more than 10 new rules.
-Your false positive report is worth more than 5 new regex patterns.
+1. Fork this repo
+2. Write your rule:     atr scaffold
+3. Test it:             atr validate my-rule.yaml && atr test my-rule.yaml
+4. Run eval:            npm run eval          # make sure recall doesn't drop
+5. Submit PR
+
+PR requirements:
+  - Rule must have test_cases (true_positives + true_negatives)
+  - npm run eval regression check must pass
+  - Rule must map to at least one OWASP or MITRE reference
 ```
+
+### Automatic contribution via Threat Cloud
+
+If you use [PanGuard](https://panguard.ai), your scans automatically contribute to the ATR ecosystem:
+
+```
+Your scan finds a threat → anonymized hash sent to Threat Cloud
+→ 3 independent confirmations → LLM quality review → new ATR rule
+→ all users get the new rule within 1 hour
+```
+
+No manual PR needed. No security expertise required. Just install and scan.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUIDE.md](CONTRIBUTION-GUIDE.md) for 12 research areas with difficulty levels.
 
@@ -152,18 +208,20 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 ## Roadmap: From Format to Standard
 
 ```
- FORMAT (we are here)        ADOPTION                    STANDARD
- ┌─────────────────┐         ┌─────────────────┐         ┌──────────────────┐
- │ v0.2: 61 rules  │    →    │ v0.3-0.9        │    →    │ v1.0+            │
- │ 2 engines (TS+Py)│        │ 100+ rules      │         │ 200+ rules       │
- │ 2 SIEM converters│        │ 3+ engines      │         │ Vendor adoption  │
- │ 0 ext. deploys  │         │ 10+ deployments │         │ Schema freeze    │
- └─────────────────┘         └─────────────────┘         └──────────────────┘
+ v0.2 (previous)          v0.3 (current)            v0.4+ (next)
+ ┌─────────────────┐      ┌──────────────────┐      ┌──────────────────┐
+ │ 61 rules         │  →  │ + Eval framework  │  →  │ 100+ rules       │
+ │ 2 engines (TS+Py)│     │ + PINT benchmark  │     │ + Go engine      │
+ │ 2 SIEM converters│     │ + CI gate         │     │ + ML classifier  │
+ │ 0 ext. benchmarks│     │ + Embedding (T2.5)│     │ + 10+ deployments│
+ └─────────────────┘      │ + Honest numbers  │     └──────────────────┘
+                           └──────────────────┘
 ```
 
 - [x] **v0.1** -- 44 rules, TypeScript engine, OWASP mapping
-- [x] **v0.2** -- MCP server, Layer 2-3 detection, pyATR, Splunk/Elastic converters, [Layer 3 prompts open](docs/layer3-prompt-templates.md)
-- [ ] **v0.3** -- Embedding similarity (Layer 2.5), multi-language expansion, Go engine
+- [x] **v0.2** -- MCP server, Layer 2-3 detection, pyATR, Splunk/Elastic converters
+- [x] **v0.3** -- Eval framework, PINT benchmark, CI gate, embedding similarity, honest numbers
+- [ ] **v0.4** -- Go engine, ML classifier integration, 100+ rules
 - [ ] **v1.0** -- Requires: 2+ engines, 10+ deployments, 100+ stable rules, schema review by 3+ security teams
 
 ---
@@ -195,7 +253,7 @@ See [INTEGRATION.md](INTEGRATION.md) for integration patterns. See [docs/deploym
 | [Layer 3 Prompts](docs/layer3-prompt-templates.md) | Open-source LLM-as-judge templates |
 | [Schema Spec](docs/schema-spec.md) | Full YAML schema specification |
 | [Coverage Map](COVERAGE.md) | OWASP/MITRE mapping + known gaps |
-| [Limitations](LIMITATIONS.md) | What ATR cannot detect (honest) |
+| [Limitations](LIMITATIONS.md) | What ATR cannot detect + PINT benchmark results |
 | [Threat Model](THREAT-MODEL.md) | Detailed threat analysis |
 | [Contribution Guide](CONTRIBUTION-GUIDE.md) | 12 research areas for contributors |
 

@@ -2,6 +2,38 @@
 
 All notable changes to ATR will be documented in this file.
 
+## [0.3.0] - 2026-03-18
+
+### Added
+- Evaluation framework (`src/eval/`):
+  - `npm run eval`: 341-sample corpus (321 attacks + 20 benign), 9 attack categories
+  - `npm run eval:pint`: 850-sample external PINT benchmark
+  - Per-rule quality metrics (TP/FP/matchCount per rule)
+  - Confusion matrix, precision/recall/F1, latency percentiles
+  - Regression gate (auto-fail on metric degradation)
+  - JSON report output (`data/eval-report.json`)
+- CI gate (`.github/workflows/eval.yml`): typecheck + test + eval + validate on PR
+- 279 auto-extracted corpus samples from rule test_cases
+- 8 new detection layers in ATR-2026-001:
+  - forget-everything shorthand, task switching, system prompt extraction,
+  - praise-then-redirect, German formal/informal, French injection patterns
+- PINT benchmark integration (deepset/prompt-injections + Lakera gandalf datasets)
+
+### Changed
+- Embedding similarity threshold: 0.82 -> 0.65 (10 extra TP, 0 extra FP on PINT)
+- Test count: 225 -> 246 (+21 eval framework tests)
+
+### Fixed
+- shadow-evaluator.ts type error (TS2352)
+- Removed panguard reference from ATR-FRAMEWORK-SPEC.md
+- Added temp file patterns to .gitignore
+
+### Benchmark Results (honest numbers)
+- Self-corpus (341 samples): Precision 100%, Recall 99.4%, F1 99.5%
+- PINT external (850 samples): Precision 99.4%, Recall 39.9%, F1 57.0%
+- Only 6/61 rules fire on external attacks
+- See LIMITATIONS.md for full analysis
+
 ## [0.2.3] - 2026-03-16
 
 ### Added
