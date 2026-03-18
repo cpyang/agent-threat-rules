@@ -390,7 +390,7 @@ ATREngine.evaluate(event: AgentEvent): ATRVerdict
 Users can adjust strictness per tier:
 
 ```yaml
-# ~/.panguard-guard/config.yaml
+# ~/.atr/config.yaml
 atr:
   strictness: balanced            # strict | balanced | permissive
   tiers:

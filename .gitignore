@@ -18,3 +18,10 @@ rt-batch-*.json
 mcp-registry*.json
 attack-payloads.json
 audit-v*.json
+triage-report-*.json
+quality-review-*.md
+scan-state.json
+test-audit.json
+llm-extra-*.json
+exports/
+marketing/
