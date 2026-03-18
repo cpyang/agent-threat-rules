@@ -10,9 +10,9 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Rules](https://img.shields.io/badge/rules-61-blue?style=flat-square)](#what-atr-detects)
-[![Tests](https://img.shields.io/badge/tests-246_passing-green?style=flat-square)](#ecosystem)
+[![Tests](https://img.shields.io/badge/tests-341_passing-green?style=flat-square)](#ecosystem)
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-39.9%25-orange?style=flat-square)](#evaluation)
-[![Status](https://img.shields.io/badge/status-v0.3.0-yellow?style=flat-square)](#roadmap)
+[![Status](https://img.shields.io/badge/status-v0.3.1-yellow?style=flat-square)](#roadmap)
 
 </div>
 
@@ -23,7 +23,7 @@ AI assistants (ChatGPT, Claude, Copilot) now browse the web, run code, and use e
 AI 助理現在可以瀏覽網頁、執行程式碼、使用外部工具。攻擊者可以欺騙它們洩漏資料、執行惡意指令、繞過安全限制。**ATR 是一套開放的偵測規則，專門識別這些攻擊 -- 像防毒軟體的病毒碼，但對象是 AI Agent。**
 
 ```bash
-npm install agent-threat-rules    # or: pip install pyatr
+npm install agent-threat-rules
 
 atr scan events.json              # scan agent traffic for threats
 atr test rules/                   # run built-in tests
@@ -77,9 +77,9 @@ The gap between 99.4% and 39.9% recall is expected -- regex catches known patter
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 246 tests passing |
-| [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v0.3.0 |
-| [Python engine (pyATR)](python/) | `pip install pyatr` -- validate, test, scan | 48 tests passing |
+| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 341 tests passing |
+| [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v0.3.1 |
+| [Python engine (pyATR)](python/) | Local install only (`cd python && pip install -e .`) | 48 tests passing |
 | [Splunk converter](src/converters/splunk.ts) | `atr convert splunk` -- ATR rules to SPL queries | Shipped |
 | [Elastic converter](src/converters/elastic.ts) | `atr convert elastic` -- ATR rules to Query DSL | Shipped |
 | [MCP server](src/mcp-server.ts) | 6 tools for Claude Code, Cursor, Windsurf | Shipped |
