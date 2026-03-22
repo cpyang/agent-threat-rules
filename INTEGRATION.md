@@ -188,7 +188,7 @@ await engine.loadRulesFromDirectory('./my-custom-rules'); // additive
 ATR rules are MIT licensed. You can bundle them, or let users install `agent-threat-rules` separately.
 
 **Q: How do I handle rule updates?**
-Subscribe to npm releases. Pin to a minor version (`^0.2.0`) for compatible updates, or exact version for stability.
+Subscribe to npm releases. Pin to a minor version (`^0.3.0`) for compatible updates, or exact version for stability.
 
 **Q: Can I use ATR with non-JavaScript agents?**
 Yes. Use the Python engine (`pyatr`), or run `npx agent-threat-rules mcp` as a subprocess and communicate via MCP protocol.

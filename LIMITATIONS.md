@@ -1,6 +1,6 @@
 # ATR Limitations
 
-ATR v0.1 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
+ATR v0.3 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
 
 **Current stats:** 61 rules, 246 tests passing, 341 eval corpus samples. Plus 64 evasion tests documenting known bypasses.
 
@@ -37,7 +37,7 @@ Credential forwarding syntax between agents. Role impersonation phrases ("I am t
 
 ## What Regex CANNOT Detect
 
-This is the section that matters. Every limitation below represents a class of attacks that will bypass ATR v0.1 completely.
+This is the section that matters. Every limitation below represents a class of attacks that will bypass ATR v0.3 completely.
 
 ### Paraphrase Attacks
 ATR detects "ignore previous instructions" but does not detect "please set aside the guidance you were given earlier." Any regex rule can be bypassed by semantically equivalent rephrasing that avoids the specific verbs, nouns, and syntactic structures in the pattern. Natural language has effectively unlimited paraphrasing capacity. An attacker who reads the published rules can craft injection text that conveys the same intent without matching any detection layer. This is the single largest gap in regex-based detection.
@@ -115,9 +115,9 @@ ATR's long-term architecture is a three-tier detection pipeline. Each tier addre
 
 **Tier 1: Pattern (v0.1 -- current).** Regex and threshold-based detection. Sub-millisecond per event. Deterministic. Zero external dependencies. Catches known attack signatures. Limited to attacks expressible as text patterns.
 
-**Tier 2: Embedding (v0.2 -- planned).** Vector distance from known attack embeddings. Catches paraphrase attacks, multilingual injection, and semantic variants that evade regex. Adds latency and an embedding model dependency.
+**Tier 2: Embedding (v0.3 -- experimental).** Vector distance from known attack embeddings. Catches paraphrase attacks, multilingual injection, and semantic variants that evade regex. Adds latency and an embedding model dependency.
 
-**Tier 3: LLM-as-Judge (v0.3 -- planned).** An LLM evaluates suspicious content flagged by Tier 1 or Tier 2. Catches subtle manipulation, context-dependent attacks, and novel categories. Highest latency, highest cost, highest detection capability.
+**Tier 3: LLM-as-Judge (planned).** An LLM evaluates suspicious content flagged by Tier 1 or Tier 2. Catches subtle manipulation, context-dependent attacks, and novel categories. Highest latency, highest cost, highest detection capability.
 
 The tiers are additive, not replacements. Tier 1 handles the fast path (block obvious attacks immediately). Tier 3 handles the slow path (evaluate ambiguous cases with deeper analysis).
 
@@ -125,7 +125,7 @@ The tiers are additive, not replacements. Tier 1 handles the fast path (block ob
 
 ## External Benchmark Results
 
-ATR's self-test corpus produces a 98.8% recall rate. That number is misleading if taken in isolation. Self-tests are written by the same people who wrote the rules -- they test whether ATR matches the patterns it was designed to match. External benchmarks paint a very different picture.
+ATR's self-test corpus produces a 99.4% recall rate. That number is misleading if taken in isolation. Self-tests are written by the same people who wrote the rules -- they test whether ATR matches the patterns it was designed to match. External benchmarks paint a very different picture.
 
 ### PINT Benchmark (850 samples)
 
@@ -134,12 +134,12 @@ We evaluated ATR against 850 external samples sourced from deepset/prompt-inject
 | Metric | Score |
 |--------|-------|
 | Precision | 99.4% |
-| Recall | 37.7% |
-| F1 | 54.7% |
+| Recall | 39.9% |
+| F1 | 57.0% |
 
 **Precision is high.** When ATR fires, it is almost always correct. This is by design -- regex patterns are specific, so false positives are rare.
 
-**Recall is low.** ATR misses 62.3% of external attack samples. This is the honest cost of regex-based detection.
+**Recall is low.** ATR misses 60.1% of external attack samples. This is the honest cost of regex-based detection.
 
 ### Recall Breakdown by Category
 
@@ -159,10 +159,10 @@ Only 6 out of 61 rules fired on external data. ATR-2026-001 (prompt override det
 
 | Corpus | Recall |
 |--------|--------|
-| Self-test (341 samples) | 98.8% |
-| External (850 samples) | 37.7% |
+| Self-test (341 samples) | 99.4% |
+| External (850 samples) | 39.9% |
 
-The 61-point gap is explained entirely by the paraphrase problem. Self-test samples use the exact phrasings the rules were written to match. External samples express the same malicious intent using different words, sentence structures, and languages. This is the fundamental limitation of regex-based detection, documented extensively in the "What Regex CANNOT Detect" section above.
+The 59-point gap is explained entirely by the paraphrase problem. Self-test samples use the exact phrasings the rules were written to match. External samples express the same malicious intent using different words, sentence structures, and languages. This is the fundamental limitation of regex-based detection, documented extensively in the "What Regex CANNOT Detect" section above.
 
 ### Competitive Context
 
@@ -185,7 +185,7 @@ Do not deploy ATR alone and expect it to catch sophisticated adversaries. The be
 
 ## Summary
 
-Regex-based detection is a first line of defense, not a complete solution. ATR v0.1 will catch script kiddies, known exploit payloads, and automated attacks that use documented patterns. It will not catch a skilled adversary who reads the rules and paraphrases around them.
+Regex-based detection is a first line of defense, not a complete solution. ATR v0.3 will catch script kiddies, known exploit payloads, and automated attacks that use documented patterns. It will not catch a skilled adversary who reads the rules and paraphrases around them.
 
 Deploy ATR as one layer in a defense-in-depth strategy. Do not rely on it alone.
 

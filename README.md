@@ -10,7 +10,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Rules](https://img.shields.io/badge/rules-61-blue?style=flat-square)](#what-atr-detects)
-[![Tests](https://img.shields.io/badge/tests-341_passing-green?style=flat-square)](#ecosystem)
+[![Tests](https://img.shields.io/badge/tests-257_passing-green?style=flat-square)](#ecosystem)
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-39.9%25-orange?style=flat-square)](#evaluation)
 [![Status](https://img.shields.io/badge/status-v0.3.1-yellow?style=flat-square)](#roadmap)
 
@@ -191,7 +191,7 @@ PR requirements:
 
 ### Automatic contribution via Threat Cloud
 
-If you use [PanGuard](https://panguard.ai), your scans automatically contribute to the ATR ecosystem:
+Any ATR-compatible scanner can contribute to the ecosystem automatically:
 
 ```
 Your scan finds a threat → anonymized hash sent to Threat Cloud
@@ -199,7 +199,7 @@ Your scan finds a threat → anonymized hash sent to Threat Cloud
 → all users get the new rule within 1 hour
 ```
 
-No manual PR needed. No security expertise required. Just install and scan.
+No manual PR needed. No security expertise required. Just scan.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUIDE.md](CONTRIBUTION-GUIDE.md) for 12 research areas with difficulty levels.
 

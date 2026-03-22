@@ -25,7 +25,7 @@ All notable changes to ATR will be documented in this file.
 
 ### Fixed
 - shadow-evaluator.ts type error (TS2352)
-- Removed panguard reference from ATR-FRAMEWORK-SPEC.md
+- Removed external product references from ATR-FRAMEWORK-SPEC.md
 - Added temp file patterns to .gitignore
 
 ### Benchmark Results (honest numbers)
@@ -54,7 +54,7 @@ All notable changes to ATR will be documented in this file.
 - CLI test runner: handle tool_description field, fix event type mapping
 - All 61 rules pass embedded test cases (556/556, 100%)
 - CJK test cases moved to evasion_tests (honest: regex can't match them)
-- Removed all PanGuard references for ATR independence
+- Removed all external product references for ATR independence
 - Fixed pyATR URLs pointing to wrong GitHub org
 
 ### Stats
