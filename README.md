@@ -259,6 +259,29 @@ See [INTEGRATION.md](INTEGRATION.md) for integration patterns. See [docs/deploym
 
 ---
 
+## Research Paper
+
+**The Collapse of Trust: Security Architecture for the Age of Autonomous AI Agents**
+
+The full research paper covering ATR's design rationale, threat taxonomy, and empirical validation is available:
+
+- [PDF](docs/paper/ATR-Paper-v3.pdf) (this repo)
+- [Zenodo (DOI: 10.5281/zenodo.19178002)](https://doi.org/10.5281/zenodo.19178002)
+
+If you use ATR in your research, please cite:
+
+```bibtex
+@misc{lin2026collapse,
+  title={The Collapse of Trust: Security Architecture for the Age of Autonomous AI Agents},
+  author={Lin, Kuan-Hsin},
+  year={2026},
+  doi={10.5281/zenodo.19178002},
+  url={https://doi.org/10.5281/zenodo.19178002}
+}
+```
+
+---
+
 ## Acknowledgments
 
 ATR builds on: [Sigma](https://github.com/SigmaHQ/sigma) (SIEM detection format), [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/), [OWASP Agentic Top 10](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/), [MITRE ATLAS](https://atlas.mitre.org/), [NVIDIA Garak](https://github.com/NVIDIA/garak), [Invariant Labs](https://invariantlabs.ai/), [Meta LlamaFirewall](https://ai.meta.com/research/publications/llamafirewall-an-open-source-guardrail-system-for-building-secure-ai-agents/).
