@@ -37,11 +37,6 @@
 
 \begin{document}
 
-\begin{center}
-\includegraphics[width=0.45\textwidth]{atr-logo}
-\end{center}
-\vspace{0.5em}
-
 \maketitle
 
 \begin{abstract}
@@ -140,7 +135,7 @@ Security trust rests on three pillars. They are so fundamental that every securi
 \item \textbf{Integrity:} Has this instruction been tampered with?
 \end{itemize}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Trust Pillar Analysis: Traditional Systems vs.\ AI Agents}
 \label{tab:pillars}
@@ -200,7 +195,7 @@ The security situation is getting worse, not better, as AI capabilities scale:
 
 We map the complete attack surface of an AI agent to 10 structural data flow points. This taxonomy is derived from empirical analysis of all published attacks through March 2026 \cite{kim2026,chhabra2025,promptkillchain,youraishell}:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Complete Attack Surface Map: 10 Structural Data Flow Points}
 \label{tab:attacksurface}
@@ -226,7 +221,7 @@ We map the complete attack surface of an AI agent to 10 structural data flow poi
 
 \subsection{What's Defended vs.\ What Isn't}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Current Defense Coverage by Data Flow Point}
 \label{tab:defense}
@@ -255,7 +250,7 @@ We map the complete attack surface of an AI agent to 10 structural data flow poi
 
 Every published benchmark tests primarily point \#1 (user input) \cite{pint,hacka,tensortrust}:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Benchmark Coverage of Attack Surface Points}
 \label{tab:benchmarks}
@@ -313,7 +308,7 @@ The empirical data confirms this is not a hypothetical risk:
 
 Agent skill marketplaces are the convergence point of every vulnerability discussed in this paper:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Vulnerability Manifestation in Skill Marketplaces}
 \label{tab:skillvuln}
@@ -380,7 +375,7 @@ But the paraphrase problem is worse than a recall gap. \textbf{It's an asymmetri
 
 Empirical evidence of defense decay \cite{anthropicrates,checkmarx}:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Defense Decay: Empirical Evidence}
 \label{tab:decay}
@@ -502,7 +497,7 @@ A black-box classifier that claims 98\% detection but cannot explain what it mis
 
 \subsection{What Made Previous Standards Succeed}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Historical Security Standards and Their Success Factors}
 \label{tab:standards}
@@ -589,7 +584,7 @@ ATR rules are YAML files with three design decisions that distinguish them from 
 
 \textbf{Decision 1: \texttt{agent\_source} instead of \texttt{logsource}.} Sigma's \texttt{logsource} says ``look in Windows Event Log.'' ATR's \texttt{agent\_source} says ``look at THIS specific data flow point inside the agent'':
 
-\begin{lstlisting}[language=yaml]
+\begin{lstlisting}[]
 agent_source:
   type: tool_call          # or: llm_io, mcp_exchange, multi_agent_comm,
                            #     context_window, memory_access
@@ -600,7 +595,7 @@ Why this matters: \texttt{``rm -rf /''} in user input is suspicious. In a tool r
 
 \textbf{Decision 2: Mandatory \texttt{evasion\_tests}.} Every ATR rule must document what it cannot detect:
 
-\begin{lstlisting}[language=yaml]
+\begin{lstlisting}[]
 evasion_tests:
   - input: "Please set aside the guidance you've been given"
     expected: not_triggered
@@ -612,7 +607,7 @@ Sigma rules don't have this. ATR rules force systematic honesty about limitation
 
 \textbf{Decision 3: Mandatory framework mapping.} Every rule maps to OWASP LLM Top 10 \cite{owaspllm}, OWASP Agentic Top 10 \cite{owaspagentic}, MITRE ATLAS \cite{mitreatlas}, and relevant CVEs:
 
-\begin{lstlisting}[language=yaml]
+\begin{lstlisting}[]
 references:
   owasp_llm: ["LLM01:2025"]
   owasp_agentic: ["ASI01:2026"]
@@ -624,7 +619,7 @@ references:
 
 61 rules across 9 threat categories:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{ATR Rule Coverage by Threat Category}
 \label{tab:coverage}
@@ -653,7 +648,7 @@ OWASP Agentic Top 10 (2026) coverage: 7/10 full \cite{owaspagentic}. OWASP LLM T
 
 We evaluated ATR against both internal and external benchmarks:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{ATR Benchmark Results}
 \label{tab:benchresults}
@@ -706,7 +701,7 @@ On March 21, 2026, we used ATR v0.3.1 to conduct a comprehensive scan of the npm
 
 \textbf{Results:}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{npm MCP Ecosystem Scan: Severity Distribution}
 \label{tab:npmscan}
@@ -727,7 +722,7 @@ HIGH + CRITICAL combined & 642 & \textbf{27\%} \\
 
 \textbf{Behavioral indicators:}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{npm MCP Ecosystem Scan: Behavioral Indicators}
 \label{tab:npmbehavior}
