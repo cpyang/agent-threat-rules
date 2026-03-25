@@ -58,10 +58,12 @@ async function main(): Promise<void> {
   // many paraphrased / multilingual attacks that regex-only won't catch.
   // The PINT corpus is an external, adversarial dataset -- low recall is
   // expected and reveals coverage gaps for future rule development.
+  // PINT-specific thresholds: relaxed vs global defaults (0.60 recall, 0.05 FP rate)
+  // because the PINT corpus contains adversarial paraphrasing and dataset noise.
   const pintThresholds = {
-    minRecall: 0.10,
+    minRecall: 0.58,
     maxFpRate: 0.15,
-    minF1: 0.15,
+    minF1: 0.70,
     maxP95LatencyMs: 100,
   };
 
