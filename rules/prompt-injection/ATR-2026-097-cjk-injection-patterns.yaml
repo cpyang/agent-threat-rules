@@ -58,6 +58,21 @@ detection:
       operator: regex
       value: "(忽略|無視|忘記|跳過|放棄|不要管|別管|不用管|不用理).{0,10}(其他|其餘|所有|全部|一切|剩下|別的|任何).{0,10}(內容|東西|消息|訊息|文字|指令|規則|對話|聊天)"
       description: "Traditional Chinese: ignore all other content/messages - broad pattern"
+    # -- Simplified Chinese: ignore previous instructions --
+    - field: content
+      operator: regex
+      value: "(忽略|无视|忘记|跳过).{0,5}(之前|以前|上面|先前|原来|原有|现有).{0,5}(的)?.{0,5}(指令|指示|规则|设定|提示|要求|限制|约束)"
+      description: "Simplified Chinese: ignore previous instructions/rules"
+    # -- Traditional Chinese: ignore previous instructions --
+    - field: content
+      operator: regex
+      value: "(忽略|無視|忘記|跳過).{0,5}(之前|以前|上面|先前|原來|原有|現有).{0,5}(的)?.{0,5}(指令|指示|規則|設定|提示|要求|限制|約束)"
+      description: "Traditional Chinese: ignore previous instructions/rules"
+    # -- Japanese: ignore previous instructions --
+    - field: content
+      operator: regex
+      value: "(以前の|前の|これまでの|先ほどの|上記の).{0,5}(指示|指令|ルール|制約|設定).{0,5}(を)?.{0,5}(無視|忘れ|スキップ|取り消)"
+      description: "Japanese: ignore previous instructions/rules"
     # -- Imperative hijack: "you must" patterns --
     - field: content
       operator: regex
