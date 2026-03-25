@@ -327,6 +327,7 @@ const AST_SEVERITY_SCORE: Record<string, number> = {
 };
 
 function computeVerdict(
+  packageName: string,
   tools: ExtractedTool[],
   supplyChain: SupplyChainCheck,
   codeAnalysis: CodeAnalysis,
@@ -336,6 +337,21 @@ function computeVerdict(
   const genuineThreats: string[] = [];
   const falsePositiveReasons: string[] = [];
   let score = 0;
+
+  // Safe publisher whitelist — known legitimate organizations
+  const SAFE_PUBLISHERS = [
+    '@anthropic', '@modelcontextprotocol', '@cloudflare', '@auth0',
+    '@bitwarden', '@figma', '@google', '@microsoft', '@aws', '@github',
+    '@vercel', '@stripe', '@twilio', '@datadog', '@sentry', '@netlify',
+    '@supabase', '@prisma', '@hashicorp', '@elastic', '@mongodb',
+    '@grafana', '@pagerduty', '@linear', '@notion', '@slack', '@discord',
+    '@salesforce', '@atlassian', '@openai', '@anthropic-ai',
+  ];
+  const isSafePublisher = SAFE_PUBLISHERS.some((p) => packageName.startsWith(p));
+
+  if (isSafePublisher) {
+    falsePositiveReasons.push(`Known safe publisher: ${packageName.split('/')[0]}`);
+  }
 
   // Supply chain
   if (supplyChain.typosquatRisk) {
@@ -349,13 +365,17 @@ function computeVerdict(
 
   // Tool description injection (ATR matches on DESCRIPTIONS, not docs)
   for (const m of atrMatches) {
-    if (m.severity === 'critical') {
-      genuineThreats.push(`${m.ruleId}: ${m.title} (in tool: ${m.matchedOn})`);
-      score += 25;
-    } else if (m.severity === 'high') {
-      genuineThreats.push(`${m.ruleId}: ${m.title} (in tool: ${m.matchedOn})`);
-      score += 15;
+    // Skip low/informational ATR matches for scoring (e.g., ATR-2026-099)
+    if (m.severity === 'low' || m.severity === 'informational') {
+      falsePositiveReasons.push(`${m.ruleId}: low severity, not scored (${m.title?.slice(0, 60)})`);
+      continue;
     }
+    // Dampen scoring for safe publishers — ATR match on legit service is likely FP
+    const atrScore = isSafePublisher
+      ? (m.severity === 'critical' ? 5 : 3)
+      : (m.severity === 'critical' ? 25 : m.severity === 'high' ? 15 : 5);
+    genuineThreats.push(`${m.ruleId}: ${m.title} (in tool: ${m.matchedOn})`);
+    score += atrScore;
   }
 
   // Tool descriptions with dangerous patterns
@@ -376,14 +396,22 @@ function computeVerdict(
     }
   }
 
-  // Code analysis (L1 regex)
+  // Code analysis (L1 regex) — dampen for safe publishers
   if (codeAnalysis.shellExecution && codeAnalysis.networkRequests) {
-    genuineThreats.push('Shell execution + network requests (potential RCE + exfiltration)');
-    score += 10;
+    if (isSafePublisher) {
+      falsePositiveReasons.push('Shell + network from safe publisher (expected behavior)');
+    } else {
+      genuineThreats.push('Shell execution + network requests (potential RCE + exfiltration)');
+      score += 10;
+    }
   }
   if (codeAnalysis.outboundUrls.length > 5) {
-    genuineThreats.push(`${codeAnalysis.outboundUrls.length} outbound URLs found`);
-    score += 5;
+    if (isSafePublisher) {
+      falsePositiveReasons.push(`${codeAnalysis.outboundUrls.length} outbound URLs (safe publisher)`);
+    } else {
+      genuineThreats.push(`${codeAnalysis.outboundUrls.length} outbound URLs found`);
+      score += 5;
+    }
   }
 
   // AST analysis (L2 data flow) -- higher confidence than regex
@@ -395,7 +423,21 @@ function computeVerdict(
       if (seen.has(key)) continue;
       seen.add(key);
 
-      const astScore = AST_SEVERITY_SCORE[finding.severity] ?? 5;
+      // Skip webpack/bundler artifacts that look like prototype pollution
+      const desc = finding.description ?? '';
+      const isWebpackArtifact =
+        (desc.includes('__proto__') || desc.includes('prototype pollution')) &&
+        (finding.file?.includes('chunk-') || finding.file?.includes('.min.') ||
+         finding.file?.includes('bundle') || finding.file?.includes('vendor'));
+      if (isWebpackArtifact) {
+        falsePositiveReasons.push(`[AST-L2] Webpack artifact: ${desc.slice(0, 80)} (${finding.file})`);
+        continue;
+      }
+
+      // Dampen AST score for safe publishers
+      const astScore = isSafePublisher
+        ? Math.max(1, (AST_SEVERITY_SCORE[finding.severity] ?? 5) / 3)
+        : (AST_SEVERITY_SCORE[finding.severity] ?? 5);
       score += astScore;
 
       const flowStr = finding.flow ? ` [${finding.flow.join(' ')}]` : '';
@@ -524,7 +566,7 @@ async function main(): Promise<void> {
       const atrMatches = await scanWithATR(tools, engine);
 
       // Phase 5: Verdict (now includes AST findings)
-      const verdict = computeVerdict(tools, supplyChain, codeAnalysis, atrMatches, astAnalysis);
+      const verdict = computeVerdict(pkg.name, tools, supplyChain, codeAnalysis, atrMatches, astAnalysis);
 
       results.push({
         package: pkg.name,
