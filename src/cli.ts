@@ -16,6 +16,7 @@ import { fileURLToPath } from 'node:url';
 import { ATREngine } from './engine.js';
 import { loadRuleFile, loadRulesFromDirectory, validateRule } from './loader.js';
 import type { AgentEvent, ATRMatch, ATRRule } from './types.js';
+import { generateBadgeSvg, generateBadgeEndpoint, lookupPackageScan, generateBadgeMarkdown } from './badge.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -51,6 +52,8 @@ ${BOLD}Usage:${RESET}
   atr init [--global]                      Setup ATR guard hook for Claude Code
   atr mcp                                  Start MCP server (stdio transport)
   atr scaffold                             Interactive rule scaffolding
+  atr badge <package> [--data <audit.json>] [--svg] [--json]
+                                           Generate ATR Scanned badge for a package
 
 ${BOLD}Options:${RESET}
   --rules <dir>    Custom rules directory (default: bundled rules)
@@ -105,7 +108,7 @@ function parseArgs(argv: string[]): { command: string; target: string; options: 
   for (let i = 1; i < args.length; i++) {
     if (args[i].startsWith('--')) {
       const key = args[i].slice(2);
-      if (key === 'json' || key === 'help' || key === 'dry-run' || key === 'fail-open' || key === 'global') {
+      if (key === 'json' || key === 'help' || key === 'dry-run' || key === 'fail-open' || key === 'global' || key === 'svg') {
         options[key] = 'true';
       } else {
         options[key] = args[++i] ?? '';
@@ -878,6 +881,75 @@ async function cmdConvert(target: string, options: Record<string, string>): Prom
   }
 }
 
+// --- Badge command ---
+
+function cmdBadge(target: string, options: Record<string, string | boolean>): void {
+  if (!target) {
+    console.error(`${RED}Usage: atr badge <package-name> [--data <audit.json>] [--svg] [--json]${RESET}`);
+    process.exit(1);
+  }
+
+  // Find audit data
+  const dataPath = typeof options['data'] === 'string'
+    ? resolve(options['data'])
+    : resolve(__dirname, '..', 'data', 'audit-v3-full.json');
+
+  const altDataPath = resolve(__dirname, '..', 'data', 'audit-v3-sample.json');
+
+  let summary = null;
+  if (existsSync(dataPath)) {
+    summary = lookupPackageScan(dataPath, target);
+  }
+  if (!summary && existsSync(altDataPath)) {
+    summary = lookupPackageScan(altDataPath, target);
+  }
+
+  const outputSvg = options['svg'] === 'true';
+  const outputJson = options['json'] === 'true';
+
+  if (outputSvg) {
+    console.log(generateBadgeSvg(summary));
+    return;
+  }
+
+  if (outputJson) {
+    console.log(JSON.stringify(generateBadgeEndpoint(summary), null, 2));
+    return;
+  }
+
+  // Default: human-readable output
+  const endpoint = generateBadgeEndpoint(summary);
+
+  console.log(`\n${BOLD}ATR Badge: ${target}${RESET}`);
+  console.log(`${'─'.repeat(50)}`);
+
+  if (summary) {
+    const colorMap: Record<string, string> = {
+      '#2ea44f': GREEN,
+      '#dfb317': '\x1b[33m',
+      '#e05d44': RED,
+      '#9f9f9f': DIM,
+    };
+    const termColor = colorMap[endpoint.color] ?? '';
+    console.log(`  Status:    ${termColor}${endpoint.message}${RESET}`);
+    console.log(`  Package:   ${summary.packageName}@${summary.version ?? 'unknown'}`);
+    console.log(`  Risk:      ${summary.riskLevel} (score: ${summary.riskScore})`);
+    console.log(`  Findings:  critical=${summary.findings.critical} high=${summary.findings.high} medium=${summary.findings.medium} low=${summary.findings.low}`);
+    if (summary.scannedAt) {
+      console.log(`  Scanned:   ${summary.scannedAt}`);
+    }
+  } else {
+    console.log(`  ${DIM}No scan data found for "${target}"${RESET}`);
+    console.log(`  ${DIM}Run: atr badge ${target} --data <audit-results.json>${RESET}`);
+  }
+
+  console.log(`\n${BOLD}Embed:${RESET}`);
+  console.log(`  ${DIM}Markdown:${RESET}  ${generateBadgeMarkdown(target)}`);
+  console.log(`  ${DIM}SVG:${RESET}       atr badge ${target} --svg > badge.svg`);
+  console.log(`  ${DIM}JSON:${RESET}      atr badge ${target} --json`);
+  console.log();
+}
+
 // --- Main ---
 
 async function main(): Promise<void> {
@@ -922,6 +994,9 @@ async function main(): Promise<void> {
       break;
     case 'scaffold':
       await cmdScaffold();
+      break;
+    case 'badge':
+      cmdBadge(target, options);
       break;
     default:
       console.error(`${RED}Unknown command: ${command}${RESET}`);
