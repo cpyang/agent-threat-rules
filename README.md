@@ -11,7 +11,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Rules](https://img.shields.io/badge/rules-61-blue?style=flat-square)](#what-atr-detects)
 [![Tests](https://img.shields.io/badge/tests-257_passing-green?style=flat-square)](#ecosystem)
-[![PINT Recall](https://img.shields.io/badge/PINT_recall-39.9%25-orange?style=flat-square)](#evaluation)
+[![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
 [![Status](https://img.shields.io/badge/status-v0.3.1-yellow?style=flat-square)](#roadmap)
 
 </div>
@@ -23,12 +23,16 @@ AI assistants (ChatGPT, Claude, Copilot) now browse the web, run code, and use e
 AI 助理現在可以瀏覽網頁、執行程式碼、使用外部工具。攻擊者可以欺騙它們洩漏資料、執行惡意指令、繞過安全限制。**ATR 是一套開放的偵測規則，專門識別這些攻擊 -- 像防毒軟體的病毒碼，但對象是 AI Agent。**
 
 ```bash
-npm install agent-threat-rules
+# Quick install (macOS / Linux)
+curl -fsSL https://raw.githubusercontent.com/Agent-Threat-Rule/agent-threat-rules/main/scripts/install.sh | sh
+
+# Or install manually
+npm install -g agent-threat-rules
 
 atr scan events.json              # scan agent traffic for threats
-atr test rules/                   # run built-in tests
-atr convert splunk                # export rules to Splunk SPL
-atr convert elastic               # export rules to Elasticsearch
+atr init                          # setup Claude Code guard hook
+atr mcp                           # start MCP server for IDE
+atr stats                         # show rule collection stats
 ```
 
 **For security professionals:** ATR is the [Sigma](https://github.com/SigmaHQ/sigma)/[YARA](https://github.com/VirusTotal/yara) equivalent for AI agent threats -- YAML-based rules with regex matching, behavioral fingerprinting, LLM-as-judge analysis, and mappings to [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/), [OWASP Agentic Top 10](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/), and [MITRE ATLAS](https://atlas.mitre.org/).

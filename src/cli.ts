@@ -888,6 +888,13 @@ async function main(): Promise<void> {
     return;
   }
 
+  if (command === 'version' || command === '--version' || command === '-v') {
+    const pkgPath = resolve(__dirname, '..', 'package.json');
+    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+    console.log(pkg.version);
+    return;
+  }
+
   switch (command) {
     case 'scan':
       await cmdScan(target, options);
