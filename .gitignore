@@ -26,3 +26,9 @@ llm-extra-*.json
 exports/
 marketing/
 .gstack/
+
+# ClawHub scan intermediates (keep scan-full.json + final reports only in git)
+data/clawhub-scan/scan-checkpoint-*.json
+data/clawhub-scan/scan-progress.json
+data/clawhub-scan/scan-1000.json
+data/clawhub-scan/scan-10000.json

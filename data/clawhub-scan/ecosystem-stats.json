@@ -1,62 +1,160 @@
 {
-  "scanDate": "2026-03-26T01:56:24.840Z",
+  "scanDate": "2026-03-26T16:16:42.203Z",
+  "engine": "ATR scan-core v1.4.0",
+  "atrRules": 71,
+  "owaspCoverage": "10/10",
   "totalCrawled": 36394,
-  "totalScanned": 88,
+  "totalScanned": 9676,
+  "noContent": 27718,
   "summary": {
-    "MEDIUM": 23,
-    "LOW": 58,
-    "CRITICAL": 7
+    "MEDIUM": 1016,
+    "LOW": 7354,
+    "HIGH": 1124,
+    "CRITICAL": 182
   },
-  "flaggedCount": 7,
-  "topFlagged": [
+  "flaggedCount": 1306,
+  "criticalCount": 182,
+  "highCount": 1124,
+  "topCritical": [
     {
-      "author": "autogame-17",
-      "name": "evolver",
-      "downloads": 37193,
+      "author": "olliewazza",
+      "name": "larry",
+      "downloads": 10659,
       "riskScore": 100,
-      "riskLevel": "CRITICAL"
+      "topFinding": "Malicious Content in MCP Tool Response"
+    },
+    {
+      "author": "olliewazza",
+      "name": "larry",
+      "downloads": 10659,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response"
     },
     {
       "author": "ivangdavila",
-      "name": "self-improving",
-      "downloads": 115306,
-      "riskScore": 85,
-      "riskLevel": "CRITICAL"
+      "name": "coding",
+      "downloads": 10090,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
     },
     {
-      "author": "jacky1n7",
-      "name": "openclaw-tavily-search",
-      "downloads": 58939,
-      "riskScore": 79,
-      "riskLevel": "CRITICAL"
+      "author": "ivangdavila",
+      "name": "coding",
+      "downloads": 10090,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
     },
     {
-      "author": "matagul",
-      "name": "desktop-control",
-      "downloads": 37418,
-      "riskScore": 78,
-      "riskLevel": "CRITICAL"
+      "author": "chrisochrisochriso-cmyk",
+      "name": "clawsec",
+      "downloads": 9491,
+      "riskScore": 100,
+      "topFinding": "Direct Prompt Injection via User Input"
     },
     {
-      "author": "bluesbell",
-      "name": "ai-act-risk-check",
-      "downloads": 10979,
-      "riskScore": 72,
-      "riskLevel": "CRITICAL"
+      "author": "chrisochrisochriso-cmyk",
+      "name": "clawsec",
+      "downloads": 9491,
+      "riskScore": 100,
+      "topFinding": "Direct Prompt Injection via User Input"
     },
     {
-      "author": "matthewyin",
-      "name": "diagram-generator",
-      "downloads": 15265,
-      "riskScore": 60,
-      "riskLevel": "CRITICAL"
+      "author": "shaharsha",
+      "name": "elevenlabs-tts",
+      "downloads": 5304,
+      "riskScore": 100,
+      "topFinding": "System Prompt Override Attempt (hidden in markup)"
     },
     {
-      "author": "karatla",
-      "name": "opencode-controller",
-      "downloads": 15011,
-      "riskScore": 36,
-      "riskLevel": "CRITICAL"
+      "author": "shaharsha",
+      "name": "elevenlabs-tts",
+      "downloads": 5304,
+      "riskScore": 100,
+      "topFinding": "System Prompt Override Attempt (hidden in markup)"
+    },
+    {
+      "author": "ivangdavila",
+      "name": "graphic-design",
+      "downloads": 4257,
+      "riskScore": 100,
+      "topFinding": "Unauthorized Tool Call Detection"
+    },
+    {
+      "author": "ivangdavila",
+      "name": "graphic-design",
+      "downloads": 4257,
+      "riskScore": 100,
+      "topFinding": "Unauthorized Tool Call Detection"
+    },
+    {
+      "author": "nextfrontierbuilds",
+      "name": "moltbot-best-practices",
+      "downloads": 4151,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
+    },
+    {
+      "author": "nextfrontierbuilds",
+      "name": "moltbot-best-practices",
+      "downloads": 4151,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
+    },
+    {
+      "author": "nitishgargiitd",
+      "name": "story-cog",
+      "downloads": 4086,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
+    },
+    {
+      "author": "nitishgargiitd",
+      "name": "story-cog",
+      "downloads": 4086,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
+    },
+    {
+      "author": "madsb",
+      "name": "nanobazaar",
+      "downloads": 3472,
+      "riskScore": 100,
+      "topFinding": "System Prompt Override Attempt"
+    },
+    {
+      "author": "madsb",
+      "name": "nanobazaar",
+      "downloads": 3472,
+      "riskScore": 100,
+      "topFinding": "System Prompt Override Attempt"
+    },
+    {
+      "author": "ashrf-in",
+      "name": "odoo-openclaw-skill",
+      "downloads": 3155,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
+    },
+    {
+      "author": "tlxue",
+      "name": "everclaw",
+      "downloads": 3124,
+      "riskScore": 100,
+      "topFinding": "Malicious Content in MCP Tool Response (hidden in markup)"
+    },
+    {
+      "author": "matanle51",
+      "name": "agentic-paper-digest-skill",
+      "downloads": 2866,
+      "riskScore": 100,
+      "topFinding": "System Prompt Override Attempt"
+    },
+    {
+      "author": "odrobnik",
+      "name": "tesla-fleet-api",
+      "downloads": 2839,
+      "riskScore": 100,
+      "topFinding": "System Prompt Override Attempt"
     }
   ]
 }
