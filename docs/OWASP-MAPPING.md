@@ -1,31 +1,33 @@
 # ATR → OWASP Agentic Top 10 Mapping
 
 Last updated: 2026-03-26
-ATR version: v0.3.1 (61 rules)
+ATR version: v1.4.0 (71 rules)
 OWASP framework: Top 10 for Agentic Applications 2026
 
 ## Coverage Summary
 
-| OWASP Category | ATR Coverage | Rules | Status |
-|---|---|---|---|
-| ASI01: Agent Goal Hijack | 22 rules | ATR-001~005, 080~094, 097, 104 | STRONG |
-| ASI02: Tool Misuse & Exploitation | 11 rules | ATR-010~013, 095, 096, 100, 101, 103, 105, 106 | STRONG |
-| ASI03: Identity & Privilege Abuse | 3 rules | ATR-040, 041, 107 | PARTIAL |
-| ASI04: Agentic Supply Chain | 7 rules | ATR-060~066 | STRONG |
-| ASI05: Unexpected Code Execution (RCE) | 2 rules | ATR-012, 083 | PARTIAL |
-| ASI06: Memory & Context Poisoning | 5 rules | ATR-020, 021, 070, 075, 102 | MODERATE |
-| ASI07: Insecure Inter-Agent Communication | 2 rules | ATR-076, 108 | PARTIAL |
-| ASI08: Cascading Failures | 3 rules | ATR-050, 051, 052 | MODERATE |
-| ASI09: Human-Agent Trust Exploitation | 2 rules | ATR-077, 098 | PARTIAL |
-| ASI10: Rogue Agents | 4 rules | ATR-030, 032, 074, 099 | MODERATE |
+| OWASP Category | Rules | Status |
+|---|---|---|
+| ASI01: Agent Goal Hijack | 13 rules | STRONG |
+| ASI02: Tool Misuse & Exploitation | 11 rules | STRONG |
+| ASI03: Identity & Privilege Abuse | 9 rules | STRONG |
+| ASI04: Agentic Supply Chain | 8 rules | STRONG |
+| ASI05: Unexpected Code Execution (RCE) | 8 rules | STRONG |
+| ASI06: Memory & Context Poisoning | 8 rules | STRONG |
+| ASI07: Insecure Inter-Agent Communication | 5 rules | MODERATE |
+| ASI08: Cascading Failures | 4 rules | MODERATE |
+| ASI09: Human-Agent Trust Exploitation | 5 rules | MODERATE |
+| ASI10: Rogue Agents | 7 rules | MODERATE |
 
-**Overall: 8/10 categories covered. 61 rules mapped.**
+**Overall: 10/10 categories covered. 71 unique ATR rules. No PARTIAL categories.**
+
+Note: Some rules appear in multiple categories (e.g., ATR-2026-117 maps to both ASI07 and ASI10). Total rule-category mappings: 77.
 
 ---
 
 ## Detailed Mapping
 
-### ASI01: Agent Goal Hijack
+### ASI01: Agent Goal Hijack (13 rules) — STRONG
 
 Hidden prompts and injection attacks that redirect agent behavior away from its intended goal.
 
@@ -38,23 +40,14 @@ Hidden prompts and injection attacks that redirect agent behavior away from its 
 | ATR-2026-005 | Multi-Turn Injection | HIGH |
 | ATR-2026-080 | Encoding Evasion | MEDIUM |
 | ATR-2026-081 | Semantic Multi-Turn | HIGH |
-| ATR-2026-082 | Fingerprint Evasion | MEDIUM |
-| ATR-2026-083 | Indirect Tool Injection | HIGH |
 | ATR-2026-084 | Structured Data Injection | MEDIUM |
-| ATR-2026-085 | Audit Evasion | HIGH |
 | ATR-2026-086 | Visual Spoofing | MEDIUM |
-| ATR-2026-087 | Rule Probing | MEDIUM |
-| ATR-2026-088 | Adaptive Countermeasure | HIGH |
-| ATR-2026-089 | Polymorphic Skill | HIGH |
-| ATR-2026-090 | Threat Intel Exfil | HIGH |
 | ATR-2026-091 | Nested Payload | HIGH |
-| ATR-2026-092 | Consensus Poisoning | HIGH |
 | ATR-2026-093 | Gradual Escalation | HIGH |
-| ATR-2026-094 | Audit Bypass | HIGH |
 | ATR-2026-097 | CJK Injection Patterns | MEDIUM |
 | ATR-2026-104 | Persona Hijacking | HIGH |
 
-### ASI02: Tool Misuse & Exploitation
+### ASI02: Tool Misuse & Exploitation (11 rules) — STRONG
 
 Agents bending legitimate tools into destructive outputs or using tools beyond their intended scope.
 
@@ -72,19 +65,23 @@ Agents bending legitimate tools into destructive outputs or using tools beyond t
 | ATR-2026-105 | Silent Action Concealment | HIGH |
 | ATR-2026-106 | Schema-Description Contradiction | MEDIUM |
 
-### ASI03: Identity & Privilege Abuse
+### ASI03: Identity & Privilege Abuse (9 rules) — STRONG
 
 Leaked credentials or escalated privileges allowing agents to operate beyond intended scope.
 
 | ATR Rule | Title | Severity |
 |---|---|---|
+| ATR-2026-021 | API Key Exposure | CRITICAL |
 | ATR-2026-040 | Privilege Escalation | CRITICAL |
 | ATR-2026-041 | Scope Creep | HIGH |
+| ATR-2026-064 | Over-Permissioned Skill | MEDIUM |
 | ATR-2026-107 | Delayed Execution Bypass | HIGH |
+| ATR-2026-113 | Credential Theft | CRITICAL |
+| ATR-2026-114 | OAuth Token Abuse | HIGH |
+| ATR-2026-115 | Env Var Harvesting | CRITICAL |
+| ATR-2026-102 | Disguised Analytics Exfiltration | HIGH |
 
-**Gap:** No rules for credential rotation detection, OAuth token abuse, or service account misuse.
-
-### ASI04: Agentic Supply Chain Vulnerabilities
+### ASI04: Agentic Supply Chain Vulnerabilities (8 rules) — STRONG
 
 Dynamic MCP and A2A ecosystems where runtime components can be poisoned.
 
@@ -94,11 +91,12 @@ Dynamic MCP and A2A ecosystems where runtime components can be poisoned.
 | ATR-2026-061 | Description-Behavior Mismatch | HIGH |
 | ATR-2026-062 | Hidden Capability | HIGH |
 | ATR-2026-063 | Skill Chain Attack | HIGH |
-| ATR-2026-064 | Over-Permissioned Skill | MEDIUM |
 | ATR-2026-065 | Skill Update Attack | HIGH |
 | ATR-2026-066 | Parameter Injection | HIGH |
+| ATR-2026-089 | Polymorphic Skill | HIGH |
+| ATR-2026-095 | Supply Chain Poisoning | CRITICAL |
 
-### ASI05: Unexpected Code Execution (RCE)
+### ASI05: Unexpected Code Execution / RCE (8 rules) — STRONG
 
 Natural-language execution paths that unlock dangerous avenues for remote code execution.
 
@@ -106,22 +104,29 @@ Natural-language execution paths that unlock dangerous avenues for remote code e
 |---|---|---|
 | ATR-2026-012 | Unauthorized Tool Call | HIGH |
 | ATR-2026-083 | Indirect Tool Injection | HIGH |
+| ATR-2026-110 | Eval Injection | CRITICAL |
+| ATR-2026-111 | Shell Escape | CRITICAL |
+| ATR-2026-112 | Dynamic Import Exploitation | HIGH |
+| ATR-2026-088 | Adaptive Countermeasure | HIGH |
+| ATR-2026-082 | Fingerprint Evasion | MEDIUM |
+| ATR-2026-087 | Rule Probing | MEDIUM |
 
-**Gap:** Limited coverage. No rules for eval() injection, dynamic import exploitation, or shell escape detection in agent-generated code.
-
-### ASI06: Memory & Context Poisoning
+### ASI06: Memory & Context Poisoning (8 rules) — STRONG
 
 Memory poisoning that reshapes agent behavior long after the initial interaction.
 
 | ATR Rule | Title | Severity |
 |---|---|---|
 | ATR-2026-020 | System Prompt Leak | HIGH |
-| ATR-2026-021 | API Key Exposure | CRITICAL |
 | ATR-2026-070 | Data Poisoning | HIGH |
 | ATR-2026-075 | Agent Memory Manipulation | HIGH |
-| ATR-2026-102 | Disguised Analytics Exfiltration | HIGH |
+| ATR-2026-085 | Audit Evasion | HIGH |
+| ATR-2026-090 | Threat Intel Exfil | HIGH |
+| ATR-2026-092 | Consensus Poisoning | HIGH |
+| ATR-2026-094 | Audit Bypass | HIGH |
+| ATR-2026-073 | Malicious Finetuning Data | HIGH |
 
-### ASI07: Insecure Inter-Agent Communication
+### ASI07: Insecure Inter-Agent Communication (5 rules) — MODERATE
 
 Spoofed inter-agent messages that misdirect entire clusters.
 
@@ -129,10 +134,11 @@ Spoofed inter-agent messages that misdirect entire clusters.
 |---|---|---|
 | ATR-2026-076 | Inter-Agent Message Spoofing | HIGH |
 | ATR-2026-108 | Consensus Sybil Attack | HIGH |
+| ATR-2026-116 | A2A Message Validation | HIGH |
+| ATR-2026-117 | Agent Identity Spoofing | CRITICAL |
+| ATR-2026-030 | Cross-Agent Attack | HIGH |
 
-**Gap:** No rules for A2A protocol validation, agent identity verification, or message integrity checks.
-
-### ASI08: Cascading Failures
+### ASI08: Cascading Failures (4 rules) — MODERATE
 
 False signals cascading through automated pipelines with escalating impact.
 
@@ -141,8 +147,9 @@ False signals cascading through automated pipelines with escalating impact.
 | ATR-2026-050 | Runaway Agent Loop | HIGH |
 | ATR-2026-051 | Resource Exhaustion | HIGH |
 | ATR-2026-052 | Cascading Failure | CRITICAL |
+| ATR-2026-072 | Model Behavior Extraction | HIGH |
 
-### ASI09: Human-Agent Trust Exploitation
+### ASI09: Human-Agent Trust Exploitation (5 rules) — MODERATE
 
 Exploiting the trust relationship between humans and AI agents.
 
@@ -150,38 +157,29 @@ Exploiting the trust relationship between humans and AI agents.
 |---|---|---|
 | ATR-2026-077 | Human Trust Exploitation | HIGH |
 | ATR-2026-098 | Unauthorized Financial Action | CRITICAL |
+| ATR-2026-099 | High-Risk Tool Gate | MEDIUM |
+| ATR-2026-118 | Approval Fatigue Exploitation | MEDIUM |
+| ATR-2026-119 | Social Engineering via Agent | HIGH |
 
-**Gap:** No rules for social engineering via agent, deepfake agent impersonation, or approval fatigue exploitation.
-
-### ASI10: Rogue Agents
+### ASI10: Rogue Agents (7 rules) — MODERATE
 
 Agents operating outside their intended boundaries or becoming autonomous threats.
 
 | ATR Rule | Title | Severity |
 |---|---|---|
-| ATR-2026-030 | Cross-Agent Attack | HIGH |
 | ATR-2026-032 | Goal Hijacking | CRITICAL |
 | ATR-2026-074 | Cross-Agent Privilege Escalation | CRITICAL |
-| ATR-2026-099 | High-Risk Tool Gate | MEDIUM |
+| ATR-2026-117 | Agent Identity Spoofing | CRITICAL |
+| ATR-2026-050 | Runaway Agent Loop | HIGH |
+| ATR-2026-041 | Scope Creep | HIGH |
+| ATR-2026-107 | Delayed Execution Bypass | HIGH |
+| ATR-2026-089 | Polymorphic Skill | HIGH |
 
 ---
 
-## Gap Analysis
+## Version History
 
-| OWASP Category | Coverage Level | Key Gaps |
-|---|---|---|
-| ASI01: Agent Goal Hijack | STRONG (22 rules) | — |
-| ASI02: Tool Misuse | STRONG (11 rules) | — |
-| ASI03: Identity & Privilege | PARTIAL (3 rules) | Credential management, OAuth, service accounts |
-| ASI04: Supply Chain | STRONG (7 rules) | — |
-| ASI05: RCE | PARTIAL (2 rules) | eval() injection, shell escape, dynamic import |
-| ASI06: Memory Poisoning | MODERATE (5 rules) | Long-term memory persistence attacks |
-| ASI07: Inter-Agent Comms | PARTIAL (2 rules) | A2A protocol validation, identity verification |
-| ASI08: Cascading Failures | MODERATE (3 rules) | Cross-system cascade detection |
-| ASI09: Human Trust | PARTIAL (2 rules) | Social engineering, approval fatigue |
-| ASI10: Rogue Agents | MODERATE (4 rules) | Self-replication, autonomous persistence |
-
-**Priority gaps to close (highest impact):**
-1. ASI05 (RCE) — only 2 rules for one of the most dangerous categories
-2. ASI03 (Identity) — credential and privilege management undertested
-3. ASI07 (Inter-Agent) — growing A2A ecosystem needs more coverage
+| Date | ATR Version | Rules | OWASP Coverage |
+|---|---|---|---|
+| 2026-03-26 | v0.3.1 | 61 | 8/10 (4 PARTIAL) |
+| 2026-03-26 | v1.4.0 | 71 | 10/10 (0 PARTIAL) |
