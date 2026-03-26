@@ -191,7 +191,9 @@ async function cmdScan(target: string, options: Record<string, string>): Promise
   console.log(`  Events scanned:  ${events.length}`);
   console.log(`  Rules loaded:    ${engine.getRuleCount()}`);
   console.log(`  Threats found:   ${totalThreats > 0 ? RED + totalThreats + RESET : GREEN + '0' + RESET}`);
-  console.log(`${DIM}${'─'.repeat(60)}${RESET}\n`);
+  console.log(`${DIM}${'─'.repeat(60)}${RESET}`);
+  console.log(`${DIM}  Open source (MIT). Star: https://github.com/anthropic-security/agent-threat-rules${RESET}`);
+  console.log('');
 
   if (totalThreats === 0) {
     console.log(`${GREEN}No threats detected.${RESET}\n`);

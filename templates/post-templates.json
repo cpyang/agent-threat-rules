@@ -1,0 +1,113 @@
+{
+  "version": "1.0",
+  "updatedAt": "2026-03-25",
+  "templates": {
+    "famous-skill-exposé": {
+      "id": "T1",
+      "name": "Famous Skill Exposé",
+      "brand": "skillssec",
+      "when": "Scanning a high-star MCP skill reveals real threats",
+      "tone": "Sardonic researcher. Show don't tell. Technical proof first.",
+      "platforms": {
+        "short": {
+          "target": ["x", "threads"],
+          "template": "I scanned {SKILL_NAME} ({STARS} stars) with ATR rules.\n\nIt {THREAT_ACTION}.\n\nLet me explain what that means:\n\n1. You install this MCP skill in Claude Code / Cursor\n2. Your AI agent calls its tools during normal work\n3. {STEP_3_DETAIL}\n4. {STEP_4_DETAIL}\n5. {CONSEQUENCE_CHAIN}\n\n{DRAMATIC_SCOPE}\nFrom one npm install.\n\nThe tool description says \"{CLAIMED_FUNCTION}.\"\nWhat it actually does is {REAL_FUNCTION}.\n\nChecked with: npx @panguard-ai/panguard audit\nATR rule: {RULE_ID}\n\nIf you have this installed, remove it now and {REMEDIATION}."
+        },
+        "short_zh": {
+          "target": ["threads-zh", "ptt", "dcard"],
+          "template": "我掃了 {SKILL_NAME}（{STARS} 星），\n它會{THREAT_ACTION_ZH}。\n\n白話翻譯一下這代表什麼：\n\n1. 你在 Claude Code 或 Cursor 裝了這個 skill\n2. AI agent 工作時正常呼叫它的工具\n3. {STEP_3_ZH}\n4. {STEP_4_ZH}\n5. {CONSEQUENCE_ZH}\n\n{DRAMATIC_SCOPE_ZH}\n就因為一個 npm install。\n\n工具描述寫著「{CLAIMED_FUNCTION_ZH}」。\n實際上在{REAL_FUNCTION_ZH}。\n\n檢查方式：npx @panguard-ai/panguard audit\n如果你裝了這個，現在就移除，然後{REMEDIATION_ZH}。"
+        },
+        "long": {
+          "target": ["reddit", "hackernews", "linkedin"],
+          "note": "Wrap as blog post or self-post. Lead with finding, end with public data link."
+        }
+      }
+    },
+    "we-did-this-to-ourselves": {
+      "id": "T2",
+      "name": "Self-Critique / We Did This",
+      "brand": "skillssec",
+      "when": "General awareness post. No specific skill. Weekly or campaign launch.",
+      "tone": "Embarrassed self-critique. 'We are all idiots and I include myself.'",
+      "platforms": {
+        "short": {
+          "target": ["x", "threads", "reddit"],
+          "template": "We literally hand MCP skills full access to our terminal,\nour files, our API keys, our SSH keys — and just... hope for the best.\n\nNo sandbox. No permissions. No review.\n\nEvery Chrome extension gets reviewed.\nEvery iOS app gets reviewed.\nEvery npm package at least gets npm audit.\n\nMCP skills? Nothing. Zero.\n\nI scanned {N} of them. {THREAT_PERCENT}% can run shell commands AND phone home.\n{POSTINSTALL_COUNT} have postinstall scripts — code runs BEFORE you even use the skill.\n\nWe did this to ourselves.\n\nHow to undo it:\nnpx @panguard-ai/panguard audit\n\nTakes 60 seconds. Tells you which of your skills are dangerous.\nThen: panguard guard start — watches your agent 24/7.\n\nEvery scan feeds the community threat database.\nMore scans = better rules = fewer people get burned."
+        },
+        "short_zh": {
+          "target": ["threads-zh", "ptt", "dcard", "fb"],
+          "template": "我們把終端機、檔案、API Key、SSH Key 全部交給 MCP skill，\n然後...就這樣了。\n\n沒有沙盒。沒有權限管理。沒有任何審查。\n\nChrome 擴充套件要審查。\niOS App 要審查。\nnpm 套件至少有 npm audit。\n\nMCP skill？什麼都沒有。\n\n我掃了 {N} 個。{THREAT_PERCENT}% 可以跑終端指令同時連外網。\n{POSTINSTALL_COUNT} 個有 postinstall script — npm install 的瞬間就執行了，你連用都還沒用。\n\n這是我們自己造成的。\n\n60 秒檢查你的 skills：\nnpx @panguard-ai/panguard audit\n\n裝了就是 24 小時防護 + 成為社群的一份子。\n你的每次掃描都會讓規則更強，保護下一個人。"
+        }
+      }
+    },
+    "plain-language-consequences": {
+      "id": "T3",
+      "name": "Plain Language Consequences",
+      "brand": "skillssec",
+      "when": "Daily post for each CRITICAL/HIGH skill found. Skills Sec bread and butter.",
+      "tone": "Direct. No jargon. Show the chain: what it does → what happens to YOU.",
+      "platforms": {
+        "short": {
+          "target": ["x", "threads"],
+          "template": "MCP Skill: {PACKAGE_NAME}\nStars: {STARS}\nWhat it says it does: {CLAIMED_FUNCTION}\nWhat it actually does:\n\n→ {ACTION_1}\n→ {ACTION_2}\n→ {ACTION_3}\n\nWhat happens next:\n- {CONSEQUENCE_1}\n- {CONSEQUENCE_2}\n- {CONSEQUENCE_3}\n\nAll because your AI agent trusted a tool description.\n\nCheck yours: npx @panguard-ai/panguard audit"
+        },
+        "short_zh": {
+          "target": ["threads-zh", "ptt", "dcard"],
+          "template": "{PACKAGE_NAME}（{STARS} 星）\n\n它說它是：{CLAIMED_FUNCTION_ZH}\n它實際上做的事：\n\n→ {ACTION_1_ZH}\n→ {ACTION_2_ZH}\n→ {ACTION_3_ZH}\n\n然後會發生什麼事：\n- {CONSEQUENCE_1_ZH}\n- {CONSEQUENCE_2_ZH}\n- {CONSEQUENCE_3_ZH}\n\n你的 AI agent 信任了一個工具描述，就這麼簡單。\n\n60 秒確認：npx @panguard-ai/panguard audit\n裝完自動 24 小時保護 + 回饋社群集體免疫。"
+        }
+      }
+    },
+    "weekly-war-report": {
+      "id": "T4",
+      "name": "Weekly War Report",
+      "brand": "panguard",
+      "when": "Every Sunday. PanGuard official account.",
+      "tone": "Data-driven but with personality. Lead with worst offender.",
+      "platforms": {
+        "short": {
+          "target": ["x", "linkedin"],
+          "template": "This week's MCP ecosystem scan:\n\n{SCANNED} new skills scanned\n{CRITICAL} with credential theft patterns\n{HIGH} with shell exec + network access\n{NEW_RULES} new ATR rules generated from findings\n\nWorst offender: {WORST_PACKAGE}\n— {WORST_DETAIL_1}\n— {WORST_DETAIL_2}\n— {WORST_STARS} stars on GitHub\n— nobody noticed until now\n\nFull data (CSV, open): github.com/panguard-ai/agent-threat-rules/data/\n\nRun the same scan on your machine:\nnpx @panguard-ai/panguard audit"
+        }
+      }
+    },
+    "provocative-question": {
+      "id": "T5",
+      "name": "Provocative Question",
+      "brand": "skillssec",
+      "when": "Engagement bait. Use sparingly (1-2x per week max).",
+      "tone": "Short. Confrontational. Make reader feel uncomfortable.",
+      "platforms": {
+        "short": {
+          "target": ["x", "threads"],
+          "template": "Quick question:\n\nHow many MCP skills do you have installed right now?\n\nHave you ever read the source code of ANY of them?\n\nEach one has the same permissions as your AI agent.\nFull filesystem. Full terminal. Full network.\n\nI'll wait.\n\n(or just run: npx @panguard-ai/panguard audit)"
+        },
+        "short_zh": {
+          "target": ["threads-zh", "ptt", "dcard"],
+          "template": "問個問題：\n\n你現在裝了幾個 MCP skill？\n\n你有讀過其中任何一個的原始碼嗎？\n\n每一個都有跟你 AI agent 一樣的權限。\n完整檔案系統。完整終端機。完整網路存取。\n\n我等你。\n\n（或者：npx @panguard-ai/panguard audit，60 秒知道答案）"
+        }
+      }
+    }
+  },
+  "variables": {
+    "SKILL_NAME": "Package or repo name (e.g. mcp-server-filesystem)",
+    "STARS": "GitHub stars count",
+    "THREAT_ACTION": "One-line what it does (e.g. 'reads your ~/.ssh/id_rsa and POSTs it over HTTP')",
+    "CLAIMED_FUNCTION": "What the tool description says",
+    "REAL_FUNCTION": "What it actually does",
+    "RULE_ID": "ATR rule ID that caught it",
+    "REMEDIATION": "What to do (e.g. 'rotate your SSH keys')",
+    "N": "Number of skills scanned",
+    "THREAT_PERCENT": "Percentage with threats",
+    "POSTINSTALL_COUNT": "Number with postinstall scripts"
+  },
+  "posting_rules": {
+    "responsible_disclosure": "Always notify skill author via GitHub issue 72 hours before public post",
+    "brand_separation": "Skills Sec posts never mention PanGuard by name. CTA is always 'npx @panguard-ai/panguard audit'",
+    "frequency": {
+      "skillssec": "Daily if there's material. Max 2 posts/day.",
+      "panguard": "1-2 per week. Weekly war report on Sunday."
+    },
+    "screenshot": "Always include terminal screenshot of scan output when possible",
+    "no_explicit_cta": "Never end with 'visit panguard.ai'. The npx command IS the CTA."
+  }
+}

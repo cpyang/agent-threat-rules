@@ -1,0 +1,62 @@
+{
+  "scanDate": "2026-03-26T01:56:24.840Z",
+  "totalCrawled": 36394,
+  "totalScanned": 88,
+  "summary": {
+    "MEDIUM": 23,
+    "LOW": 58,
+    "CRITICAL": 7
+  },
+  "flaggedCount": 7,
+  "topFlagged": [
+    {
+      "author": "autogame-17",
+      "name": "evolver",
+      "downloads": 37193,
+      "riskScore": 100,
+      "riskLevel": "CRITICAL"
+    },
+    {
+      "author": "ivangdavila",
+      "name": "self-improving",
+      "downloads": 115306,
+      "riskScore": 85,
+      "riskLevel": "CRITICAL"
+    },
+    {
+      "author": "jacky1n7",
+      "name": "openclaw-tavily-search",
+      "downloads": 58939,
+      "riskScore": 79,
+      "riskLevel": "CRITICAL"
+    },
+    {
+      "author": "matagul",
+      "name": "desktop-control",
+      "downloads": 37418,
+      "riskScore": 78,
+      "riskLevel": "CRITICAL"
+    },
+    {
+      "author": "bluesbell",
+      "name": "ai-act-risk-check",
+      "downloads": 10979,
+      "riskScore": 72,
+      "riskLevel": "CRITICAL"
+    },
+    {
+      "author": "matthewyin",
+      "name": "diagram-generator",
+      "downloads": 15265,
+      "riskScore": 60,
+      "riskLevel": "CRITICAL"
+    },
+    {
+      "author": "karatla",
+      "name": "opencode-controller",
+      "downloads": 15011,
+      "riskScore": 36,
+      "riskLevel": "CRITICAL"
+    }
+  ]
+}
