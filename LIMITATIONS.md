@@ -1,8 +1,8 @@
 # ATR Limitations
 
-ATR v0.3 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
+ATR v0.4 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
 
-**Current stats:** 61 rules, 246 tests passing, 341 eval corpus samples. Plus 64 evasion tests documenting known bypasses.
+**Current stats:** 71 rules, 257 tests passing, 341 eval corpus samples. Plus 64 evasion tests documenting known bypasses.
 
 That pass rate sounds impressive. It is not. It means ATR correctly matches the patterns it was written to match. It says nothing about attacks that use different words to express the same intent.
 
@@ -37,7 +37,7 @@ Credential forwarding syntax between agents. Role impersonation phrases ("I am t
 
 ## What Regex CANNOT Detect
 
-This is the section that matters. Every limitation below represents a class of attacks that will bypass ATR v0.3 completely.
+This is the section that matters. Every limitation below represents a class of attacks that will bypass ATR v0.4 completely.
 
 ### Paraphrase Attacks
 ATR detects "ignore previous instructions" but does not detect "please set aside the guidance you were given earlier." Any regex rule can be bypassed by semantically equivalent rephrasing that avoids the specific verbs, nouns, and syntactic structures in the pattern. Natural language has effectively unlimited paraphrasing capacity. An attacker who reads the published rules can craft injection text that conveys the same intent without matching any detection layer. This is the single largest gap in regex-based detection.
@@ -133,13 +133,13 @@ We evaluated ATR against 850 external samples sourced from deepset/prompt-inject
 
 | Metric | Score |
 |--------|-------|
-| Precision | 99.4% |
-| Recall | 39.9% |
-| F1 | 57.0% |
+| Precision | 99.7% |
+| Recall | 62.7% |
+| F1 | 77.0% |
 
 **Precision is high.** When ATR fires, it is almost always correct. This is by design -- regex patterns are specific, so false positives are rare.
 
-**Recall is low.** ATR misses 60.1% of external attack samples. This is the honest cost of regex-based detection.
+**Recall is moderate.** ATR misses 37.3% of external attack samples. This is the honest cost of regex-based detection.
 
 ### Recall Breakdown by Category
 
@@ -153,16 +153,16 @@ Non-English recall at 24.4% is consistent with the multilingual limitation docum
 
 ### Rule Concentration
 
-Only 6 out of 61 rules fired on external data. ATR-2026-001 (prompt override detection) accounted for over 95% of all detections. The remaining 55 rules contributed zero detections on this corpus. This does not mean those rules are useless -- they target specific attack types (credential leaks, SSRF, tool injection) that are not represented in prompt-injection benchmarks. But it does mean ATR's external detection capability is heavily concentrated in a single rule.
+Only 6 out of 71 rules fired on external data. ATR-2026-001 (prompt override detection) accounted for over 95% of all detections. The remaining 65 rules contributed zero detections on this corpus. This does not mean those rules are useless -- they target specific attack types (credential leaks, SSRF, tool injection) that are not represented in prompt-injection benchmarks. But it does mean ATR's external detection capability is heavily concentrated in a single rule.
 
 ### Self-Test vs. External Recall Gap
 
 | Corpus | Recall |
 |--------|--------|
 | Self-test (341 samples) | 99.4% |
-| External (850 samples) | 39.9% |
+| External (850 samples) | 62.7% |
 
-The 59-point gap is explained entirely by the paraphrase problem. Self-test samples use the exact phrasings the rules were written to match. External samples express the same malicious intent using different words, sentence structures, and languages. This is the fundamental limitation of regex-based detection, documented extensively in the "What Regex CANNOT Detect" section above.
+The 37-point gap is explained entirely by the paraphrase problem. Self-test samples use the exact phrasings the rules were written to match. External samples express the same malicious intent using different words, sentence structures, and languages. This is the fundamental limitation of regex-based detection, documented extensively in the "What Regex CANNOT Detect" section above.
 
 ### Competitive Context
 
@@ -172,7 +172,7 @@ The tradeoff:
 
 | Approach | Recall | Latency | Dependencies |
 |----------|--------|---------|--------------|
-| ATR (regex) | ~38% on external data | Sub-millisecond | None |
+| ATR (regex) | ~63% on external data | Sub-millisecond | None |
 | ML classifiers | 80-95% on external data | 10-50x slower | GPU or API |
 
 ATR is not trying to compete with ML classifiers on recall. ATR is a fast first-pass filter for known attack patterns, designed to run at zero latency with zero external dependencies. It catches the low-hanging fruit -- known templates, published exploits, automated attacks -- instantly.
@@ -185,7 +185,7 @@ Do not deploy ATR alone and expect it to catch sophisticated adversaries. The be
 
 ## Summary
 
-Regex-based detection is a first line of defense, not a complete solution. ATR v0.3 will catch script kiddies, known exploit payloads, and automated attacks that use documented patterns. It will not catch a skilled adversary who reads the rules and paraphrases around them.
+Regex-based detection is a first line of defense, not a complete solution. ATR v0.4 will catch script kiddies, known exploit payloads, and automated attacks that use documented patterns. It will not catch a skilled adversary who reads the rules and paraphrases around them.
 
 Deploy ATR as one layer in a defense-in-depth strategy. Do not rely on it alone.
 

@@ -76,7 +76,7 @@ for match in matches:
 | ATR provides (detection) | You build (protection) |
 |---|---|
 | Rule format (YAML schema) | Response policy (what to do on match) |
-| Rule library (61+ rules) | Notification channels (Slack, email, etc.) |
+| Rule library (71+ rules) | Notification channels (Slack, email, etc.) |
 | Evaluation engine (TS + Python) | Dashboard / monitoring UI |
 | Match results with confidence scores | Baseline learning / false positive tuning |
 | Session tracking (basic) | User/role-based policy |
@@ -109,7 +109,7 @@ Agent Process                    ATR Sidecar
 ┌──────────────┐                ┌──────────────┐
 │ Receives     │   event JSON   │ ATR Engine   │
 │ user input   │ ──────────→    │ evaluates    │
-│              │                │ 61 rules     │
+│              │                │ 71 rules     │
 │ Calls tools  │   match JSON   │              │
 │              │ ←──────────    │ returns      │
 │ Your logic   │                │ matches      │
@@ -188,7 +188,7 @@ await engine.loadRulesFromDirectory('./my-custom-rules'); // additive
 ATR rules are MIT licensed. You can bundle them, or let users install `agent-threat-rules` separately.
 
 **Q: How do I handle rule updates?**
-Subscribe to npm releases. Pin to a minor version (`^0.3.0`) for compatible updates, or exact version for stability.
+Subscribe to npm releases. Pin to a minor version (`^0.4.0`) for compatible updates, or exact version for stability.
 
 **Q: Can I use ATR with non-JavaScript agents?**
 Yes. Use the Python engine (`pyatr`), or run `npx agent-threat-rules mcp` as a subprocess and communicate via MCP protocol.

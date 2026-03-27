@@ -6,7 +6,7 @@ This document is intended for security teams, red teamers, and anyone evaluating
 
 ## What ATR Protects
 
-ATR v0.3 provides detection rules mapped to the OWASP Top 10 for Agentic Applications (2026). Each category below lists the relevant ATR rules, one example of what gets detected, and one example of what does not.
+ATR v0.4 provides detection rules mapped to the OWASP Top 10 for Agentic Applications (2026). Each category below lists the relevant ATR rules, one example of what gets detected, and one example of what does not.
 
 ### ASI01: Agent Goal Hijack
 
@@ -98,7 +98,7 @@ ATR v0.3 provides detection rules mapped to the OWASP Top 10 for Agentic Applica
 
 ## Known Bypass Techniques
 
-The following techniques are known to bypass ATR v0.3 detection. Transparency about limitations is more valuable than a false sense of security.
+The following techniques are known to bypass ATR v0.4 detection. Transparency about limitations is more valuable than a false sense of security.
 
 ### 1. Paraphrase
 

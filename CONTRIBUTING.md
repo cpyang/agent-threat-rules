@@ -10,9 +10,15 @@ Rules contributed here are MIT-licensed and belong to the community.
 
 ---
 
-## Three Ways to Contribute
+## How to Contribute
 
-### A. Report an Evasion (~15 minutes)
+ATR accepts contributions through both traditional open source workflows
+and AI-native workflows. In the age of AI agents, contributing to a
+security standard should not be limited to writing regex by hand.
+
+### Traditional Contributions
+
+#### A. Report an Evasion (~15 minutes)
 
 Found a way to bypass an existing rule? This is the most valuable contribution.
 
@@ -27,7 +33,7 @@ You get credited in [CONTRIBUTORS.md](./CONTRIBUTORS.md).
 We already know regex has limits. We publish evasion tests openly.
 Your bypass makes the project more honest.
 
-### B. Report a False Positive (~20 minutes)
+#### B. Report a False Positive (~20 minutes)
 
 A rule triggered on legitimate content?
 
@@ -36,7 +42,7 @@ A rule triggered on legitimate content?
 
 Confirmed false positives become new `true_negatives` test cases.
 
-### C. Submit a New Rule (1-2 hours)
+#### C. Submit a New Rule (1-2 hours)
 
 Write a full detection rule for a new attack pattern.
 
@@ -46,6 +52,57 @@ Write a full detection rule for a new attack pattern.
 4. See [examples/how-to-write-a-rule.md](./examples/how-to-write-a-rule.md) for a walkthrough
 5. Validate and test locally (see Quick Start below)
 6. Submit a PR
+
+### AI-Native Contributions
+
+Security standards in the AI era need AI-era contribution workflows.
+You do not have to write YAML by hand to make ATR better.
+
+#### D. Scan and Report (~2 minutes)
+
+Run the ATR scanner against your own MCP skills or any public skill.
+Every scan generates structured findings that feed back into the
+community threat database.
+
+```bash
+npx @panguard-ai/panguard audit          # Scan your installed MCP skills
+npx agent-threat-rules scan events.json   # Scan any MCP event log
+```
+
+Scan results are submitted to [Threat Cloud](https://tc.panguard.ai),
+a community-operated threat intelligence platform for ATR.
+Aggregated findings help identify new attack patterns and improve
+existing rules. Your scan data is anonymized before aggregation.
+
+#### E. Vote on Threat Intelligence (~1 minute)
+
+Threat Cloud surfaces potential threats discovered by community scans.
+Security researchers can review and vote on whether a flagged pattern
+is a genuine threat or a false positive.
+
+Community consensus directly improves ATR rule quality:
+- Confirmed threats become new rule candidates
+- Confirmed false positives refine existing rules
+- Disputed findings get escalated for expert review
+
+Visit [tc.panguard.ai](https://tc.panguard.ai) to participate.
+
+#### F. Contribute via LLM-Assisted Rule Generation
+
+Use AI tools to discover new attack patterns and draft ATR rules.
+The ATR MCP server lets any AI agent read, test, and propose new rules:
+
+```bash
+npx agent-threat-rules mcp   # Start the ATR MCP server
+```
+
+With the MCP server running, your AI coding assistant can:
+- Analyze attack patterns and draft YAML rules
+- Run validation and tests against the ATR schema
+- Identify coverage gaps in existing rules
+
+Submit LLM-assisted rules via PR. Mark them with `author: your-name (LLM-assisted)`
+so reviewers know to pay extra attention to regex quality and edge cases.
 
 ---
 
