@@ -22,6 +22,30 @@ AI assistants (ChatGPT, Claude, Copilot) now browse the web, run code, and use e
 
 AI 助理現在可以瀏覽網頁、執行程式碼、使用外部工具。攻擊者可以欺騙它們洩漏資料、執行惡意指令、繞過安全限制。**ATR 是一套開放的偵測規則，專門識別這些攻擊 -- 像防毒軟體的病毒碼，但對象是 AI Agent。**
 
+### Where ATR fits in the AI agent security stack
+
+| Layer | What it does | Project |
+|-------|-------------|---------|
+| **Standards** | Define threat categories | [SAFE-MCP](https://openssf.org/) (OpenSSF, $12.5M) |
+| **Taxonomy** | Enumerate attack surfaces | [OWASP Agentic Top 10](https://genai.owasp.org/) |
+| **Detection rules** | Match threats in real time | **ATR** (this project) |
+| **Enforcement** | Block, alert, quarantine | [PanGuard](https://panguard.ai), your SIEM, your pipeline |
+
+ATR maps to **10/10 OWASP Agentic Top 10 categories** ([full mapping](docs/OWASP-MAPPING.md)) and **91.8% of SAFE-MCP techniques** ([full mapping](docs/SAFE-MCP-MAPPING.md)).
+
+### ClawHub ecosystem scan (2026-03-27)
+
+We scanned the entire ClawHub MCP skill registry: 36,394 skills crawled, 9,676 with parseable source code.
+
+| Severity | Count | Examples |
+|----------|-------|---------|
+| **CRITICAL** | 182 | Credential harvesting, reverse shells, prompt injection |
+| **HIGH** | 1,124 | Data exfiltration, unauthorized network access |
+| **MEDIUM** | 1,016 | Over-permissioned, suspicious dependencies |
+| Triple threat (shell + network + filesystem) | 249 | Full attack chain capability |
+
+Raw data: [ecosystem-report.csv](data/clawhub-scan/ecosystem-report.csv) / [ecosystem-stats.json](data/clawhub-scan/ecosystem-stats.json)
+
 ```bash
 # Quick install (macOS / Linux)
 curl -fsSL https://raw.githubusercontent.com/Agent-Threat-Rule/agent-threat-rules/main/scripts/install.sh | sh
@@ -211,23 +235,23 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 
 ## Roadmap: From Format to Standard
 
-```
- v0.2 (previous)          v0.3 (previous)           v0.4 (current)
- ┌─────────────────┐      ┌──────────────────┐      ┌──────────────────┐
- │ 44 rules         │  →  │ + Eval framework  │  →  │ 71 rules         │
- │ 2 engines (TS+Py)│     │ + PINT benchmark  │     │ + 62.7% recall   │
- │ 2 SIEM converters│     │ + CI gate         │     │ + OWASP 10/10    │
- │ 0 ext. benchmarks│     │ + Embedding (T2.5)│     │ + 10 new rules   │
- └─────────────────┘      │ + Honest numbers  │     └──────────────────┘
-                           └──────────────────┘
-```
-
 - [x] **v0.1** -- 44 rules, TypeScript engine, OWASP mapping
 - [x] **v0.2** -- MCP server, Layer 2-3 detection, pyATR, Splunk/Elastic converters
 - [x] **v0.3** -- Eval framework, PINT benchmark, CI gate, embedding similarity, honest numbers
-- [x] **v0.4** -- 71 rules, 62.7% PINT recall, OWASP Agentic Top 10 full coverage
-- [ ] **v0.5** -- Go engine, ML classifier integration, 100+ rules
-- [ ] **v1.0** -- Requires: 2+ engines, 10+ deployments, 100+ stable rules, schema review by 3+ security teams
+- [x] **v0.4** (current) -- 71 rules, 62.7% PINT recall, OWASP Agentic Top 10 10/10, SAFE-MCP 91.8%, ClawHub 36K scan
+- [ ] **v0.5** -- Go engine, ML classifier integration, 100+ rules, community rule submissions
+- [ ] **v1.0** -- Requires: 2+ engines, 10+ production deployments, 100+ stable rules, schema review by 3+ security teams
+
+### Strategic direction
+
+| Phase | Goal | Status |
+|-------|------|--------|
+| **Phase 0: Core product** | 71 rules, 62.7% recall, OWASP 10/10, 36K scan | **Done** |
+| **Phase 1: Distribution** | Research report, badge API, Smithery/awesome-mcp integration | **In progress** |
+| **Phase 2: Community flywheel** | Distributed scanning, Threat Cloud dashboard, 5+ contributors | Planned |
+| **Phase 3: Standard** | OpenSSF submission, SAFE-MCP alignment, multi-vendor adoption | Planned |
+
+ATR uses "ATR Scanned" (not "ATR Certified") until recall exceeds 80%. We are honest about what we can and cannot detect. See [LIMITATIONS.md](LIMITATIONS.md).
 
 ---
 
