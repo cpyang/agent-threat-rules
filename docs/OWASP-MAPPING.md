@@ -1,7 +1,7 @@
 # ATR → OWASP Agentic Top 10 Mapping
 
 Last updated: 2026-03-26
-ATR version: v1.4.0 (71 rules)
+ATR version: v0.4.0 (71 rules)
 OWASP framework: Top 10 for Agentic Applications 2026
 
 ## Coverage Summary
@@ -182,4 +182,4 @@ Agents operating outside their intended boundaries or becoming autonomous threat
 | Date | ATR Version | Rules | OWASP Coverage |
 |---|---|---|---|
 | 2026-03-26 | v0.3.1 | 61 | 8/10 (4 PARTIAL) |
-| 2026-03-26 | v1.4.0 | 71 | 10/10 (0 PARTIAL) |
+| 2026-03-26 | v0.4.0 | 71 | 10/10 (0 PARTIAL) |

@@ -15,7 +15,7 @@
  *
  * Rationale:
  *   - Public CSV lets anyone check if their skill is flagged
- *   - But "why" requires Threat Cloud API or PanGuard
+ *   - But "why" requires Threat Cloud API for detailed analysis
  *   - This drives adoption without giving away the full analysis
  *
  * Usage:

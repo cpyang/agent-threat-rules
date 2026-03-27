@@ -9,10 +9,10 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 <br />
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
-[![Rules](https://img.shields.io/badge/rules-61-blue?style=flat-square)](#what-atr-detects)
+[![Rules](https://img.shields.io/badge/rules-71-blue?style=flat-square)](#what-atr-detects)
 [![Tests](https://img.shields.io/badge/tests-257_passing-green?style=flat-square)](#ecosystem)
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
-[![Status](https://img.shields.io/badge/status-v0.3.1-yellow?style=flat-square)](#roadmap)
+[![Status](https://img.shields.io/badge/status-v0.4.0-yellow?style=flat-square)](#roadmap)
 
 </div>
 
@@ -41,17 +41,17 @@ atr stats                         # show rule collection stats
 
 ## What ATR Detects
 
-61 rules across 9 categories, mapped to real CVEs:
+71 rules across 9 categories, mapped to real CVEs:
 
 | Category | What it catches | Rules | Real CVEs |
 |----------|----------------|-------|-----------|
 | **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, [CJK attacks](rules/prompt-injection/) | 22 | CVE-2025-53773, CVE-2025-32711 |
 | **Tool Poisoning** | Malicious MCP responses, consent bypass, hidden LLM instructions, schema contradictions | 11 | CVE-2025-68143/68144/68145 |
 | **Skill Compromise** | Typosquatting, description-behavior mismatch, supply chain attacks | 7 | CVE-2025-59536 |
-| **Agent Manipulation** | Cross-agent attacks, goal hijacking, Sybil consensus attacks | 6 | -- |
+| **Agent Manipulation** | Cross-agent attacks, goal hijacking, Sybil consensus attacks | 10 | -- |
 | **Excessive Autonomy** | Runaway loops, resource exhaustion, unauthorized financial actions | 5 | -- |
-| **Context Exfiltration** | API key leakage, system prompt theft, disguised analytics collection | 4 | CVE-2026-24307 |
-| **Privilege Escalation** | Scope creep, delayed execution bypass | 3 | CVE-2026-0628 |
+| **Context Exfiltration** | API key leakage, system prompt theft, disguised analytics collection | 7 | CVE-2026-24307 |
+| **Privilege Escalation** | Scope creep, delayed execution bypass | 6 | CVE-2026-0628 |
 | **Model Security** | Behavior extraction, malicious fine-tuning data | 2 | -- |
 | **Data Poisoning** | RAG/knowledge base tampering | 1 | -- |
 
@@ -66,14 +66,14 @@ We test ATR with our own tests AND external benchmarks we've never seen before:
 | Benchmark | Samples | Precision | Recall | F1 |
 |-----------|---------|-----------|--------|-----|
 | Self-test (own rules' test cases) | 341 | 100% | 99.4% | 99.5% |
-| **PINT (external, adversarial)** | **850** | **99.4%** | **39.9%** | **57.0%** |
+| **PINT (external, adversarial)** | **850** | **99.4%** | **62.7%** | **76.7%** |
 
 ```bash
 npm run eval        # run self-test evaluation
 npm run eval:pint   # run external PINT benchmark
 ```
 
-The gap between 99.4% and 39.9% recall is expected -- regex catches known patterns but misses paraphrases and multilingual attacks. See [LIMITATIONS.md](LIMITATIONS.md) for full analysis.
+The gap between 99.4% and 62.7% recall is expected -- regex catches known patterns but misses paraphrases and multilingual attacks. See [LIMITATIONS.md](LIMITATIONS.md) for full analysis.
 
 ---
 
@@ -82,13 +82,13 @@ The gap between 99.4% and 39.9% recall is expected -- regex catches known patter
 | Component | Description | Status |
 |-----------|-------------|--------|
 | [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 341 tests passing |
-| [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v0.3.1 |
+| [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v0.4.0 |
 | [Python engine (pyATR)](python/) | Local install only (`cd python && pip install -e .`) | 48 tests passing |
 | [Splunk converter](src/converters/splunk.ts) | `atr convert splunk` -- ATR rules to SPL queries | Shipped |
 | [Elastic converter](src/converters/elastic.ts) | `atr convert elastic` -- ATR rules to Query DSL | Shipped |
 | [MCP server](src/mcp-server.ts) | 6 tools for Claude Code, Cursor, Windsurf | Shipped |
 | [CLI](src/cli.ts) | scan, validate, test, stats, scaffold, convert | Shipped |
-| [CI gate](.github/workflows/eval.yml) | Typecheck + test + eval + validate on every PR | v0.3.0 |
+| [CI gate](.github/workflows/eval.yml) | Typecheck + test + eval + validate on every PR | v0.4.0 |
 | Go engine | High-performance scanner for production pipelines | **Help wanted** |
 
 ---
@@ -212,12 +212,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 ## Roadmap: From Format to Standard
 
 ```
- v0.2 (previous)          v0.3 (current)            v0.4+ (next)
+ v0.2 (previous)          v0.3 (previous)           v0.4 (current)
  ┌─────────────────┐      ┌──────────────────┐      ┌──────────────────┐
- │ 61 rules         │  →  │ + Eval framework  │  →  │ 100+ rules       │
- │ 2 engines (TS+Py)│     │ + PINT benchmark  │     │ + Go engine      │
- │ 2 SIEM converters│     │ + CI gate         │     │ + ML classifier  │
- │ 0 ext. benchmarks│     │ + Embedding (T2.5)│     │ + 10+ deployments│
+ │ 44 rules         │  →  │ + Eval framework  │  →  │ 71 rules         │
+ │ 2 engines (TS+Py)│     │ + PINT benchmark  │     │ + 62.7% recall   │
+ │ 2 SIEM converters│     │ + CI gate         │     │ + OWASP 10/10    │
+ │ 0 ext. benchmarks│     │ + Embedding (T2.5)│     │ + 10 new rules   │
  └─────────────────┘      │ + Honest numbers  │     └──────────────────┘
                            └──────────────────┘
 ```
@@ -225,7 +225,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 - [x] **v0.1** -- 44 rules, TypeScript engine, OWASP mapping
 - [x] **v0.2** -- MCP server, Layer 2-3 detection, pyATR, Splunk/Elastic converters
 - [x] **v0.3** -- Eval framework, PINT benchmark, CI gate, embedding similarity, honest numbers
-- [ ] **v0.4** -- Go engine, ML classifier integration, 100+ rules
+- [x] **v0.4** -- 71 rules, 62.7% PINT recall, OWASP Agentic Top 10 full coverage
+- [ ] **v0.5** -- Go engine, ML classifier integration, 100+ rules
 - [ ] **v1.0** -- Requires: 2+ engines, 10+ deployments, 100+ stable rules, schema review by 3+ security teams
 
 ---
@@ -235,7 +236,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 ```
 ATR (this repo)                  Your Product / Integration
 ┌────────────────────┐           ┌──────────────────────────┐
-│ Rules (61 YAML)    │  match    │ Block / Allow / Alert     │
+│ Rules (71 YAML)    │  match    │ Block / Allow / Alert     │
 │ Engine (TS + Py)   │ ───────→  │ SIEM (Splunk / Elastic)  │
 │ CLI / MCP / SIEM   │  results  │ Dashboard / Compliance    │
 │                    │           │ Slack / PagerDuty / Email │

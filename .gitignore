@@ -32,3 +32,19 @@ data/clawhub-scan/scan-checkpoint-*.json
 data/clawhub-scan/scan-progress.json
 data/clawhub-scan/scan-1000.json
 data/clawhub-scan/scan-10000.json
+
+# Marketing / operational content (not part of the open standard)
+posts/
+templates/
+skillssec-scanner/
+reports/
+scripts/generate-skillssec-posts.ts
+scripts/publish-posts.ts
+scripts/post-via-browser.py
+scripts/setup-x-auth.py
+scripts/monitor-security-events.py
+scripts/notify-author.ts
+.claude/CLAUDE.md
+.claude/commands/review-posts.md
+.claude/commands/publish.md
+.claude/commands/weekly-report.md
