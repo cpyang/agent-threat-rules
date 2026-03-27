@@ -9,7 +9,7 @@
  *   npx tsx scripts/audit-npm-skills.ts [--limit 20] [--output audit-results.json]
  */
 
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -80,7 +80,7 @@ async function main() {
     try {
       // Download and extract package
       mkdirSync(pkgDir, { recursive: true });
-      execSync(`npm pack ${pkg.name} --pack-destination "${pkgDir}" 2>/dev/null`, {
+      execFileSync('npm', ['pack', pkg.name, '--pack-destination', pkgDir], {
         timeout: 30000,
         stdio: 'pipe',
       });
@@ -100,7 +100,7 @@ async function main() {
       // Extract tarball
       const extractDir = join(pkgDir, 'extracted');
       mkdirSync(extractDir, { recursive: true });
-      execSync(`tar xzf "${join(pkgDir, tarballs[0]!)}" -C "${extractDir}" 2>/dev/null`, {
+      execFileSync('tar', ['xzf', join(pkgDir, tarballs[0]!), '-C', extractDir], {
         timeout: 10000,
         stdio: 'pipe',
       });
@@ -126,10 +126,10 @@ async function main() {
       // Extract tool descriptions from package content
       const toolDescriptions: string[] = [];
       try {
-        const content = execSync(
-          `grep -r "description" "${packageDir}" --include="*.json" --include="*.ts" --include="*.js" -l 2>/dev/null | head -5`,
-          { timeout: 5000, stdio: 'pipe' }
-        ).toString().trim();
+        const content = execFileSync('grep', [
+          '-r', 'description', packageDir,
+          '--include=*.json', '--include=*.ts', '--include=*.js', '-l',
+        ], { timeout: 5000, stdio: 'pipe' }).toString().trim().split('\n').slice(0, 5).join('\n');
         // Just note which files have descriptions
         if (content) {
           toolDescriptions.push(...content.split('\n').map(f => f.replace(packageDir + '/', '')));

@@ -20,7 +20,7 @@
  *   npx tsx scripts/audit-npm-skills-v2.ts [--limit 50] [--output audit-v2.json]
  */
 
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import {
   existsSync, mkdirSync, readFileSync, writeFileSync, rmSync,
   readdirSync,
@@ -527,7 +527,7 @@ async function main(): Promise<void> {
 
     try {
       // Download
-      execSync(`npm pack ${pkg.name} --pack-destination "${pkgDir}" 2>/dev/null`, {
+      execFileSync('npm', ['pack', pkg.name, '--pack-destination', pkgDir], {
         timeout: 30000, stdio: 'pipe',
       });
 
@@ -536,7 +536,7 @@ async function main(): Promise<void> {
 
       const extractDir = join(pkgDir, 'ex');
       mkdirSync(extractDir, { recursive: true });
-      execSync(`tar xzf "${join(pkgDir, tarballs[0]!)}" -C "${extractDir}" 2>/dev/null`, {
+      execFileSync('tar', ['xzf', join(pkgDir, tarballs[0]!), '-C', extractDir], {
         timeout: 10000, stdio: 'pipe',
       });
 

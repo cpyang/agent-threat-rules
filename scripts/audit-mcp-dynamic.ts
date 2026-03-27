@@ -23,7 +23,7 @@
  *   npx tsx scripts/audit-mcp-dynamic.ts [--limit 20] [--output dynamic-audit.json]
  */
 
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import {
   existsSync, mkdirSync, readFileSync, writeFileSync, rmSync,
   readdirSync,
@@ -335,7 +335,7 @@ async function main() {
 
     try {
       // Download
-      execSync(`npm pack ${pkg.name} --pack-destination "${pkgDir}" 2>/dev/null`, {
+      execFileSync('npm', ['pack', pkg.name, '--pack-destination', pkgDir], {
         timeout: 30000, stdio: 'pipe',
       });
       const tarballs = readdirSync(pkgDir).filter(f => f.endsWith('.tgz'));
@@ -343,7 +343,7 @@ async function main() {
 
       const extractDir = join(pkgDir, 'ex');
       mkdirSync(extractDir, { recursive: true });
-      execSync(`tar xzf "${join(pkgDir, tarballs[0]!)}" -C "${extractDir}" 2>/dev/null`, {
+      execFileSync('tar', ['xzf', join(pkgDir, tarballs[0]!), '-C', extractDir], {
         timeout: 10000, stdio: 'pipe',
       });
 
@@ -352,8 +352,8 @@ async function main() {
 
       // Install deps (needed for server to start)
       try {
-        execSync(`cd "${packageDir}" && npm install --production --ignore-scripts 2>/dev/null`, {
-          timeout: 60000, stdio: 'pipe',
+        execFileSync('npm', ['install', '--production', '--ignore-scripts'], {
+          timeout: 60000, stdio: 'pipe', cwd: packageDir,
         });
       } catch { /* some packages have no deps */ }
 
