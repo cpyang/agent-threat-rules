@@ -90,6 +90,17 @@ while [[ $# -gt 0 ]]; do
 done
 
 # ---------------------------------------------------------------------------
+# Validate TC_URL (prevent SSRF)
+# ---------------------------------------------------------------------------
+
+if [[ "$PUSH_TC" == "true" ]]; then
+  if ! [[ "$TC_URL" =~ ^https?://[a-zA-Z0-9._-]+(:[0-9]+)?(/.*)?$ ]]; then
+    echo "FATAL: Invalid TC_URL: $TC_URL" >&2
+    exit 1
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # Logging helpers
 # ---------------------------------------------------------------------------
 
@@ -257,7 +268,7 @@ main() {
   log "Repo:       $REPO_ROOT"
   log "Batch size: $BATCH_SIZE"
   log "Push to TC: $PUSH_TC"
-  log "TC URL:     $TC_URL"
+  log "TC URL:     ${TC_URL%%@*}"
   log "Dry run:    $DRY_RUN"
   log ""
 

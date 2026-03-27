@@ -76,6 +76,12 @@ async function postJSON(endpoint: string, body: Record<string, unknown>): Promis
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+    if (!resp.ok) {
+      const ct = resp.headers.get('content-type') ?? '';
+      if (!ct.includes('application/json')) {
+        console.error(`    TC returned non-JSON response (${resp.status}, ${ct})`);
+      }
+    }
     return resp.ok;
   } catch {
     return false;
@@ -566,7 +572,8 @@ async function main() {
               body: JSON.stringify({ skills: batch }),
             });
 
-            if (resp.ok) {
+            const ct = resp.headers.get('content-type') ?? '';
+            if (resp.ok && ct.includes('application/json')) {
               const data = await resp.json() as {
                 ok: boolean;
                 data?: { analyzed: number; proposalsCreated: number; results: Array<{ package: string; threatsFound: boolean; proposalCount: number }> };
@@ -635,7 +642,8 @@ async function main() {
                 body: JSON.stringify({ skills: llmSkills }),
               });
 
-              if (resp.ok) {
+              const ct2 = resp.headers.get('content-type') ?? '';
+              if (resp.ok && ct2.includes('application/json')) {
                 const data = await resp.json() as {
                   ok: boolean;
                   data?: { analyzed: number; proposalsCreated: number; results: Array<{ package: string; threatsFound: boolean; proposalCount: number }> };
@@ -745,7 +753,8 @@ async function main() {
           body: JSON.stringify({ skills }),
         });
 
-        if (resp.ok) {
+        const ct3 = resp.headers.get('content-type') ?? '';
+        if (resp.ok && ct3.includes('application/json')) {
           const data = await resp.json() as {
             ok: boolean;
             data?: { analyzed: number; proposalsCreated: number; results: Array<{ package: string; threatsFound: boolean; proposalCount: number }> };

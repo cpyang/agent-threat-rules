@@ -11,7 +11,13 @@ import type { ATRRule } from './types.js';
 /**
  * Load a single ATR rule from a YAML file.
  */
+const MAX_RULE_SIZE = 1_000_000; // 1MB
+
 export function loadRuleFile(filePath: string): ATRRule {
+  const stat = statSync(filePath);
+  if (stat.size > MAX_RULE_SIZE) {
+    throw new Error(`Rule file ${filePath} exceeds 1MB size limit (${stat.size} bytes)`);
+  }
   const content = readFileSync(filePath, 'utf-8');
   const parsed = yaml.load(content) as ATRRule;
 

@@ -22,6 +22,13 @@ export function handleValidate(args: Record<string, unknown>): {
     };
   }
 
+  if (yamlContent.length > 1_000_000) {
+    return {
+      content: [{ type: 'text', text: 'Error: YAML content exceeds 1MB limit.' }],
+      isError: true,
+    };
+  }
+
   try {
     const parsed = yaml.load(yamlContent);
     if (!parsed || typeof parsed !== 'object') {

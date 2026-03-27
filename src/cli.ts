@@ -139,6 +139,11 @@ async function cmdScan(target: string, options: Record<string, string>): Promise
   const minSeverity = options['severity'] ?? 'informational';
   const jsonOutput = options['json'] === 'true';
 
+  const fileStat = statSync(eventsPath);
+  if (fileStat.size > 50 * 1024 * 1024) {
+    console.error(`${RED}Error: Events file exceeds 50MB limit (${Math.round(fileStat.size / 1024 / 1024)}MB)${RESET}`);
+    process.exit(1);
+  }
   const raw = readFileSync(eventsPath, 'utf-8');
   let events: AgentEvent[];
   try {
