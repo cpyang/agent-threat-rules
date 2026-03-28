@@ -1,0 +1,10 @@
+name: ATR Security Scan
+on: [push, pull_request]
+jobs:
+  atr-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: panguard-ai/atr-action@v1
+        with:
+          report-to-cloud: 'true'
