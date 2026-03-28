@@ -450,12 +450,24 @@ export class ATREngine {
     if (!rawFieldValue) return false;
     const fieldValue = normalizeUnicode(rawFieldValue);
 
+    // Code block suppression: for rules that commonly false-positive on
+    // documentation content (shell commands, file paths in code examples),
+    // check if the match falls inside a markdown code block.
+    // Prompt injection rules (ATR-001 through ATR-005, ATR-080+) are NOT suppressed
+    // because attackers can hide injections in code blocks too.
+    const suppressInCodeBlocks = this.shouldSuppressInCodeBlocks(ruleId);
+    const codeRanges = suppressInCodeBlocks ? buildCodeBlockRanges(fieldValue) : [];
+
     // Get pre-compiled patterns
     const compiled = this.compiledPatterns.get(ruleId)?.get(condName);
 
     if (compiled) {
       for (let i = 0; i < compiled.length; i++) {
         if (safeRegexTest(compiled[i]!, fieldValue) || (rawFieldValue && safeRegexTest(compiled[i]!, rawFieldValue))) {
+          // If match is inside a code block and this rule supports suppression, skip it
+          if (suppressInCodeBlocks && codeRanges.length > 0 && isInsideCodeBlock(fieldValue, compiled[i]!, codeRanges)) {
+            continue;
+          }
           matchedPatterns.push(cond.patterns[i] ?? 'unknown');
           return true;
         }
@@ -506,6 +518,25 @@ export class ATREngine {
     }
 
     return false;
+  }
+
+  /**
+   * Determine if a rule should suppress matches inside markdown code blocks.
+   * Rules that commonly false-positive on documentation (shell commands, file paths,
+   * code examples) are suppressed. Prompt injection rules are NEVER suppressed
+   * because attackers deliberately hide payloads in code blocks.
+   */
+  private shouldSuppressInCodeBlocks(ruleId: string): boolean {
+    const rule = this.rules.find(r => r.id === ruleId);
+    if (!rule) return false;
+    const category = rule.tags?.category ?? '';
+    // Categories that commonly match documentation content
+    const suppressCategories = [
+      'privilege-escalation',  // ATR-111 shell metacharacter
+      'context-exfiltration',  // ATR-113 credential paths
+      'skill-compromise',      // supply chain patterns in docs
+    ];
+    return suppressCategories.includes(category);
   }
 
   /**
@@ -1060,4 +1091,46 @@ const MAX_EVAL_LENGTH = 100_000;
 function safeRegexTest(regex: RegExp, input: string): boolean {
   if (input.length > MAX_EVAL_LENGTH) return false;
   return regex.test(input);
+}
+
+/**
+ * Build a set of character ranges that fall inside markdown code blocks.
+ * Covers both fenced (``` ```) and inline (`code`) blocks.
+ * Used to suppress false positives when regex matches documentation examples
+ * rather than actual attack payloads.
+ */
+function buildCodeBlockRanges(text: string): Array<[number, number]> {
+  const ranges: Array<[number, number]> = [];
+
+  // Fenced code blocks: ```...```
+  const fenced = /```[\s\S]*?```/g;
+  let m: RegExpExecArray | null;
+  while ((m = fenced.exec(text)) !== null) {
+    ranges.push([m.index, m.index + m[0].length]);
+  }
+
+  // Inline code: `...` (but not inside fenced blocks)
+  const inline = /`[^`\n]+`/g;
+  while ((m = inline.exec(text)) !== null) {
+    const pos = m.index;
+    const inFenced = ranges.some(([start, end]) => pos >= start && pos < end);
+    if (!inFenced) {
+      ranges.push([pos, pos + m[0].length]);
+    }
+  }
+
+  return ranges;
+}
+
+/**
+ * Check if a regex match position falls inside a code block.
+ */
+function isInsideCodeBlock(text: string, regex: RegExp, codeRanges: Array<[number, number]>): boolean {
+  if (codeRanges.length === 0) return false;
+  // Reset regex state and find match position
+  const searchRegex = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : regex.flags + 'g');
+  const m = searchRegex.exec(text);
+  if (!m) return false;
+  const matchPos = m.index;
+  return codeRanges.some(([start, end]) => matchPos >= start && matchPos < end);
 }
