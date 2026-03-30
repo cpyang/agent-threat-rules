@@ -12,6 +12,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 [![Rules](https://img.shields.io/badge/rules-71-blue?style=flat-square)](#what-atr-detects)
 [![Tests](https://img.shields.io/badge/tests-257_passing-green?style=flat-square)](#ecosystem)
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
+[![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
 [![Status](https://img.shields.io/badge/status-v0.4.0-yellow?style=flat-square)](#roadmap)
 
 </div>
@@ -98,6 +99,20 @@ npm run eval:pint   # run external PINT benchmark
 ```
 
 The gap between 99.4% and 62.7% recall is expected -- regex catches known patterns but misses paraphrases and multilingual attacks. See [LIMITATIONS.md](LIMITATIONS.md) for full analysis.
+
+---
+
+## Standards Coverage
+
+ATR maps to established AI security frameworks so teams can go from "understand the threat" to "detect it" without building rules from scratch.
+
+| Framework | Coverage | Mapping |
+|-----------|----------|---------|
+| [OWASP Agentic Top 10](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) | **10/10 categories** | [OWASP-MAPPING.md](docs/OWASP-MAPPING.md) |
+| [SAFE-MCP](https://openssf.org/) (OpenSSF) | **78/85 techniques (91.8%)** | [SAFE-MCP-MAPPING.md](docs/SAFE-MCP-MAPPING.md) |
+| [MITRE ATLAS](https://atlas.mitre.org/) | Rule-level references | Per-rule `mitre_ref` field |
+
+**Paper:** Pan, Y. (2026). *Agent Threat Rules: A Community-Driven Detection Standard for AI Agent Security Threats.* Zenodo. [doi:10.5281/zenodo.19178002](https://doi.org/10.5281/zenodo.19178002)
 
 ---
 
