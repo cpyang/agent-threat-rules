@@ -37,6 +37,7 @@ data/clawhub-scan/scan-10000.json
 posts/
 templates/
 skillssec-scanner/
+data/posts/
 reports/
 scripts/generate-skillssec-posts.ts
 scripts/publish-posts.ts

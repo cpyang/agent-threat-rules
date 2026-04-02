@@ -530,12 +530,23 @@ export class ATREngine {
     const rule = this.rules.find(r => r.id === ruleId);
     if (!rule) return false;
     const category = rule.tags?.category ?? '';
+    const subcategory = rule.tags?.subcategory ?? '';
     // Categories that commonly match documentation content
     const suppressCategories = [
       'privilege-escalation',  // ATR-111 shell metacharacter
       'context-exfiltration',  // ATR-113 credential paths
       'skill-compromise',      // supply chain patterns in docs
     ];
+    // Never suppress skill-content rules (ATR-120+) — code blocks in SKILL.md
+    // are executable instructions, not documentation examples
+    const neverSuppressSubcategories = [
+      'skill-instruction-injection',
+      'dangerous-script',
+      'weaponized-skill',
+      'skill-overreach',
+      'skill-squatting',
+    ];
+    if (neverSuppressSubcategories.includes(subcategory)) return false;
     return suppressCategories.includes(category);
   }
 
