@@ -43,6 +43,7 @@ Open detection rules for AI agent security threats.
 
 ${BOLD}Usage:${RESET}
   atr scan <events.json> [--rules <dir>]   Scan events against ATR rules
+  atr scan-skill <SKILL.md|dir>            Scan SKILL.md files for threats
   atr validate <rule.yaml|dir>             Validate rule file(s)
   atr test <rule.yaml|dir>                 Run embedded test cases
   atr stats [--rules <dir>]                Show rule collection statistics
@@ -212,6 +213,107 @@ async function cmdScan(target: string, options: Record<string, string>): Promise
       const color = SEVERITY_COLORS[m.rule.severity] ?? '';
       console.log(`    ${color}${m.rule.severity.toUpperCase().padEnd(13)}${RESET} ${m.rule.id} - ${m.rule.title}`);
       console.log(`    ${DIM}Confidence: ${(m.confidence * 100).toFixed(0)}% | Conditions: ${m.matchedConditions.join(', ')}${RESET}`);
+    }
+    console.log('');
+  }
+}
+
+// --- SCAN-SKILL command ---
+
+async function cmdScanSkill(target: string, options: Record<string, string>): Promise<void> {
+  if (!target) {
+    console.error(`${RED}Error: Missing SKILL.md path. Usage: atr scan-skill <SKILL.md|directory>${RESET}`);
+    process.exit(1);
+  }
+
+  const targetPath = resolve(target);
+  if (!existsSync(targetPath)) {
+    console.error(`${RED}Error: Path not found: ${targetPath}${RESET}`);
+    process.exit(1);
+  }
+
+  const rulesDir = options['rules'] ? resolve(options['rules']) : RULES_DIR;
+  const jsonOutput = options['json'] === 'true';
+
+  // Collect SKILL.md files
+  const skillFiles: string[] = [];
+  const stat = statSync(targetPath);
+  if (stat.isDirectory()) {
+    const walk = (dir: string) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = resolve(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (entry.name === 'SKILL.md' || entry.name === 'skill.md') skillFiles.push(full);
+      }
+    };
+    walk(targetPath);
+  } else {
+    skillFiles.push(targetPath);
+  }
+
+  if (skillFiles.length === 0) {
+    console.error(`${RED}Error: No SKILL.md files found in ${targetPath}${RESET}`);
+    process.exit(1);
+  }
+
+  const engine = new ATREngine({ rulesDir });
+  await engine.loadRules();
+
+  const severityOrder = ['informational', 'low', 'medium', 'high', 'critical'];
+  const minSeverity = options['severity'] ?? 'medium';
+  const minIdx = severityOrder.indexOf(minSeverity);
+
+  const allResults: Array<{ file: string; matches: ATRMatch[] }> = [];
+  let totalThreats = 0;
+
+  for (const file of skillFiles) {
+    const content = readFileSync(file, 'utf-8');
+    const matches = engine.scanSkill(content)
+      .filter(m => severityOrder.indexOf(m.rule.severity) >= minIdx);
+    if (matches.length > 0) {
+      allResults.push({ file, matches });
+      totalThreats += matches.length;
+    }
+  }
+
+  if (jsonOutput) {
+    console.log(JSON.stringify({
+      skillsScanned: skillFiles.length,
+      threatsDetected: totalThreats,
+      rulesLoaded: engine.getRuleCount(),
+      results: allResults.map(({ file, matches }) => ({
+        file,
+        matches: matches.map(m => ({
+          ruleId: m.rule.id,
+          title: m.rule.title,
+          severity: m.rule.severity,
+          confidence: m.confidence,
+        })),
+      })),
+    }, null, 2));
+    return;
+  }
+
+  console.log(`\n${BOLD}ATR Skill Scan Results${RESET}`);
+  console.log(`${DIM}${'─'.repeat(60)}${RESET}`);
+  console.log(`  Skills scanned:  ${skillFiles.length}`);
+  console.log(`  Rules loaded:    ${engine.getRuleCount()}`);
+  console.log(`  Threats found:   ${totalThreats > 0 ? RED + totalThreats + RESET : GREEN + '0' + RESET}`);
+  console.log(`${DIM}${'─'.repeat(60)}${RESET}`);
+  console.log('');
+
+  if (totalThreats === 0) {
+    console.log(`  ${GREEN}No threats detected.${RESET}\n`);
+    return;
+  }
+
+  for (const { file, matches } of allResults) {
+    const relPath = file.replace(process.cwd() + '/', '');
+    console.log(`  ${BOLD}${relPath}${RESET}`);
+    for (const m of matches) {
+      const sevColor = m.rule.severity === 'critical' ? RED : m.rule.severity === 'high' ? RED : '';
+      const sevReset = sevColor ? RESET : '';
+      console.log(`    ${sevColor}[${m.rule.severity.toUpperCase()}]${sevReset} ${m.rule.id} — ${m.rule.title}`);
     }
     console.log('');
   }
@@ -977,6 +1079,9 @@ async function main(): Promise<void> {
   switch (command) {
     case 'scan':
       await cmdScan(target, options);
+      break;
+    case 'scan-skill':
+      await cmdScanSkill(target, options);
       break;
     case 'validate':
       cmdValidate(target, options);

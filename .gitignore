@@ -49,3 +49,4 @@ scripts/notify-author.ts
 .claude/commands/review-posts.md
 .claude/commands/publish.md
 .claude/commands/weekly-report.md
+benchmark/
