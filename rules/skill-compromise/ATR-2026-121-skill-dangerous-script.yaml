@@ -87,8 +87,8 @@ detection:
     # 341+ skills used this pattern to trick users into running malicious commands
     - field: content
       operator: regex
-      value: "(?i)(copy\\s+.{0,30}(script|command|code).{0,30}paste.{0,30}(terminal|shell|console|cmd)|paste\\s+.{0,20}(into|in|to)\\s+(your\\s+)?(terminal|shell|console|cmd))"
-      description: "Social engineering: paste-into-terminal instruction (ClawHavoc campaign)"
+      value: "(?i)(copy\\s+.{0,30}(script|command|code).{0,30}paste.{0,30}(terminal|shell|console|cmd))"
+      description: "Social engineering: copy-script-paste-terminal instruction (ClawHavoc campaign). Note: 'paste into terminal' alone removed due to FP on legitimate SDK install instructions (Sentry, etc.)"
 
     # Code paste service redirect (glot.io, rentry.co, pastebin used as C2 relay)
     # Legitimate services abused to host malicious payloads

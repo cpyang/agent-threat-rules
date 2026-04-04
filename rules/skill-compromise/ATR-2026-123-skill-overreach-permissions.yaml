@@ -47,8 +47,8 @@ detection:
     # Unrestricted tool access (OWASP AST03)
     - field: content
       operator: regex
-      value: "(?i)allowed[_-]tools:.*Bash\\s*\\(\\s*\\*\\s*\\)"
-      description: "Unrestricted Bash access in allowed-tools (OWASP AST03)"
+      value: "(?i)allowed[_-]tools:.*Bash\\s*\\(\\s*\\*\\s*\\)(?![:\\w])"
+      description: "Unrestricted Bash(*) access — excludes scoped Bash(git:*) etc. (OWASP AST03)"
 
     # Auto-approve escalation — must be SETTING a value, not discussing it
     # CVE-2025-53773: writing {"chat.tools.autoApprove": true} to settings
@@ -73,8 +73,8 @@ detection:
     # Wildcard file access (OWASP AST03)
     - field: content
       operator: regex
-      value: "(?i)(read|access|scan|search)\\s+(all|every|any)\\s+(files?|directories|directory|paths?|folders?)\\s+(in|on|under|across)\\s+(the\\s+)?(system|machine|computer|home|entire|~)"
-      description: "Wildcard filesystem access request"
+      value: "(?i)(read|access|scan|search)\\s+(all|every|any)\\s+(files?|directories|directory|paths?|folders?)\\s+(in|on|under|across)\\s+(the\\s+)?(system|machine|computer|home\\s+directory|entire|~/)"
+      description: "Wildcard filesystem access request — requires system/home/entire scope"
 
   condition: any
   false_positives:
