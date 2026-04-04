@@ -51,18 +51,19 @@ detection:
       description: "DAN-style jailbreak disabling safety mechanisms (Snyk convergence pattern)"
 
     # Instruction override — requires imperative context (directed at AI)
-    # "ignore all previous instructions" alone is too broad (matches docs).
-    # Require either "you must/should/will" prefix OR "all previous/all safety" (stronger signal)
+    # Uses synonym expansion (from skill-sanitizer research): ignore, disregard,
+    # override, forget, bypass, circumvent, supersede, set aside, discard, abandon
+    # Require "you must/should/will" prefix OR "all previous/all safety" (stronger signal)
     - field: content
       operator: regex
-      value: "(?i)(you\\s+(must|should|will|shall)\\s+(ignore|disregard|override|forget)\\s+(all\\s+)?(previous|prior|system|safety)\\s+\\w*\\s*(instructions?|rules?|guidelines?|prompts?))|(ignore\\s+all\\s+(previous|prior|safety|system)\\s+\\w*\\s*(instructions?|rules?|guidelines?|prompts?))"
-      description: "AI-directed instruction override (arXiv D1 Direct Prompt Injection)"
+      value: "(?i)(you\\s+(must|should|will|shall)\\s+(ignore|disregard|override|forget|bypass|circumvent|supersede|set\\s+aside|discard|abandon)\\s+(all\\s+)?(previous|prior|system|safety)\\s+\\w*\\s*(instructions?|rules?|guidelines?|prompts?))|((?:ignore|disregard|bypass|circumvent|supersede|set\\s+aside)\\s+all\\s+(previous|prior|safety|system)\\s+\\w*\\s*(instructions?|rules?|guidelines?|prompts?))"
+      description: "AI-directed instruction override with synonym expansion (arXiv D1 + skill-sanitizer research)"
 
     # Fake system delimiter (arXiv M1 hierarchy exploitation)
     - field: content
       operator: regex
-      value: "(?i)(\\[SYSTEM\\]|<\\|system\\|>|<system>|\\[INST\\]|<\\|im_start\\|>system|<<SYS>>)"
-      description: "System message impersonation (arXiv hierarchy exploitation)"
+      value: "(?i)(\\[SYSTEM\\]\\s*:|<\\|system\\|>|<system>(?![(/])|\\[INST\\]\\s*:|<\\|im_start\\|>system|<<SYS>>)"
+      description: "System message impersonation — excludes markdown links [system](path) (arXiv hierarchy exploitation)"
 
     # Hidden in HTML comments (OWASP AST01 evasion technique)
     - field: content

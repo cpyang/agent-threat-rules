@@ -91,14 +91,18 @@ export function loadPintCorpus(dataPath: string): readonly CorpusSample[] {
     if (!text || seen.has(key)) continue;
     seen.add(key);
 
+    // A sample is an attack only when the label field explicitly marks it true.
+    // Guard against dataset noise: entries with label=false must never be
+    // counted as false negatives regardless of their category field.
+    const isAttack = entry.label === true;
     const difficulty = assignDifficulty(entry);
-    const category = mapCategory(entry.category, entry.label);
+    const category = mapCategory(entry.category, isAttack);
 
     samples.push({
       id: `pint-${String(i + 1).padStart(4, '0')}`,
       text,
       category,
-      expectedDetection: entry.label,
+      expectedDetection: isAttack,
       eventType: 'llm_input',
       tier: 'any',
       difficulty,
