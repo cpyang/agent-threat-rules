@@ -1,0 +1,1878 @@
+[
+  {
+    "file": "malicious/ninja-001-malware-dropper-clawhub.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "aztr0nutzs-net-ninja",
+    "layer": "B"
+  },
+  {
+    "file": "malicious/ninja-002-malware-dropper-google-qx4.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "aztr0nutzs-net-ninja",
+    "layer": "A"
+  },
+  {
+    "file": "malicious/ninja-019-malware-dropper-coding-agent-1gx.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "aztr0nutzs-net-ninja",
+    "layer": "B"
+  },
+  {
+    "file": "malicious/ninja-036-malware-dropper-security-system-zf.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "aztr0nutzs-net-ninja",
+    "layer": "A"
+  },
+  {
+    "file": "malicious/ninja-039-malware-dropper-whatsapp-mgv.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "aztr0nutzs-net-ninja",
+    "layer": "B"
+  },
+  {
+    "file": "malicious/ninja-evasive-evasive-03-prompt-subtle.md",
+    "label": "malicious",
+    "attack_type": "credential_exfiltration",
+    "source": "ninja-skillguard-fixtures",
+    "layer": "C"
+  },
+  {
+    "file": "malicious/ninja-evasive-evasive-06-unicode-injection.md",
+    "label": "malicious",
+    "attack_type": "unicode_injection",
+    "source": "ninja-skillguard-fixtures",
+    "layer": "C"
+  },
+  {
+    "file": "malicious/ninja-evasive-evasive-10-roleplay.md",
+    "label": "malicious",
+    "attack_type": "social_engineering",
+    "source": "ninja-skillguard-fixtures",
+    "layer": "C"
+  },
+  {
+    "file": "malicious/ninja-evasive-malicious-skill.md",
+    "label": "malicious",
+    "attack_type": "prompt_injection",
+    "source": "ninja-skillguard-fixtures",
+    "layer": "C"
+  },
+  {
+    "file": "malicious/openclaw-001-malware-dropper-twitter.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "openclaw-skills-repo",
+    "layer": "B"
+  },
+  {
+    "file": "malicious/openclaw-002-malware-dropper-moltbook.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "openclaw-skills-repo",
+    "layer": "B"
+  },
+  {
+    "file": "malicious/openclaw-003-malware-dropper-pdf.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "openclaw-skills-repo",
+    "layer": "B"
+  },
+  {
+    "file": "malicious/snyk-001-exfiltration-curl-pastebin.md",
+    "label": "malicious",
+    "attack_type": "data_exfiltration",
+    "source": "snyk-toxicskills",
+    "layer": "C"
+  },
+  {
+    "file": "malicious/snyk-002-malware-dropper-openclawcli.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "snyk-toxicskills",
+    "layer": "A"
+  },
+  {
+    "file": "malicious/snyk-003-ascii-smuggling-injection.md",
+    "label": "malicious",
+    "attack_type": "unicode_smuggling",
+    "source": "snyk-toxicskills",
+    "layer": "C"
+  },
+  {
+    "file": "malicious/snyk-004-exfiltration-curl-pastebin-agents.md",
+    "label": "malicious",
+    "attack_type": "data_exfiltration",
+    "source": "snyk-toxicskills",
+    "layer": "C"
+  },
+  {
+    "file": "malicious/snyk-005-malware-dropper-rentry.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "snyk-toxicskills",
+    "layer": "A"
+  },
+  {
+    "file": "malicious/snyk-006-malware-dropper-base64.md",
+    "label": "malicious",
+    "attack_type": "malware_delivery",
+    "source": "snyk-toxicskills",
+    "layer": "B"
+  },
+  {
+    "file": "benign/evasive-stub-evasive-01-string-concat.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-02-encoded.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-04-timebomb.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-05-alias-chain.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-07-sandbox-detect.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-08-reverse-shell.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-09-python-pickle.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-11-polyglot-json.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/evasive-stub-evasive-12-multi-stage.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "ninja-skillguard-fixtures-benign-stub",
+    "layer": null
+  },
+  {
+    "file": "benign/mcp-official-002-fetch.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "modelcontextprotocol-servers",
+    "layer": null
+  },
+  {
+    "file": "benign/mcp-official-003-filesystem.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "modelcontextprotocol-servers",
+    "layer": null
+  },
+  {
+    "file": "benign/mcp-official-004-git.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "modelcontextprotocol-servers",
+    "layer": null
+  },
+  {
+    "file": "benign/mcp-official-007-memory.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "modelcontextprotocol-servers",
+    "layer": null
+  },
+  {
+    "file": "benign/mcp-official-010-sequentialthinking.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "modelcontextprotocol-servers",
+    "layer": null
+  },
+  {
+    "file": "benign/mcp-official-013-time.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "modelcontextprotocol-servers",
+    "layer": null
+  },
+  {
+    "file": "benign/mcp-official-014-everything.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "modelcontextprotocol-servers",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-001-weather.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-002-calculator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-003-calendar.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-004-notes.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-005-timer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-006-todo.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-007-dictionary.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-008-translator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-009-markdown-formatter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-010-json-formatter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-011-csv-parser.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-012-xml-validator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-013-yaml-converter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-014-regex-tester.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-015-color-picker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-016-uuid-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-017-hash-calculator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-018-base64-tool.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-019-url-encoder.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-020-jwt-decoder.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-021-cron-parser.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-022-ip-lookup.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-023-dns-resolver.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-024-http-client.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-025-api-tester.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-026-graphql-client.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-027-websocket-client.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-028-ssh-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-029-docker-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-030-kubernetes-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-031-terraform-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-032-aws-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-033-gcp-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-034-azure-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-035-git-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-036-github-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-037-gitlab-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-038-jira-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-039-slack-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-040-discord-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-041-email-sender.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-042-sms-sender.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-043-pdf-reader.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-044-image-resizer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-045-video-converter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-046-audio-transcriber.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-047-code-formatter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-048-linter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-049-test-runner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-050-coverage-reporter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-051-dependency-checker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-052-security-scanner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-053-performance-profiler.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-054-database-client.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-055-redis-client.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-056-mongodb-client.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-057-elasticsearch-client.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-058-s3-browser.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-059-file-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-060-clipboard-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-061-screenshot-tool.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-062-screen-recorder.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-063-pomodoro-timer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-064-habit-tracker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-065-expense-tracker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-066-password-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-067-qr-code-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-068-text-to-speech.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-069-speech-to-text.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-070-sentiment-analyzer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-071-text-summarizer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-072-spell-checker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-073-grammar-checker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-074-word-counter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-075-diff-viewer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-076-template-engine.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-077-config-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-078-env-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-079-log-viewer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-080-process-monitor.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-081-system-info.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-082-network-monitor.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-083-port-scanner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-084-ping-tool.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-085-bandwidth-tester.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-086-certificate-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-087-backup-tool.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-088-sync-tool.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-089-compression-tool.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-090-encryption-tool.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-091-disk-usage.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-092-memory-monitor.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-093-cpu-monitor.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-094-theme-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-095-font-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-096-snippet-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-097-bookmark-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-098-rss-reader.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-099-recipe-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-100-contact-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-101-workout-tracker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-102-meditation-timer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-103-water-tracker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-104-meal-planner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-105-travel-planner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-106-flight-tracker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-107-movie-finder.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-108-book-tracker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-109-study-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-110-quiz-maker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-111-random-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-112-ascii-art.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-113-chart-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-114-diagram-maker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-115-flowchart-maker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-116-mindmap-maker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-117-gantt-chart.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-118-kanban-board.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-119-sprint-planner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-120-standup-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-121-retrospective.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-122-code-review.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-123-pr-template.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-124-changelog-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-125-version-bumper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-126-release-notes.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-127-license-checker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-128-readme-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-129-doc-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-130-api-doc-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-131-swagger-editor.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-132-mock-server.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-133-load-tester.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-134-a11y-checker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-135-seo-checker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-136-sitemap-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-137-favicon-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-138-webpack-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-139-vite-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-140-typescript-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-141-eslint-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-142-prettier-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-143-tailwind-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-144-css-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-145-html-validator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-146-svg-optimizer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-147-animation-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-148-responsive-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-149-browser-compat.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-150-package-size.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-151-bundle-analyzer.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-152-lighthouse-runner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-153-cors-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-154-cookie-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-155-console-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-156-date-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-157-timezone-converter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-158-currency-converter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-159-unit-converter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-160-emoji-search.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-161-lorem-ipsum.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-162-color-palette.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-163-gradient-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-164-shadow-generator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-165-border-radius.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-166-flexbox-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-167-grid-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-168-regex-builder.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-169-sql-formatter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-170-graphql-formatter.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-171-toml-parser.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-172-ini-parser.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-173-dotenv-checker.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-174-changelog-parser.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-175-semver-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-176-npm-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-177-yarn-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-178-pnpm-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-179-pip-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-180-cargo-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-181-go-modules.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-182-maven-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-183-gradle-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-184-make-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-185-cmake-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-186-bazel-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-187-github-actions.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-188-gitlab-ci.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-189-jenkins-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-190-circleci-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-191-vercel-deploy.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-192-netlify-deploy.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-193-heroku-deploy.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-194-railway-deploy.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-195-fly-io-deploy.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-196-cloudflare-helper.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-197-nginx-config.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-198-apache-config.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/synthetic-199-caddy-config.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "synthetic-generated",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-003-clawdnet.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-004-deepclaw.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-005-clawvox.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-006-afame.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-007-agent-config.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-008-agent-orchestrator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-009-agentic-calling.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-010-agents-manager.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-011-ai-persona-os.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-012-ai-skill-scanner.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-013-api-gateway.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-014-canvas-os.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-015-clauditor.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-016-claw-sync.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-017-codex-sub-agents.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-018-codex_orchestration.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-020-computer-use.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-021-deepgram.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-022-elite-longterm-memory.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-023-frontend-design-ultimate.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-024-gemini-deep-research.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-025-git-sync.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-026-jules-cli.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-027-memory-setup.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-028-mission-control.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-029-multi-coding-agent.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-030-nano-banana-pro.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-031-news-aggregator.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-032-openclaw-aisa.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-033-penfield.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-034-progressive-memory.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-035-runware.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-037-task-monitor.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-038-ui-ux-pro-max.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  },
+  {
+    "file": "benign/ninja-legit/ninja-040-openswarm-fight.md",
+    "label": "benign",
+    "attack_type": null,
+    "source": "aztr0nutzs-net-ninja-non-malicious",
+    "layer": null
+  }
+]
