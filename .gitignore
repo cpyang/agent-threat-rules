@@ -50,3 +50,10 @@ scripts/notify-author.ts
 .claude/commands/publish.md
 .claude/commands/weekly-report.md
 benchmark/
+
+# Scan reports (generated, not source)
+data/skill-scan-report-full.json
+data/skill-scan-report-full.csv
+data/openclaw-scan/
+data/scan-log-*.md
+scripts/scan-openclaw*.mjs

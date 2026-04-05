@@ -83,8 +83,8 @@ function validateRule(filePath: string): ValidationResult {
     // ID format
     if (typeof rule['id'] === 'string') {
       ruleId = rule['id'];
-      if (!/^ATR-\d{4}-\d{3}$/.test(ruleId)) {
-        errors.push(`Invalid id format: ${ruleId} (expected ATR-YYYY-NNN)`);
+      if (!/^ATR-\d{4}-\d{5}$/.test(ruleId)) {
+        errors.push(`Invalid id format: ${ruleId} (expected ATR-YYYY-NNNNN)`);
       }
     }
 

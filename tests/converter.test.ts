@@ -7,16 +7,16 @@ import { loadRuleFile, loadRulesFromDirectory } from '../src/loader.js';
 import type { ATRRule } from '../src/types.js';
 
 const RULES_DIR = join(__dirname, '..', 'rules');
-const ATR_001_PATH = join(RULES_DIR, 'prompt-injection', 'ATR-2026-001-direct-prompt-injection.yaml');
+const ATR_001_PATH = join(RULES_DIR, 'prompt-injection', 'ATR-2026-00001-direct-prompt-injection.yaml');
 
 describe('SIEM Converter', () => {
   describe('Splunk SPL Conversion', () => {
-    it('converts ATR-2026-001 to valid SPL', () => {
+    it('converts ATR-2026-00001 to valid SPL', () => {
       const rule = loadRuleFile(ATR_001_PATH);
       const spl = ruleToSPL(rule);
 
       // Should include rule metadata in comments
-      expect(spl).toContain('ATR-2026-001');
+      expect(spl).toContain('ATR-2026-00001');
       expect(spl).toContain('Direct Prompt Injection');
       expect(spl).toContain('high');
 
@@ -42,7 +42,7 @@ describe('SIEM Converter', () => {
       const rule = loadRuleFile(ATR_001_PATH);
       const result = convertRule(rule, 'splunk');
 
-      expect(result.ruleId).toBe('ATR-2026-001');
+      expect(result.ruleId).toBe('ATR-2026-00001');
       expect(result.title).toContain('Direct Prompt Injection');
       expect(result.severity).toBe('high');
       expect(result.format).toBe('splunk');
@@ -51,12 +51,12 @@ describe('SIEM Converter', () => {
   });
 
   describe('Elastic Query DSL Conversion', () => {
-    it('converts ATR-2026-001 to valid Elastic query', () => {
+    it('converts ATR-2026-00001 to valid Elastic query', () => {
       const rule = loadRuleFile(ATR_001_PATH);
       const elastic = ruleToElastic(rule);
 
       // Check _meta
-      expect(elastic._meta.rule_id).toBe('ATR-2026-001');
+      expect(elastic._meta.rule_id).toBe('ATR-2026-00001');
       expect(elastic._meta.title).toContain('Direct Prompt Injection');
       expect(elastic._meta.severity).toBe('high');
       expect(elastic._meta.category).toBe('prompt-injection');
@@ -81,12 +81,12 @@ describe('SIEM Converter', () => {
       const rule = loadRuleFile(ATR_001_PATH);
       const result = convertRule(rule, 'elastic');
 
-      expect(result.ruleId).toBe('ATR-2026-001');
+      expect(result.ruleId).toBe('ATR-2026-00001');
       expect(result.format).toBe('elastic');
 
       // query should be valid JSON
       const parsed = JSON.parse(result.query);
-      expect(parsed._meta.rule_id).toBe('ATR-2026-001');
+      expect(parsed._meta.rule_id).toBe('ATR-2026-00001');
       expect(parsed.query.bool.should).toBeDefined();
     });
   });
@@ -145,7 +145,7 @@ describe('SIEM Converter', () => {
       expect(results.length).toBeGreaterThanOrEqual(61);
 
       for (const result of results) {
-        expect(result.ruleId).toMatch(/^ATR-\d{4}-\d{3}$/);
+        expect(result.ruleId).toMatch(/^ATR-\d{4}-\d{5}$/);
         expect(result.format).toBe('splunk');
         expect(result.query.length).toBeGreaterThan(0);
         expect(result.severity).toBeTruthy();
@@ -159,7 +159,7 @@ describe('SIEM Converter', () => {
       expect(results.length).toBeGreaterThanOrEqual(61);
 
       for (const result of results) {
-        expect(result.ruleId).toMatch(/^ATR-\d{4}-\d{3}$/);
+        expect(result.ruleId).toMatch(/^ATR-\d{4}-\d{5}$/);
         expect(result.format).toBe('elastic');
 
         // Each result query should be valid JSON
@@ -174,7 +174,7 @@ describe('SIEM Converter', () => {
     it('converts contains operator to wildcard in Elastic', () => {
       const rule: ATRRule = {
         title: 'Test',
-        id: 'ATR-2026-999',
+        id: 'ATR-2026-00999',
         status: 'experimental',
         description: 'test',
         author: 'test',
@@ -202,7 +202,7 @@ describe('SIEM Converter', () => {
     it('converts numeric operators to range in Elastic', () => {
       const rule: ATRRule = {
         title: 'Test Numeric',
-        id: 'ATR-2026-998',
+        id: 'ATR-2026-00998',
         status: 'experimental',
         description: 'test',
         author: 'test',
