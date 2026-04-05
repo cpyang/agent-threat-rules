@@ -6,7 +6,7 @@
     "layer": "B",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "0"
@@ -22,7 +22,7 @@
     "layer": "A",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "6"
@@ -38,7 +38,7 @@
     "layer": "B",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "0"
@@ -54,7 +54,7 @@
     "layer": "A",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "6"
@@ -70,7 +70,7 @@
     "layer": "B",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "0"
@@ -95,7 +95,7 @@
     "layer": "C",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-120",
+        "rule_id": "ATR-2026-00120",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "4"
@@ -120,7 +120,7 @@
     "layer": "C",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-120",
+        "rule_id": "ATR-2026-00120",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "2"
@@ -136,7 +136,7 @@
     "layer": "B",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "0"
@@ -152,7 +152,7 @@
     "layer": "B",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "0"
@@ -168,7 +168,7 @@
     "layer": "B",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "0"
@@ -184,7 +184,7 @@
     "layer": "C",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "6"
@@ -200,7 +200,7 @@
     "layer": "A",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "6"
@@ -225,7 +225,7 @@
     "layer": "C",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "6"
@@ -241,7 +241,7 @@
     "layer": "A",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "6"
@@ -257,7 +257,7 @@
     "layer": "B",
     "expected_findings": [
       {
-        "rule_id": "ATR-2026-121",
+        "rule_id": "ATR-2026-00121",
         "category": "skill-compromise",
         "severity": "critical",
         "matched_condition": "0"

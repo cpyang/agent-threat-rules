@@ -7464,6 +7464,6 @@
     "label": "Consent bypass in tool response",
     "category": "tool-poisoning",
     "severity": "high",
-    "source": "ATR-2026-100 consent bypass"
+    "source": "ATR-2026-00100 consent bypass"
   }
 ]

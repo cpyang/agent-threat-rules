@@ -18,7 +18,7 @@ body:
     attributes:
       label: Rule ID
       description: Which rule does this bypass?
-      placeholder: "ATR-2026-001"
+      placeholder: "ATR-2026-00001"
     validations:
       required: true
 

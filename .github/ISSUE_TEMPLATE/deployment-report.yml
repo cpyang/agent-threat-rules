@@ -72,9 +72,9 @@ body:
         - Any attacks missed that you discovered through other means?
       placeholder: |
         Events processed: ~5,000
-        Rules triggered: ATR-2026-001 (12x), ATR-2026-013 (3x)
+        Rules triggered: ATR-2026-00001 (12x), ATR-2026-00013 (3x)
         Confirmed true positives: 2 prompt injection attempts
-        False positives: ATR-2026-001 triggered on user asking about AI safety (3x)
+        False positives: ATR-2026-00001 triggered on user asking about AI safety (3x)
         Missed: 1 paraphrased injection we caught via LLM review
     validations:
       required: true

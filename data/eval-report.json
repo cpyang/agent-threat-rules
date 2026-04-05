@@ -364,7 +364,7 @@
         "avgConfidence": 0.8692774288829661
       },
       {
-        "ruleId": "ATR-2026-001",
+        "ruleId": "ATR-2026-00001",
         "matchCount": 37,
         "tpCount": 37,
         "fpCount": 0,
@@ -377,7 +377,7 @@
         "avgConfidence": 0.8981933558020512
       },
       {
-        "ruleId": "ATR-2026-097",
+        "ruleId": "ATR-2026-00097",
         "matchCount": 37,
         "tpCount": 37,
         "fpCount": 0,
@@ -387,7 +387,7 @@
         "avgConfidence": 0.9035714285714288
       },
       {
-        "ruleId": "ATR-2026-004",
+        "ruleId": "ATR-2026-00004",
         "matchCount": 31,
         "tpCount": 31,
         "fpCount": 0,
@@ -398,7 +398,7 @@
         "avgConfidence": 0.9038461538461535
       },
       {
-        "ruleId": "ATR-2026-003",
+        "ruleId": "ATR-2026-00003",
         "matchCount": 28,
         "tpCount": 28,
         "fpCount": 0,
@@ -408,7 +408,7 @@
         "avgConfidence": 0.9029576574219434
       },
       {
-        "ruleId": "ATR-2026-010",
+        "ruleId": "ATR-2026-00010",
         "matchCount": 24,
         "tpCount": 24,
         "fpCount": 0,
@@ -420,7 +420,7 @@
         "avgConfidence": 0.9066666666666664
       },
       {
-        "ruleId": "ATR-2026-012",
+        "ruleId": "ATR-2026-00012",
         "matchCount": 21,
         "tpCount": 21,
         "fpCount": 0,
@@ -432,7 +432,7 @@
         "avgConfidence": 0.9071951857666145
       },
       {
-        "ruleId": "ATR-2026-040",
+        "ruleId": "ATR-2026-00040",
         "matchCount": 20,
         "tpCount": 20,
         "fpCount": 0,
@@ -444,7 +444,7 @@
         "avgConfidence": 0.9147142857142858
       },
       {
-        "ruleId": "ATR-2026-002",
+        "ruleId": "ATR-2026-00002",
         "matchCount": 16,
         "tpCount": 16,
         "fpCount": 0,
@@ -455,7 +455,7 @@
         "avgConfidence": 0.9055288461538461
       },
       {
-        "ruleId": "ATR-2026-011",
+        "ruleId": "ATR-2026-00011",
         "matchCount": 12,
         "tpCount": 12,
         "fpCount": 0,
@@ -467,7 +467,7 @@
         "avgConfidence": 0.9070940170940172
       },
       {
-        "ruleId": "ATR-2026-063",
+        "ruleId": "ATR-2026-00063",
         "matchCount": 12,
         "tpCount": 12,
         "fpCount": 0,
@@ -479,7 +479,7 @@
         "avgConfidence": 0.8846626984126984
       },
       {
-        "ruleId": "ATR-2026-021",
+        "ruleId": "ATR-2026-00021",
         "matchCount": 11,
         "tpCount": 11,
         "fpCount": 0,
@@ -489,7 +489,7 @@
         "avgConfidence": 0.9066666666666664
       },
       {
-        "ruleId": "ATR-2026-066",
+        "ruleId": "ATR-2026-00066",
         "matchCount": 11,
         "tpCount": 11,
         "fpCount": 0,
@@ -501,7 +501,7 @@
         "avgConfidence": 0.9204545454545456
       },
       {
-        "ruleId": "ATR-2026-099",
+        "ruleId": "ATR-2026-00099",
         "matchCount": 11,
         "tpCount": 11,
         "fpCount": 0,
@@ -512,7 +512,7 @@
         "avgConfidence": 0.879155844155844
       },
       {
-        "ruleId": "ATR-2026-061",
+        "ruleId": "ATR-2026-00061",
         "matchCount": 11,
         "tpCount": 11,
         "fpCount": 0,
@@ -523,7 +523,7 @@
         "avgConfidence": 0.8989177489177489
       },
       {
-        "ruleId": "ATR-2026-076",
+        "ruleId": "ATR-2026-00076",
         "matchCount": 10,
         "tpCount": 10,
         "fpCount": 0,
@@ -533,7 +533,7 @@
         "avgConfidence": 0.7083333333333331
       },
       {
-        "ruleId": "ATR-2026-052",
+        "ruleId": "ATR-2026-00052",
         "matchCount": 10,
         "tpCount": 10,
         "fpCount": 0,
@@ -543,7 +543,7 @@
         "avgConfidence": 0.709090909090909
       },
       {
-        "ruleId": "ATR-2026-013",
+        "ruleId": "ATR-2026-00013",
         "matchCount": 10,
         "tpCount": 10,
         "fpCount": 0,
@@ -553,7 +553,7 @@
         "avgConfidence": 0.9066666666666665
       },
       {
-        "ruleId": "ATR-2026-077",
+        "ruleId": "ATR-2026-00077",
         "matchCount": 9,
         "tpCount": 9,
         "fpCount": 0,
@@ -564,7 +564,7 @@
         "avgConfidence": 0.71
       },
       {
-        "ruleId": "ATR-2026-005",
+        "ruleId": "ATR-2026-00005",
         "matchCount": 9,
         "tpCount": 9,
         "fpCount": 0,
@@ -574,7 +574,7 @@
         "avgConfidence": 0.7083333333333331
       },
       {
-        "ruleId": "ATR-2026-064",
+        "ruleId": "ATR-2026-00064",
         "matchCount": 7,
         "tpCount": 7,
         "fpCount": 0,
@@ -586,7 +586,7 @@
         "avgConfidence": 0.8877551020408163
       },
       {
-        "ruleId": "ATR-2026-020",
+        "ruleId": "ATR-2026-00020",
         "matchCount": 6,
         "tpCount": 6,
         "fpCount": 0,
@@ -596,7 +596,7 @@
         "avgConfidence": 0.9066666666666666
       },
       {
-        "ruleId": "ATR-2026-030",
+        "ruleId": "ATR-2026-00030",
         "matchCount": 6,
         "tpCount": 6,
         "fpCount": 0,
@@ -606,7 +606,7 @@
         "avgConfidence": 0.9071428571428571
       },
       {
-        "ruleId": "ATR-2026-074",
+        "ruleId": "ATR-2026-00074",
         "matchCount": 6,
         "tpCount": 6,
         "fpCount": 0,
@@ -616,7 +616,7 @@
         "avgConfidence": 0.8119047619047618
       },
       {
-        "ruleId": "ATR-2026-051",
+        "ruleId": "ATR-2026-00051",
         "matchCount": 6,
         "tpCount": 6,
         "fpCount": 0,
@@ -627,7 +627,7 @@
         "avgConfidence": 0.7409188034188033
       },
       {
-        "ruleId": "ATR-2026-032",
+        "ruleId": "ATR-2026-00032",
         "matchCount": 5,
         "tpCount": 5,
         "fpCount": 0,
@@ -638,7 +638,7 @@
         "avgConfidence": 0.8249721293199554
       },
       {
-        "ruleId": "ATR-2026-060",
+        "ruleId": "ATR-2026-00060",
         "matchCount": 5,
         "tpCount": 5,
         "fpCount": 0,
@@ -648,7 +648,7 @@
         "avgConfidence": 0.7083333333333333
       },
       {
-        "ruleId": "ATR-2026-062",
+        "ruleId": "ATR-2026-00062",
         "matchCount": 5,
         "tpCount": 5,
         "fpCount": 0,
@@ -659,7 +659,7 @@
         "avgConfidence": 0.925
       },
       {
-        "ruleId": "ATR-2026-072",
+        "ruleId": "ATR-2026-00072",
         "matchCount": 5,
         "tpCount": 5,
         "fpCount": 0,
@@ -670,7 +670,7 @@
         "avgConfidence": 0.7142857142857142
       },
       {
-        "ruleId": "ATR-2026-050",
+        "ruleId": "ATR-2026-00050",
         "matchCount": 4,
         "tpCount": 4,
         "fpCount": 0,
@@ -680,7 +680,7 @@
         "avgConfidence": 0.7083333333333333
       },
       {
-        "ruleId": "ATR-2026-098",
+        "ruleId": "ATR-2026-00098",
         "matchCount": 4,
         "tpCount": 4,
         "fpCount": 0,
@@ -690,7 +690,7 @@
         "avgConfidence": 0.9111111111111111
       },
       {
-        "ruleId": "ATR-2026-073",
+        "ruleId": "ATR-2026-00073",
         "matchCount": 4,
         "tpCount": 4,
         "fpCount": 0,
@@ -700,7 +700,7 @@
         "avgConfidence": 0.8102564102564103
       },
       {
-        "ruleId": "ATR-2026-041",
+        "ruleId": "ATR-2026-00041",
         "matchCount": 4,
         "tpCount": 4,
         "fpCount": 0,
@@ -710,7 +710,7 @@
         "avgConfidence": 0.71
       },
       {
-        "ruleId": "ATR-2026-065",
+        "ruleId": "ATR-2026-00065",
         "matchCount": 2,
         "tpCount": 2,
         "fpCount": 0,
@@ -741,34 +741,34 @@
       }
     ],
     "neverFiredRuleIds": [
-      "ATR-2026-070",
-      "ATR-2026-075",
-      "ATR-2026-080",
-      "ATR-2026-081",
-      "ATR-2026-082",
-      "ATR-2026-083",
-      "ATR-2026-084",
-      "ATR-2026-085",
-      "ATR-2026-086",
-      "ATR-2026-087",
-      "ATR-2026-088",
-      "ATR-2026-089",
-      "ATR-2026-090",
-      "ATR-2026-091",
-      "ATR-2026-092",
-      "ATR-2026-093",
-      "ATR-2026-094",
-      "ATR-2026-095",
-      "ATR-2026-096",
-      "ATR-2026-100",
-      "ATR-2026-101",
-      "ATR-2026-102",
-      "ATR-2026-103",
-      "ATR-2026-104",
-      "ATR-2026-105",
-      "ATR-2026-106",
-      "ATR-2026-107",
-      "ATR-2026-108"
+      "ATR-2026-00070",
+      "ATR-2026-00075",
+      "ATR-2026-00080",
+      "ATR-2026-00081",
+      "ATR-2026-00082",
+      "ATR-2026-00083",
+      "ATR-2026-00084",
+      "ATR-2026-00085",
+      "ATR-2026-00086",
+      "ATR-2026-00087",
+      "ATR-2026-00088",
+      "ATR-2026-00089",
+      "ATR-2026-00090",
+      "ATR-2026-00091",
+      "ATR-2026-00092",
+      "ATR-2026-00093",
+      "ATR-2026-00094",
+      "ATR-2026-00095",
+      "ATR-2026-00096",
+      "ATR-2026-00100",
+      "ATR-2026-00101",
+      "ATR-2026-00102",
+      "ATR-2026-00103",
+      "ATR-2026-00104",
+      "ATR-2026-00105",
+      "ATR-2026-00106",
+      "ATR-2026-00107",
+      "ATR-2026-00108"
     ]
   },
   "ruleCount": 61,
