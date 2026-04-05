@@ -18,6 +18,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 import { ATREngine } from './engine.js';
 import { handleScan } from './mcp-tools/scan.js';
+import { handleScanSkill } from './mcp-tools/scan-skill.js';
 import { handleListRules } from './mcp-tools/list-rules.js';
 import { handleValidate } from './mcp-tools/validate.js';
 import { handleSubmitProposal } from './mcp-tools/submit-proposal.js';
@@ -49,6 +50,30 @@ const TOOLS = [
           type: 'string',
           enum: ['informational', 'low', 'medium', 'high', 'critical'],
           description: 'Minimum severity level to include in results. Defaults to "informational".',
+        },
+      },
+      required: ['content'],
+    },
+  },
+  {
+    name: 'atr_scan_skill',
+    description:
+      'Scan SKILL.md file content for AI agent security threats. Uses skill-specific ATR rules to avoid false positives from MCP-oriented rules. Returns matches with severity, content_hash for deduplication, and recommended actions.',
+    inputSchema: {
+      type: 'object' as const,
+      properties: {
+        content: {
+          type: 'string',
+          description: 'The SKILL.md file content to scan for threats.',
+        },
+        file_name: {
+          type: 'string',
+          description: 'Optional file name for the SKILL.md being scanned.',
+        },
+        min_severity: {
+          type: 'string',
+          enum: ['informational', 'low', 'medium', 'high', 'critical'],
+          description: 'Minimum severity level to include in results. Defaults to "medium".',
         },
       },
       required: ['content'],
@@ -203,6 +228,9 @@ export async function createMCPServer(): Promise<Server> {
     switch (name) {
       case 'atr_scan':
         return await handleScan(engine, toolArgs);
+
+      case 'atr_scan_skill':
+        return await handleScanSkill(engine, toolArgs);
 
       case 'atr_list_rules':
         return handleListRules(engine, toolArgs);

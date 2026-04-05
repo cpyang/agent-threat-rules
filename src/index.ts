@@ -19,6 +19,7 @@ export type { ATREngineConfig } from './engine.js';
 export { loadRuleFile, loadRulesFromDirectory, validateRule } from './loader.js';
 export { SessionTracker } from './session-tracker.js';
 export type { SessionStateSnapshot } from './session-tracker.js';
+export { computeContentHash } from './content-hash.js';
 
 // ── Tier 0: Invariant Enforcement (hard boundaries) ──────────────
 export { InvariantChecker } from './tier0-invariant.js';
@@ -115,4 +116,6 @@ export type {
   PlatformAdapter,
   HookInput,
   HookOutput,
+  ScanType,
+  ScanResult,
 } from './types.js';

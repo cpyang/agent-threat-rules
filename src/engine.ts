@@ -20,7 +20,10 @@ import type {
   ATRBehavioralCondition,
   ATRVerdict,
   ActionResult,
+  ScanResult,
+  ScanType,
 } from './types.js';
+import { computeContentHash } from './content-hash.js';
 import { loadRulesFromDirectory, loadRuleFile } from './loader.js';
 import type { SessionTracker } from './session-tracker.js';
 import { computeVerdict } from './verdict.js';
@@ -1078,19 +1081,10 @@ export class ATREngine {
    * de-duplicated test set (17 malicious, 15 attack techniques).
    */
   scanSkill(content: string): ATRMatch[] {
-    // Only use skill-specific rules (ATR-120~124, ATR-134).
-    // MCP-oriented rules (ATR-001~119) have high FP on SKILL.md content
-    // because normal skills contain code examples, API docs, and agent
-    // behavior descriptions that trigger MCP threat patterns.
-    const SKILL_RULES = new Set([
-      'ATR-2026-120', // SKILL.md prompt injection
-      'ATR-2026-121', // malicious code in skill package
-      'ATR-2026-122', // weaponized skill (attack tools)
-      'ATR-2026-123', // over-privileged skill
-      'ATR-2026-124', // skill name squatting
-      'ATR-2026-134', // fork claim impersonation
-    ]);
-
+    // Only run skill-targeted rules (scan_target: skill).
+    // MCP rules detect different attack surfaces (tool descriptions, runtime events)
+    // and cause high FP on SKILL.md content. Regex is the fast first gate for
+    // Layer A+B payloads. Layer C (semantic attacks) needs LLM, not more regex.
     const matches = this.evaluate({
       type: 'mcp_exchange',
       timestamp: new Date().toISOString(),
@@ -1099,7 +1093,39 @@ export class ATREngine {
       fields: {},
     });
 
-    return matches.filter((m) => SKILL_RULES.has(m.rule.id));
+    return matches.filter((m) => m.rule.tags.scan_target === 'skill');
+  }
+
+  /** Scan a SKILL.md file and return a unified ScanResult with content_hash. */
+  scanSkillFull(content: string, filePath?: string): ScanResult {
+    const matches = this.scanSkill(content);
+    return {
+      scan_type: 'skill',
+      content_hash: computeContentHash(content),
+      input_file: filePath,
+      timestamp: new Date().toISOString(),
+      rules_loaded: this.rules.length,
+      matches,
+      threat_count: matches.length,
+    };
+  }
+
+  /** Evaluate an MCP agent event and return a unified ScanResult with content_hash. */
+  evaluateFull(event: AgentEvent, filePath?: string): ScanResult {
+    const matches = this.evaluate(event);
+    // Hash content + fields to distinguish tool-call events with same content but different args
+    const hashInput = event.fields
+      ? event.content + '\0' + JSON.stringify(event.fields)
+      : event.content;
+    return {
+      scan_type: 'mcp',
+      content_hash: computeContentHash(hashInput),
+      input_file: filePath,
+      timestamp: new Date().toISOString(),
+      rules_loaded: this.rules.length,
+      matches,
+      threat_count: matches.length,
+    };
   }
 }
 

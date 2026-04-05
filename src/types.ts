@@ -56,10 +56,13 @@ export interface ATRReferences {
   cve?: string[];
 }
 
+export type ATRScanTarget = 'mcp' | 'skill' | 'runtime';
+
 export interface ATRTags {
   category: ATRCategory;
   subcategory?: string;
   confidence?: ATRConfidence;
+  scan_target?: ATRScanTarget;
 }
 
 export interface ATRAgentSource {
@@ -140,6 +143,7 @@ export interface ATRTestCases {
 export interface ATRRule {
   title: string;
   id: string;
+  rule_version?: number;
   status: ATRStatus;
   description: string;
   author: string;
@@ -164,7 +168,8 @@ export type AgentEventType =
   | 'tool_call'
   | 'tool_response'
   | 'agent_behavior'
-  | 'multi_agent_message';
+  | 'multi_agent_message'
+  | 'mcp_exchange';
 
 /** An agent event to evaluate against ATR rules */
 export interface AgentEvent {
@@ -255,4 +260,18 @@ export interface HookOutput {
   readonly reason?: string;
   readonly message?: string;
   readonly matched_rules?: readonly string[];
+}
+
+/** Scan type: MCP runtime event scan vs SKILL.md static file scan */
+export type ScanType = 'mcp' | 'skill';
+
+/** Unified scan result produced by both evaluate() and scanSkill() paths */
+export interface ScanResult {
+  readonly scan_type: ScanType;
+  readonly content_hash: string;
+  readonly input_file?: string;
+  readonly timestamp: string;
+  readonly rules_loaded: number;
+  readonly matches: readonly ATRMatch[];
+  readonly threat_count: number;
 }

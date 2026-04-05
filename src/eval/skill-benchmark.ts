@@ -148,7 +148,9 @@ export async function runSkillBenchmark(options?: {
       : true; // no expected = pass by default
     const expectedCategories = expected?.expected_findings?.map((ef) => ef.category) ?? [];
     const actualCategories = matches.map((m) => m.rule.tags.category);
-    const categoryCorrect = expectedCategories.every((ec) => actualCategories.includes(ec));
+    const categoryCorrect = expectedCategories.every((ec) =>
+      actualCategories.includes(ec as typeof actualCategories[number]),
+    );
 
     results.push({
       file: entry.file,
