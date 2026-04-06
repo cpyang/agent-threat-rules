@@ -2,6 +2,31 @@
 
 All notable changes to ATR will be documented in this file.
 
+## [1.0.0] - 2026-04-06
+
+### BREAKING
+
+- **Rule IDs**: 3-digit → 5-digit (`ATR-2026-001` → `ATR-2026-00001`). Zero-padded, detection logic unchanged.
+
+### Added
+
+- **ATR-SPEC-v1.md** — Formal rule format specification. Third parties can build conforming engines in any language.
+- **GOVERNANCE.md** — Contribution process, quality gates, severity rubric.
+- **`scan_target` metadata** — Every rule declares `mcp` or `skill`. Engines filter by scan context.
+- **`rule_version` field** — All rules carry version number. Bump on detection logic changes.
+- **Unified CLI** — `atr scan` auto-detects JSON (MCP) vs .md (SKILL.md).
+- **`ScanResult` type** — Unified output with `scan_type`, `content_hash` (SHA-256).
+- **MCP server `atr_scan_skill` tool** — 7 tools total.
+- 6 new skill rules: context poisoning (00125), rug pull setup (00126), subcommand overflow (00127), HTML comment hidden payload (00128), unicode smuggling (00129), exfil URL in instructions (00135).
+
+### Metrics
+
+- 87 rules (75 MCP + 12 skill)
+- 53,399 real-world skills scanned (skills.sh + OpenClaw)
+- 670 confirmed malicious skills detected
+- SKILL.md recall: 94.4%, FP rate: 0.096%
+- MCP recall: 62.7% (PINT 850, unchanged)
+
 ## [0.3.0] - 2026-03-18
 
 ### Added
