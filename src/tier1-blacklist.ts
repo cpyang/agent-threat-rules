@@ -103,6 +103,7 @@ export function buildBlacklistMatch(entry: BlacklistEntry): ATRMatch {
     matchedPatterns: [`hash:${entry.skillHash}`, `name:${entry.skillName}`],
     confidence: 1.0,
     timestamp: new Date().toISOString(),
+    scan_context: 'native' as const,
   };
 }
 

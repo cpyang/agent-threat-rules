@@ -94,6 +94,7 @@ export class ShadowEvaluator {
           matchedPatterns: ['shadow-match'],
           confidence: 0.5, // Shadow matches have reduced confidence
           timestamp: new Date().toISOString(),
+          scan_context: 'native' as const,
         });
       }
     }

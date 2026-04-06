@@ -119,6 +119,26 @@ properties:
         items:
           type: string
         description: Related CVE identifiers
+      owasp_agentic:
+        type: array
+        items:
+          type: string
+        description: "OWASP Agentic Top 10 references (e.g., ASI01, ASI02)"
+      owasp_ast:
+        type: array
+        items:
+          type: string
+        description: "OWASP Agentic Skills Top 10 references (e.g., AST01)"
+      safe_mcp:
+        type: array
+        items:
+          type: string
+        description: "SAFE-MCP technique IDs (e.g., SMCP-T001)"
+      research:
+        type: array
+        items:
+          type: string
+        description: "Research paper references or URLs"
 
   # === Tags (ATR classification) ===
 
@@ -148,8 +168,8 @@ properties:
         description: Expected accuracy of this rule (high = low false positive rate)
       scan_target:
         type: string
-        enum: [mcp, skill, runtime]
-        description: "Which scan path this rule belongs to. mcp=runtime events, skill=SKILL.md static scan, runtime=behavior monitoring."
+        enum: [mcp, skill, both, runtime]
+        description: "Which scan path this rule belongs to. mcp=runtime events, skill=SKILL.md static scan, both=fires in both paths, runtime=behavior monitoring."
 
   # === Agent Source (analogous to Sigma's logsource) ===
 

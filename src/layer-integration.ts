@@ -117,6 +117,7 @@ export function runFingerprintLayer(
       matchedPatterns: [anomaly.newValue],
       confidence,
       timestamp: new Date(anomaly.timestamp).toISOString(),
+      scan_context: 'native' as const,
     });
   }
 
@@ -231,6 +232,7 @@ export async function runSemanticLayer(
       matchedPatterns: [`threat_score=${result.value.toFixed(2)}`],
       confidence: result.value,
       timestamp: new Date().toISOString(),
+      scan_context: 'native' as const,
     });
   }
 

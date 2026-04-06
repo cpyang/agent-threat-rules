@@ -41,20 +41,20 @@ agent_source:
 detection:
   condition: any
   conditions:
-    # Detect files with high ratio of non-printable/control characters
-    # Unicode Tags (U+E0000 block) appear as surrogate pairs in UTF-16
-    # In UTF-8 they are 4-byte sequences starting with F3 A0 80
+    # Detect Unicode Tag characters (U+E0000-U+E007F) used for ASCII smuggling.
+    # These are invisible in editors but processed by AI agents as text.
+    # Must use Unicode codepoint escapes (JS strings are UTF-16, not raw bytes).
     - field: content
       operator: regex
-      value: "(?:\\xf3\\xa0[\\x80-\\x81][\\x80-\\xbf]){3,}"
-      description: "3+ Unicode Tag characters in UTF-8 encoding (invisible payload)"
+      value: "[\\u{E0000}-\\u{E007F}]{3,}"
+      description: "3+ Unicode Tag characters (invisible payload, Snyk ASCII smuggling)"
 
-    # Detect known ASCII smuggling pattern: visible text interspersed with
-    # invisible characters that form hidden instructions when extracted
+    # Detect zero-width characters used for steganographic payload hiding.
+    # ZWSP, ZWNJ, ZWJ, Word Joiner, BOM — 5+ occurrences = suspicious density.
     - field: content
       operator: regex
-      value: "(?i)[\u200b\u200c\u200d\u2060\ufeff].*[\u200b\u200c\u200d\u2060\ufeff].*[\u200b\u200c\u200d\u2060\ufeff].*[\u200b\u200c\u200d\u2060\ufeff].*[\u200b\u200c\u200d\u2060\ufeff]"
-      description: "5+ zero-width characters spread through text (ASCII smuggling pattern)"
+      value: "[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff]"
+      description: "5+ zero-width characters spread through text (steganographic smuggling)"
 
 test_cases:
   true_positives:

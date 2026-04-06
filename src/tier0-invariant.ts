@@ -226,6 +226,7 @@ export class InvariantChecker {
       matchedPatterns: [`${violation.observedValue} not in [${violation.allowedValues.join(', ')}]`],
       confidence: 1.0,
       timestamp: new Date().toISOString(),
+      scan_context: 'native' as const,
     };
   }
 

@@ -69,8 +69,8 @@ export function validateRule(rule: unknown): { valid: boolean; errors: string[] 
   }
 
   // ID format
-  if (typeof r['id'] === 'string' && !/^ATR-\d{4}-\d{3}$/.test(r['id'])) {
-    errors.push(`Invalid id format: ${r['id']} (expected ATR-YYYY-NNN)`);
+  if (typeof r['id'] === 'string' && !/^ATR-\d{4}-\d{5}$/.test(r['id'])) {
+    errors.push(`Invalid id format: ${r['id']} (expected ATR-YYYY-NNNNN)`);
   }
 
   // Status enum

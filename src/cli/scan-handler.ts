@@ -188,7 +188,7 @@ async function scanSkillFiles(
   await engine.loadRules();
 
   const minIdx = SEVERITY_ORDER.indexOf(
-    (options.severity ?? 'medium') as typeof SEVERITY_ORDER[number],
+    (options.severity ?? 'informational') as typeof SEVERITY_ORDER[number],
   );
 
   const allResults: Array<{ file: string; result: ScanResult; filtered: ATRMatch[] }> = [];
@@ -290,7 +290,7 @@ function printScanHeader(
   console.log(`  Rules loaded:    ${rulesLoaded}`);
   console.log(`  Threats found:   ${threats > 0 ? RED + threats + RESET : GREEN + '0' + RESET}`);
   console.log(`${DIM}${'─'.repeat(60)}${RESET}`);
-  console.log(`${DIM}  Open source (MIT). Star: https://github.com/anthropic-security/agent-threat-rules${RESET}`);
+  console.log(`${DIM}  Open source (MIT). Star: https://github.com/Agent-Threat-Rule/agent-threat-rules${RESET}`);
   console.log('');
 }
 

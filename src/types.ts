@@ -56,7 +56,7 @@ export interface ATRReferences {
   cve?: string[];
 }
 
-export type ATRScanTarget = 'mcp' | 'skill' | 'runtime';
+export type ATRScanTarget = 'mcp' | 'skill' | 'both' | 'runtime';
 
 export interface ATRTags {
   category: ATRCategory;
@@ -187,15 +187,23 @@ export interface AgentEvent {
   agentId?: string;
   /** Additional metadata */
   metadata?: Record<string, unknown>;
+  /** Scan context: when 'skill', all rules fire regardless of agent_source.type,
+   *  with cross-context confidence downweighting for MCP-only rules. */
+  scanContext?: 'mcp' | 'skill';
 }
 
 /** Result when an ATR rule matches an event */
+export type ScanContextType = 'native' | 'cross-context';
+
 export interface ATRMatch {
   rule: ATRRule;
   matchedConditions: string[];
   matchedPatterns: string[];
   confidence: number;
   timestamp: string;
+  /** Whether this match is native (rule designed for this scan path) or cross-context
+   *  (e.g., MCP rule firing on SKILL.md content with confidence downweight). */
+  scan_context: ScanContextType;
 }
 
 /** Verdict outcome from evaluating matched rules */
