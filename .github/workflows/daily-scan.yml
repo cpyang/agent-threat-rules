@@ -112,25 +112,32 @@ jobs:
       - name: Generate Skills Sec content
         run: |
           BATCH_FILE="data/scan-batch-$(date +%Y%m%d).json"
-          if [ -f "$BATCH_FILE" ]; then
+          if [ -f "$BATCH_FILE" ] && [ -f scripts/generate-skillssec-posts.ts ]; then
             npx tsx scripts/generate-skillssec-posts.ts --input "$BATCH_FILE"
+          else
+            echo "Skipping post generation (batch=$BATCH_FILE exists=$([ -f \"$BATCH_FILE\" ] && echo yes || echo no), script exists=$([ -f scripts/generate-skillssec-posts.ts ] && echo yes || echo no))"
           fi
 
       # Step 6.5: Generate clipboard drafts for manual posting
       - name: Generate platform drafts
         run: |
           POSTS_DIR="posts/$(date +%Y-%m-%d)"
-          if [ -d "$POSTS_DIR" ]; then
+          if [ -d "$POSTS_DIR" ] && [ -f scripts/publish-posts.ts ]; then
             npx tsx scripts/publish-posts.ts --dir "$POSTS_DIR" --drafts-only
+          else
+            echo "Skipping draft generation"
           fi
 
-      # Step 7: Weekly summary (runs on Sundays)
+      # Step 7: Weekly summary (runs on Sundays only via cron)
       - name: Generate weekly summary
-        if: ${{ github.event.schedule != '' && contains('0', steps.summary.outputs.day_of_week) }}
+        if: ${{ github.event.schedule != '' }}
         run: |
-          if [ -f data/scan-cumulative.json ]; then
+          DAY=$(date +%u)
+          if [ "$DAY" = "7" ] && [ -f data/scan-cumulative.json ] && [ -f scripts/generate-skillssec-posts.ts ]; then
             npx tsx scripts/generate-skillssec-posts.ts \
               --input data/scan-cumulative.json --weekly
+          else
+            echo "Skipping weekly summary (day=$DAY or script not found)"
           fi
 
       # Step 8: Commit public report back to repo
