@@ -95,12 +95,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </h1>
           </HeroEntrance>
 
-          <HeroEntrance delay={1.1}>
-            <div className="flex gap-8 justify-center mt-10">
+          <HeroEntrance delay={1.0}>
+            <p className="text-[15px] md:text-base text-[#808089] font-light max-w-[520px] mx-auto mt-5 leading-relaxed">
+              {zh
+                ? "開源 AI agent 威脅偵測規則。npm install，掃描你的 MCP 工具，安心上線。"
+                : "Open-source threat detection rules for AI agents. npm install, scan your MCP tools, ship with confidence."}
+            </p>
+          </HeroEntrance>
+
+          <HeroEntrance delay={1.2}>
+            <div className="flex gap-8 justify-center mt-8">
               {[
                 { value: stats.ruleCount, label: zh ? "條規則" : "Rules", key: undefined },
                 { value: stats.categoryCount, label: zh ? "個類別" : "Categories", noCount: true, key: undefined },
-                { value: stats.pintPrecision, label: "Precision", suffix: "%", key: "pintPrecision" },
+                { value: stats.pintPrecision, label: zh ? "精準度" : "Precision", suffix: "%", key: "pintPrecision" },
               ].map((s, i) => (
                 <div key={i} className="text-center">
                   <div className="font-data text-[clamp(20px,2.5vw,28px)] font-bold text-white">
@@ -112,8 +120,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </HeroEntrance>
 
-          <HeroEntrance delay={1.3}>
-            <div className="flex gap-3 justify-center flex-wrap mt-10">
+          <HeroEntrance delay={1.4}>
+            <div className="flex gap-3 justify-center flex-wrap mt-8">
               <Link
                 href={`${prefix}/integrate`}
                 className="cta-glow bg-blue text-white px-8 py-3.5 rounded-sm text-[15px] font-semibold hover:bg-blue-hover transition-all"
@@ -154,10 +162,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[clamp(18px,2.5vw,26px)] font-light leading-[1.5] text-graphite max-w-[620px]">
+            <h2 className="font-display text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-1px] mb-4 max-w-[620px]">
               {zh
-                ? (<>AI agent 正在瀏覽網頁、執行程式碼、呼叫外部工具。攻擊者誘騙它們<strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行反向 shell</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。但沒有一個共享的偵測標準。每個生態系都在獨自面對同樣的威脅。</>)
-                : (<>AI agents browse the web, execute code, and call external tools. Attackers trick them into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running reverse shells</strong>, and <strong className="font-semibold text-critical">ignoring safety boundaries</strong>. But there is no shared detection standard. Every ecosystem faces the same threats alone.</>)}
+                ? "你的 AI agent 正在呼叫外部工具。你確定它們是安全的嗎？"
+                : "Your AI agent calls external tools. Are you sure they\u0027re safe?"}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <p className="text-base md:text-lg font-light leading-[1.6] text-graphite max-w-[620px]">
+              {zh
+                ? (<>攻擊者誘騙 AI agent <strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行惡意指令</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。但沒有一個共享的偵測標準。每個平台都在獨自面對同樣的威脅。</>)
+                : (<>Attackers trick AI agents into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running malicious commands</strong>, and <strong className="font-semibold text-critical">bypassing safety boundaries</strong>. But there is no shared detection standard. Every platform faces the same threats alone.</>)}
             </p>
           </Reveal>
         </div>
@@ -169,19 +184,19 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-16 md:py-[120px] px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-              {zh ? "數據" : "The Numbers"}
+            <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-2">
+              {zh ? "ATR 現況" : "ATR at a Glance"}
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px] bg-paper">
               {[
                 { value: stats.ruleCount, suffix: "", label: zh ? "條偵測規則" : "detection rules", desc: zh ? `橫跨 ${stats.categoryCount} 個威脅類別` : `Across ${stats.categoryCount} threat categories`, liveKey: undefined },
-                { value: stats.pintPrecision, suffix: "%", label: "precision", desc: zh ? `${stats.pintSamples} 個外部對抗樣本` : `${stats.pintSamples} external adversarial samples`, liveKey: "pintPrecision" },
-                { value: 5, suffix: "", label: zh ? "ms 以下延遲" : "ms latency", desc: zh ? "99% 事件在 Tier 0-2 解決" : "99% of events resolve at Tier 0-2", liveKey: undefined },
-                { value: stats.megaScanTotal, suffix: "", label: zh ? "skills 已掃描" : "skills scanned", desc: zh ? `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH` : `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH`, useComma: true, liveKey: "megaScanTotal" },
-                { value: 10, suffix: "/10", label: "OWASP Agentic", desc: zh ? "完整覆蓋所有類別" : "Full coverage of all categories", liveKey: undefined },
-                { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: "78/85", liveKey: undefined },
+                { value: stats.pintPrecision, suffix: "%", label: zh ? "精準度" : "precision", desc: zh ? "幾乎零誤報，外部 benchmark 驗證" : "Near-zero false alarms, externally benchmarked", liveKey: "pintPrecision" },
+                { value: 5, suffix: "", label: zh ? "ms 以下延遲" : "ms latency", desc: zh ? "本地執行，不需要 API 呼叫" : "Runs locally, no API calls needed", liveKey: undefined },
+                { value: stats.megaScanTotal, suffix: "", label: zh ? "skills 已掃描" : "skills scanned", desc: zh ? `發現 ${stats.megaScanFlagged.toLocaleString()} 個有風險的 skill` : `${stats.megaScanFlagged.toLocaleString()} flagged with security risks`, useComma: true, liveKey: "megaScanTotal" },
+                { value: 10, suffix: "/10", label: "OWASP Agentic", desc: zh ? "業界標準框架，完整覆蓋" : "Industry standard framework, full coverage", liveKey: undefined },
+                { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: zh ? "MCP 安全框架覆蓋率" : "MCP security framework coverage", liveKey: undefined },
               ].map((item, i) => (
                 <Reveal key={i} delay={0.1 + i * 0.05}>
                   <div className="bg-ash p-8 md:p-12">
@@ -262,8 +277,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.2}>
             <p className="text-base text-graphite max-w-[600px] mt-4 leading-relaxed">
               {zh
-                ? "他們的工程師提了 PR。我們 review 完。3 天合併。1,272 行新增。然後他們建了 --rule-packs CLI 專門消費 ATR。"
-                : "Their engineer submitted a PR. We reviewed it. It merged in 3 days. 1,272 additions. Then they built a --rule-packs CLI specifically to consume ATR."}
+                ? "他們的工程師提了 PR。我們審查完，3 天合併。1,272 行新增。然後他們專門建了 CLI 來消費 ATR 規則。你的平台也可以這樣做。"
+                : "Their engineer submitted a PR. We reviewed it. Merged in 3 days. 1,272 additions. Then they built a CLI specifically to consume ATR rules. Your platform can do the same."}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -352,8 +367,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.15}>
             <p className="text-base text-stone font-light max-w-[600px] mb-8">
               {zh
-                ? "傳統規則由人工撰寫，週期以週計。Threat Cloud 讓新規則的產出從數週縮短到數小時。"
-                : "Traditional rules are written by hand, on weekly cycles. Threat Cloud shrinks new rule turnaround from weeks to hours."}
+                ? "當新的攻擊手法出現，AI 自動分析攻擊結構，產生偵測規則，社群審查後合併。從發現到防護，目標數小時而不是數週。"
+                : "When a new attack technique appears, AI automatically analyzes the attack, generates a detection rule, and the community reviews it. From discovery to protection in hours, not weeks."}
             </p>
           </Reveal>
 
