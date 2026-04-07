@@ -49,10 +49,86 @@ body {
   overflow-x: hidden;
 }
 
-/* Reveal animation system */
+/* ── Dark Hero ── */
+.hero-dark {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% -10%,
+    rgba(37, 99, 235, 0.18) 0%,
+    rgba(37, 99, 235, 0.04) 30%,
+    #08080C 70%
+  );
+  background-color: #08080C;
+}
+
+/* Animated grid background */
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 20%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 20%, transparent 80%);
+  animation: gridDrift 20s linear infinite;
+}
+
+@keyframes gridDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 60px 60px; }
+}
+
+/* Gradient shimmer headline */
+.hero-headline {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    rgba(37, 99, 235, 0.9) 50%,
+    #ffffff 60%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerText 6s ease-in-out infinite;
+}
+
+@keyframes shimmerText {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* CTA glow */
+.cta-glow {
+  box-shadow:
+    0 0 20px rgba(37, 99, 235, 0.4),
+    0 0 60px rgba(37, 99, 235, 0.15);
+}
+.cta-glow:hover {
+  box-shadow:
+    0 0 30px rgba(37, 99, 235, 0.6),
+    0 0 80px rgba(37, 99, 235, 0.25);
+}
+
+/* Dark CTA section */
+.cta-dark {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 110%,
+    rgba(37, 99, 235, 0.12) 0%,
+    #08080C 70%
+  );
+  background-color: #08080C;
+}
+
+/* Pipeline card glow */
+.pipeline-card {
+  box-shadow: 0 0 40px rgba(37, 99, 235, 0.06);
+}
+
+/* ── Reveal animation system ── */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(20px) scale(0.98);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
@@ -60,7 +136,7 @@ body {
 
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* Stagger delays */
@@ -108,4 +184,10 @@ body {
   .hero-enter { opacity: 1; transform: none; }
   .hero-enter.on { transition: none; }
   .speed-line { transform: scaleX(1); transition: none; }
+  .hero-headline {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: #ffffff;
+  }
+  .hero-grid { animation: none; }
 }
