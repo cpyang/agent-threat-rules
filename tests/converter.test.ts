@@ -3,8 +3,9 @@ import { join } from 'node:path';
 import { convertRule, convertAllRules } from '../src/converters/index.js';
 import { ruleToSPL } from '../src/converters/splunk.js';
 import { ruleToElastic } from '../src/converters/elastic.js';
+import { scanResultToSARIF } from '../src/converters/sarif.js';
 import { loadRuleFile, loadRulesFromDirectory } from '../src/loader.js';
-import type { ATRRule } from '../src/types.js';
+import type { ATRRule, ScanResult, ATRMatch } from '../src/types.js';
 
 const RULES_DIR = join(__dirname, '..', 'rules');
 const ATR_001_PATH = join(RULES_DIR, 'prompt-injection', 'ATR-2026-00001-direct-prompt-injection.yaml');
@@ -234,5 +235,158 @@ describe('SIEM Converter', () => {
       expect(spl).toContain('| where call_count > 100');
       expect(spl).toContain('| where duration <= 5');
     });
+  });
+});
+
+// ─── SARIF Converter Tests ───────────────────────────────────────────
+
+describe('SARIF Converter', () => {
+  const makeRule = (overrides: Partial<ATRRule> = {}): ATRRule => ({
+    id: 'ATR-2026-00001',
+    title: 'Direct Prompt Injection',
+    description: 'Detects direct prompt injection attempts.',
+    severity: 'high',
+    status: 'active',
+    schema_version: '0.1',
+    author: 'test',
+    date: '2026/01/01',
+    tags: { category: 'prompt-injection', subcategory: 'direct', confidence: 'high' },
+    detection: { conditions: [], condition: 'any' },
+    response: { actions: ['alert'] },
+    ...overrides,
+  });
+
+  const makeMatch = (overrides: Partial<ATRMatch> = {}): ATRMatch => ({
+    rule: makeRule(),
+    confidence: 0.95,
+    matchedConditions: ['regex: ignore.*instructions'],
+    scan_context: 'mcp',
+    ...overrides,
+  });
+
+  const makeScanResult = (overrides: Partial<ScanResult> = {}): ScanResult => ({
+    scan_type: 'mcp',
+    content_hash: 'abc123',
+    timestamp: '2026-01-01T00:00:00Z',
+    rules_loaded: 100,
+    matches: [makeMatch()],
+    threat_count: 1,
+    ...overrides,
+  });
+
+  it('produces valid SARIF v2.1.0 structure', () => {
+    const sarif = scanResultToSARIF([makeScanResult()], '1.1.0') as Record<string, unknown>;
+
+    expect(sarif['$schema']).toContain('sarif-schema-2.1.0');
+    expect(sarif['version']).toBe('2.1.0');
+    expect(sarif['runs']).toBeInstanceOf(Array);
+
+    const runs = sarif['runs'] as Array<Record<string, unknown>>;
+    expect(runs).toHaveLength(1);
+
+    const run = runs[0]!;
+    const tool = run['tool'] as Record<string, unknown>;
+    const driver = tool['driver'] as Record<string, unknown>;
+    expect(driver['name']).toBe('ATR (Agent Threat Rules)');
+    expect(driver['version']).toBe('1.1.0');
+    expect(driver['rules']).toBeInstanceOf(Array);
+  });
+
+  it('maps severity to SARIF levels correctly', () => {
+    const criticalResult = makeScanResult({
+      matches: [makeMatch({ rule: makeRule({ severity: 'critical' }) })],
+    });
+    const mediumResult = makeScanResult({
+      matches: [makeMatch({ rule: makeRule({ severity: 'medium', id: 'ATR-2026-00002' }) })],
+    });
+    const lowResult = makeScanResult({
+      matches: [makeMatch({ rule: makeRule({ severity: 'low', id: 'ATR-2026-00003' }) })],
+    });
+
+    const sarif = scanResultToSARIF(
+      [criticalResult, mediumResult, lowResult], '1.0.0'
+    ) as { runs: Array<{ results: Array<{ level: string }> }> };
+
+    const results = sarif.runs[0]!.results;
+    expect(results[0]!.level).toBe('error');    // critical → error
+    expect(results[1]!.level).toBe('warning');  // medium → warning
+    expect(results[2]!.level).toBe('note');     // low → note
+  });
+
+  it('maps severity to security-severity scores', () => {
+    const sarif = scanResultToSARIF([makeScanResult()], '1.0.0') as {
+      runs: Array<{ tool: { driver: { rules: Array<{ properties: { 'security-severity': string } }> } } }>;
+    };
+    const rules = sarif.runs[0]!.tool.driver.rules;
+    // high severity → 8.0
+    expect(rules[0]!.properties['security-severity']).toBe('8.0');
+  });
+
+  it('deduplicates rules across multiple results', () => {
+    const result1 = makeScanResult();
+    const result2 = makeScanResult({ content_hash: 'def456' });
+
+    const sarif = scanResultToSARIF([result1, result2], '1.0.0') as {
+      runs: Array<{ tool: { driver: { rules: object[] } }; results: object[] }>;
+    };
+    // Same rule ID in both results → only 1 rule definition
+    expect(sarif.runs[0]!.tool.driver.rules).toHaveLength(1);
+    // But 2 result entries
+    expect(sarif.runs[0]!.results).toHaveLength(2);
+  });
+
+  it('includes file locations when input_file is set', () => {
+    const result = makeScanResult({ input_file: process.cwd() + '/skills/test/SKILL.md' });
+
+    const sarif = scanResultToSARIF([result], '1.0.0') as {
+      runs: Array<{ results: Array<{ locations?: Array<{ physicalLocation: { artifactLocation: { uri: string } } }> }> }>;
+    };
+    const loc = sarif.runs[0]!.results[0]!.locations;
+    expect(loc).toBeDefined();
+    expect(loc![0]!.physicalLocation.artifactLocation.uri).toBe('skills/test/SKILL.md');
+  });
+
+  it('omits locations when input_file is not set', () => {
+    const result = makeScanResult();
+
+    const sarif = scanResultToSARIF([result], '1.0.0') as {
+      runs: Array<{ results: Array<{ locations?: unknown }> }>;
+    };
+    expect(sarif.runs[0]!.results[0]!.locations).toBeUndefined();
+  });
+
+  it('includes confidence and scan_context in result properties', () => {
+    const sarif = scanResultToSARIF([makeScanResult()], '1.0.0') as {
+      runs: Array<{ results: Array<{ properties: { confidence: number; scan_context: string } }> }>;
+    };
+    const props = sarif.runs[0]!.results[0]!.properties;
+    expect(props.confidence).toBe(0.95);
+    expect(props.scan_context).toBe('mcp');
+  });
+
+  it('handles empty results array', () => {
+    const sarif = scanResultToSARIF([], '1.0.0') as {
+      runs: Array<{ tool: { driver: { rules: object[] } }; results: object[] }>;
+    };
+    expect(sarif.runs[0]!.tool.driver.rules).toHaveLength(0);
+    expect(sarif.runs[0]!.results).toHaveLength(0);
+  });
+
+  it('handles results with no matches', () => {
+    const result = makeScanResult({ matches: [], threat_count: 0 });
+    const sarif = scanResultToSARIF([result], '1.0.0') as {
+      runs: Array<{ results: object[] }>;
+    };
+    expect(sarif.runs[0]!.results).toHaveLength(0);
+  });
+
+  it('includes matched conditions in result message', () => {
+    const sarif = scanResultToSARIF([makeScanResult()], '1.0.0') as {
+      runs: Array<{ results: Array<{ message: { text: string } }> }>;
+    };
+    const msg = sarif.runs[0]!.results[0]!.message.text;
+    expect(msg).toContain('Direct Prompt Injection');
+    expect(msg).toContain('95%');
+    expect(msg).toContain('regex: ignore.*instructions');
   });
 });
