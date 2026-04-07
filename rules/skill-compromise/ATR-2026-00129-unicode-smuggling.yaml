@@ -46,8 +46,8 @@ detection:
     # Must use Unicode codepoint escapes (JS strings are UTF-16, not raw bytes).
     - field: content
       operator: regex
-      value: "[\\u{E0000}-\\u{E007F}]{3,}"
-      description: "3+ Unicode Tag characters (invisible payload, Snyk ASCII smuggling)"
+      value: "(?:\\uDB40[\\uDC00-\\uDC7F]){3,}"
+      description: "3+ Unicode Tag characters (invisible payload, Snyk ASCII smuggling) via surrogate pairs"
 
     # Detect zero-width characters used for steganographic payload hiding.
     # ZWSP, ZWNJ, ZWJ, Word Joiner, BOM — 5+ occurrences = suspicious density.

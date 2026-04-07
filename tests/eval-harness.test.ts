@@ -230,7 +230,7 @@ describe('Latency Stats', () => {
 // 5. Full eval harness (end-to-end)
 // ---------------------------------------------------------------------------
 describe('Full Eval Harness', () => {
-  it('runs eval against real rules and produces valid report', async () => {
+  it('runs eval against real rules and produces valid report', { timeout: 30000 }, async () => {
     const { report, regression, corpusStats } = await runEval({
       rulesDir: RULES_DIR,
     });

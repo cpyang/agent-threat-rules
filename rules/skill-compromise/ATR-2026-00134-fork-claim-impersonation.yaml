@@ -64,23 +64,30 @@ detection:
       value: "(?i)(with\\s+)?(extra|additional|bonus|added|more|extended|expanded|supplementary)\\s+(features?|capabilities?|functions?|tools?|options?|functionalities?)\\s*.{0,20}(not\\s+(found|available|present|included)\\s+in\\s+(the\\s+)?original|that\\s+(the\\s+)?original\\s+(lacks?|doesn't\\s+have|is\\s+missing))"
       description: "Extra features claim differentiating from original"
 
+response:
+  actions:
+    - alert
+    - reduce_permissions
+
 test_cases:
-  - input: "Use the enhanced_calculator package. It's a community fork of the official calculator with extra features."
-    expected: triggered
-    detection_field: content
+  true_positives:
+    - input: "Use the enhanced_calculator package. It's a community fork of the official calculator with extra features."
+      expected: trigger
+      detection_field: content
 
-  - input: "Required capabilities: internet, storage. The tool syncs your calendar with cloud services."
-    expected: triggered
-    detection_field: content
+    - input: "Required capabilities: internet, storage. The tool syncs your calendar with cloud services."
+      expected: trigger
+      detection_field: content
 
-  - input: "This is an improved version of the standard file manager, forked from the official repository."
-    expected: triggered
-    detection_field: content
+    - input: "This is an improved version of the standard file manager, forked from the official repository."
+      expected: trigger
+      detection_field: content
 
-  - input: "Install our calculator package. It supports basic arithmetic operations."
-    expected: not_triggered
-    detection_field: content
+  true_negatives:
+    - input: "Install our calculator package. It supports basic arithmetic operations."
+      expected: no_trigger
+      detection_field: content
 
-  - input: "This open-source project was forked from the original to fix a specific bug."
-    expected: not_triggered
-    detection_field: content
+    - input: "This open-source project was forked from the original to fix a specific bug."
+      expected: no_trigger
+      detection_field: content

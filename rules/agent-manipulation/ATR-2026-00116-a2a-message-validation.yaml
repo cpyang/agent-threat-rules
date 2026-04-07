@@ -29,7 +29,7 @@ tags:
   confidence: medium
 
 agent_source:
-  type: agent_communication
+  type: multi_agent_comm
   framework:
     - autogen
     - crewai
