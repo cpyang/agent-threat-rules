@@ -85,7 +85,7 @@ detection:
 response:
   actions:
     - alert
-    - flag_review
+    - alert
   message_template: >
     [ATR-2026-122] Weaponized skill detected. This skill contains executable
     attack tooling that could turn the AI agent into an offensive weapon.

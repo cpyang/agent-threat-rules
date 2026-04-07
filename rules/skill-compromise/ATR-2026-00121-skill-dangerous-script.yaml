@@ -115,7 +115,7 @@ response:
   actions:
     - block_tool
     - alert
-    - quarantine_skill
+    - quarantine_session
   message_template: >
     [ATR-2026-121] Malicious code detected in skill. Pattern matches known
     attack campaigns (ClawHavoc, AMOS infostealer). Skill has been quarantined.
