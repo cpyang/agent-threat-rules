@@ -27,10 +27,22 @@ export function CountUp({
     const el = ref.current;
     if (!el) return;
 
+    // Respect prefers-reduced-motion
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !animated.current) {
           animated.current = true;
+
+          if (prefersReduced) {
+            const isFloat = target % 1 !== 0;
+            const final = isFloat ? target.toFixed(1) : useComma ? target.toLocaleString() : String(target);
+            setDisplay(`${prefix}${final}${suffix}`);
+            observer.disconnect();
+            return;
+          }
+
           const isFloat = target % 1 !== 0;
           const start = performance.now();
 

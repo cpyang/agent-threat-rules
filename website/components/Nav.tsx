@@ -52,6 +52,7 @@ export function Nav({ locale }: { locale: Locale }) {
           <Link
             href={`/${otherLocale}`}
             className="font-data text-xs text-stone hover:text-ink transition-colors tracking-wide"
+            aria-label={otherLocale === "zh" ? "Switch to Chinese" : "Switch to English"}
           >
             {otherLocale === "zh" ? "ZH" : "EN"}
           </Link>

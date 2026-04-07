@@ -7,7 +7,7 @@ dist/
 .env.local
 *.pem
 *.key
-coverage/
+/coverage/
 __pycache__/
 audit-*.json
 critical-*.json

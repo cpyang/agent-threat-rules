@@ -3,6 +3,7 @@ import { CountUp } from "@/components/CountUp";
 import { SpeedLines } from "@/components/SpeedLines";
 import { Reveal } from "@/components/Reveal";
 import { loadSiteStats } from "@/lib/stats";
+import { loadAllRules, getCategories } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
 import Link from "next/link";
 
@@ -10,17 +11,58 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+const CATEGORY_DESC: Record<string, { en: string; zh: string }> = {
+  "prompt-injection": {
+    en: "Hijacking agent behavior through crafted inputs",
+    zh: "透過精心構造的輸入劫持 agent 行為",
+  },
+  "skill-compromise": {
+    en: "Malicious or vulnerable MCP skills and SKILL.md",
+    zh: "惡意或有漏洞的 MCP skill 和 SKILL.md",
+  },
+  "context-exfiltration": {
+    en: "Stealing conversation context and sensitive data",
+    zh: "竊取對話上下文和敏感資料",
+  },
+  "agent-manipulation": {
+    en: "Social engineering and behavioral manipulation of agents",
+    zh: "對 agent 的社交工程和行為操控",
+  },
+  "tool-poisoning": {
+    en: "Poisoned tool descriptions and malicious tool responses",
+    zh: "被下毒的工具描述和惡意工具回應",
+  },
+  "privilege-escalation": {
+    en: "Unauthorized elevation of agent capabilities",
+    zh: "未授權提升 agent 權限",
+  },
+  "excessive-autonomy": {
+    en: "Agents exceeding intended operational boundaries",
+    zh: "Agent 超越預期的操作邊界",
+  },
+  "model-security": {
+    en: "Direct attacks on the underlying language model",
+    zh: "對底層語言模型的直接攻擊",
+  },
+  "data-poisoning": {
+    en: "Corrupting training data or knowledge sources",
+    zh: "污染訓練資料或知識來源",
+  },
+};
+
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await params;
   const locale = (locales.includes(rawLocale as Locale) ? rawLocale : "en") as Locale;
   const prefix = `/${locale}`;
   const stats = loadSiteStats();
   const zh = locale === "zh";
+  const rules = loadAllRules();
+  const categories = getCategories(rules);
 
   return (
     <>
-      {/* ── Hero: Mission ── */}
-      <section className="min-h-[88vh] flex flex-col items-center justify-center text-center px-6 relative pt-20">
+      {/* ── Scene 1: The Shift (Hero) ── */}
+      <section className="min-h-[92vh] flex flex-col items-center justify-center text-center px-6 relative pt-20">
         <HeroEntrance delay={0.3}>
           <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-10 mx-auto mb-8">
             <path d="M20 0L40 36H30L20 18L10 36H0L20 0Z" fill="#0B0B0F" />
@@ -31,33 +73,58 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </HeroEntrance>
 
         <HeroEntrance delay={0.5}>
-          <h1 className="font-display text-[clamp(32px,5.5vw,68px)] font-black leading-[1.08] tracking-[-3px] max-w-[820px]">
-            {zh
-              ? "確保每一個 AI agent 都在共享的安全規則下運作。"
-              : "Ensuring every AI agent operates under shared security rules."}
-          </h1>
-        </HeroEntrance>
-
-        <HeroEntrance delay={0.8}>
-          <p className="text-base text-stone font-light max-w-[560px] mt-5 leading-relaxed">
-            {zh
-              ? "ATR 是 AI agent 安全的開放偵測標準。100 條 MIT 授權的 YAML 規則，任何生態系都能直接消費。已被 Cisco AI Defense、OWASP、SAFE-MCP 整合。"
-              : "ATR is the open detection standard for AI agent security. 100 MIT-licensed YAML rules that any ecosystem can consume directly. Already integrated by Cisco AI Defense, OWASP, and SAFE-MCP."}
+          <p className="font-display text-[clamp(36px,6vw,80px)] font-black leading-[1.05] tracking-[-3px] text-stone">
+            {zh ? "我們過去保護人。" : "We used to protect people."}
           </p>
         </HeroEntrance>
 
+        <HeroEntrance delay={0.8}>
+          <h1 className="font-display text-[clamp(36px,6vw,80px)] font-black leading-[1.05] tracking-[-3px] text-ink">
+            {zh ? "現在我們保護 Agent。" : "Now we protect agents."}
+          </h1>
+        </HeroEntrance>
+
         <HeroEntrance delay={1.1}>
-          <div className="flex gap-3 justify-center flex-wrap mt-8">
-            <div className="font-data text-sm text-stone bg-ash border border-fog px-6 py-3">
-              $ <span className="text-ink">npm install agent-threat-rules</span>
+          <div className="flex gap-8 justify-center mt-8">
+            <div className="text-center">
+              <div className="font-data text-[clamp(20px,2.5vw,28px)] font-bold text-ink">
+                <CountUp target={stats.ruleCount} />
+              </div>
+              <div className="font-data text-xs text-stone mt-1">{zh ? "條規則" : "Rules"}</div>
             </div>
-            <Link href={`${prefix}/rules`} className="text-ink px-6 py-3 text-sm font-medium border border-fog hover:border-stone transition-colors">
-              {zh ? "瀏覽全部規則 →" : "Explore all rules →"}
+            <div className="text-center">
+              <div className="font-data text-[clamp(20px,2.5vw,28px)] font-bold text-ink">
+                {stats.categoryCount}
+              </div>
+              <div className="font-data text-xs text-stone mt-1">{zh ? "個類別" : "Categories"}</div>
+            </div>
+            <div className="text-center">
+              <div className="font-data text-[clamp(20px,2.5vw,28px)] font-bold text-ink">
+                <CountUp target={stats.pintPrecision} suffix="%" />
+              </div>
+              <div className="font-data text-xs text-stone mt-1">Precision</div>
+            </div>
+          </div>
+        </HeroEntrance>
+
+        <HeroEntrance delay={1.3}>
+          <div className="flex gap-3 justify-center flex-wrap mt-8">
+            <Link
+              href={`${prefix}/integrate`}
+              className="bg-blue text-white px-8 py-3.5 rounded-sm text-[15px] font-semibold hover:bg-blue-hover transition-colors"
+            >
+              {zh ? "整合 ATR" : "Integrate ATR"}
+            </Link>
+            <Link
+              href={`${prefix}/rules`}
+              className="text-ink px-8 py-3.5 text-[15px] font-medium border border-fog hover:border-stone transition-colors rounded-sm"
+            >
+              {zh ? "瀏覽規則" : "Explore Rules"}
             </Link>
           </div>
         </HeroEntrance>
 
-        <HeroEntrance delay={1.3} className="absolute bottom-8">
+        <HeroEntrance delay={1.5} className="absolute bottom-8">
           <div className="flex flex-col items-center gap-2">
             <span className="font-data text-[10px] text-mist tracking-[3px] uppercase">scroll</span>
             <div className="w-px h-6 bg-fog relative overflow-hidden">
@@ -67,359 +134,310 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </HeroEntrance>
       </section>
 
-      {/* ── The Problem ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)]">
-        <Reveal>
-          <div className="font-data text-[clamp(80px,15vw,180px)] font-bold text-critical/[0.07] leading-[0.85] mb-3">
-            <CountUp target={53377} useComma />
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-5">
-            {zh ? "MCP skills 已掃描。5,939 個有威脅。" : "MCP skills scanned. 5,939 flagged with threats."}
-          </div>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <p className="text-[clamp(18px,2.5vw,26px)] font-light leading-[1.5] text-graphite max-w-[620px]">
-            {zh
-              ? (<>AI agent 正在瀏覽網頁、執行程式碼、呼叫外部工具。攻擊者誘騙它們<strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行反向 shell</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。但沒有一個共享的偵測標準。每個生態系都在獨自面對同樣的威脅。</>)
-              : (<>AI agents browse the web, execute code, and call external tools. Attackers trick them into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running reverse shells</strong>, and <strong className="font-semibold text-critical">ignoring safety boundaries</strong>. But there is no shared detection standard. Every ecosystem faces the same threats alone.</>)}
-          </p>
-        </Reveal>
-      </section>
-
-      <SpeedLines />
-
-      {/* ── The Standard ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)] bg-ash">
-        <Reveal>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            {zh ? "標準" : "The Standard"}
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] mb-3 max-w-[700px]">
-            {zh
-              ? "ATR 讓每個生態系不必從零開始。開放規則，直接消費，共同維護。"
-              : "ATR means no ecosystem starts from zero. Open rules. Direct consumption. Shared maintenance."}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper mt-8">
-            {[
-              { value: stats.ruleCount, label: zh ? "條偵測規則" : "detection rules" },
-              { value: 9, label: zh ? "個威脅類別" : "threat categories" },
-              { value: stats.pintPrecision, suffix: "%", label: "precision" },
-              { value: stats.cveCount, label: zh ? "個已對應 CVE" : "CVEs mapped" },
-            ].map((item, i) => (
-              <Reveal key={i} delay={0.2 + i * 0.05}>
-                <div className="bg-ash p-6">
-                  <div className="font-data text-[clamp(28px,3vw,44px)] font-bold text-ink">
-                    <CountUp target={item.value} suffix={item.suffix} />
-                  </div>
-                  <div className="text-xs text-stone mt-1">{item.label}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </Reveal>
-        <Reveal delay={0.4}>
-          <p className="mt-6 text-sm text-stone">
-            {zh
-              ? "所有規則都是 MIT 授權的 YAML。複製、消費、擴充。零鎖定。"
-              : "All rules are MIT-licensed YAML. Copy, consume, extend. Zero lock-in."}
-          </p>
-        </Reveal>
-      </section>
-
-      {/* ── Proof: Who's Already Using ATR ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)]">
-        <Reveal>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            {zh ? "已整合 ATR 的生態系" : "Ecosystems Already Using ATR"}
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] mb-8 max-w-[600px]">
-            {zh
-              ? "ATR 透過 PR 擴散。每次 merge 都是不可逆的採用。"
-              : "ATR spreads through PRs. Every merge is irreversible adoption."}
-          </h2>
-        </Reveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog">
-          {[
-            {
-              name: "Cisco AI Defense",
-              en: "34 rules merged as official community rule pack. Then they built --rule-packs CLI specifically to consume ATR as upstream. PR #79: 1,272 additions, merged in 3 days.",
-              zh: "34 條規則作為官方社群規則包合併。然後他們為了消費 ATR 專門建了 --rule-packs CLI。PR #79：1,272 行新增，3 天合併。",
-              url: "https://github.com/cisco/ai-defense/pull/79",
-            },
-            {
-              name: "OWASP Top 10 for LLM Applications",
-              en: "Official detection mapping merged (PR #14). ATR is now part of the global LLM security standard that 97% of security leaders reference.",
-              zh: "官方偵測對應已合併（PR #14）。ATR 現在是全球 97% 資安主管參考的 LLM 安全標準的一部分。",
-              url: "https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/pull/14",
-            },
-            {
-              name: "SAFE-MCP (OpenSSF)",
-              en: "Covers 78 of 85 techniques (91.8%). PR submitted on the day of the $12.5M announcement. The most comprehensive mapping between detection rules and the MCP security framework.",
-              zh: "覆蓋 85 項技術中的 78 項（91.8%）。PR 在 $12.5M 公告當天提交。偵測規則與 MCP 安全框架之間最完整的對應。",
-            },
-            {
-              name: zh ? "11 個生態系 PR" : "11 Ecosystem PRs",
-              en: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged, ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} pending. Covering repositories with 90K+ combined GitHub stars. Including awesome-mcp-servers, awesome-llm-security, OpenClaw Registry, and more.`,
-              zh: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} 個已合併，${stats.ecosystemIntegrations.filter(e => e.type === "open").length} 個待審。覆蓋 90K+ GitHub stars 的 repositories。包括 awesome-mcp-servers、awesome-llm-security、OpenClaw Registry 等。`,
-            },
-          ].map((eco, i) => (
-            <Reveal key={eco.name} delay={0.1 * i}>
-              <div className="bg-paper p-6 h-full">
-                <div className="font-display text-base font-semibold mb-2">{eco.name}</div>
-                <p className="text-[13px] text-stone leading-[1.6] mb-2">{zh ? eco.zh : eco.en}</p>
-                {eco.url && (
-                  <a href={eco.url} target="_blank" rel="noopener noreferrer" className="font-data text-[12px] text-blue hover:underline">
-                    {zh ? "查看 PR →" : "View PR →"}
-                  </a>
-                )}
-              </div>
-            </Reveal>
-          ))}
+      {/* ── Scene 2: The Threat ── */}
+      <section className="py-[120px] px-6">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="font-data text-[clamp(80px,15vw,180px)] font-bold text-critical/[0.07] leading-[0.85] mb-3">
+              <CountUp target={stats.megaScanTotal} useComma />
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-5">
+              {zh ? "MCP skills 已掃描。5,939 個有威脅。" : "MCP skills scanned. 5,939 flagged with threats."}
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-[clamp(18px,2.5vw,26px)] font-light leading-[1.5] text-graphite max-w-[620px]">
+              {zh
+                ? (<>AI agent 正在瀏覽網頁、執行程式碼、呼叫外部工具。攻擊者誘騙它們<strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行反向 shell</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。但沒有一個共享的偵測標準。每個生態系都在獨自面對同樣的威脅。</>)
+                : (<>AI agents browse the web, execute code, and call external tools. Attackers trick them into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running reverse shells</strong>, and <strong className="font-semibold text-critical">ignoring safety boundaries</strong>. But there is no shared detection standard. Every ecosystem faces the same threats alone.</>)}
+            </p>
+          </Reveal>
         </div>
       </section>
 
       <SpeedLines />
 
-      {/* ── Coverage ── */}
-      <section className="py-14 px-[max(24px,10vw)] bg-ash">
-        <Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper">
-            {[
-              { name: "OWASP Agentic Top 10", score: "10/10", detail: zh ? "完整覆蓋" : "Full coverage" },
-              { name: "SAFE-MCP (OpenSSF)", score: "91.8%", detail: "78/85" },
-              { name: "OWASP Skills Top 10", score: "7/10", detail: zh ? "3 項為流程層級" : "3 process-level" },
-              { name: "PINT Benchmark", score: `${stats.pintF1}`, detail: `F1 / ${stats.pintSamples} samples` },
-            ].map((std, i) => (
-              <Reveal key={std.name} delay={i * 0.05}>
-                <div className="bg-ash py-8 px-5 text-center">
-                  <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">{std.name}</div>
-                  <div className="font-data text-[clamp(24px,3vw,40px)] font-bold text-ink">{std.score}</div>
-                  <div className="text-xs text-stone mt-1">{std.detail}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      {/* ── How to Consume ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)]">
-        <Reveal>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            {zh ? "如何消費 ATR" : "How to Consume ATR"}
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-fog">
-            {[
-              { title: "npm", code: "npm install agent-threat-rules", desc: zh ? "作為 dependency 直接引入你的 scanner" : "Add directly as a dependency to your scanner" },
-              { title: "GitHub Action", code: "uses: Agent-Threat-Rule/agent-threat-rules@v1", desc: zh ? "每次 PR 自動掃描 MCP configs 和 SKILL.md" : "Auto-scan MCP configs and SKILL.md on every PR" },
-              { title: "SIEM Export", code: "atr convert splunk | elastic | sarif", desc: zh ? "匯出成 Splunk SPL、Elasticsearch、或 SARIF v2.1.0" : "Export to Splunk SPL, Elasticsearch, or SARIF v2.1.0" },
-              { title: "Raw YAML", code: "git submodule add ...", desc: zh ? "100 條 YAML 規則，任何語言任何 scanner 都能用" : "100 YAML rules, usable by any language and any scanner" },
-            ].map((path) => (
-              <div key={path.title} className="bg-paper p-6">
-                <div className="font-display text-sm font-semibold mb-3">{path.title}</div>
-                <div className="font-data text-[12px] text-blue bg-ash border border-fog px-3 py-2 mb-3 break-all">{path.code}</div>
-                <p className="text-[13px] text-stone leading-[1.5]">{path.desc}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <div className="mt-6">
-            <Link href={`${prefix}/integrate`} className="font-data text-[13px] text-blue hover:underline">
-              {zh ? "查看完整整合指南 + Cisco 案例 →" : "Full integration guide + Cisco case study →"}
-            </Link>
-          </div>
-        </Reveal>
-      </section>
-
-      <SpeedLines />
-
-      {/* ── Old Way vs ATR Way ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)] bg-ash">
-        <Reveal>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            {zh ? "傳統方式 vs ATR" : "The Old Way vs ATR"}
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] max-w-[700px] mb-8">
-            {zh
-              ? "安全規則不應該被鎖在閉源產品裡，也不應該需要委員會和數月審查。"
-              : "Security rules shouldn\u0027t be locked in proprietary products, and shouldn\u0027t need committees and months of review."}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper">
-            <div className="bg-ash p-6">
-              <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">
-                {zh ? "傳統方式" : "The Old Way"}
-              </div>
-              <ul className="space-y-3 text-[13px] text-stone leading-[1.6]">
-                <li>{zh ? "每個廠商自己寫規則，閉源，互不共享" : "Every vendor writes their own rules. Closed source. No sharing."}</li>
-                <li>{zh ? "新攻擊出現 → 委員會開會 → 數週到數月後才有規則" : "New attack appears. Committee meets. Rules arrive weeks to months later."}</li>
-                <li>{zh ? "規則格式不統一，無法跨平台使用" : "Rule formats incompatible. Can\u0027t use across platforms."}</li>
-                <li>{zh ? "小型平台沒有資源寫自己的偵測規則" : "Smaller platforms have no resources to write their own detection rules."}</li>
-              </ul>
+      {/* ── Scene 3: The Numbers ── */}
+      <section className="py-[120px] px-6 bg-ash">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
+              {zh ? "數據" : "The Numbers"}
             </div>
-            <div className="bg-ash p-6 border-l border-paper">
-              <div className="font-data text-[11px] text-blue tracking-[2px] uppercase mb-4">
-                {zh ? "ATR + Threat Cloud" : "ATR + Threat Cloud"}
-              </div>
-              <ul className="space-y-3 text-[13px] text-ink leading-[1.6]">
-                <li>{zh ? "一套開放規則，所有生態系共享，MIT 授權" : "One set of open rules. Shared by all ecosystems. MIT licensed."}</li>
-                <li>{zh ? "新攻擊出現 → LLM 自動分析 → 產生 YAML 規則 → 社群審查 → 數小時內合併" : "New attack appears. LLM auto-analyzes. Generates YAML rule. Community reviews. Merged within hours."}</li>
-                <li>{zh ? "統一 YAML 格式，可匯出 Splunk / Elastic / SARIF / 純 regex" : "Unified YAML format. Export to Splunk, Elastic, SARIF, or raw regex."}</li>
-                <li>{zh ? "npm install 一行，你的客戶就受到 100 條規則的防護" : "One npm install. Your customers are protected by 100 rules instantly."}</li>
-              </ul>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px] bg-paper">
+              {[
+                { value: stats.ruleCount, suffix: "", label: zh ? "條偵測規則" : "detection rules", desc: zh ? `橫跨 ${stats.categoryCount} 個威脅類別` : `Across ${stats.categoryCount} threat categories` },
+                { value: stats.pintPrecision, suffix: "%", label: "precision", desc: zh ? `${stats.pintSamples} 個外部對抗樣本` : `${stats.pintSamples} external adversarial samples` },
+                { value: 5, suffix: "", label: zh ? "ms 以下延遲" : "ms latency", desc: zh ? "99% 事件在 Tier 0-2 解決" : "99% of events resolve at Tier 0-2" },
+                { value: stats.megaScanTotal, suffix: "", label: zh ? "skills 已掃描" : "skills scanned", desc: zh ? `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH` : `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH`, useComma: true },
+                { value: 10, suffix: "/10", label: "OWASP Agentic", desc: zh ? "完整覆蓋所有類別" : "Full coverage of all categories" },
+                { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: "78/85" },
+              ].map((item, i) => (
+                <Reveal key={i} delay={0.1 + i * 0.05}>
+                  <div className="bg-ash p-8 md:p-12">
+                    <div className="font-data text-[clamp(36px,5vw,64px)] font-bold text-ink leading-none">
+                      <CountUp target={item.value} suffix={item.suffix} useComma={item.useComma} />
+                    </div>
+                    <div className="font-data text-sm text-stone mt-2">{item.label}</div>
+                    <div className="text-xs text-mist mt-1">{item.desc}</div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
 
-      {/* ── Threat Cloud: How New Rules Are Born ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)]">
-        <Reveal>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            Threat Cloud
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] max-w-[700px] mb-3">
-            {zh
-              ? "新威脅被發現後數小時內，所有消費 ATR 的生態系都會收到新規則。"
-              : "Within hours of a new threat, every ecosystem consuming ATR receives the updated rules."}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <div className="bg-ash border border-fog p-6 mt-6 font-data text-[13px] leading-[2.2] text-graphite max-w-[600px]">
-            {[
-              zh ? "新攻擊模式在野外被偵測到" : "New attack pattern detected in the wild",
-              zh ? "LLM 分析攻擊結構 + 意圖" : "LLM analyzes attack structure + intent",
-              zh ? "自動產生 YAML 規則提案 + 測試案例" : "Auto-generates YAML rule proposal + test cases",
-              zh ? "社群審查 + precision 測試閘門" : "Community reviews + precision test gate",
-              zh ? "合併到 ATR。每個下游生態系自動更新。" : "Merged into ATR. Every downstream ecosystem auto-updates.",
-            ].map((step, i) => (
-              <div key={i}>
-                {i > 0 && <div className="text-mist text-center pl-6 py-0.5">|</div>}
-                <div className="flex items-center gap-3">
-                  <span className="text-blue font-bold">{i + 1}.</span>
-                  <span>{step}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+      {/* ── Scene 4: The Categories ── */}
+      <section className="py-[120px] px-6">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
+              {zh ? "ATR 偵測什麼" : "What ATR Detects"}
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] mb-8 max-w-[700px]">
+              {zh
+                ? `${stats.categoryCount} 個威脅類別。${stats.ruleCount} 條規則。真實 CVE。`
+                : `${stats.categoryCount} threat categories. ${stats.ruleCount} rules. Real CVEs.`}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="grid grid-cols-1 md:grid-cols-3 border border-fog">
+              {categories.map((cat, i) => {
+                const desc = CATEGORY_DESC[cat.name];
+                const displayName = cat.name.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+                return (
+                  <div
+                    key={cat.name}
+                    className={`p-6 ${i < categories.length - 1 ? "border-b md:border-b-0 border-fog" : ""} ${(i + 1) % 3 !== 0 ? "md:border-r md:border-fog" : ""} ${i >= 3 ? "md:border-t md:border-fog" : ""}`}
+                  >
+                    <div className="font-display text-[15px] font-semibold text-ink">{displayName}</div>
+                    <div className="font-data text-xs text-blue mt-1">{cat.count} {zh ? "條規則" : "rules"}</div>
+                    <p className="text-[13px] text-stone leading-[1.5] mt-2">
+                      {desc ? (zh ? desc.zh : desc.en) : cat.name}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="mt-6">
+              <Link href={`${prefix}/rules`} className="font-data text-[13px] text-blue hover:underline">
+                {zh ? "瀏覽所有規則 + YAML 詳情 →" : "Browse all rules + YAML details →"}
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       <SpeedLines />
 
-      {/* ── For Ecosystem Builders ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)] bg-ash">
-        <Reveal>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            {zh ? "給生態系建設者" : "For Ecosystem Builders"}
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] max-w-[700px] mb-3">
-            {zh
-              ? "把 ATR 接進你的平台。你的客戶自動受到整個社群的偵測規則防護。"
-              : "Plug ATR into your platform. Your customers are automatically protected by the entire community\u0027s detection rules."}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <p className="text-base text-stone font-light max-w-[600px] mb-8">
-            {zh
-              ? "Cisco 就是這樣做的：PR #79 合併 34 條規則，然後建了 --rule-packs CLI 讓 ATR 成為一等公民。他們的客戶不需要知道 ATR 的存在，但已經受到了防護。"
-              : "This is exactly what Cisco did: PR #79 merged 34 rules, then they built --rule-packs CLI to make ATR a first-class citizen. Their customers don\u0027t need to know ATR exists, but they\u0027re already protected."}
-          </p>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper">
-            <div className="bg-ash p-6">
-              <div className="font-data text-blue text-sm font-bold mb-2">1. {zh ? "消費規則" : "Consume Rules"}</div>
-              <p className="text-[13px] text-stone leading-[1.6]">
-                {zh
-                  ? "npm install、git submodule、或直接下載 YAML。你選擇何時更新、用哪些規則。完全由你控制。"
-                  : "npm install, git submodule, or download YAML directly. You choose when to update, which rules to use. Full control."}
-              </p>
+      {/* ── Scene 5: The Proof ── */}
+      <section className="py-[120px] px-6">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
+              {zh ? "已在生產環境運行" : "Already in Production"}
             </div>
-            <div className="bg-ash p-6">
-              <div className="font-data text-blue text-sm font-bold mb-2">2. {zh ? "整合到你的掃描器" : "Integrate into Your Scanner"}</div>
-              <p className="text-[13px] text-stone leading-[1.6]">
-                {zh
-                  ? "用 TypeScript SDK 的 evaluate()、Python engine、Splunk SPL 匯出、或 685 條 regex pattern 的 JSON 匯出。任何語言都能用。"
-                  : "Use the TypeScript SDK\u0027s evaluate(), Python engine, Splunk SPL export, or the 685-pattern JSON export. Works with any language."}
-              </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="font-display text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-2px] max-w-[800px]">
+              <span className="text-blue">Cisco AI Defense</span>
+              {zh ? " 將\n34 條 ATR 規則作為上游依賴。" : " ships\n34 ATR rules as upstream."}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-base text-graphite max-w-[600px] mt-4 leading-relaxed">
+              {zh
+                ? "他們的工程師提了 PR。我們 review 完。3 天合併。1,272 行新增。然後他們建了 --rule-packs CLI 專門消費 ATR。"
+                : "Their engineer submitted a PR. We reviewed it. It merged in 3 days. 1,272 additions. Then they built a --rule-packs CLI specifically to consume ATR."}
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <a
+              href="https://github.com/cisco/ai-defense/pull/79"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-data text-[13px] text-blue hover:underline inline-block mt-4"
+            >
+              {zh ? "在 GitHub 查看 PR #79 →" : "View PR #79 on GitHub →"}
+            </a>
+          </Reveal>
+
+          {/* Other ecosystem integrations */}
+          <Reveal delay={0.4}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog mt-12">
+              {[
+                {
+                  name: "OWASP Top 10 for LLM",
+                  en: "Official detection mapping merged. PR #14.",
+                  zh: "官方偵測對應已合併。PR #14。",
+                },
+                {
+                  name: "SAFE-MCP (OpenSSF)",
+                  en: "78/85 techniques covered (91.8%). PR submitted.",
+                  zh: "覆蓋 78/85 項技術（91.8%）。PR 已提交。",
+                },
+                {
+                  name: zh ? "11 個生態系 PR" : "11 Ecosystem PRs",
+                  en: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged, ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} pending. Covering 90K+ GitHub stars.`,
+                  zh: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} 個已合併，${stats.ecosystemIntegrations.filter(e => e.type === "open").length} 個待審。覆蓋 90K+ stars。`,
+                },
+              ].map((eco) => (
+                <Reveal key={eco.name} delay={0.1}>
+                  <div className="bg-paper p-6">
+                    <div className="font-display text-sm font-semibold mb-2">{eco.name}</div>
+                    <p className="text-[13px] text-stone leading-[1.6]">{zh ? eco.zh : eco.en}</p>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-            <div className="bg-ash p-6">
-              <div className="font-data text-blue text-sm font-bold mb-2">3. {zh ? "接上 Threat Cloud" : "Connect to Threat Cloud"}</div>
-              <p className="text-[13px] text-stone leading-[1.6]">
-                {zh
-                  ? "你的掃描數據匿名貢獻到 Threat Cloud → 新攻擊被發現 → LLM 結晶新規則 → 你的平台自動收到更新。生態系越大，偵測越強。"
-                  : "Your scan data anonymously feeds Threat Cloud. New attacks discovered. LLM crystallizes new rules. Your platform auto-receives updates. Larger ecosystem, stronger detection."}
-              </p>
-            </div>
-          </div>
-        </Reveal>
-        <Reveal delay={0.4}>
-          <div className="mt-6">
-            <Link href={`${prefix}/integrate`} className="font-data text-[13px] text-blue hover:underline">
-              {zh ? "完整整合指南 + Cisco 案例研究 →" : "Full integration guide + Cisco case study →"}
-            </Link>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
 
-      {/* ── Contribute ── */}
-      <section className="py-16 md:py-20 px-[max(24px,10vw)]">
-        <Reveal>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            {zh ? "一起打造" : "Build Together"}
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] mb-4 max-w-[700px]">
-            {zh
-              ? "ATR 不是一個人的專案。這是一個正在成形的全球偵測標準。每一條規則、每一個 evasion report、每一個 PR 都在加固整個生態系的安全。"
-              : "ATR is not one person\u0027s project. It\u0027s a global detection standard taking shape. Every rule, every evasion report, every PR strengthens the security of the entire ecosystem."}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog mt-8">
-            {[
-              { title: zh ? "回報繞過方法" : "Report Evasions", desc: zh ? "找到繞過規則的方法？這是最有價值的貢獻。每個確認的繞過都會觸發規則改進。" : "Found a way to bypass a rule? Most valuable contribution. Every confirmed evasion triggers rule improvement." },
-              { title: zh ? "提交新規則" : "Submit Rules", desc: zh ? "用 ATR schema 寫偵測規則。有完整教學。也可以用 AI（Claude Code / Cursor + ATR MCP server）自動產生。" : "Write detection rules using the ATR schema. Full walkthrough available. Or use AI (Claude Code / Cursor + ATR MCP server) to auto-generate." },
-              { title: zh ? "整合到你的平台" : "Integrate ATR", desc: zh ? "像 Cisco 一樣把 ATR 整合進你的安全產品。npm install、git submodule、或 GitHub Action。" : "Integrate ATR into your security product, like Cisco did. npm install, git submodule, or GitHub Action." },
-            ].map((item) => (
-              <div key={item.title} className="bg-paper p-6">
-                <div className="font-display text-sm font-semibold mb-2">{item.title}</div>
-                <p className="text-[13px] text-stone leading-[1.6]">{item.desc}</p>
+      {/* ── Scene 6: The Standards ── */}
+      <section className="py-[100px] px-6 bg-ash">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper">
+              {[
+                { name: "OWASP Agentic Top 10", score: "10/10", detail: zh ? "完整覆蓋" : "Full coverage" },
+                { name: "SAFE-MCP (OpenSSF)", score: "91.8%", detail: "78/85" },
+                { name: "OWASP Skills Top 10", score: "7/10", detail: zh ? "3 項為流程層級" : "3 process-level" },
+                { name: "PINT Benchmark", score: `${stats.pintF1}`, detail: `F1 / ${stats.pintSamples} samples` },
+              ].map((std, i) => (
+                <Reveal key={std.name} delay={i * 0.05}>
+                  <div className="bg-ash py-10 px-5 text-center">
+                    <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">{std.name}</div>
+                    <div className="font-data text-[clamp(24px,3vw,40px)] font-bold text-ink">{std.score}</div>
+                    <div className="text-xs text-stone mt-1">{std.detail}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <SpeedLines />
+
+      {/* ── Scene 7: The Future ── */}
+      <section className="py-[120px] px-6">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
+              {zh ? "未來" : "The Future"}
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="font-display text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-2px] max-w-[700px] mb-3">
+              {zh
+                ? "ATR 規則不需要手寫。"
+                : "ATR rules don\u0027t have to be written by hand."}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="text-base text-stone font-light max-w-[600px] mb-8">
+              {zh
+                ? "其他標準需要委員會和數月審查。ATR 在數小時內結晶新規則。"
+                : "Other standards need committees and months of review. ATR crystallizes new rules in hours."}
+            </p>
+          </Reveal>
+
+          {/* Crystallization pipeline */}
+          <Reveal delay={0.2}>
+            <div className="bg-ash border border-fog p-6 font-data text-[13px] leading-[2.2] text-graphite max-w-[600px]">
+              {[
+                zh ? "新攻擊模式在野外被偵測到" : "New attack pattern detected in the wild",
+                zh ? "LLM 分析攻擊結構 + 意圖" : "LLM analyzes attack structure + intent",
+                zh ? "自動產生 YAML 規則提案 + 測試案例" : "Auto-generates YAML rule proposal + test cases",
+                zh ? "社群審查 + precision 測試閘門" : "Community reviews + precision test gate",
+                zh ? "合併到 ATR。每個下游生態系自動更新。" : "Merged into ATR. Every downstream ecosystem auto-updates.",
+              ].map((step, i) => (
+                <div key={i}>
+                  {i > 0 && <div className="text-mist text-center pl-6 py-0.5">|</div>}
+                  <div className="flex items-center gap-3">
+                    <span className="text-blue font-bold">{i + 1}.</span>
+                    <span>{step}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Old Way vs ATR (merged from separate section) */}
+          <Reveal delay={0.3}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mt-12">
+              <div className="bg-paper p-6">
+                <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">
+                  {zh ? "傳統方式" : "The Old Way"}
+                </div>
+                <ul className="space-y-3 text-[13px] text-stone leading-[1.6]">
+                  <li>{zh ? "每個廠商自己寫規則，閉源，互不共享" : "Every vendor writes their own rules. Closed source. No sharing."}</li>
+                  <li>{zh ? "新攻擊出現 → 委員會開會 → 數週到數月後才有規則" : "New attack appears. Committee meets. Rules arrive weeks to months later."}</li>
+                  <li>{zh ? "規則格式不統一，無法跨平台使用" : "Rule formats incompatible. Can\u0027t use across platforms."}</li>
+                </ul>
               </div>
-            ))}
-          </div>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <a
-            href="https://github.com/Agent-Threat-Rule/agent-threat-rules"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-blue text-white px-8 py-3.5 rounded-sm text-[15px] font-semibold hover:bg-blue-hover transition-colors inline-block mt-8"
-          >
-            {zh ? "在 GitHub 上貢獻 →" : "Contribute on GitHub →"}
-          </a>
-        </Reveal>
+              <div className="bg-paper p-6">
+                <div className="font-data text-[11px] text-blue tracking-[2px] uppercase mb-4">
+                  ATR + Threat Cloud
+                </div>
+                <ul className="space-y-3 text-[13px] text-ink leading-[1.6]">
+                  <li>{zh ? "一套開放規則，所有生態系共享，MIT 授權" : "One set of open rules. Shared by all ecosystems. MIT licensed."}</li>
+                  <li>{zh ? "新攻擊出現 → LLM 分析 → YAML 規則 → 社群審查 → 數小時合併" : "New attack appears. LLM analyzes. YAML rule. Community reviews. Merged in hours."}</li>
+                  <li>{zh ? "統一 YAML 格式，可匯出 Splunk / Elastic / SARIF" : "Unified YAML format. Export to Splunk, Elastic, SARIF."}</li>
+                </ul>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Scene 8: The CTA ── */}
+      <section className="py-[120px] px-6 bg-ash">
+        <div className="max-w-[1120px] mx-auto text-center">
+          <Reveal>
+            <h2 className="font-display text-[clamp(28px,4vw,56px)] font-black tracking-[-2px] mb-4">
+              {zh ? "整合 ATR。" : "Integrate ATR."}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="font-data text-sm text-stone bg-paper border border-fog px-6 py-3 inline-block mb-6">
+              $ <span className="text-ink">npm install agent-threat-rules</span>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-base text-stone font-light max-w-[500px] mx-auto mb-8">
+              {zh
+                ? "四條路徑。TypeScript、Python、原始 YAML、或 SIEM queries。跟 Cisco 走的同一條路。"
+                : "Four paths. TypeScript, Python, raw YAML, or SIEM queries. The same path Cisco walked."}
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="flex gap-3 justify-center flex-wrap">
+              <Link
+                href={`${prefix}/integrate`}
+                className="bg-blue text-white px-8 py-3.5 rounded-sm text-[15px] font-semibold hover:bg-blue-hover transition-colors"
+              >
+                {zh ? "整合指南" : "Integration Guide"}
+              </Link>
+              <Link
+                href={`${prefix}/rules`}
+                className="text-ink px-8 py-3.5 text-[15px] font-medium border border-fog hover:border-stone transition-colors rounded-sm"
+              >
+                {zh ? "瀏覽所有規則" : "Explore All Rules"}
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
     </>
   );

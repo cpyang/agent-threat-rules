@@ -41,7 +41,7 @@ The emotional register is closer to a published research paper or an intelligenc
 - **Ink Black (#0B0B0F)**: Headlines, navigation, hero statement — maximum authority
 - **Graphite (#3B3B42)**: Body text, descriptions — readable without the weight of Ink Black
 - **Stone (#6B6B76)**: Secondary text, labels, metadata — recedes but remains legible
-- **Mist (#9B9BA5)**: Tertiary text, placeholders, disabled states
+- **Mist (#808089)**: Tertiary text, placeholders, disabled states (meets WCAG AA 4.5:1 on Paper White)
 - **Fog (#E8E8E5)**: Borders, dividers, speed-line motif
 
 ### Semantic Colors
@@ -159,7 +159,7 @@ The ATR logo's horizontal speed lines become a recurring visual element:
 - Left: ATR logo (the geometric A mark only, no wordmark) + "ATR" in JetBrains Mono weight 700
 - Center: page links (Rules, Coverage, Integrate, Contribute, Research) in Inter 14px weight 500
 - Right: "Integrate" primary CTA button
-- No backdrop-filter, no transparency effects. Solid, authoritative.
+- Nav uses `backdrop-blur-md` with `bg-paper/92` as a deliberate exception — the slight transparency improves scroll context. All other surfaces remain solid, authoritative.
 
 ### Code Blocks & YAML Preview
 - Background: Ash (#F3F3F0)
