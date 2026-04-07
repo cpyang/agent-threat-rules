@@ -47,7 +47,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     // Ecosystem
     "ecosystem.label": "Ecosystem",
     "ecosystem.heading": "{merged} merged. {open} pending. {total} total PRs.",
-    "ecosystem.sub": "ATR spreads through PRs, not sales calls. Each merge is irreversible adoption.",
+    "ecosystem.sub": "ATR spreads through PRs, not sales calls. Open source, MIT licensed, zero lock-in.",
 
     // Future
     "future.label": "The Future",
@@ -228,7 +228,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     // Ecosystem
     "ecosystem.label": "\u751F\u614B\u7CFB",
     "ecosystem.heading": "{merged} \u500B\u5DF2\u5408\u4F75\u3002{open} \u500B\u5F85\u5BE9\u3002\u5171 {total} \u500B PR\u3002",
-    "ecosystem.sub": "ATR \u900F\u904E PR \u64F4\u6563\uff0c\u4E0D\u662F\u900F\u904E\u92B7\u552E\u3002\u6BCF\u6B21 merge \u90FD\u662F\u4E0D\u53EF\u9006\u7684\u63A1\u7528\u3002",
+    "ecosystem.sub": "ATR \u900F\u904E PR \u64F4\u6563\uff0c\u4E0D\u662F\u900F\u904E\u92B7\u552E\u3002\u958B\u6E90\u3001MIT \u6388\u6B0A\u3001\u96F6\u9396\u5B9A\u3002",
 
     // Future
     "future.label": "\u672A\u4F86",
