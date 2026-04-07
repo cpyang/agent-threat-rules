@@ -26,7 +26,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "hero.stat.precision": "Precision",
 
     // Threat
-    "threat.label": "MCP vulnerabilities in 60 days",
+    "threat.label": "MCP skills scanned for threats",
     "threat.body": "AI agents now browse the web, execute code, and call external tools. Attackers trick them into <strong>leaking credentials</strong>, <strong>running reverse shells</strong>, and <strong>ignoring safety boundaries</strong>. The attack surface grows faster than any team can write rules by hand.",
 
     // Numbers
@@ -53,7 +53,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "future.label": "The Future",
     "future.heading": "ATR rules don't have to be written by hand.",
     "future.sub": "Threat Cloud crystallization turns new attacks into detection rules automatically.",
-    "future.note": "Other standards need committees and months of review. ATR crystallizes new rules in hours.",
+    "future.note": "Traditional rules are written by hand, on weekly cycles. Threat Cloud shrinks new rule turnaround from weeks to hours.",
 
     // CTA
     "cta.heading": "Add ATR to your platform.",
@@ -128,7 +128,7 @@ export const messages: Record<Locale, Record<string, string>> = {
 
     // Contribute page
     "contribute.crystal.title": "Threat Cloud Crystallization",
-    "contribute.crystal.sub": "Other standards need committees and months. ATR crystallizes new rules in hours.",
+    "contribute.crystal.sub": "Traditional rules take weeks to write, review, and ship. Threat Cloud targets hours.",
     "contribute.governance": "Governance",
     "contribute.governance.desc": "Rule review process, maintainer roles, decision-making.",
     "contribute.contributors": "Contributors",
@@ -207,7 +207,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "hero.stat.precision": "Precision",
 
     // Threat
-    "threat.label": "60 \u5929\u5167\u7684 MCP \u6F0F\u6D1E",
+    "threat.label": "MCP skills \u5A01\u8105\u6383\u63CF",
     "threat.body": "AI Agent \u73FE\u5728\u80FD\u700F\u89BD\u7DB2\u9801\u3001\u57F7\u884C\u7A0B\u5F0F\u78BC\u3001\u547C\u53EB\u5916\u90E8\u5DE5\u5177\u3002\u653B\u64CA\u8005\u5229\u7528\u5B83\u5011<strong>\u6D29\u6F0F\u6191\u8B49</strong>\u3001<strong>\u57F7\u884C\u60E1\u610F\u6307\u4EE4</strong>\u3001<strong>\u7E5E\u904E\u5B89\u5168\u908A\u754C</strong>\u3002\u653B\u64CA\u9762\u7684\u589E\u9577\u901F\u5EA6\u8D85\u904E\u4EFB\u4F55\u5718\u968A\u624B\u5BEB\u898F\u5247\u7684\u901F\u5EA6\u3002",
 
     // Numbers
@@ -234,7 +234,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "future.label": "\u672A\u4F86",
     "future.heading": "ATR \u898F\u5247\u4E0D\u9700\u8981\u624B\u5BEB\u3002",
     "future.sub": "Threat Cloud \u7D50\u6676\u6A5F\u5236\u81EA\u52D5\u5C07\u65B0\u653B\u64CA\u8F49\u5316\u70BA\u5075\u6E2C\u898F\u5247\u3002",
-    "future.note": "\u5176\u4ED6\u6A19\u6E96\u9700\u8981\u59D4\u54E1\u6703\u548C\u6578\u6708\u5BE9\u67E5\u3002ATR \u5728\u6578\u5C0F\u6642\u5167\u7D50\u6676\u65B0\u898F\u5247\u3002",
+    "future.note": "\u50B3\u7D71\u898F\u5247\u7531\u4EBA\u5DE5\u64B0\u5BEB\uff0c\u9031\u671F\u4EE5\u9031\u8A08\u3002Threat Cloud \u8B93\u65B0\u898F\u5247\u7684\u7522\u51FA\u5F9E\u6578\u9031\u7E2E\u77ED\u5230\u6578\u5C0F\u6642\u3002",
 
     // CTA
     "cta.heading": "\u5C07 ATR \u52A0\u5165\u4F60\u7684\u5E73\u53F0\u3002",
@@ -309,7 +309,7 @@ export const messages: Record<Locale, Record<string, string>> = {
 
     // Contribute page
     "contribute.crystal.title": "Threat Cloud \u7D50\u6676\u6A5F\u5236",
-    "contribute.crystal.sub": "\u5176\u4ED6\u6A19\u6E96\u9700\u8981\u59D4\u54E1\u6703\u548C\u6578\u6708\u5BE9\u67E5\u3002ATR \u5728\u6578\u5C0F\u6642\u5167\u7D50\u6676\u65B0\u898F\u5247\u3002",
+    "contribute.crystal.sub": "\u50B3\u7D71\u898F\u5247\u9700\u8981\u6578\u9031\u64B0\u5BEB\u3001\u5BE9\u67E5\u3001\u767C\u5E03\u3002Threat Cloud \u76EE\u6A19\u6578\u5C0F\u6642\u3002",
     "contribute.governance": "\u6CBB\u7406",
     "contribute.governance.desc": "\u898F\u5247\u5BE9\u67E5\u6D41\u7A0B\u3001\u7DAD\u8B77\u8005\u89D2\u8272\u3001\u6C7A\u7B56\u6A5F\u5236\u3002",
     "contribute.contributors": "\u8CA2\u737B\u8005",

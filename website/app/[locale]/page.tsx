@@ -290,8 +290,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 },
                 {
                   name: zh ? `${stats.ecosystemIntegrations.length} 個生態系 PR` : `${stats.ecosystemIntegrations.length} Ecosystem PRs`,
-                  en: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged, ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} pending. Covering 90K+ GitHub stars.`,
-                  zh: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} 個已合併，${stats.ecosystemIntegrations.filter(e => e.type === "open").length} 個待審。覆蓋 90K+ stars。`,
+                  en: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged, ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} under review.`,
+                  zh: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} 個已合併，${stats.ecosystemIntegrations.filter(e => e.type === "open").length} 個審查中。`,
                 },
               ].map((eco) => (
                 <Reveal key={eco.name} delay={0.1}>
@@ -350,8 +350,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.15}>
             <p className="text-base text-stone font-light max-w-[600px] mb-8">
               {zh
-                ? "其他標準需要委員會和數月審查。ATR 在數小時內結晶新規則。"
-                : "Other standards need committees and months of review. ATR crystallizes new rules in hours."}
+                ? "傳統規則由人工撰寫，週期以週計。Threat Cloud 讓新規則的產出從數週縮短到數小時。"
+                : "Traditional rules are written by hand, on weekly cycles. Threat Cloud shrinks new rule turnaround from weeks to hours."}
             </p>
           </Reveal>
 

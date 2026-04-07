@@ -178,12 +178,12 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog">
               {[
-                { label: locale === "zh" ? "覆蓋範圍" : "Coverage", atr: locale === "zh" ? `${stats.ruleCount} 條規則，13 個 CVE 對應，OWASP 10/10` : `${stats.ruleCount} rules, 13 CVEs mapped, OWASP 10/10`, own: locale === "zh" ? "從零開始" : "You start from zero" },
-                { label: locale === "zh" ? "新攻擊反應" : "New attack response", atr: locale === "zh" ? "< 1 小時（Threat Cloud 結晶）" : "< 1 hour via Threat Cloud crystallization", own: locale === "zh" ? "取決於你團隊的頻寬" : "Depends on your team's bandwidth" },
-                { label: locale === "zh" ? "繞過測試" : "Evasion testing", atr: locale === "zh" ? "64 種已記錄的繞過技術，每個 PR 都測試" : "64 documented evasion techniques, tested on every PR", own: locale === "zh" ? "你大概不會測" : "You probably won't test this" },
+                { label: locale === "zh" ? "覆蓋範圍" : "Coverage", atr: locale === "zh" ? `${stats.ruleCount} 條規則，${stats.cveCount} 個 CVE 對應，9 個威脅類別` : `${stats.ruleCount} rules, ${stats.cveCount} CVEs mapped, 9 threat categories`, own: locale === "zh" ? "需要自行建立規則庫" : "You build your own rule set" },
+                { label: locale === "zh" ? "新攻擊反應" : "New attack response", atr: locale === "zh" ? "Threat Cloud 結晶，目標數小時內產出規則" : "Threat Cloud crystallization, targeting hours", own: locale === "zh" ? "取決於你團隊的頻寬" : "Depends on your team's bandwidth" },
+                { label: locale === "zh" ? "繞過測試" : "Evasion testing", atr: locale === "zh" ? "64 種已記錄的繞過技術，每個 PR 都測試" : "64 documented evasion techniques, tested on every PR", own: locale === "zh" ? "需要額外投入時間建立" : "Requires dedicated effort to build" },
                 { label: locale === "zh" ? "OWASP / MITRE 對應" : "OWASP / MITRE mapping", atr: locale === "zh" ? "內建。Agentic 10/10 + 每條規則對應 MITRE ATLAS" : "Pre-built. 10/10 Agentic + MITRE ATLAS per rule", own: locale === "zh" ? "數小時的手動對應工作" : "Hours of manual mapping work" },
-                { label: locale === "zh" ? "維護成本" : "Maintenance", atr: locale === "zh" ? "社群維護。MIT 授權。零成本。" : "Community-maintained. MIT. Zero cost.", own: locale === "zh" ? "全職資安工程師的工作量" : "Full-time security engineer workload" },
-                { label: locale === "zh" ? "生態系" : "Ecosystem", atr: locale === "zh" ? "Cisco、OWASP、OpenSSF 已在使用" : "Cisco, OWASP, OpenSSF already consuming", own: locale === "zh" ? "孤立運作。無共享情報。" : "Isolated. No shared intelligence." },
+                { label: locale === "zh" ? "維護成本" : "Maintenance", atr: locale === "zh" ? "社群維護。MIT 授權。零成本。" : "Community-maintained. MIT. Zero cost.", own: locale === "zh" ? "需要持續的人力投入" : "Requires ongoing engineering effort" },
+                { label: locale === "zh" ? "生態系" : "Ecosystem", atr: locale === "zh" ? "Cisco 已整合，OWASP 和 OpenSSF PR 審查中" : "Cisco integrated, OWASP and OpenSSF PRs under review", own: locale === "zh" ? "獨立維護，無共享規則" : "Maintained independently, no shared rules" },
               ].map((row) => (
                 <div key={row.label} className="bg-paper grid grid-cols-[140px_1fr_1fr] text-[13px]">
                   <div className="px-4 py-3 font-semibold text-ink border-r border-fog">{row.label}</div>
