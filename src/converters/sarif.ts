@@ -102,11 +102,17 @@ export function scanResultToSARIF(
 
       const location: Record<string, unknown> = {};
       if (result.input_file) {
-        // Make path relative to CWD for SARIF — absolute paths leak local env info
+        // Make path relative to CWD — never expose absolute paths in SARIF
         const cwd = process.cwd() + '/';
-        const uri = result.input_file.startsWith(cwd)
-          ? result.input_file.slice(cwd.length)
-          : result.input_file;
+        let uri: string;
+        if (result.input_file.startsWith(cwd)) {
+          uri = result.input_file.slice(cwd.length);
+        } else if (result.input_file.startsWith('/') || /^[A-Z]:\\/.test(result.input_file)) {
+          // Absolute path outside CWD — strip to filename only
+          uri = result.input_file.split('/').pop() ?? result.input_file.split('\\').pop() ?? 'unknown';
+        } else {
+          uri = result.input_file;
+        }
         location.physicalLocation = {
           artifactLocation: {
             uri,

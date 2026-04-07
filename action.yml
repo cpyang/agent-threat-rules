@@ -33,7 +33,7 @@ outputs:
     value: ${{ steps.scan.outputs.threat_count }}
   sarif-file:
     description: 'Path to the SARIF output file'
-    value: ${{ inputs.sarif-file }}
+    value: ${{ steps.scan.outputs.sarif_path }}
 
 runs:
   using: 'composite'
@@ -45,19 +45,48 @@ runs:
 
     - name: Install ATR
       shell: bash
-      run: npm install -g agent-threat-rules@latest
+      run: npm install -g agent-threat-rules@1.0.0
 
     - name: Run ATR Scan
       id: scan
       shell: bash
+      env:
+        ATR_PATH: ${{ inputs.path }}
+        ATR_SEVERITY: ${{ inputs.severity }}
+        ATR_SARIF_FILE: ${{ inputs.sarif-file }}
+        ATR_FAIL_ON_FINDING: ${{ inputs.fail-on-finding }}
       run: |
         set +e
-        ATR_STDERR=$(mktemp)
-        atr scan "${{ inputs.path }}" \
-          --severity "${{ inputs.severity }}" \
-          --sarif > "${{ inputs.sarif-file }}" 2>"$ATR_STDERR"
 
-        if [ ! -s "${{ inputs.sarif-file }}" ] && [ -s "$ATR_STDERR" ]; then
+        # Validate severity input
+        case "$ATR_SEVERITY" in
+          informational|low|medium|high|critical) ;;
+          *) echo "::error::Invalid severity: $ATR_SEVERITY"; exit 1 ;;
+        esac
+
+        # Validate fail-on-finding input
+        case "$ATR_FAIL_ON_FINDING" in
+          true|false) ;;
+          *) echo "::error::Invalid fail-on-finding: $ATR_FAIL_ON_FINDING (must be true or false)"; exit 1 ;;
+        esac
+
+        # Validate path exists
+        if [ ! -e "$ATR_PATH" ]; then
+          echo "::error::Path not found: $ATR_PATH"
+          exit 1
+        fi
+
+        # Validate sarif-file path is safe (no directory traversal)
+        case "$ATR_SARIF_FILE" in
+          *../*|*/..*) echo "::error::Invalid sarif-file path"; exit 1 ;;
+        esac
+
+        ATR_STDERR=$(mktemp)
+        atr scan "$ATR_PATH" \
+          --severity "$ATR_SEVERITY" \
+          --sarif > "$ATR_SARIF_FILE" 2>"$ATR_STDERR"
+
+        if [ ! -s "$ATR_SARIF_FILE" ] && [ -s "$ATR_STDERR" ]; then
           echo "::warning::ATR scan produced no output. Errors:"
           cat "$ATR_STDERR"
         fi
@@ -71,8 +100,9 @@ runs:
             const count = (sarif.runs || []).reduce((a, r) => a + (r.results || []).length, 0);
             console.log(count);
           } catch { console.log(0); }
-        " "${{ inputs.sarif-file }}")
+        " "$ATR_SARIF_FILE")
         echo "threat_count=${THREAT_COUNT}" >> "$GITHUB_OUTPUT"
+        echo "sarif_path=${ATR_SARIF_FILE}" >> "$GITHUB_OUTPUT"
 
         if [ "${THREAT_COUNT}" -gt "0" ]; then
           echo "::warning::ATR found ${THREAT_COUNT} AI agent security threat(s). See SARIF results for details."
@@ -80,7 +110,7 @@ runs:
           echo "::notice::ATR scan clean. No threats detected."
         fi
 
-        if [ "${{ inputs.fail-on-finding }}" = "true" ] && [ "${THREAT_COUNT}" -gt "0" ]; then
+        if [ "$ATR_FAIL_ON_FINDING" = "true" ] && [ "${THREAT_COUNT}" -gt "0" ]; then
           echo "::error::ATR found ${THREAT_COUNT} threat(s). Failing build. Set fail-on-finding: false to warn only."
           exit 1
         fi
@@ -89,6 +119,6 @@ runs:
       if: always() && inputs.upload-sarif == 'true'
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: ${{ inputs.sarif-file }}
+        sarif_file: ${{ steps.scan.outputs.sarif_path }}
         category: atr-scan
       continue-on-error: true

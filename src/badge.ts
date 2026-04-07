@@ -117,7 +117,12 @@ export function generateBadgeEndpoint(summary: ScanSummary | null): BadgeData {
 // ---------------------------------------------------------------------------
 
 function escapeXml(str: string): string {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
 function measureText(text: string): number {
