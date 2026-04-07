@@ -11,17 +11,20 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-const CATEGORY_DESCS: Record<string, { desc: string; slug: string }> = {
-  "prompt-injection": { desc: "Hidden instructions that hijack agent behavior. Persona switching, encoded payloads, CJK attacks.", slug: "prompt-injection" },
-  "tool-poisoning": { desc: "Malicious MCP responses, consent bypass, hidden instructions in tool schemas.", slug: "tool-poisoning" },
-  "agent-manipulation": { desc: "Cross-agent attacks, goal hijacking, Sybil consensus, orchestrator bypass.", slug: "agent-manipulation" },
-  "skill-compromise": { desc: "Typosquatting, description-behavior mismatch, supply chain attacks.", slug: "skill-compromise" },
-  "context-exfiltration": { desc: "API key leakage, system prompt theft, disguised analytics.", slug: "context-exfiltration" },
-  "privilege-escalation": { desc: "Scope creep, delayed execution bypass, unauthorized elevation.", slug: "privilege-escalation" },
-  "excessive-autonomy": { desc: "Runaway loops, resource exhaustion, unauthorized financial actions.", slug: "excessive-autonomy" },
-  "model-abuse": { desc: "Behavior extraction, malicious fine-tuning data injection.", slug: "model-security" },
-  "data-poisoning": { desc: "RAG and knowledge base tampering.", slug: "data-poisoning" },
-};
+function getCategoryDescs(locale: Locale): Record<string, { desc: string; slug: string }> {
+  const zh = locale === "zh";
+  return {
+    "prompt-injection": { desc: zh ? "劫持 agent 行為的隱藏指令。人格切換、編碼 payload、CJK 攻擊。" : "Hidden instructions that hijack agent behavior. Persona switching, encoded payloads, CJK attacks.", slug: "prompt-injection" },
+    "tool-poisoning": { desc: zh ? "惡意 MCP 回應、繞過同意機制、工具 schema 中的隱藏指令。" : "Malicious MCP responses, consent bypass, hidden instructions in tool schemas.", slug: "tool-poisoning" },
+    "agent-manipulation": { desc: zh ? "跨 agent 攻擊、目標劫持、Sybil 共識、協調器繞過。" : "Cross-agent attacks, goal hijacking, Sybil consensus, orchestrator bypass.", slug: "agent-manipulation" },
+    "skill-compromise": { desc: zh ? "名稱混淆攻擊、描述與行為不符、供應鏈攻擊。" : "Typosquatting, description-behavior mismatch, supply chain attacks.", slug: "skill-compromise" },
+    "context-exfiltration": { desc: zh ? "API key 洩漏、系統提示詞竊取、偽裝分析。" : "API key leakage, system prompt theft, disguised analytics.", slug: "context-exfiltration" },
+    "privilege-escalation": { desc: zh ? "權限蔓延、延遲執行繞過、未授權提權。" : "Scope creep, delayed execution bypass, unauthorized elevation.", slug: "privilege-escalation" },
+    "excessive-autonomy": { desc: zh ? "失控迴圈、資源耗盡、未授權金融操作。" : "Runaway loops, resource exhaustion, unauthorized financial actions.", slug: "excessive-autonomy" },
+    "model-abuse": { desc: zh ? "行為萃取、惡意微調資料注入。" : "Behavior extraction, malicious fine-tuning data injection.", slug: "model-security" },
+    "data-poisoning": { desc: zh ? "RAG 和知識庫竄改。" : "RAG and knowledge base tampering.", slug: "data-poisoning" },
+  };
+}
 
 // CRYSTAL_STEPS and PATHS are i18n-aware — see usage below
 
@@ -32,21 +35,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const stats = loadSiteStats();
   const rules = loadAllRules();
   const categories = getCategories(rules);
+  const CATEGORY_DESCS = getCategoryDescs(locale);
+  const zh = locale === "zh";
 
   const NUMBERS = [
-    { value: stats.ruleCount, unit: "rules", desc: `Across ${stats.categoryCount} threat categories. Each mapped to real CVEs and OWASP standards.` },
-    { value: stats.pintPrecision, unit: "%", desc: `Precision on ${stats.pintSamples} adversarial samples. External PINT benchmark.`, suffix: "%" },
-    { value: 5, unit: "ms", desc: "99% of events resolve at Tier 0-2. Zero API cost.", prefix: "<" },
-    { value: stats.megaScanTotal, unit: "skills", desc: `Scanned across OpenClaw + Skills.sh. ${stats.megaScanCritical.toLocaleString()} CRITICAL. ${stats.megaScanHigh.toLocaleString()} HIGH.`, useComma: true },
-    { value: 10, unit: "/10", desc: "OWASP Agentic Top 10 categories fully covered." },
-    { value: 91.8, unit: "%", desc: "SAFE-MCP technique coverage. 78 of 85.", suffix: "%" },
+    { value: stats.ruleCount, unit: zh ? "條規則" : "rules", desc: zh ? `橫跨 ${stats.categoryCount} 個威脅類別。每條對應真實 CVE 和 OWASP 標準。` : `Across ${stats.categoryCount} threat categories. Each mapped to real CVEs and OWASP standards.` },
+    { value: stats.pintPrecision, unit: "%", desc: zh ? `在 ${stats.pintSamples} 個對抗樣本上的 Precision。外部 PINT benchmark。` : `Precision on ${stats.pintSamples} adversarial samples. External PINT benchmark.`, suffix: "%" },
+    { value: 5, unit: "ms", desc: zh ? "99% 事件在 Tier 0-2 完成處理。零 API 成本。" : "99% of events resolve at Tier 0-2. Zero API cost.", prefix: "<" },
+    { value: stats.megaScanTotal, unit: "skills", desc: zh ? `跨 OpenClaw + Skills.sh 掃描。${stats.megaScanCritical.toLocaleString()} 個 CRITICAL。${stats.megaScanHigh.toLocaleString()} 個 HIGH。` : `Scanned across OpenClaw + Skills.sh. ${stats.megaScanCritical.toLocaleString()} CRITICAL. ${stats.megaScanHigh.toLocaleString()} HIGH.`, useComma: true },
+    { value: 10, unit: "/10", desc: zh ? "OWASP Agentic Top 10 類別全覆蓋。" : "OWASP Agentic Top 10 categories fully covered." },
+    { value: 91.8, unit: "%", desc: zh ? "SAFE-MCP 技術覆蓋率。85 項中覆蓋 78 項。" : "SAFE-MCP technique coverage. 78 of 85.", suffix: "%" },
   ];
 
   const STANDARDS = [
-    { name: "OWASP Agentic Top 10", score: 10, suffix: "/10", detail: "Full category coverage" },
-    { name: "SAFE-MCP (OpenSSF)", score: 91.8, suffix: "%", detail: "78 of 85 techniques" },
-    { name: "OWASP Skills Top 10", score: 7, suffix: "/10", detail: "3 are process-level gaps" },
-    { name: "PINT Benchmark", score: stats.pintF1, suffix: "", detail: `F1 on ${stats.pintSamples} external samples` },
+    { name: "OWASP Agentic Top 10", score: 10, suffix: "/10", detail: zh ? "完整類別覆蓋" : "Full category coverage" },
+    { name: "SAFE-MCP (OpenSSF)", score: 91.8, suffix: "%", detail: zh ? "85 項技術中覆蓋 78 項" : "78 of 85 techniques" },
+    { name: "OWASP Skills Top 10", score: 7, suffix: "/10", detail: zh ? "3 項為流程層級的落差" : "3 are process-level gaps" },
+    { name: "PINT Benchmark", score: stats.pintF1, suffix: "", detail: zh ? `在 ${stats.pintSamples} 個外部樣本上的 F1` : `F1 on ${stats.pintSamples} external samples` },
   ];
 
   const mergedCount = stats.ecosystemIntegrations.filter((e) => e.type === "merged").length;
@@ -121,15 +126,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="font-data text-[clamp(100px,18vw,240px)] font-bold text-critical/[0.07] leading-[0.85] mb-4">30</div>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-6">MCP vulnerabilities in 60 days</div>
+          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-6">{locale === "zh" ? "60 天內的 MCP 漏洞" : "MCP vulnerabilities in 60 days"}</div>
         </Reveal>
         <Reveal delay={0.2}>
           <p className="text-[clamp(18px,2.5vw,28px)] font-light leading-[1.5] text-graphite max-w-[640px]">
-            AI agents now browse the web, execute code, and call external tools. Attackers trick them into{" "}
-            <strong className="font-semibold text-critical">leaking credentials</strong>,{" "}
-            <strong className="font-semibold text-critical">running reverse shells</strong>, and{" "}
-            <strong className="font-semibold text-critical">ignoring safety boundaries</strong>.
-            The attack surface grows faster than any team can write rules by hand.
+            {locale === "zh" ? (
+              <>AI agent 現在能瀏覽網頁、執行程式碼、呼叫外部工具。攻擊者誘騙它們{" "}
+              <strong className="font-semibold text-critical">洩漏憑證</strong>、{" "}
+              <strong className="font-semibold text-critical">執行反向 shell</strong>、{" "}
+              <strong className="font-semibold text-critical">無視安全邊界</strong>。
+              攻擊面的增長速度，遠超任何團隊手寫規則的能力。</>
+            ) : (
+              <>AI agents now browse the web, execute code, and call external tools. Attackers trick them into{" "}
+              <strong className="font-semibold text-critical">leaking credentials</strong>,{" "}
+              <strong className="font-semibold text-critical">running reverse shells</strong>, and{" "}
+              <strong className="font-semibold text-critical">ignoring safety boundaries</strong>.
+              The attack surface grows faster than any team can write rules by hand.</>
+            )}
           </p>
         </Reveal>
       </section>
@@ -255,7 +268,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <p className="text-[12px] text-stone leading-[1.5]">{eco.detail}</p>
                 {eco.url && (
                   <a href={eco.url} target="_blank" rel="noopener noreferrer" className="font-data text-[11px] text-blue hover:underline mt-1 inline-block">
-                    View PR &rarr;
+                    {locale === "zh" ? "查看 PR" : "View PR"} &rarr;
                   </a>
                 )}
               </div>

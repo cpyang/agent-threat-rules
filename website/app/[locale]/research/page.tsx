@@ -49,9 +49,9 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
             </div>
             <div className="flex gap-4">
               <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
-                Zenodo (published) &rarr;
+                Zenodo ({locale === "zh" ? "已發布" : "published"}) &rarr;
               </a>
-              <span className="font-data text-[13px] text-stone">SSRN: Abstract ID 6457179 (pending review)</span>
+              <span className="font-data text-[13px] text-stone">SSRN: Abstract ID 6457179 ({locale === "zh" ? "審查中" : "pending review"})</span>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                 <div className="text-xs text-stone">F1</div>
               </div>
             </div>
-            <div className="font-data text-xs text-stone mt-3">{stats.pintSamples} samples</div>
+            <div className="font-data text-xs text-stone mt-3">{stats.pintSamples} {locale === "zh" ? "個樣本" : "samples"}</div>
           </div>
           {/* Self-test */}
           <div className="bg-paper p-6">
@@ -97,7 +97,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
               </div>
               <div>
                 <div className="font-data text-2xl font-bold text-ink">{stats.selfTestSamples}</div>
-                <div className="text-xs text-stone">Samples</div>
+                <div className="text-xs text-stone">{locale === "zh" ? "樣本數" : "Samples"}</div>
               </div>
             </div>
           </div>
@@ -119,7 +119,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           <div className="bg-paper p-6">
             <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">Mega Scan (OpenClaw + Skills.sh)</div>
             <div className="font-data text-3xl font-bold text-ink mb-1"><CountUp target={stats.megaScanTotal} useComma /></div>
-            <div className="text-sm text-stone mb-3">skills scanned</div>
+            <div className="text-sm text-stone mb-3">{locale === "zh" ? "個 skill 已掃描" : "skills scanned"}</div>
             <div className="grid grid-cols-3 gap-3 text-center">
               <div>
                 <div className="font-data text-lg font-bold text-critical"><CountUp target={stats.megaScanCritical} useComma /></div>
@@ -131,14 +131,14 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
               </div>
               <div>
                 <div className="font-data text-lg font-bold text-ink"><CountUp target={stats.megaScanFlagged} useComma /></div>
-                <div className="text-xs text-stone">Total flagged</div>
+                <div className="text-xs text-stone">{locale === "zh" ? "總標記數" : "Total flagged"}</div>
               </div>
             </div>
           </div>
           <div className="bg-paper p-6">
             <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">ClawHub Registry Scan</div>
             <div className="font-data text-3xl font-bold text-ink mb-1"><CountUp target={stats.clawHubCrawled} useComma /></div>
-            <div className="text-sm text-stone mb-3">skills crawled</div>
+            <div className="text-sm text-stone mb-3">{locale === "zh" ? "個 skill 已爬取" : "skills crawled"}</div>
             <div className="grid grid-cols-3 gap-3 text-center">
               <div>
                 <div className="font-data text-lg font-bold text-critical"><CountUp target={stats.clawHubCritical} /></div>
@@ -150,7 +150,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
               </div>
               <div>
                 <div className="font-data text-lg font-bold text-ink"><CountUp target={stats.clawHubScanned} useComma /></div>
-                <div className="text-xs text-stone">With source code</div>
+                <div className="text-xs text-stone">{locale === "zh" ? "含原始碼" : "With source code"}</div>
               </div>
             </div>
           </div>

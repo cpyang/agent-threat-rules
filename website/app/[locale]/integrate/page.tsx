@@ -99,7 +99,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
               <div className="flex items-center justify-between px-6 py-4 border-b border-fog bg-ash">
                 <h2 className="font-display text-lg font-semibold">{path.title}</h2>
                 <a href={path.doc} target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">
-                  Docs &rarr;
+                  {locale === "zh" ? "文件" : "Docs"} &rarr;
                 </a>
               </div>
               <div className="p-6">
@@ -123,43 +123,44 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
           </div>
           <div className="p-6">
             <p className="text-sm text-graphite leading-relaxed mb-5">
-              If you depend on ATR as upstream, you need to know the format won&apos;t break.
-              Here&apos;s our commitment:
+              {locale === "zh"
+                ? "如果你把 ATR 當作上游依賴，你需要確保格式不會壞掉。以下是我們的承諾："
+                : "If you depend on ATR as upstream, you need to know the format won\u0027t break. Here\u0027s our commitment:"}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
-                  <div className="font-display text-sm font-semibold mb-1">ATR Schema v1.0 (current)</div>
+                  <div className="font-display text-sm font-semibold mb-1">ATR Schema v1.0 ({locale === "zh" ? "目前版本" : "current"})</div>
                   <p className="text-[13px] text-stone leading-[1.6]">
-                    Published and stable. All new fields are optional additions. No existing field
-                    will be removed or renamed without a major version bump.
+                    {locale === "zh"
+                      ? "已發布且穩定。所有新增欄位皆為選填。現有欄位不會在主版本升級前被移除或重新命名。"
+                      : "Published and stable. All new fields are optional additions. No existing field will be removed or renamed without a major version bump."}
                   </p>
                 </div>
                 <div>
-                  <div className="font-display text-sm font-semibold mb-1">Backward Compatibility</div>
+                  <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "向後相容" : "Backward Compatibility"}</div>
                   <p className="text-[13px] text-stone leading-[1.6]">
-                    Breaking changes only happen on major version transitions (v1 &rarr; v2).
-                    We provide migration guides and a minimum 6-month overlap period where both
-                    versions are supported.
+                    {locale === "zh"
+                      ? "破壞性變更只會發生在主版本轉換時（v1 → v2）。我們提供遷移指南，並至少有 6 個月的重疊期同時支援兩個版本。"
+                      : "Breaking changes only happen on major version transitions (v1 \u2192 v2). We provide migration guides and a minimum 6-month overlap period where both versions are supported."}
                   </p>
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
-                  <div className="font-display text-sm font-semibold mb-1">Update Frequency</div>
+                  <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "更新頻率" : "Update Frequency"}</div>
                   <p className="text-[13px] text-stone leading-[1.6]">
-                    New rules are added continuously (avg 2-5 per week during active periods).
-                    Every rule passes CI validation + precision test before merge. Subscribe to{" "}
-                    <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/releases" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">GitHub Releases</a>{" "}
-                    for changelogs.
+                    {locale === "zh"
+                      ? <>持續新增規則（活躍期平均每週 2-5 條）。每條規則在合併前都通過 CI 驗證 + precision 測試。訂閱{" "}<a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/releases" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">GitHub Releases</a>{" "}取得更新日誌。</>
+                      : <>New rules are added continuously (avg 2-5 per week during active periods). Every rule passes CI validation + precision test before merge. Subscribe to{" "}<a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/releases" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">GitHub Releases</a>{" "}for changelogs.</>}
                   </p>
                 </div>
                 <div>
-                  <div className="font-display text-sm font-semibold mb-1">Sync Methods</div>
+                  <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "同步方式" : "Sync Methods"}</div>
                   <div className="font-data text-[13px] text-stone leading-[1.8]">
-                    <span className="text-ink">git submodule</span> &mdash; pin to tag, update on your schedule<br />
-                    <span className="text-ink">npm install</span> &mdash; semver, lockfile controls version<br />
-                    <span className="text-ink">GitHub Action</span> &mdash; CI scans with latest rules automatically
+                    <span className="text-ink">git submodule</span> &mdash; {locale === "zh" ? "鎖定 tag，按你的節奏更新" : "pin to tag, update on your schedule"}<br />
+                    <span className="text-ink">npm install</span> &mdash; {locale === "zh" ? "語意版本控制，lockfile 鎖定版本" : "semver, lockfile controls version"}<br />
+                    <span className="text-ink">GitHub Action</span> &mdash; {locale === "zh" ? "CI 自動使用最新規則掃描" : "CI scans with latest rules automatically"}
                   </div>
                 </div>
               </div>
@@ -177,12 +178,12 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog">
               {[
-                { label: "Coverage", atr: `${stats.ruleCount} rules, 13 CVEs mapped, OWASP 10/10`, own: "You start from zero" },
-                { label: "New attack response", atr: "< 1 hour via Threat Cloud crystallization", own: "Depends on your team's bandwidth" },
-                { label: "Evasion testing", atr: "64 documented evasion techniques, tested on every PR", own: "You probably won't test this" },
-                { label: "OWASP / MITRE mapping", atr: "Pre-built. 10/10 Agentic + MITRE ATLAS per rule", own: "Hours of manual mapping work" },
-                { label: "Maintenance", atr: "Community-maintained. MIT. Zero cost.", own: "Full-time security engineer workload" },
-                { label: "Ecosystem", atr: "Cisco, OWASP, OpenSSF already consuming", own: "Isolated. No shared intelligence." },
+                { label: locale === "zh" ? "覆蓋範圍" : "Coverage", atr: locale === "zh" ? `${stats.ruleCount} 條規則，13 個 CVE 對應，OWASP 10/10` : `${stats.ruleCount} rules, 13 CVEs mapped, OWASP 10/10`, own: locale === "zh" ? "從零開始" : "You start from zero" },
+                { label: locale === "zh" ? "新攻擊反應" : "New attack response", atr: locale === "zh" ? "< 1 小時（Threat Cloud 結晶）" : "< 1 hour via Threat Cloud crystallization", own: locale === "zh" ? "取決於你團隊的頻寬" : "Depends on your team's bandwidth" },
+                { label: locale === "zh" ? "繞過測試" : "Evasion testing", atr: locale === "zh" ? "64 種已記錄的繞過技術，每個 PR 都測試" : "64 documented evasion techniques, tested on every PR", own: locale === "zh" ? "你大概不會測" : "You probably won't test this" },
+                { label: locale === "zh" ? "OWASP / MITRE 對應" : "OWASP / MITRE mapping", atr: locale === "zh" ? "內建。Agentic 10/10 + 每條規則對應 MITRE ATLAS" : "Pre-built. 10/10 Agentic + MITRE ATLAS per rule", own: locale === "zh" ? "數小時的手動對應工作" : "Hours of manual mapping work" },
+                { label: locale === "zh" ? "維護成本" : "Maintenance", atr: locale === "zh" ? "社群維護。MIT 授權。零成本。" : "Community-maintained. MIT. Zero cost.", own: locale === "zh" ? "全職資安工程師的工作量" : "Full-time security engineer workload" },
+                { label: locale === "zh" ? "生態系" : "Ecosystem", atr: locale === "zh" ? "Cisco、OWASP、OpenSSF 已在使用" : "Cisco, OWASP, OpenSSF already consuming", own: locale === "zh" ? "孤立運作。無共享情報。" : "Isolated. No shared intelligence." },
               ].map((row) => (
                 <div key={row.label} className="bg-paper grid grid-cols-[140px_1fr_1fr] text-[13px]">
                   <div className="px-4 py-3 font-semibold text-ink border-r border-fog">{row.label}</div>
@@ -194,7 +195,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
             <div className="flex gap-8 mt-3 text-[11px] font-data text-stone uppercase tracking-wider">
               <span>&nbsp;</span>
               <span className="ml-[140px] text-blue">ATR</span>
-              <span className="ml-auto">Internal Rules</span>
+              <span className="ml-auto">{locale === "zh" ? "自建規則" : "Internal Rules"}</span>
             </div>
           </div>
         </div>
@@ -210,15 +211,15 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-[13px]">
               <div>
                 <div className="font-display text-sm font-semibold mb-1">MIT License</div>
-                <p className="text-stone leading-[1.6]">Use commercially, modify, distribute, sublicense. No restrictions.</p>
+                <p className="text-stone leading-[1.6]">{locale === "zh" ? "可商用、修改、分發、再授權。無任何限制。" : "Use commercially, modify, distribute, sublicense. No restrictions."}</p>
               </div>
               <div>
-                <div className="font-display text-sm font-semibold mb-1">No CLA</div>
-                <p className="text-stone leading-[1.6]">No Contributor License Agreement. Contributions are MIT-licensed and belong to the community.</p>
+                <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "無 CLA" : "No CLA"}</div>
+                <p className="text-stone leading-[1.6]">{locale === "zh" ? "無貢獻者授權協議。所有貢獻皆以 MIT 授權，屬於社群所有。" : "No Contributor License Agreement. Contributions are MIT-licensed and belong to the community."}</p>
               </div>
               <div>
-                <div className="font-display text-sm font-semibold mb-1">Vendor Neutral</div>
-                <p className="text-stone leading-[1.6]">ATR is not owned by any company. It is a community-governed open standard.</p>
+                <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "廠商中立" : "Vendor Neutral"}</div>
+                <p className="text-stone leading-[1.6]">{locale === "zh" ? "ATR 不屬於任何公司。它是社群治理的開放標準。" : "ATR is not owned by any company. It is a community-governed open standard."}</p>
               </div>
             </div>
           </div>
@@ -234,23 +235,22 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
           <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <div className="font-data text-3xl font-bold text-ink mb-1">34</div>
-              <div className="text-sm text-stone">ATR rules merged</div>
+              <div className="text-sm text-stone">{locale === "zh" ? "條 ATR 規則已合併" : "ATR rules merged"}</div>
             </div>
             <div>
               <div className="font-data text-3xl font-bold text-ink mb-1">1,272</div>
-              <div className="text-sm text-stone">lines added to Cisco AI Defense</div>
+              <div className="text-sm text-stone">{locale === "zh" ? "行程式碼加入 Cisco AI Defense" : "lines added to Cisco AI Defense"}</div>
             </div>
             <div>
-              <div className="font-data text-3xl font-bold text-ink mb-1">3 days</div>
-              <div className="text-sm text-stone">from PR submission to merge</div>
+              <div className="font-data text-3xl font-bold text-ink mb-1">{locale === "zh" ? "3 天" : "3 days"}</div>
+              <div className="text-sm text-stone">{locale === "zh" ? "從提交 PR 到合併" : "from PR submission to merge"}</div>
             </div>
           </div>
           <div className="px-6 pb-6">
             <p className="text-sm text-graphite leading-relaxed mb-4">
-              Cisco&apos;s DefenseClaw team integrated ATR rules as an upstream dependency.
-              Their engineer submitted PR #79, we reviewed it, and it merged in 3 days.
-              They then built a <span className="font-data">--rule-packs</span> CLI feature
-              (PR #80) specifically to consume ATR as a first-class rule source.
+              {locale === "zh"
+                ? <>Cisco 的 DefenseClaw 團隊將 ATR 規則整合為上游依賴。他們的工程師提交了 PR #79，我們審查後 3 天內合併。隨後他們建置了 <span className="font-data">--rule-packs</span> CLI 功能（PR #80），專門將 ATR 作為第一級規則來源使用。</>
+                : <>Cisco&apos;s DefenseClaw team integrated ATR rules as an upstream dependency. Their engineer submitted PR #79, we reviewed it, and it merged in 3 days. They then built a <span className="font-data">--rule-packs</span> CLI feature (PR #80) specifically to consume ATR as a first-class rule source.</>}
             </p>
             <div className="flex gap-4">
               <a href="https://github.com/cisco/ai-defense/pull/79" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
