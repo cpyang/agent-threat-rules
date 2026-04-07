@@ -112,17 +112,20 @@ One line. Zero config. SARIF results in your Security tab.
 
 We test ATR with our own tests AND external benchmarks we've never seen before:
 
-| Benchmark | Samples | Precision | Recall | F1 |
-|-----------|---------|-----------|--------|-----|
-| Self-test (own rules' test cases) | 341 | 100% | 99.4% | 99.5% |
-| **PINT (external, adversarial)** | **850** | **99.4%** | **62.7%** | **76.7%** |
+| Benchmark | Source | Samples | Precision | Recall |
+|-----------|--------|---------|-----------|--------|
+| Self-test (own test cases) | Internal | 341 | 100% | 88.5% |
+| **PINT (adversarial)** | **Invariant Labs** | **850** | **99.6%** | **61.4%** |
+| **Garak (real-world jailbreaks)** | **NVIDIA** | **666** | -- | **69.7%** |
+| **53K ecosystem scan** | **OpenClaw + Skills.sh** | **53,377** | **99.7%** | -- |
 
 ```bash
-npm run eval        # run self-test evaluation
-npm run eval:pint   # run external PINT benchmark
+npm run eval             # run self-test evaluation
+npm run eval:pint        # run external PINT benchmark
+bash scripts/eval-garak.sh   # run NVIDIA Garak benchmark (requires: pip install garak)
 ```
 
-The gap between 99.4% and 62.7% recall is expected -- regex catches known patterns but misses paraphrases and multilingual attacks. See [LIMITATIONS.md](LIMITATIONS.md) for full analysis.
+**What the numbers mean:** ATR regex catches ~62-70% of attacks instantly (< 5ms, $0). The remaining ~30% are paraphrased/persona attacks that need LLM-layer detection. This is by design -- regex is the fast first gate, not the only gate. See [LIMITATIONS.md](LIMITATIONS.md) for full analysis.
 
 ---
 
