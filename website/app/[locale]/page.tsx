@@ -110,7 +110,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               { value: stats.ruleCount, label: zh ? "條偵測規則" : "detection rules" },
               { value: 9, label: zh ? "個威脅類別" : "threat categories" },
               { value: stats.pintPrecision, suffix: "%", label: "precision" },
-              { value: 13, label: zh ? "個已對應 CVE" : "CVEs mapped" },
+              { value: stats.cveCount, label: zh ? "個已對應 CVE" : "CVEs mapped" },
             ].map((item, i) => (
               <Reveal key={i} delay={0.2 + i * 0.05}>
                 <div className="bg-ash p-6">
@@ -245,26 +245,140 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       <SpeedLines />
 
-      {/* ── The Future ── */}
+      {/* ── Old Way vs ATR Way ── */}
       <section className="py-16 md:py-20 px-[max(24px,10vw)] bg-ash">
         <Reveal>
           <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
-            {zh ? "未來" : "The Future"}
+            {zh ? "傳統方式 vs ATR" : "The Old Way vs ATR"}
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] max-w-[700px] mb-4">
+          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] max-w-[700px] mb-8">
+            {zh
+              ? "安全規則不應該被鎖在閉源產品裡，也不應該需要委員會和數月審查。"
+              : "Security rules shouldn\u0027t be locked in proprietary products, and shouldn\u0027t need committees and months of review."}
+          </h2>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper">
+            <div className="bg-ash p-6">
+              <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">
+                {zh ? "傳統方式" : "The Old Way"}
+              </div>
+              <ul className="space-y-3 text-[13px] text-stone leading-[1.6]">
+                <li>{zh ? "每個廠商自己寫規則，閉源，互不共享" : "Every vendor writes their own rules. Closed source. No sharing."}</li>
+                <li>{zh ? "新攻擊出現 → 委員會開會 → 數週到數月後才有規則" : "New attack appears. Committee meets. Rules arrive weeks to months later."}</li>
+                <li>{zh ? "規則格式不統一，無法跨平台使用" : "Rule formats incompatible. Can\u0027t use across platforms."}</li>
+                <li>{zh ? "小型平台沒有資源寫自己的偵測規則" : "Smaller platforms have no resources to write their own detection rules."}</li>
+              </ul>
+            </div>
+            <div className="bg-ash p-6 border-l border-paper">
+              <div className="font-data text-[11px] text-blue tracking-[2px] uppercase mb-4">
+                {zh ? "ATR + Threat Cloud" : "ATR + Threat Cloud"}
+              </div>
+              <ul className="space-y-3 text-[13px] text-ink leading-[1.6]">
+                <li>{zh ? "一套開放規則，所有生態系共享，MIT 授權" : "One set of open rules. Shared by all ecosystems. MIT licensed."}</li>
+                <li>{zh ? "新攻擊出現 → LLM 自動分析 → 產生 YAML 規則 → 社群審查 → 數小時內合併" : "New attack appears. LLM auto-analyzes. Generates YAML rule. Community reviews. Merged within hours."}</li>
+                <li>{zh ? "統一 YAML 格式，可匯出 Splunk / Elastic / SARIF / 純 regex" : "Unified YAML format. Export to Splunk, Elastic, SARIF, or raw regex."}</li>
+                <li>{zh ? "npm install 一行，你的客戶就受到 100 條規則的防護" : "One npm install. Your customers are protected by 100 rules instantly."}</li>
+              </ul>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── Threat Cloud: How New Rules Are Born ── */}
+      <section className="py-16 md:py-20 px-[max(24px,10vw)]">
+        <Reveal>
+          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
+            Threat Cloud
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] max-w-[700px] mb-3">
             {zh
               ? "新威脅被發現後數小時內，所有消費 ATR 的生態系都會收到新規則。"
-              : "Within hours of a new threat, every ecosystem consuming ATR gets the updated rules."}
+              : "Within hours of a new threat, every ecosystem consuming ATR receives the updated rules."}
+          </h2>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div className="bg-ash border border-fog p-6 mt-6 font-data text-[13px] leading-[2.2] text-graphite max-w-[600px]">
+            {[
+              zh ? "新攻擊模式在野外被偵測到" : "New attack pattern detected in the wild",
+              zh ? "LLM 分析攻擊結構 + 意圖" : "LLM analyzes attack structure + intent",
+              zh ? "自動產生 YAML 規則提案 + 測試案例" : "Auto-generates YAML rule proposal + test cases",
+              zh ? "社群審查 + precision 測試閘門" : "Community reviews + precision test gate",
+              zh ? "合併到 ATR。每個下游生態系自動更新。" : "Merged into ATR. Every downstream ecosystem auto-updates.",
+            ].map((step, i) => (
+              <div key={i}>
+                {i > 0 && <div className="text-mist text-center pl-6 py-0.5">|</div>}
+                <div className="flex items-center gap-3">
+                  <span className="text-blue font-bold">{i + 1}.</span>
+                  <span>{step}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </section>
+
+      <SpeedLines />
+
+      {/* ── For Ecosystem Builders ── */}
+      <section className="py-16 md:py-20 px-[max(24px,10vw)] bg-ash">
+        <Reveal>
+          <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
+            {zh ? "給生態系建設者" : "For Ecosystem Builders"}
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h2 className="font-display text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-2px] max-w-[700px] mb-3">
+            {zh
+              ? "把 ATR 接進你的平台。你的客戶自動受到整個社群的偵測規則防護。"
+              : "Plug ATR into your platform. Your customers are automatically protected by the entire community\u0027s detection rules."}
           </h2>
         </Reveal>
         <Reveal delay={0.2}>
           <p className="text-base text-stone font-light max-w-[600px] mb-8">
             {zh
-              ? "Threat Cloud 結晶機制：LLM 分析新攻擊模式 → 自動產生 YAML 規則提案 → 社群審查 + precision 測試 → 合併。其他標準需要委員會和數月審查。ATR 在數小時內結晶。"
-              : "Threat Cloud crystallization: LLM analyzes new attack patterns, auto-generates YAML rule proposals, community reviews + precision tests, merged. Other standards need committees and months. ATR crystallizes in hours."}
+              ? "Cisco 就是這樣做的：PR #79 合併 34 條規則，然後建了 --rule-packs CLI 讓 ATR 成為一等公民。他們的客戶不需要知道 ATR 的存在，但已經受到了防護。"
+              : "This is exactly what Cisco did: PR #79 merged 34 rules, then they built --rule-packs CLI to make ATR a first-class citizen. Their customers don\u0027t need to know ATR exists, but they\u0027re already protected."}
           </p>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper">
+            <div className="bg-ash p-6">
+              <div className="font-data text-blue text-sm font-bold mb-2">1. {zh ? "消費規則" : "Consume Rules"}</div>
+              <p className="text-[13px] text-stone leading-[1.6]">
+                {zh
+                  ? "npm install、git submodule、或直接下載 YAML。你選擇何時更新、用哪些規則。完全由你控制。"
+                  : "npm install, git submodule, or download YAML directly. You choose when to update, which rules to use. Full control."}
+              </p>
+            </div>
+            <div className="bg-ash p-6">
+              <div className="font-data text-blue text-sm font-bold mb-2">2. {zh ? "整合到你的掃描器" : "Integrate into Your Scanner"}</div>
+              <p className="text-[13px] text-stone leading-[1.6]">
+                {zh
+                  ? "用 TypeScript SDK 的 evaluate()、Python engine、Splunk SPL 匯出、或 685 條 regex pattern 的 JSON 匯出。任何語言都能用。"
+                  : "Use the TypeScript SDK\u0027s evaluate(), Python engine, Splunk SPL export, or the 685-pattern JSON export. Works with any language."}
+              </p>
+            </div>
+            <div className="bg-ash p-6">
+              <div className="font-data text-blue text-sm font-bold mb-2">3. {zh ? "接上 Threat Cloud" : "Connect to Threat Cloud"}</div>
+              <p className="text-[13px] text-stone leading-[1.6]">
+                {zh
+                  ? "你的掃描數據匿名貢獻到 Threat Cloud → 新攻擊被發現 → LLM 結晶新規則 → 你的平台自動收到更新。生態系越大，偵測越強。"
+                  : "Your scan data anonymously feeds Threat Cloud. New attacks discovered. LLM crystallizes new rules. Your platform auto-receives updates. Larger ecosystem, stronger detection."}
+              </p>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.4}>
+          <div className="mt-6">
+            <Link href={`${prefix}/integrate`} className="font-data text-[13px] text-blue hover:underline">
+              {zh ? "完整整合指南 + Cisco 案例研究 →" : "Full integration guide + Cisco case study →"}
+            </Link>
+          </div>
         </Reveal>
       </section>
 

@@ -106,6 +106,9 @@ export interface SiteStats {
   skillFlagged: number;
   skillAvgLatency: number;
 
+  // CVEs
+  cveCount: number;
+
   // Ecosystem integrations
   ecosystemIntegrations: EcosystemIntegration[];
 
@@ -134,6 +137,15 @@ export function loadSiteStats(): SiteStats {
   const rules = loadAllRules();
 
   const categories = new Set(rules.map((r: { category: string }) => r.category));
+
+  // Count unique CVEs across all rules
+  const cves = new Set<string>();
+  for (const rule of rules) {
+    const ruleCves = (rule as { cves?: string[] }).cves ?? [];
+    for (const cve of ruleCves) {
+      if (cve.startsWith("CVE-")) cves.add(cve);
+    }
+  }
 
   return {
     ruleCount: rules.length,
@@ -168,6 +180,8 @@ export function loadSiteStats(): SiteStats {
     skillPublishers: skillScan?.scan_metadata?.total_publishers ?? 104,
     skillFlagged: skillScan?.summary?.flagged ?? 26,
     skillAvgLatency: skillScan?.scan_metadata?.avg_latency_ms ?? 5.39,
+
+    cveCount: cves.size || 16,
 
     ecosystemIntegrations: [
       {
