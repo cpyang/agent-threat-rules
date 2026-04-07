@@ -9,6 +9,7 @@ import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { ATREngine } from '../engine.js';
 import type { AgentEvent, ATRMatch, ScanResult, ScanType } from '../types.js';
+import { scanResultToSARIF } from '../converters/sarif.js';
 
 const SEVERITY_ORDER = ['informational', 'low', 'medium', 'high', 'critical'] as const;
 
@@ -30,6 +31,7 @@ const SEVERITY_COLORS: Record<string, string> = {
 export interface ScanOptions {
   readonly rules?: string;
   readonly json?: boolean;
+  readonly sarif?: boolean;
   readonly severity?: string;
   readonly forceType?: ScanType;
 }
@@ -134,6 +136,17 @@ async function scanMcpEvents(
     }
   }
 
+  if (options.sarif) {
+    const sarifResults: ScanResult[] = allResults.map(({ result, filtered }) => ({
+      ...result,
+      matches: filtered,
+      threat_count: filtered.length,
+    }));
+    const version = process.env['npm_package_version'] ?? '1.0.0';
+    console.log(JSON.stringify(scanResultToSARIF(sarifResults, version), null, 2));
+    return;
+  }
+
   if (options.json) {
     console.log(JSON.stringify({
       scan_type: 'mcp',
@@ -209,6 +222,17 @@ async function scanSkillFiles(
       allResults.push({ file, result, filtered });
       totalThreats += filtered.length;
     }
+  }
+
+  if (options.sarif) {
+    const sarifResults: ScanResult[] = allResults.map(({ result, filtered }) => ({
+      ...result,
+      matches: filtered,
+      threat_count: filtered.length,
+    }));
+    const version = process.env['npm_package_version'] ?? '1.0.0';
+    console.log(JSON.stringify(scanResultToSARIF(sarifResults, version), null, 2));
+    return;
   }
 
   if (options.json) {

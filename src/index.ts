@@ -63,11 +63,12 @@ export type { ScaffoldInput, ScaffoldResult, ScaffoldOptions } from './rule-scaf
 export { CoverageAnalyzer } from './coverage-analyzer.js';
 export type { CoverageGap, CoverageReport } from './coverage-analyzer.js';
 
-// ── SIEM Converters (Splunk SPL, Elasticsearch Query DSL) ────────
+// ── Converters (Splunk SPL, Elasticsearch, SARIF) ───────────────
 export { convertRule, convertAllRules } from './converters/index.js';
-export type { ConvertedQuery, SIEMFormat } from './converters/index.js';
+export type { ConvertedQuery, SIEMFormat, OutputFormat } from './converters/index.js';
 export { ruleToSPL } from './converters/splunk.js';
 export { ruleToElastic } from './converters/elastic.js';
+export { scanResultToSARIF } from './converters/sarif.js';
 
 // ── Flywheel (auto rule generation + shadow + promotion) ─────────
 export { ShadowEvaluator } from './shadow-evaluator.js';

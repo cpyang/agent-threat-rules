@@ -60,6 +60,7 @@ ${BOLD}Usage:${RESET}
 ${BOLD}Options:${RESET}
   --rules <dir>    Custom rules directory (default: bundled rules)
   --json           Output results as JSON
+  --sarif          Output results as SARIF v2.1.0 (GitHub Security tab)
   --output <file>  Write output to file instead of stdout (convert)
   --severity <s>   Minimum severity to report (critical|high|medium|low|informational)
   --dry-run        Log actions without executing (guard mode)
@@ -110,7 +111,7 @@ function parseArgs(argv: string[]): { command: string; target: string; options: 
   for (let i = 1; i < args.length; i++) {
     if (args[i].startsWith('--')) {
       const key = args[i].slice(2);
-      if (key === 'json' || key === 'help' || key === 'dry-run' || key === 'fail-open' || key === 'global' || key === 'svg') {
+      if (key === 'json' || key === 'sarif' || key === 'help' || key === 'dry-run' || key === 'fail-open' || key === 'global' || key === 'svg') {
         options[key] = 'true';
       } else {
         options[key] = args[++i] ?? '';
@@ -886,12 +887,14 @@ async function main(): Promise<void> {
     case 'scan':
       await cmdScanUnified(target, rulesDir, {
         json: options['json'] === 'true',
+        sarif: options['sarif'] === 'true',
         severity: options['severity'],
       });
       break;
     case 'scan-skill':
       await cmdScanUnified(target, rulesDir, {
         json: options['json'] === 'true',
+        sarif: options['sarif'] === 'true',
         severity: options['severity'],
         forceType: 'skill',
       });

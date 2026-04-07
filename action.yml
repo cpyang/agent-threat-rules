@@ -1,0 +1,94 @@
+name: 'ATR Scan'
+description: 'Scan MCP configs and SKILL.md files for AI agent security threats using Agent Threat Rules (ATR)'
+author: 'Agent-Threat-Rule'
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  path:
+    description: 'Path to scan (file or directory)'
+    required: false
+    default: '.'
+  severity:
+    description: 'Minimum severity to report (informational, low, medium, high, critical)'
+    required: false
+    default: 'medium'
+  fail-on-finding:
+    description: 'Fail the action if threats are found'
+    required: false
+    default: 'true'
+  sarif-file:
+    description: 'Path to write SARIF output file'
+    required: false
+    default: 'atr-results.sarif'
+  upload-sarif:
+    description: 'Upload SARIF to GitHub Security tab'
+    required: false
+    default: 'true'
+
+outputs:
+  threat-count:
+    description: 'Number of threats found'
+    value: ${{ steps.scan.outputs.threat_count }}
+  sarif-file:
+    description: 'Path to the SARIF output file'
+    value: ${{ inputs.sarif-file }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install ATR
+      shell: bash
+      run: npm install -g agent-threat-rules@latest
+
+    - name: Run ATR Scan
+      id: scan
+      shell: bash
+      run: |
+        set +e
+        ATR_STDERR=$(mktemp)
+        atr scan "${{ inputs.path }}" \
+          --severity "${{ inputs.severity }}" \
+          --sarif > "${{ inputs.sarif-file }}" 2>"$ATR_STDERR"
+
+        if [ ! -s "${{ inputs.sarif-file }}" ] && [ -s "$ATR_STDERR" ]; then
+          echo "::warning::ATR scan produced no output. Errors:"
+          cat "$ATR_STDERR"
+        fi
+        rm -f "$ATR_STDERR"
+
+        # Count threats from SARIF output
+        THREAT_COUNT=$(node -e "
+          const fs = require('fs');
+          try {
+            const sarif = JSON.parse(fs.readFileSync(process.argv[1], 'utf8'));
+            const count = (sarif.runs || []).reduce((a, r) => a + (r.results || []).length, 0);
+            console.log(count);
+          } catch { console.log(0); }
+        " "${{ inputs.sarif-file }}")
+        echo "threat_count=${THREAT_COUNT}" >> "$GITHUB_OUTPUT"
+
+        if [ "${THREAT_COUNT}" -gt "0" ]; then
+          echo "::warning::ATR found ${THREAT_COUNT} AI agent security threat(s). See SARIF results for details."
+        else
+          echo "::notice::ATR scan clean. No threats detected."
+        fi
+
+        if [ "${{ inputs.fail-on-finding }}" = "true" ] && [ "${THREAT_COUNT}" -gt "0" ]; then
+          echo "::error::ATR found ${THREAT_COUNT} threat(s). Failing build. Set fail-on-finding: false to warn only."
+          exit 1
+        fi
+
+    - name: Upload SARIF to GitHub Security
+      if: always() && inputs.upload-sarif == 'true'
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ inputs.sarif-file }}
+        category: atr-scan
+      continue-on-error: true
