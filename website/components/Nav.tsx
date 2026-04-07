@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { t } from "@/lib/i18n";
@@ -20,6 +21,7 @@ export function Nav({ locale }: { locale: Locale }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const pathname = usePathname();
   const prefix = `/${locale}`;
   const otherLocale = locale === "en" ? "zh" : "en";
   const pages = ["rules", "coverage", "integrate", "contribute", "research"] as const;
@@ -44,15 +46,22 @@ export function Nav({ locale }: { locale: Locale }) {
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          {pages.map((page) => (
-            <Link
-              key={page}
-              href={`${prefix}/${page}`}
-              className={`text-sm font-medium transition-colors duration-500 ${atTop ? "text-[#808089] hover:text-white" : "text-stone hover:text-ink"}`}
-            >
-              {t(locale, `nav.${page}`)}
-            </Link>
-          ))}
+          {pages.map((page) => {
+            const isActive = pathname === `${prefix}/${page}`;
+            return (
+              <Link
+                key={page}
+                href={`${prefix}/${page}`}
+                className={`text-sm font-medium transition-colors duration-500 ${
+                  isActive
+                    ? (atTop ? "text-white" : "text-ink")
+                    : (atTop ? "text-[#808089] hover:text-white" : "text-stone hover:text-ink")
+                }`}
+              >
+                {t(locale, `nav.${page}`)}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-3">

@@ -185,10 +185,19 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 { label: locale === "zh" ? "維護成本" : "Maintenance", atr: locale === "zh" ? "社群維護。MIT 授權。零成本。" : "Community-maintained. MIT. Zero cost.", own: locale === "zh" ? "需要持續的人力投入" : "Requires ongoing engineering effort" },
                 { label: locale === "zh" ? "生態系" : "Ecosystem", atr: locale === "zh" ? "Cisco 已整合，OWASP 和 OpenSSF PR 審查中" : "Cisco integrated, OWASP and OpenSSF PRs under review", own: locale === "zh" ? "獨立維護，無共享規則" : "Maintained independently, no shared rules" },
               ].map((row) => (
-                <div key={row.label} className="bg-paper grid grid-cols-[140px_1fr_1fr] text-[13px]">
-                  <div className="px-4 py-3 font-semibold text-ink border-r border-fog">{row.label}</div>
-                  <div className="px-4 py-3 text-ink border-r border-fog">{row.atr}</div>
-                  <div className="px-4 py-3 text-stone">{row.own}</div>
+                <div key={row.label} className="bg-paper text-[13px]">
+                  {/* Desktop: 3-column */}
+                  <div className="hidden md:grid grid-cols-[140px_1fr_1fr]">
+                    <div className="px-4 py-3 font-semibold text-ink border-r border-fog">{row.label}</div>
+                    <div className="px-4 py-3 text-ink border-r border-fog">{row.atr}</div>
+                    <div className="px-4 py-3 text-stone">{row.own}</div>
+                  </div>
+                  {/* Mobile: stacked */}
+                  <div className="md:hidden p-4 space-y-2">
+                    <div className="font-semibold text-ink">{row.label}</div>
+                    <div className="text-ink"><span className="font-data text-[11px] text-blue mr-1">ATR</span>{row.atr}</div>
+                    <div className="text-stone"><span className="font-data text-[11px] text-mist mr-1">{locale === "zh" ? "自建" : "DIY"}</span>{row.own}</div>
+                  </div>
                 </div>
               ))}
             </div>

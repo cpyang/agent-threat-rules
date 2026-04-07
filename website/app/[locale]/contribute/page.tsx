@@ -11,130 +11,111 @@ export const metadata: Metadata = {
   description: "Four ways to contribute to ATR: report evasions, false positives, submit rules, or use AI-native workflows.",
 };
 
-function getPaths(locale: Locale) {
-  const zh = locale === "zh";
-  return [
-    {
-      num: "01",
-      title: zh ? "回報繞過方式" : "Report an Evasion",
-      time: zh ? "約 15 分鐘" : "~15 minutes",
-      impact: zh ? "最有價值的貢獻" : "Most valuable contribution",
-      desc: zh
-        ? "發現了繞過現有規則的方法？這是你能做的最有影響力的事。每個確認的繞過都會成為新的測試案例，通常也會觸發規則改進。"
-        : "Found a way to bypass an existing rule? This is the single most impactful thing you can do. Every confirmed evasion becomes a new test case and often triggers a rule improvement.",
-      steps: zh
-        ? [
-            "檢查該規則現有的 evasion_tests 區段和 LIMITATIONS.md",
-            "使用 Evasion Report 模板開一個 issue",
-            "附上：rule ID、繞過輸入、使用的技術、為什麼能繞過",
-          ]
-        : [
-            "Check the rule's existing evasion_tests section and LIMITATIONS.md",
-            "Open an issue using the Evasion Report template",
-            "Include: rule ID, bypass input, technique used, why it works",
-          ],
-    },
-    {
-      num: "02",
-      title: zh ? "回報誤報" : "Report a False Positive",
-      time: zh ? "約 20 分鐘" : "~20 minutes",
-      impact: zh ? "提升 Precision" : "Tunes precision",
-      desc: zh
-        ? "規則誤判了正常內容？確認的誤報會成為新的 true_negatives 測試案例，維持 ATR 99.7% precision 的真實性。"
-        : "A rule triggered on legitimate content? Confirmed false positives become new true_negatives test cases, keeping ATR's 99.7% precision real.",
-      steps: zh
-        ? [
-            "使用 False Positive Report 模板開一個 issue",
-            "附上：rule ID、觸發的輸入、為什麼是正常內容",
-          ]
-        : [
-            "Open an issue using the False Positive Report template",
-            "Include: rule ID, the input that triggered, why it's legitimate",
-          ],
-    },
-    {
-      num: "03",
-      title: zh ? "提交新規則" : "Submit a New Rule",
-      time: zh ? "1-2 小時" : "1-2 hours",
-      impact: zh ? "擴展覆蓋範圍" : "Expands coverage",
-      desc: zh
-        ? "為新的攻擊模式撰寫完整的偵測規則。ATR 規則是遵循文件化 schema 的 YAML 檔案。我們有完整的教學文件。"
-        : "Write a full detection rule for a new attack pattern. ATR rules are YAML files following a documented schema. We have a complete walkthrough.",
-      steps: zh
-        ? [
-            "Fork 此 repository",
-            "在 rules/<category>/ 建立 YAML 檔案",
-            "遵循 ATR schema（spec/atr-schema.yaml）",
-            "參考 examples/how-to-write-a-rule.md",
-            "執行：npx agent-threat-rules validate && npx agent-threat-rules test",
-            "提交 PR",
-          ]
-        : [
-            "Fork the repository",
-            "Create a YAML file in rules/<category>/",
-            "Follow the ATR schema (spec/atr-schema.yaml)",
-            "See examples/how-to-write-a-rule.md",
-            "Run: npx agent-threat-rules validate && npx agent-threat-rules test",
-            "Submit a PR",
-          ],
-    },
-    {
-      num: "04",
-      title: zh ? "AI 原生貢獻" : "AI-Native Contribution",
-      time: zh ? "不定" : "Variable",
-      impact: zh ? "規則撰寫的未來" : "Future of rule writing",
-      desc: zh
-        ? "使用 Claude Code、Cursor 或任何 AI 編碼 agent 搭配 ATR 的 MCP server。AI 理解規則 schema，產生 YAML，驗證並執行測試。你負責審查結果。"
-        : "Use Claude Code, Cursor, or any AI coding agent with ATR's MCP server. The AI understands the rule schema, generates YAML, validates it, and runs tests. You review the output.",
-      steps: zh
-        ? [
-            "安裝：npx agent-threat-rules mcp（啟動 MCP server）",
-            "將你的 AI agent 連接到 MCP server",
-            "描述你想偵測的攻擊模式",
-            "AI 產生規則 YAML + 測試案例",
-            "審查、調整、提交 PR",
-          ]
-        : [
-            "Install: npx agent-threat-rules mcp (starts the MCP server)",
-            "Connect your AI agent to the MCP server",
-            "Describe the attack pattern you want to detect",
-            "The AI generates rule YAML + test cases",
-            "Review, refine, submit PR",
-          ],
-    },
-  ];
-}
-
 export default async function ContributePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
   const locale = (locales.includes(raw as Locale) ? raw : "en") as Locale;
-  const PATHS = getPaths(locale);
+  const zh = locale === "zh";
+
   return (
     <div className="pt-20 pb-16 px-6 max-w-[1120px] mx-auto">
       <Reveal>
-        <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">{t(locale, "contribute.label")}</div>
+        <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">
+          {t(locale, "contribute.label")}
+        </div>
       </Reveal>
       <Reveal delay={0.1}>
-        <h1 className="font-display text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-2px] mb-2">
-          {t(locale, "contribute.heading")}
+        <h1 className="font-display text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-2px] mb-2 max-w-[600px]">
+          {zh
+            ? "ATR 是社群驅動的。你的每一個貢獻都在保護整個生態系。"
+            : "ATR is community-driven. Every contribution protects the entire ecosystem."}
         </h1>
       </Reveal>
       <Reveal delay={0.2}>
-        <p className="text-base text-stone font-light mb-10">
-          {t(locale, "contribute.sub")}
+        <p className="text-base text-stone font-light mb-10 max-w-[520px]">
+          {zh
+            ? "MIT 授權。零專有工具。零 CLA。從回報一個繞過方法開始，15 分鐘。"
+            : "MIT licensed. No proprietary tooling. No CLA. Start by reporting an evasion, 15 minutes."}
         </p>
       </Reveal>
 
-      {/* Crystallization */}
+      {/* ── Quick Actions (the most important part) ── */}
       <Reveal delay={0.3}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+          {[
+            {
+              title: zh ? "回報繞過方式" : "Report an Evasion",
+              desc: zh
+                ? "找到了繞過規則的方法？每個確認的繞過都會觸發規則改進。這是最有影響力的貢獻。"
+                : "Found a way to bypass a rule? Every confirmed evasion triggers a rule improvement. Most impactful contribution.",
+              time: "~15 min",
+              href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=evasion-report.md",
+              cta: zh ? "開一個 Issue" : "Open an Issue",
+            },
+            {
+              title: zh ? "回報誤判" : "Report a False Positive",
+              desc: zh
+                ? "規則誤判了正常內容？幫我們維持 99.7% precision 的真實性。"
+                : "Rule triggered on legitimate content? Help us keep 99.7% precision real.",
+              time: "~20 min",
+              href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=false-positive.md",
+              cta: zh ? "開一個 Issue" : "Open an Issue",
+            },
+            {
+              title: zh ? "提交新規則" : "Submit a New Rule",
+              desc: zh
+                ? "為新的攻擊模式撰寫偵測規則。YAML 格式，有完整教學。"
+                : "Write a detection rule for a new attack pattern. YAML format, full walkthrough available.",
+              time: "1-2 hr",
+              href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/examples/how-to-write-a-rule.md",
+              cta: zh ? "查看教學" : "See the Guide",
+            },
+            {
+              title: zh ? "AI 原生貢獻" : "AI-Native Contribution",
+              desc: zh
+                ? "用 Claude Code 或 Cursor 搭配 ATR MCP server。AI 寫 YAML，你審查。"
+                : "Use Claude Code or Cursor with ATR's MCP server. The AI writes YAML, you review.",
+              time: zh ? "不定" : "Variable",
+              href: "https://github.com/Agent-Threat-Rule/agent-threat-rules#mcp-server",
+              cta: zh ? "查看 MCP 設定" : "See MCP Setup",
+            },
+          ].map((item, i) => (
+            <Reveal key={item.title} delay={0.1 * i}>
+              <div className="border border-fog p-6 h-full flex flex-col">
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <h2 className="font-display text-base font-semibold text-ink">{item.title}</h2>
+                  <span className="font-data text-[11px] text-stone whitespace-nowrap mt-0.5">{item.time}</span>
+                </div>
+                <p className="text-[13px] text-stone leading-[1.6] mb-4 flex-1">{item.desc}</p>
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-data text-[13px] text-blue hover:underline"
+                >
+                  {item.cta} &rarr;
+                </a>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Reveal>
+
+      {/* ── How Threat Cloud Crystallization Works ── */}
+      <Reveal>
         <div className="border border-fog mb-10">
           <div className="px-6 py-4 border-b border-fog bg-ash">
-            <h2 className="font-display text-lg font-semibold">{t(locale, "contribute.crystal.title")}</h2>
-            <p className="text-sm text-stone mt-1">{t(locale, "contribute.crystal.sub")}</p>
+            <h2 className="font-display text-base font-semibold">
+              {zh ? "Threat Cloud 結晶流程" : "How Threat Cloud Crystallization Works"}
+            </h2>
+            <p className="text-[13px] text-stone mt-1">
+              {zh
+                ? "傳統規則需要數週撰寫、審查、發布。Threat Cloud 目標數小時。"
+                : "Traditional rules take weeks to write, review, and ship. Threat Cloud targets hours."}
+            </p>
           </div>
-          <div className="p-6">
-            <div className="font-data text-[13px] leading-[2.4] text-graphite">
-              {(locale === "zh"
+          <div className="p-5 md:p-6">
+            <div className="font-data text-[13px] leading-[2.2] text-graphite">
+              {(zh
                 ? [
                     "在野外偵測到新的攻擊模式",
                     "LLM 分析攻擊結構和意圖",
@@ -163,40 +144,9 @@ export default async function ContributePage({ params }: { params: Promise<{ loc
         </div>
       </Reveal>
 
-      {/* Four paths */}
-      <div className="space-y-6">
-        {PATHS.map((path, i) => (
-          <Reveal key={path.num} delay={0.1 * i}>
-            <div className="border border-fog">
-              <div className="flex items-center justify-between px-6 py-4 border-b border-fog bg-ash">
-                <div className="flex items-center gap-3">
-                  <span className="font-data text-sm text-blue font-bold">{path.num}</span>
-                  <h2 className="font-display text-lg font-semibold">{path.title}</h2>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="font-data text-xs text-stone">{path.time}</span>
-                  <span className="font-data text-[10px] text-green uppercase tracking-wider">{path.impact}</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-sm text-graphite leading-relaxed mb-4">{path.desc}</p>
-                <ol className="space-y-1.5">
-                  {path.steps.map((step, j) => (
-                    <li key={j} className="flex gap-2 text-sm text-stone">
-                      <span className="font-data text-xs text-mist mt-0.5">{j + 1}.</span>
-                      <span className="font-data text-[13px]">{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
-      {/* Governance */}
+      {/* ── Resources ── */}
       <Reveal>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-px bg-fog">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog">
           <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/GOVERNANCE.md" target="_blank" rel="noopener noreferrer" className="bg-paper p-6 hover:bg-ash transition-colors">
             <div className="font-display text-sm font-semibold mb-1">{t(locale, "contribute.governance")}</div>
             <p className="text-[13px] text-stone">{t(locale, "contribute.governance.desc")}</p>

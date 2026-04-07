@@ -141,7 +141,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* ── Scene 2: The Threat ── */}
-      <section className="py-[120px] px-6">
+      <section className="py-16 md:py-[120px] px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-[clamp(80px,15vw,180px)] font-bold text-critical/[0.07] leading-[0.85] mb-3">
@@ -166,7 +166,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <SpeedLines />
 
       {/* ── Scene 3: The Numbers ── */}
-      <section className="py-[120px] px-6 bg-ash">
+      <section className="py-16 md:py-[120px] px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
@@ -199,7 +199,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* ── Scene 4: The Categories ── */}
-      <section className="py-[120px] px-6">
+      <section className="py-16 md:py-[120px] px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
@@ -246,7 +246,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <SpeedLines />
 
       {/* ── Scene 5: The Proof ── */}
-      <section className="py-[120px] px-6">
+      <section className="py-16 md:py-[120px] px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
@@ -309,7 +309,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* ── Scene 6: The Standards ── */}
-      <section className="py-[100px] px-6 bg-ash">
+      <section className="py-14 md:py-[100px] px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper">
@@ -335,7 +335,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <SpeedLines />
 
       {/* ── Scene 7: The Future ── */}
-      <section className="py-[120px] px-6">
+      <section className="py-16 md:py-[120px] px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-4">
@@ -359,7 +359,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
           {/* Crystallization pipeline */}
           <Reveal delay={0.2}>
-            <div className="pipeline-card bg-[#0B0B0F] border border-[#2A2A35] p-8 font-data text-[14px] leading-[2.4] text-[#A0A0B0] max-w-[620px]">
+            <div className="pipeline-card bg-[#0B0B0F] border border-[#2A2A35] p-5 md:p-8 font-data text-[13px] md:text-[14px] leading-[2.2] md:leading-[2.4] text-[#A0A0B0] max-w-[620px]">
               {[
                 zh ? "新攻擊模式在野外被偵測到" : "New attack pattern detected in the wild",
                 zh ? "LLM 分析攻擊結構 + 意圖" : "LLM analyzes attack structure + intent",
@@ -407,7 +407,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* ── Scene 8: The CTA (Dark) ── */}
-      <section className="cta-dark py-[140px] px-6 relative overflow-hidden">
+      <section className="cta-dark py-16 md:py-[140px] px-6 relative overflow-hidden">
         <div className="hero-grid absolute inset-0 pointer-events-none opacity-50" />
         <div className="relative z-10 max-w-[1120px] mx-auto text-center">
           <Reveal>
@@ -439,6 +439,35 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               >
                 {zh ? "瀏覽所有規則" : "Explore All Rules"}
               </Link>
+            </div>
+          </Reveal>
+
+          {/* Contribute quick-links */}
+          <Reveal delay={0.4}>
+            <div className="mt-12 pt-12 border-t border-[#2A2A35]">
+              <p className="font-data text-xs text-[#808089] tracking-[3px] uppercase mb-6">
+                {zh ? "一起打造" : "Build with us"}
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-left max-w-[700px] mx-auto">
+                {[
+                  { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=evasion-report.md", en: "Report an evasion", zh: "回報繞過方法", time: "15 min" },
+                  { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=false-positive.md", en: "Report a false positive", zh: "回報誤判", time: "20 min" },
+                  { href: `${prefix}/contribute`, en: "Submit a rule", zh: "提交新規則", time: "1-2 hr", internal: true },
+                  { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules", en: "Star on GitHub", zh: "GitHub Star", time: "10 sec" },
+                ].map((item) => (
+                  item.internal ? (
+                    <Link key={item.en} href={item.href} className="border border-[#2A2A35] hover:border-[#6B6B76] p-3 rounded-sm transition-colors group">
+                      <div className="text-sm text-white font-medium group-hover:text-blue transition-colors">{zh ? item.zh : item.en}</div>
+                      <div className="font-data text-[10px] text-[#6B6B76] mt-1">{item.time}</div>
+                    </Link>
+                  ) : (
+                    <a key={item.en} href={item.href} target="_blank" rel="noopener noreferrer" className="border border-[#2A2A35] hover:border-[#6B6B76] p-3 rounded-sm transition-colors group">
+                      <div className="text-sm text-white font-medium group-hover:text-blue transition-colors">{zh ? item.zh : item.en}</div>
+                      <div className="font-data text-[10px] text-[#6B6B76] mt-1">{item.time}</div>
+                    </a>
+                  )
+                ))}
+              </div>
             </div>
           </Reveal>
         </div>
