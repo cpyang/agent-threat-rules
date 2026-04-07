@@ -19,7 +19,7 @@ export default async function RulesPage({ params }: { params: Promise<{ locale: 
   const categories = getCategories(rules);
 
   return (
-    <div className="pt-20 pb-16 px-[max(24px,6vw)]">
+    <div className="pt-20 pb-16 px-6 max-w-[1120px] mx-auto">
       <div className="mb-8">
         <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">
           {t(locale, "rules.label")}

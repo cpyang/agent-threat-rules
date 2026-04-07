@@ -150,7 +150,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Reveal>
           <Reveal delay={0.1}>
             <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-5">
-              {zh ? "MCP skills 已掃描。5,939 個有威脅。" : "MCP skills scanned. 5,939 flagged with threats."}
+              {zh ? `MCP skills 已掃描。${stats.megaScanFlagged.toLocaleString()} 個有威脅。` : `MCP skills scanned. ${stats.megaScanFlagged.toLocaleString()} flagged with threats.`}
             </div>
           </Reveal>
           <Reveal delay={0.2}>

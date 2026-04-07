@@ -2,6 +2,7 @@ import { loadCoverageData } from "@/lib/coverage";
 import { loadSiteStats } from "@/lib/stats";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
+import { StatsHydrator } from "@/components/StatsHydrator";
 import { locales, t, type Locale } from "@/lib/i18n";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -29,7 +30,8 @@ export default async function CoveragePage({ params }: { params: Promise<{ local
   const stats = loadSiteStats();
 
   return (
-    <div className="pt-20 pb-16 px-[max(24px,8vw)]">
+    <div className="pt-20 pb-16 px-6 max-w-[1120px] mx-auto">
+      <StatsHydrator />
       <Reveal>
         <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">{t(locale, "coverage.label")}</div>
       </Reveal>
@@ -61,7 +63,7 @@ export default async function CoveragePage({ params }: { params: Promise<{ local
           </div>
           <div className="bg-paper p-6 text-center">
             <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-2">PINT F1</div>
-            <div className="font-data text-3xl font-bold text-ink"><CountUp target={stats.pintF1} /></div>
+            <div className="font-data text-3xl font-bold text-ink"><CountUp target={stats.pintF1} liveKey="pintF1" /></div>
           </div>
         </div>
       </Reveal>

@@ -54,10 +54,10 @@ if result.outcome == "deny":
 # Schema: spec/atr-schema.yaml
 
 rules/
-  prompt-injection/    # 22 rules
-  tool-poisoning/      # 11 rules
-  agent-manipulation/  # 10 rules
-  ...`,
+  prompt-injection/
+  tool-poisoning/
+  agent-manipulation/
+  ... (9 categories)`,
     doc: "https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/ATR-FRAMEWORK-SPEC.md",
   },
   {
@@ -77,7 +77,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
   const stats = loadSiteStats();
 
   return (
-    <div className="pt-20 pb-16 px-[max(24px,8vw)]">
+    <div className="pt-20 pb-16 px-6 max-w-[1120px] mx-auto">
       <Reveal>
         <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">{t(locale, "integrate.label")}</div>
       </Reveal>

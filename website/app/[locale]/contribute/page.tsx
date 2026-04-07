@@ -110,7 +110,7 @@ export default async function ContributePage({ params }: { params: Promise<{ loc
   const locale = (locales.includes(raw as Locale) ? raw : "en") as Locale;
   const PATHS = getPaths(locale);
   return (
-    <div className="pt-20 pb-16 px-[max(24px,8vw)]">
+    <div className="pt-20 pb-16 px-6 max-w-[1120px] mx-auto">
       <Reveal>
         <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">{t(locale, "contribute.label")}</div>
       </Reveal>
