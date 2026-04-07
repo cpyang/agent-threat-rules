@@ -13,7 +13,7 @@ import { ruleToSPL } from './splunk.js';
 import { ruleToElastic } from './elastic.js';
 
 export type SIEMFormat = 'splunk' | 'elastic';
-export type OutputFormat = SIEMFormat | 'sarif';
+export type OutputFormat = SIEMFormat | 'sarif' | 'generic-regex';
 
 export interface ConvertedQuery {
   readonly ruleId: string;
@@ -51,3 +51,5 @@ export function convertAllRules(rulesDir: string, format: SIEMFormat): readonly 
 export { ruleToSPL } from './splunk.js';
 export { ruleToElastic } from './elastic.js';
 export { scanResultToSARIF } from './sarif.js';
+export { ruleToGenericRegex, rulesToGenericRegex } from './generic-regex.js';
+export type { GenericRegexRule, GenericRegexPattern } from './generic-regex.js';

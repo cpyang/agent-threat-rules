@@ -754,16 +754,40 @@ function cmdInit(options: Record<string, string>): void {
 // --- CONVERT command ---
 
 async function cmdConvert(target: string, options: Record<string, string>): Promise<void> {
-  const validFormats = ['splunk', 'elastic'];
+  const validFormats = ['splunk', 'elastic', 'generic-regex'];
   if (!target || !validFormats.includes(target)) {
-    console.error(`${RED}Error: Specify format: atr convert <splunk|elastic>${RESET}`);
+    console.error(`${RED}Error: Specify format: atr convert <splunk|elastic|generic-regex>${RESET}`);
     process.exit(1);
   }
 
-  const format = target as 'splunk' | 'elastic';
   const rulesDir = options['rules'] ? resolve(options['rules']) : RULES_DIR;
   const outputFile = options['output'];
   const jsonOutput = options['json'] === 'true';
+
+  // Generic regex export (JSON array of regex patterns with metadata)
+  if (target === 'generic-regex') {
+    const { loadRulesFromDirectory } = await import('./loader.js');
+    const { rulesToGenericRegex } = await import('./converters/generic-regex.js');
+    const rules = loadRulesFromDirectory(rulesDir);
+    const exported = rulesToGenericRegex(rules);
+
+    if (exported.length === 0) {
+      console.error(`${RED}Error: No rules with regex patterns found in ${rulesDir}${RESET}`);
+      process.exit(1);
+    }
+
+    const output = JSON.stringify(exported, null, 2);
+    if (outputFile) {
+      writeFileSync(resolve(outputFile), output, 'utf-8');
+      console.log(`${GREEN}Exported ${exported.length} rules (${exported.reduce((n, r) => n + r.patterns.length, 0)} patterns) to generic-regex format.${RESET}`);
+      console.log(`  Output: ${resolve(outputFile)}`);
+    } else {
+      console.log(output);
+    }
+    return;
+  }
+
+  const format = target as 'splunk' | 'elastic';
 
   const { convertAllRules } = await import('./converters/index.js');
 
