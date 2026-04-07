@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 interface CountUpProps {
   target: number;
@@ -9,6 +9,8 @@ interface CountUpProps {
   useComma?: boolean;
   duration?: number;
   className?: string;
+  /** If set, this CountUp will update when a live stat with this key arrives via StatsHydrator */
+  liveKey?: string;
 }
 
 export function CountUp({
@@ -18,17 +20,48 @@ export function CountUp({
   useComma = false,
   duration = 1500,
   className = "",
+  liveKey,
 }: CountUpProps) {
+  const [currentTarget, setCurrentTarget] = useState(target);
   const [display, setDisplay] = useState(`${prefix}0${suffix}`);
   const ref = useRef<HTMLSpanElement>(null);
   const animated = useRef(false);
 
+  const formatNumber = useCallback(
+    (n: number) => {
+      const isFloat = n % 1 !== 0;
+      return isFloat ? n.toFixed(1) : useComma ? n.toLocaleString() : String(n);
+    },
+    [useComma]
+  );
+
+  // Listen for live stat updates
+  useEffect(() => {
+    if (!liveKey) return;
+
+    function onLiveStats(e: Event) {
+      const detail = (e as CustomEvent).detail as Record<string, number>;
+      if (liveKey && liveKey in detail && detail[liveKey] !== currentTarget) {
+        setCurrentTarget(detail[liveKey]);
+      }
+    }
+
+    window.addEventListener("atr:live-stats", onLiveStats);
+    return () => window.removeEventListener("atr:live-stats", onLiveStats);
+  }, [liveKey, currentTarget]);
+
+  // Animate on viewport entry or when target changes from live update
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // Respect prefers-reduced-motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // If already animated and target changed (live update), just set the new value
+    if (animated.current) {
+      setDisplay(`${prefix}${formatNumber(currentTarget)}${suffix}`);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -36,21 +69,19 @@ export function CountUp({
           animated.current = true;
 
           if (prefersReduced) {
-            const isFloat = target % 1 !== 0;
-            const final = isFloat ? target.toFixed(1) : useComma ? target.toLocaleString() : String(target);
-            setDisplay(`${prefix}${final}${suffix}`);
+            setDisplay(`${prefix}${formatNumber(currentTarget)}${suffix}`);
             observer.disconnect();
             return;
           }
 
-          const isFloat = target % 1 !== 0;
+          const isFloat = currentTarget % 1 !== 0;
           const start = performance.now();
 
           function update(now: number) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            const current = target * eased;
+            const current = currentTarget * eased;
 
             let formatted: string;
             if (isFloat) {
@@ -66,8 +97,7 @@ export function CountUp({
             if (progress < 1) {
               requestAnimationFrame(update);
             } else {
-              const final = isFloat ? target.toFixed(1) : useComma ? target.toLocaleString() : String(target);
-              setDisplay(`${prefix}${final}${suffix}`);
+              setDisplay(`${prefix}${formatNumber(currentTarget)}${suffix}`);
             }
           }
 
@@ -80,7 +110,7 @@ export function CountUp({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [target, suffix, prefix, useComma, duration]);
+  }, [currentTarget, suffix, prefix, useComma, duration, formatNumber]);
 
   return (
     <span ref={ref} className={className}>

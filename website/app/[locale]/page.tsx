@@ -3,6 +3,7 @@ import { CountUp } from "@/components/CountUp";
 import { SpeedLines } from "@/components/SpeedLines";
 import { Reveal } from "@/components/Reveal";
 import { TypedTerminal } from "@/components/TypedTerminal";
+import { StatsHydrator } from "@/components/StatsHydrator";
 import { loadSiteStats } from "@/lib/stats";
 import { loadAllRules, getCategories } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
@@ -62,6 +63,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
   return (
     <>
+      <StatsHydrator />
       {/* ── Scene 1: The Shift (Dark Hero) ── */}
       <section className="hero-dark min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
         {/* Animated grid background */}
@@ -96,13 +98,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <HeroEntrance delay={1.1}>
             <div className="flex gap-8 justify-center mt-10">
               {[
-                { value: stats.ruleCount, label: zh ? "條規則" : "Rules" },
-                { value: stats.categoryCount, label: zh ? "個類別" : "Categories", noCount: true },
-                { value: stats.pintPrecision, label: "Precision", suffix: "%" },
+                { value: stats.ruleCount, label: zh ? "條規則" : "Rules", key: undefined },
+                { value: stats.categoryCount, label: zh ? "個類別" : "Categories", noCount: true, key: undefined },
+                { value: stats.pintPrecision, label: "Precision", suffix: "%", key: "pintPrecision" },
               ].map((s, i) => (
                 <div key={i} className="text-center">
                   <div className="font-data text-[clamp(20px,2.5vw,28px)] font-bold text-white">
-                    {s.noCount ? s.value : <CountUp target={s.value} suffix={s.suffix} />}
+                    {s.noCount ? s.value : <CountUp target={s.value} suffix={s.suffix} liveKey={s.key} />}
                   </div>
                   <div className="font-data text-xs text-[#6B6B76] mt-1">{s.label}</div>
                 </div>
@@ -143,7 +145,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-[clamp(80px,15vw,180px)] font-bold text-critical/[0.07] leading-[0.85] mb-3">
-              <CountUp target={stats.megaScanTotal} useComma />
+              <CountUp target={stats.megaScanTotal} useComma liveKey="megaScanTotal" />
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -174,17 +176,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.1}>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px] bg-paper">
               {[
-                { value: stats.ruleCount, suffix: "", label: zh ? "條偵測規則" : "detection rules", desc: zh ? `橫跨 ${stats.categoryCount} 個威脅類別` : `Across ${stats.categoryCount} threat categories` },
-                { value: stats.pintPrecision, suffix: "%", label: "precision", desc: zh ? `${stats.pintSamples} 個外部對抗樣本` : `${stats.pintSamples} external adversarial samples` },
-                { value: 5, suffix: "", label: zh ? "ms 以下延遲" : "ms latency", desc: zh ? "99% 事件在 Tier 0-2 解決" : "99% of events resolve at Tier 0-2" },
-                { value: stats.megaScanTotal, suffix: "", label: zh ? "skills 已掃描" : "skills scanned", desc: zh ? `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH` : `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH`, useComma: true },
-                { value: 10, suffix: "/10", label: "OWASP Agentic", desc: zh ? "完整覆蓋所有類別" : "Full coverage of all categories" },
-                { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: "78/85" },
+                { value: stats.ruleCount, suffix: "", label: zh ? "條偵測規則" : "detection rules", desc: zh ? `橫跨 ${stats.categoryCount} 個威脅類別` : `Across ${stats.categoryCount} threat categories`, liveKey: undefined },
+                { value: stats.pintPrecision, suffix: "%", label: "precision", desc: zh ? `${stats.pintSamples} 個外部對抗樣本` : `${stats.pintSamples} external adversarial samples`, liveKey: "pintPrecision" },
+                { value: 5, suffix: "", label: zh ? "ms 以下延遲" : "ms latency", desc: zh ? "99% 事件在 Tier 0-2 解決" : "99% of events resolve at Tier 0-2", liveKey: undefined },
+                { value: stats.megaScanTotal, suffix: "", label: zh ? "skills 已掃描" : "skills scanned", desc: zh ? `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH` : `${stats.megaScanCritical} CRITICAL, ${stats.megaScanHigh} HIGH`, useComma: true, liveKey: "megaScanTotal" },
+                { value: 10, suffix: "/10", label: "OWASP Agentic", desc: zh ? "完整覆蓋所有類別" : "Full coverage of all categories", liveKey: undefined },
+                { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: "78/85", liveKey: undefined },
               ].map((item, i) => (
                 <Reveal key={i} delay={0.1 + i * 0.05}>
                   <div className="bg-ash p-8 md:p-12">
                     <div className="font-data text-[clamp(36px,5vw,64px)] font-bold text-ink leading-none">
-                      <CountUp target={item.value} suffix={item.suffix} useComma={item.useComma} />
+                      <CountUp target={item.value} suffix={item.suffix} useComma={item.useComma} liveKey={item.liveKey} />
                     </div>
                     <div className="font-data text-sm text-stone mt-2">{item.label}</div>
                     <div className="text-xs text-mist mt-1">{item.desc}</div>

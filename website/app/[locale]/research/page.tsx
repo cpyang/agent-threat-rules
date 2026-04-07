@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
+import { StatsHydrator } from "@/components/StatsHydrator";
 import { loadSiteStats } from "@/lib/stats";
 import { locales, t, type Locale } from "@/lib/i18n";
 import type { Metadata } from "next";
@@ -20,6 +21,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
 
   return (
     <div className="pt-20 pb-16 px-[max(24px,8vw)]">
+      <StatsHydrator />
       <Reveal>
         <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">{t(locale, "research.label")}</div>
       </Reveal>
@@ -69,15 +71,15 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
             <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">{t(locale, "research.pint")}</div>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.pintPrecision} suffix="%" /></div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.pintPrecision} suffix="%" liveKey="pintPrecision" /></div>
                 <div className="text-xs text-stone">{t(locale, "research.precision")}</div>
               </div>
               <div>
-                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.pintRecall} suffix="%" /></div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.pintRecall} suffix="%" liveKey="pintRecall" /></div>
                 <div className="text-xs text-stone">{t(locale, "research.recall")}</div>
               </div>
               <div>
-                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.pintF1} /></div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.pintF1} liveKey="pintF1" /></div>
                 <div className="text-xs text-stone">F1</div>
               </div>
             </div>
@@ -88,11 +90,11 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
             <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">{t(locale, "research.self")}</div>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.selfTestPrecision} suffix="%" /></div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.selfTestPrecision} suffix="%" liveKey="selfTestPrecision" /></div>
                 <div className="text-xs text-stone">Precision</div>
               </div>
               <div>
-                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.selfTestRecall} suffix="%" /></div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.selfTestRecall} suffix="%" liveKey="selfTestRecall" /></div>
                 <div className="text-xs text-stone">Recall</div>
               </div>
               <div>
@@ -118,19 +120,19 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mb-8">
           <div className="bg-paper p-6">
             <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">Mega Scan (OpenClaw + Skills.sh)</div>
-            <div className="font-data text-3xl font-bold text-ink mb-1"><CountUp target={stats.megaScanTotal} useComma /></div>
+            <div className="font-data text-3xl font-bold text-ink mb-1"><CountUp target={stats.megaScanTotal} useComma liveKey="megaScanTotal" /></div>
             <div className="text-sm text-stone mb-3">{locale === "zh" ? "個 skill 已掃描" : "skills scanned"}</div>
             <div className="grid grid-cols-3 gap-3 text-center">
               <div>
-                <div className="font-data text-lg font-bold text-critical"><CountUp target={stats.megaScanCritical} useComma /></div>
+                <div className="font-data text-lg font-bold text-critical"><CountUp target={stats.megaScanCritical} useComma liveKey="megaScanCritical" /></div>
                 <div className="text-xs text-stone">CRITICAL</div>
               </div>
               <div>
-                <div className="font-data text-lg font-bold text-high"><CountUp target={stats.megaScanHigh} useComma /></div>
+                <div className="font-data text-lg font-bold text-high"><CountUp target={stats.megaScanHigh} useComma liveKey="megaScanHigh" /></div>
                 <div className="text-xs text-stone">HIGH</div>
               </div>
               <div>
-                <div className="font-data text-lg font-bold text-ink"><CountUp target={stats.megaScanFlagged} useComma /></div>
+                <div className="font-data text-lg font-bold text-ink"><CountUp target={stats.megaScanFlagged} useComma liveKey="megaScanFlagged" /></div>
                 <div className="text-xs text-stone">{locale === "zh" ? "總標記數" : "Total flagged"}</div>
               </div>
             </div>
