@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #FAFAF8;
+  --ash: #F3F3F0;
+  --fog: #E8E8E5;
+  --ink: #0B0B0F;
+  --graphite: #3B3B42;
+  --stone: #6B6B76;
+  --mist: #9B9BA5;
+  --blue: #2563EB;
+  --blue-hover: #1D4ED8;
+  --critical: #DC2626;
+  --high: #EA580C;
+  --medium: #CA8A04;
+  --green: #16A34A;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ash: var(--ash);
+  --color-fog: var(--fog);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-stone: var(--stone);
+  --color-mist: var(--mist);
+  --color-blue: var(--blue);
+  --color-blue-hover: var(--blue-hover);
+  --color-critical: var(--critical);
+  --color-high: var(--high);
+  --color-medium: var(--medium);
+  --color-green: var(--green);
+  --font-display: var(--font-inter-tight);
+  --font-body: var(--font-inter);
+  --font-data: var(--font-jetbrains-mono);
+}
+
+html {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Reveal animation system */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* Hero entrance */
+.hero-enter {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.hero-enter.on {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Speed line motif */
+.speed-line {
+  transform: scaleX(0);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.speed-line.drawn {
+  transform: scaleX(1);
+}
+
+/* Scroll arrow */
+@keyframes scrollDown {
+  0% { top: -24px; }
+  50% { top: 24px; }
+  100% { top: -24px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-enter { opacity: 1; transform: none; }
+  .hero-enter.on { transition: none; }
+  .speed-line { transform: scaleX(1); transition: none; }
+}
