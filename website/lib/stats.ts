@@ -188,18 +188,19 @@ export function loadSiteStats(): SiteStats {
         name: "Cisco AI Defense",
         type: "merged",
         detail: "34 ATR rules merged as upstream. Built --rule-packs CLI for ATR.",
-        url: "https://github.com/cisco/ai-defense/pull/79",
+        url: "https://github.com/cisco-ai-defense/skill-scanner/pull/79",
       },
       {
-        name: "OWASP Agentic Top 10",
+        name: "Awesome LM-SSP",
         type: "merged",
-        detail: "ATR detection mapping merged into official OWASP project.",
-        url: "https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/pull/14",
+        detail: "PR #108 merged into LLM safety/security list.",
+        url: "https://github.com/ThuCCSLab/Awesome-LM-SSP/pull/108",
       },
       {
-        name: "precize OWASP",
-        type: "merged",
-        detail: "ATR listed as detection tool in OWASP resource collection.",
+        name: "OWASP LLM Top 10",
+        type: "open",
+        detail: "PR #814 submitted. Detection mapping for ASI01-ASI10.",
+        url: "https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/pull/814",
       },
       {
         name: "SAFE-MCP (OpenSSF)",
@@ -222,24 +223,14 @@ export function loadSiteStats(): SiteStats {
         detail: "PR #58172 submitted. Fixed and waiting review.",
       },
       {
-        name: "OWASP LLM Top 10",
+        name: "Awesome LLM agent Security",
         type: "open",
-        detail: "PR #814 submitted for ATR integration reference.",
-      },
-      {
-        name: "Awesome LM-SSP",
-        type: "merged",
-        detail: "PR #108 merged into LLM safety/security list.",
+        detail: "PR #6 submitted to LLM agent security tools list.",
       },
       {
         name: "Awesome Agentic Patterns",
         type: "open",
         detail: "PR #58 submitted. CI config issue on their end.",
-      },
-      {
-        name: "Awesome MCP Servers",
-        type: "open",
-        detail: "PR #3976 submitted. Needs Glama registration.",
       },
     ],
 

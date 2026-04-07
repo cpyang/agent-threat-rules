@@ -266,7 +266,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Reveal>
           <Reveal delay={0.3}>
             <a
-              href="https://github.com/cisco/ai-defense/pull/79"
+              href="https://github.com/cisco-ai-defense/skill-scanner/pull/79"
               target="_blank"
               rel="noopener noreferrer"
               className="font-data text-[13px] text-blue hover:underline inline-block mt-4"
@@ -279,17 +279,17 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog mt-12">
               {[
                 {
-                  name: "OWASP Top 10 for LLM",
-                  en: "Official detection mapping merged. PR #14.",
-                  zh: "官方偵測對應已合併。PR #14。",
+                  name: "OWASP LLM Top 10",
+                  en: "Detection mapping for ASI01-ASI10 submitted. PR #814.",
+                  zh: "ASI01-ASI10 偵測對應已提交。PR #814。",
                 },
                 {
                   name: "SAFE-MCP (OpenSSF)",
-                  en: "78/85 techniques covered (91.8%). PR submitted.",
-                  zh: "覆蓋 78/85 項技術（91.8%）。PR 已提交。",
+                  en: "78/85 techniques covered (91.8%). PR #187 submitted.",
+                  zh: "覆蓋 78/85 項技術（91.8%）。PR #187 已提交。",
                 },
                 {
-                  name: zh ? "11 個生態系 PR" : "11 Ecosystem PRs",
+                  name: zh ? `${stats.ecosystemIntegrations.length} 個生態系 PR` : `${stats.ecosystemIntegrations.length} Ecosystem PRs`,
                   en: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged, ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} pending. Covering 90K+ GitHub stars.`,
                   zh: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} 個已合併，${stats.ecosystemIntegrations.filter(e => e.type === "open").length} 個待審。覆蓋 90K+ stars。`,
                 },

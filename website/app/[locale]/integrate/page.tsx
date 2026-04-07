@@ -253,10 +253,10 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 : <>Cisco&apos;s DefenseClaw team integrated ATR rules as an upstream dependency. Their engineer submitted PR #79, we reviewed it, and it merged in 3 days. They then built a <span className="font-data">--rule-packs</span> CLI feature (PR #80) specifically to consume ATR as a first-class rule source.</>}
             </p>
             <div className="flex gap-4">
-              <a href="https://github.com/cisco/ai-defense/pull/79" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+              <a href="https://github.com/cisco-ai-defense/skill-scanner/pull/79" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
                 PR #79: Rules integration &rarr;
               </a>
-              <a href="https://github.com/cisco/ai-defense/pull/80" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+              <a href="https://github.com/cisco-ai-defense/skill-scanner/pull/80" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
                 PR #80: Rule-packs CLI &rarr;
               </a>
             </div>
