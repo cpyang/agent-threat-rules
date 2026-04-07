@@ -9,11 +9,11 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 <br />
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
-[![Rules](https://img.shields.io/badge/rules-71-blue?style=flat-square)](#what-atr-detects)
-[![Tests](https://img.shields.io/badge/tests-257_passing-green?style=flat-square)](#ecosystem)
+[![Rules](https://img.shields.io/badge/rules-100-blue?style=flat-square)](#what-atr-detects)
+[![Tests](https://img.shields.io/badge/tests-278_passing-green?style=flat-square)](#ecosystem)
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
 [![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
-[![Status](https://img.shields.io/badge/status-v0.4.0-yellow?style=flat-square)](#roadmap)
+[![Status](https://img.shields.io/badge/status-v1.0.0-brightgreen?style=flat-square)](#roadmap)
 
 </div>
 
@@ -34,31 +34,55 @@ AI 助理現在可以瀏覽網頁、執行程式碼、使用外部工具。攻�
 
 ATR maps to **10/10 OWASP Agentic Top 10 categories** ([full mapping](docs/OWASP-MAPPING.md)) and **91.8% of SAFE-MCP techniques** ([full mapping](docs/SAFE-MCP-MAPPING.md)).
 
-### ClawHub ecosystem scan (2026-03-27)
+### Who uses ATR
 
-We scanned the entire ClawHub MCP skill registry: 36,394 skills crawled, 9,676 with parseable source code.
+| Organization | Integration | Reference |
+|---|---|---|
+| **Cisco AI Defense** | 34 ATR rules merged into official skill-scanner | [PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79) |
+| **OWASP** | ASI01-ASI10 attack examples + detection strategies | [PR #814](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/pull/814) |
+| **OWASP Agentic AI Top 10** | Full vulnerability mapping | [PR #14](https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14) (merged) |
 
-| Severity | Count | Examples |
-|----------|-------|---------|
-| **CRITICAL** | 182 | Credential harvesting, reverse shells, prompt injection |
-| **HIGH** | 1,124 | Data exfiltration, unauthorized network access |
-| **MEDIUM** | 1,016 | Over-permissioned, suspicious dependencies |
-| Triple threat (shell + network + filesystem) | 249 | Full attack chain capability |
+> ATR rules are consumed as a standard -- not a product. MIT licensed, auto-updated via npm, zero strings attached.
 
-Raw data: [ecosystem-report.csv](data/clawhub-scan/ecosystem-report.csv) / [ecosystem-stats.json](data/clawhub-scan/ecosystem-stats.json)
+### Ecosystem scan (53,377 skills)
+
+We scanned the two largest MCP skill registries: OpenClaw (50,285) and Skills.sh (3,115).
+
+| Metric | Number |
+|--------|--------|
+| Skills scanned | **53,377** |
+| Clean | 47,438 (88.87%) |
+| **CRITICAL** | 3,255 |
+| **HIGH** | 2,656 |
+| **MEDIUM** | 28 |
+
+Raw data: [mega-scan-report.json](data/mega-scan-report.json) / [ecosystem-report.csv](data/clawhub-scan/ecosystem-report.csv)
 
 ```bash
-# Quick install (macOS / Linux)
-curl -fsSL https://raw.githubusercontent.com/Agent-Threat-Rule/agent-threat-rules/main/scripts/install.sh | sh
-
-# Or install manually
 npm install -g agent-threat-rules
 
-atr scan events.json              # scan agent traffic for threats
-atr init                          # setup Claude Code guard hook
-atr mcp                           # start MCP server for IDE
+atr scan skill.md                 # scan a SKILL.md for threats
+atr scan mcp-config.json          # scan MCP events for threats
+atr scan skill.md --sarif         # output SARIF v2.1.0 for GitHub Security tab
+atr convert generic-regex         # export 100 rules as JSON (685 regex patterns)
+atr convert splunk                # export to Splunk SPL
+atr convert elastic               # export to Elasticsearch Query DSL
 atr stats                         # show rule collection stats
+atr mcp                           # start MCP server for IDE integration
 ```
+
+### GitHub Action (CI/CD)
+
+```yaml
+# .github/workflows/atr-scan.yml
+- uses: Agent-Threat-Rule/agent-threat-rules@v1
+  with:
+    path: '.'              # scan SKILL.md and MCP configs in repo
+    severity: 'medium'     # minimum severity to report
+    upload-sarif: 'true'   # results appear in GitHub Security tab
+```
+
+One line. Zero config. SARIF results in your Security tab.
 
 **For security professionals:** ATR is the [Sigma](https://github.com/SigmaHQ/sigma)/[YARA](https://github.com/VirusTotal/yara) equivalent for AI agent threats -- YAML-based rules with regex matching, behavioral fingerprinting, LLM-as-judge analysis, and mappings to [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/), [OWASP Agentic Top 10](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/), and [MITRE ATLAS](https://atlas.mitre.org/).
 
@@ -66,19 +90,19 @@ atr stats                         # show rule collection stats
 
 ## What ATR Detects
 
-71 rules across 9 categories, mapped to real CVEs:
+100 rules across 9 categories, mapped to real CVEs:
 
 | Category | What it catches | Rules | Real CVEs |
 |----------|----------------|-------|-----------|
-| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, [CJK attacks](rules/prompt-injection/) | 22 | CVE-2025-53773, CVE-2025-32711 |
+| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, CJK attacks | 22 | CVE-2025-53773, CVE-2025-32711 |
 | **Tool Poisoning** | Malicious MCP responses, consent bypass, hidden LLM instructions, schema contradictions | 11 | CVE-2025-68143/68144/68145 |
-| **Skill Compromise** | Typosquatting, description-behavior mismatch, supply chain attacks | 7 | CVE-2025-59536 |
+| **Skill Compromise** | Typosquatting, context poisoning, subcommand overflow, rug pull, supply chain attacks | 20 | CVE-2025-59536, CVE-2026-28363 |
 | **Agent Manipulation** | Cross-agent attacks, goal hijacking, Sybil consensus attacks | 10 | -- |
 | **Excessive Autonomy** | Runaway loops, resource exhaustion, unauthorized financial actions | 5 | -- |
-| **Context Exfiltration** | API key leakage, system prompt theft, disguised analytics collection | 7 | CVE-2026-24307 |
-| **Privilege Escalation** | Scope creep, delayed execution bypass | 6 | CVE-2026-0628 |
-| **Model Security** | Behavior extraction, malicious fine-tuning data | 2 | -- |
-| **Data Poisoning** | RAG/knowledge base tampering | 1 | -- |
+| **Context Exfiltration** | API key leakage, system prompt theft, credential harvesting, env variable exfiltration | 15 | CVE-2026-24307 |
+| **Privilege Escalation** | Scope creep, delayed execution bypass, admin function access | 9 | CVE-2026-0628 |
+| **Model Security** | Behavior extraction, malicious fine-tuning data | 5 | -- |
+| **Data Poisoning** | RAG/knowledge base tampering, memory manipulation | 3 | -- |
 
 > **Limitations:** Regex catches known patterns, not paraphrased attacks. We publish [evasion tests](LIMITATIONS.md) showing what we can't catch. See [LIMITATIONS.md](LIMITATIONS.md) for honest benchmark numbers including external PINT results.
 
@@ -120,14 +144,17 @@ ATR maps to established AI security frameworks so teams can go from "understand 
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 341 tests passing |
-| [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v0.4.0 |
+| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 278 tests passing |
+| [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v1.0.0 |
 | [Python engine (pyATR)](python/) | Local install only (`cd python && pip install -e .`) | 48 tests passing |
+| [GitHub Action](action.yml) | One-line CI scan with SARIF output | **New** |
+| [SARIF converter](src/converters/sarif.ts) | `atr scan --sarif` -- SARIF v2.1.0 for GitHub Security tab | **New** |
+| [Generic regex export](src/converters/generic-regex.ts) | `atr convert generic-regex` -- 685 patterns JSON for any tool | **New** |
 | [Splunk converter](src/converters/splunk.ts) | `atr convert splunk` -- ATR rules to SPL queries | Shipped |
 | [Elastic converter](src/converters/elastic.ts) | `atr convert elastic` -- ATR rules to Query DSL | Shipped |
 | [MCP server](src/mcp-server.ts) | 6 tools for Claude Code, Cursor, Windsurf | Shipped |
-| [CLI](src/cli.ts) | scan, validate, test, stats, scaffold, convert | Shipped |
-| [CI gate](.github/workflows/eval.yml) | Typecheck + test + eval + validate on every PR | v0.4.0 |
+| [CLI](src/cli.ts) | scan, validate, test, stats, scaffold, convert, badge | Shipped |
+| [CI gate](.github/workflows/eval.yml) | Typecheck + test + eval + validate on every PR | v1.0.0 |
 | Go engine | High-performance scanner for production pipelines | **Help wanted** |
 
 ---
@@ -183,12 +210,21 @@ atr test my-rule.yaml
 
 Every rule is a YAML file answering: **what** to detect, **how** to detect it, **what to do**, and **how to test it**. See [examples/how-to-write-a-rule.md](examples/how-to-write-a-rule.md) for a walkthrough, or [spec/atr-schema.yaml](spec/atr-schema.yaml) for the full schema.
 
-### Export to SIEM
+### Export rules
 
 ```bash
+# For your security platform (100 rules, 685 regex patterns as JSON)
+atr convert generic-regex --output atr-rules.json
+
+# For SIEM integration
 atr convert splunk --output atr-rules.spl
 atr convert elastic --output atr-rules.json
+
+# For GitHub / CI
+atr scan skill.md --sarif > results.sarif
 ```
+
+The generic-regex export is designed for direct consumption by any tool that supports regex matching -- Cisco AI Defense, Microsoft Agent Governance Toolkit, NemoClaw, or your custom pipeline.
 
 ---
 
@@ -208,6 +244,7 @@ Report what ATR found (or missed). **Your real-world detection report is more va
 
 | Impact | What to do | Time |
 |--------|-----------|------|
+| **Critical** | **Integrate ATR into your security tool** -- PR our rules into your platform ([generic-regex export](#export-rules) makes it easy) | 1-2 hours |
 | **Critical** | Scan your MCP skills and [report results](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) | 15 min |
 | **Critical** | [Deploy ATR](docs/deployment-guide.md) in your agent pipeline, share detection stats | 1-2 hours |
 | **High** | [Break our rules](CONTRIBUTION-GUIDE.md#5-evasion-research) -- find bypasses, report evasions | 15 min |
@@ -216,6 +253,25 @@ Report what ATR found (or missed). **Your real-world detection report is more va
 | **High** | Build an engine in [Go / Rust / Java](CONTRIBUTING.md) | Weekend |
 | **Medium** | Add multilingual attack phrases for your native language | 30 min |
 | **Medium** | Run `npm run eval:pint` and share your results | 5 min |
+
+### For security platform maintainers
+
+Want to integrate ATR into your product? Three options:
+
+```bash
+# Option 1: Export rules as JSON (recommended for most tools)
+atr convert generic-regex --output atr-rules.json
+# → 100 rules, 685 regex patterns, severity/category metadata
+
+# Option 2: Use the TypeScript engine directly
+npm install agent-threat-rules
+# → Full engine with evaluate() and scanSkill() APIs
+
+# Option 3: GitHub Action for CI pipelines
+# → One YAML line, SARIF output, GitHub Security tab integration
+```
+
+Cisco AI Defense integrated via Option 1 ([PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79)). Happy to help with your integration -- [open an issue](https://github.com/Agent-Threat-Rule/agent-threat-rules/issues) or email hello@panguard.ai.
 
 ### Rule contribution workflow
 
@@ -252,19 +308,21 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 
 - [x] **v0.1** -- 44 rules, TypeScript engine, OWASP mapping
 - [x] **v0.2** -- MCP server, Layer 2-3 detection, pyATR, Splunk/Elastic converters
-- [x] **v0.3** -- Eval framework, PINT benchmark, CI gate, embedding similarity, honest numbers
-- [x] **v0.4** (current) -- 71 rules, 62.7% PINT recall, OWASP Agentic Top 10 10/10, SAFE-MCP 91.8%, ClawHub 36K scan
-- [ ] **v0.5** -- Go engine, ML classifier integration, 100+ rules, community rule submissions
-- [ ] **v1.0** -- Requires: 2+ engines, 10+ production deployments, 100+ stable rules, schema review by 3+ security teams
+- [x] **v0.3** -- Eval framework, PINT benchmark, CI gate, embedding similarity
+- [x] **v0.4** -- 71 rules, ClawHub 36K scan, SAFE-MCP 91.8%
+- [x] **v1.0** (current) -- 100 rules, 53K mega scan, GitHub Action + SARIF, generic-regex export, Cisco adoption
+- [ ] **v1.1** -- Go engine, ML classifier integration, semantic signatures, community rule submissions
+- [ ] **v2.0** -- Multi-engine standard: 2+ engines, 10+ production deployments, schema review by 3+ security teams
 
 ### Strategic direction
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **Phase 0: Core product** | 71 rules, 62.7% recall, OWASP 10/10, 36K scan | **Done** |
-| **Phase 1: Distribution** | Research report, badge API, Smithery/awesome-mcp integration | **In progress** |
-| **Phase 2: Community flywheel** | Distributed scanning, Threat Cloud dashboard, 5+ contributors | Planned |
-| **Phase 3: Standard** | OpenSSF submission, SAFE-MCP alignment, multi-vendor adoption | Planned |
+| **Phase 0: Core product** | 100 rules, 62.7% recall, OWASP 10/10, 53K scan | **Done** |
+| **Phase 1: Distribution** | GitHub Action, SARIF, generic-regex export, ecosystem PRs | **Done** |
+| **Phase 2: Adoption** | Cisco merged (34 rules), OWASP PR, 11 ecosystem PRs | **In progress** |
+| **Phase 3: Community flywheel** | Threat Cloud crystallization, auto-generated rules, 10+ contributors | In progress |
+| **Phase 4: Standard** | Multi-vendor adoption, OpenSSF submission, schema governance | Planned |
 
 ATR uses "ATR Scanned" (not "ATR Certified") until recall exceeds 80%. We are honest about what we can and cannot detect. See [LIMITATIONS.md](LIMITATIONS.md).
 
@@ -273,14 +331,22 @@ ATR uses "ATR Scanned" (not "ATR Certified") until recall exceeds 80%. We are ho
 ## How It Works (Architecture)
 
 ```
-ATR (this repo)                  Your Product / Integration
-┌────────────────────┐           ┌──────────────────────────┐
-│ Rules (71 YAML)    │  match    │ Block / Allow / Alert     │
-│ Engine (TS + Py)   │ ───────→  │ SIEM (Splunk / Elastic)  │
-│ CLI / MCP / SIEM   │  results  │ Dashboard / Compliance    │
-│                    │           │ Slack / PagerDuty / Email │
-│ Detects threats    │           │ Protects systems          │
-└────────────────────┘           └──────────────────────────┘
+ATR (this repo)                        Your Product / Integration
+┌─────────────────────────┐            ┌──────────────────────────┐
+│ 100 Rules (YAML)        │   match    │ Block / Allow / Alert     │
+│ Engine (TS + Py)        │ ────────→  │ SIEM (Splunk / Elastic)  │
+│ CLI / MCP / GitHub Act. │   results  │ CI/CD (SARIF → Security) │
+│ SARIF / Generic Regex   │            │ Runtime Proxy (MCP)      │
+│ Splunk / Elastic export │            │ Dashboard / Compliance    │
+│                         │            │                          │
+│ Detects threats         │            │ Protects systems          │
+└─────────────────────────┘            └──────────────────────────┘
+
+Integration paths:
+  1. npm install   → Use engine API directly
+  2. GitHub Action → SARIF in Security tab
+  3. atr convert   → 685 patterns for any regex-capable tool
+  4. MCP server    → IDE integration (Claude, Cursor, etc.)
 ```
 
 See [INTEGRATION.md](INTEGRATION.md) for integration patterns. See [docs/deployment-guide.md](docs/deployment-guide.md) for step-by-step deployment instructions.
