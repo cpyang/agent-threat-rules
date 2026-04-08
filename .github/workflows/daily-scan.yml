@@ -100,7 +100,6 @@ jobs:
 
       # Step 5.5: Responsible disclosure — notify authors (72h before public post)
       - name: Notify skill authors
-        if: ${{ secrets.GITHUB_TOKEN != '' }}
         run: |
           BATCH_FILE="data/scan-batch-$(date +%Y%m%d).json"
           if [ -f "$BATCH_FILE" ]; then

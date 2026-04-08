@@ -19,6 +19,8 @@ jobs:
     name: Auto-crystallize rules from attack data
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
     steps:
       - name: Checkout
@@ -45,9 +47,8 @@ jobs:
           echo "Rules before crystallization: $count"
 
       - name: Run local crystallization
-        if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        if: ${{ env.ANTHROPIC_API_KEY != '' }}
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TC_URL: ${{ vars.TC_URL || 'https://tc.panguard.ai' }}
         run: |
           DRY_RUN_FLAG=""
