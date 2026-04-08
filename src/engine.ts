@@ -297,16 +297,13 @@ export class ATREngine {
 
       const matchResult = this.evaluateRule(rule, event);
       if (matchResult) {
-        // Cross-context: MCP-only rules firing on SKILL.md get confidence downweight
-        if (isSkillContext && rule.tags.scan_target !== 'skill' && rule.tags.scan_target !== 'both') {
-          matches.push({
-            ...matchResult,
-            confidence: matchResult.confidence * 0.6,
-            scan_context: 'cross-context' as const,
-          });
-        } else {
-          matches.push(matchResult);
+        // Skip MCP-only rules in skill context — they cause FP on security skills
+        // that describe attack patterns as examples. Skill context only runs
+        // skill-targeted rules + denylist-filtered rules.
+        if (isSkillContext && rule.tags.scan_target === 'mcp') {
+          continue;
         }
+        matches.push(matchResult);
         allMatchedPatterns.push(...matchResult.matchedPatterns);
       }
     }
