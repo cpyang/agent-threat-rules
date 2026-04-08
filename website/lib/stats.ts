@@ -225,6 +225,12 @@ export function loadSiteStats(): SiteStats {
         url: "https://github.com/ThuCCSLab/Awesome-LM-SSP/pull/108",
       },
       {
+        name: "Agentic AI Top 10 Vulnerability",
+        type: "merged",
+        detail: "PR #14 merged. ATR detection mapping for 12 vulnerability categories.",
+        url: "https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14",
+      },
+      {
         name: "OWASP LLM Top 10",
         type: "open",
         detail: "PR #814 submitted. Detection mapping for ASI01-ASI10.",

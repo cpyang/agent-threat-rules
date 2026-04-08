@@ -246,7 +246,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
               { label: "Cisco AI Defense", detail: locale === "zh" ? "34 條 ATR 規則上游整合" : "34 ATR rules as upstream", highlight: true },
               { label: locale === "zh" ? "23,000+ 月下載" : "23,000+ monthly downloads", detail: locale === "zh" ? "npm，零行銷" : "npm, zero marketing", highlight: false },
               { label: locale === "zh" ? "90,000+ 已掃描" : "90,000+ skills scanned", detail: locale === "zh" ? "ClawHub + OpenClaw + Skills.sh" : "ClawHub + OpenClaw + Skills.sh", highlight: false },
-              { label: locale === "zh" ? `${9} 個生態系整合` : `${9} ecosystem integrations`, detail: locale === "zh" ? "3 merged · 6 under review" : "3 merged · 6 under review", highlight: false },
+              { label: locale === "zh" ? `${stats.ecosystemIntegrations.length} 個生態系整合` : `${stats.ecosystemIntegrations.length} ecosystem integrations`, detail: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged · ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} under review`, highlight: false },
             ].map((item) => (
               <div key={item.label} className="bg-paper p-5">
                 <div className={`font-display text-sm font-semibold ${item.highlight ? "text-blue" : "text-ink"}`}>{item.label}</div>
