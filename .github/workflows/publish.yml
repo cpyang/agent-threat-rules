@@ -181,23 +181,30 @@ jobs:
       - name: Sync rules to Threat Cloud
         env:
           TC_URL: ${{ vars.TC_URL || 'https://tc.panguard.ai' }}
-          TC_API_KEY: ${{ secrets.TC_API_KEY }}
         run: |
           TOTAL=$(find rules -name "*.yaml" | wc -l | tr -d ' ')
-          echo "Syncing $TOTAL rules to TC..."
-          for rule_file in rules/*/*.yaml; do
-            content=$(cat "$rule_file")
-            rule_id=$(echo "$content" | grep "^id:" | head -1 | awk '{print $2}')
-            curl -sf -X POST "$TC_URL/api/rules" \
-              -H "Content-Type: application/json" \
-              -H "Authorization: Bearer $TC_API_KEY" \
-              -d "$(node -e "
-                const c = require('fs').readFileSync('$rule_file','utf-8');
-                const id = c.match(/^id:\s*(\S+)/m)?.[1] || 'unknown';
-                console.log(JSON.stringify({ruleId:id,ruleContent:c,source:'atr',publishedAt:new Date().toISOString()}));
-              ")" > /dev/null 2>&1 || true
-          done
-          echo "TC sync complete"
+          echo "Syncing $TOTAL rules to TC via /api/rules/sync..."
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const rules = [];
+            for (const cat of fs.readdirSync('rules')) {
+              const catDir = path.join('rules', cat);
+              if (!fs.statSync(catDir).isDirectory()) continue;
+              for (const f of fs.readdirSync(catDir).filter(f => f.endsWith('.yaml'))) {
+                const content = fs.readFileSync(path.join(catDir, f), 'utf-8');
+                const id = content.match(/^id:\s*(\S+)/m)?.[1] || f;
+                rules.push({ ruleId: id, ruleContent: content, source: 'atr' });
+              }
+            }
+            console.log('Prepared ' + rules.length + ' rules for sync');
+            fetch('${TC_URL}/api/rules/sync', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ rules }),
+            }).then(r => r.json()).then(d => console.log('TC sync:', JSON.stringify(d)))
+              .catch(e => console.error('TC sync failed:', e.message));
+          "
 
       - name: Trigger Vercel redeploy (panguard.ai)
         if: ${{ vars.VERCEL_DEPLOY_HOOK_URL != '' }}
