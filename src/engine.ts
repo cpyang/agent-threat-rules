@@ -23,6 +23,8 @@ import type {
   ScanResult,
   ScanType,
 } from './types.js';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { computeContentHash } from './content-hash.js';
 import { loadRulesFromDirectory, loadRuleFile } from './loader.js';
 import type { SessionTracker } from './session-tracker.js';
@@ -186,6 +188,25 @@ export class ATREngine {
   private readonly compiledPatterns = new Map<string, Map<string, RegExp[]>>();
   private readonly semanticModuleInstance: SemanticModule | null;
 
+  /**
+   * Find bundled rules directory shipped with the npm package.
+   * Checks: ../rules (from dist/), ./rules (repo root)
+   */
+  private findBundledRulesDir(): string | undefined {
+    // import.meta.dirname available in Node 21+, fallback to cwd
+    const base = typeof import.meta.dirname === 'string' ? import.meta.dirname : process.cwd();
+    const candidates = [
+      resolve(base, '..', 'rules'),  // dist/engine.js → ../rules
+      resolve(base, 'rules'),         // repo root
+      resolve(process.cwd(), 'rules'),
+      resolve(process.cwd(), 'node_modules', 'agent-threat-rules', 'rules'),
+    ];
+    for (const dir of candidates) {
+      if (existsSync(dir)) return dir;
+    }
+    return undefined;
+  }
+
   constructor(private readonly config: ATREngineConfig = {}) {
     // Initialize Layer 3 semantic module if config provided
     if (config.semanticModule) {
@@ -207,9 +228,11 @@ export class ATREngine {
       this.rules.push(...this.config.rules);
     }
 
-    if (this.config.rulesDir) {
+    // Resolve rules directory: explicit config > bundled rules in package
+    const rulesDir = this.config.rulesDir ?? this.findBundledRulesDir();
+    if (rulesDir) {
       try {
-        const fileRules = loadRulesFromDirectory(this.config.rulesDir);
+        const fileRules = loadRulesFromDirectory(rulesDir);
         this.rules.push(...fileRules);
       } catch {
         // Directory may not exist yet

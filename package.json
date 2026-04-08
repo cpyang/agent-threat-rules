@@ -1,6 +1,6 @@
 {
   "name": "agent-threat-rules",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "description": "Detection rules for AI agent threats, inspired by the Sigma format. Early-stage rule library for prompt injection, tool poisoning, and agent manipulation.",
   "main": "./dist/index.js",
