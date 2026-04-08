@@ -1,47 +1,73 @@
 {
   "report": {
-    "timestamp": "2026-03-25T21:50:15.678Z",
+    "timestamp": "2026-04-07T13:09:45.174Z",
     "corpusSize": 341,
     "overall": {
-      "precision": 0.996875,
-      "recall": 0.9937694704049844,
-      "f1": 0.9953198127925117,
-      "accuracy": 0.9912023460410557,
-      "fpRate": 0.05,
+      "precision": 1,
+      "recall": 0.8847352024922118,
+      "f1": 0.9388429752066115,
+      "accuracy": 0.8914956011730205,
+      "fpRate": 0,
       "confusion": {
-        "tp": 319,
-        "fp": 1,
-        "tn": 19,
-        "fn": 2
+        "tp": 284,
+        "fp": 0,
+        "tn": 20,
+        "fn": 37
       },
       "sampleCount": 341
     },
     "latency": {
-      "p50": 3.113749999999982,
-      "p95": 7.552374999999984,
-      "p99": 12.44704200000001,
-      "mean": 3.7297370586510246,
-      "max": 23.588875
+      "p50": 3.1811660000000757,
+      "p95": 8.691833000000088,
+      "p99": 14.70225000000005,
+      "mean": 4.023701988269797,
+      "max": 36.83420799999999
     },
     "byCategory": [
       {
         "category": "prompt-injection",
         "metrics": {
           "precision": 1,
-          "recall": 0.993421052631579,
-          "f1": 0.9966996699669968,
-          "accuracy": 0.993421052631579,
+          "recall": 0.8223684210526315,
+          "f1": 0.9025270758122744,
+          "accuracy": 0.8223684210526315,
           "fpRate": 0,
           "confusion": {
-            "tp": 151,
+            "tp": 125,
             "fp": 0,
             "tn": 0,
-            "fn": 1
+            "fn": 27
           },
           "sampleCount": 152
         },
         "missedSamples": [
-          "pi-009"
+          "pi-009",
+          "pi-012",
+          "pi-013",
+          "pi-015",
+          "pi-017",
+          "pi-019",
+          "rule-ATR-2026-00082-tp-1",
+          "rule-ATR-2026-00082-tp-2",
+          "rule-ATR-2026-00085-tp-1",
+          "rule-ATR-2026-00085-tp-2",
+          "rule-ATR-2026-00086-tp-1",
+          "rule-ATR-2026-00086-tp-2",
+          "rule-ATR-2026-00087-tp-1",
+          "rule-ATR-2026-00087-tp-2",
+          "rule-ATR-2026-00088-tp-1",
+          "rule-ATR-2026-00088-tp-2",
+          "rule-ATR-2026-00089-tp-1",
+          "rule-ATR-2026-00089-tp-2",
+          "rule-ATR-2026-00090-tp-1",
+          "rule-ATR-2026-00090-tp-2",
+          "rule-ATR-2026-00091-tp-2",
+          "rule-ATR-2026-00092-tp-1",
+          "rule-ATR-2026-00092-tp-2",
+          "rule-ATR-2026-00093-tp-1",
+          "rule-ATR-2026-00093-tp-2",
+          "rule-ATR-2026-00094-tp-1",
+          "rule-ATR-2026-00094-tp-2"
         ],
         "falsePositives": []
       },
@@ -49,39 +75,45 @@
         "category": "tool-poisoning",
         "metrics": {
           "precision": 1,
-          "recall": 1,
-          "f1": 1,
-          "accuracy": 1,
+          "recall": 0.9666666666666667,
+          "f1": 0.983050847457627,
+          "accuracy": 0.9666666666666667,
           "fpRate": 0,
           "confusion": {
-            "tp": 60,
+            "tp": 58,
             "fp": 0,
             "tn": 0,
-            "fn": 0
+            "fn": 2
           },
           "sampleCount": 60
         },
-        "missedSamples": [],
+        "missedSamples": [
+          "tp-010",
+          "rule-ATR-2026-00096-tp-2"
+        ],
         "falsePositives": []
       },
       {
         "category": "context-exfiltration",
         "metrics": {
           "precision": 1,
-          "recall": 0.9565217391304348,
-          "f1": 0.9777777777777777,
-          "accuracy": 0.9565217391304348,
+          "recall": 0.8260869565217391,
+          "f1": 0.9047619047619047,
+          "accuracy": 0.8260869565217391,
           "fpRate": 0,
           "confusion": {
-            "tp": 22,
+            "tp": 19,
             "fp": 0,
             "tn": 0,
-            "fn": 1
+            "fn": 4
           },
           "sampleCount": 23
         },
         "missedSamples": [
-          "ex-009"
+          "ex-009",
+          "rule-ATR-2026-00075-tp-2",
+          "rule-ATR-2026-00075-tp-3",
+          "rule-ATR-2026-00075-tp-4"
         ],
         "falsePositives": []
       },
@@ -107,23 +139,21 @@
       {
         "category": "benign",
         "metrics": {
-          "precision": 0,
+          "precision": 1,
           "recall": 1,
-          "f1": 0,
-          "accuracy": 0.95,
-          "fpRate": 0.05,
+          "f1": 1,
+          "accuracy": 1,
+          "fpRate": 0,
           "confusion": {
             "tp": 0,
-            "fp": 1,
-            "tn": 19,
+            "fp": 0,
+            "tn": 20,
             "fn": 0
           },
           "sampleCount": 20
         },
         "missedSamples": [],
-        "falsePositives": [
-          "bn-016"
-        ]
+        "falsePositives": []
       },
       {
         "category": "agent-manipulation",
@@ -148,19 +178,24 @@
         "category": "data-poisoning",
         "metrics": {
           "precision": 1,
-          "recall": 1,
-          "f1": 1,
-          "accuracy": 1,
+          "recall": 0.5555555555555556,
+          "f1": 0.7142857142857143,
+          "accuracy": 0.5555555555555556,
           "fpRate": 0,
           "confusion": {
-            "tp": 9,
+            "tp": 5,
             "fp": 0,
             "tn": 0,
-            "fn": 0
+            "fn": 4
           },
           "sampleCount": 9
         },
-        "missedSamples": [],
+        "missedSamples": [
+          "rule-ATR-2026-00070-tp-2",
+          "rule-ATR-2026-00070-tp-3",
+          "rule-ATR-2026-00070-tp-4",
+          "rule-ATR-2026-00070-tp-5"
+        ],
         "falsePositives": []
       },
       {
@@ -226,15 +261,15 @@
         "difficulty": "easy",
         "metrics": {
           "precision": 1,
-          "recall": 1,
-          "f1": 1,
-          "accuracy": 1,
+          "recall": 0.9042904290429042,
+          "f1": 0.9497400346620449,
+          "accuracy": 0.9079365079365079,
           "fpRate": 0,
           "confusion": {
-            "tp": 303,
+            "tp": 274,
             "fp": 0,
             "tn": 12,
-            "fn": 0
+            "fn": 29
           },
           "sampleCount": 315
         }
@@ -243,15 +278,15 @@
         "difficulty": "medium",
         "metrics": {
           "precision": 1,
-          "recall": 0.8461538461538461,
-          "f1": 0.9166666666666666,
-          "accuracy": 0.8888888888888888,
+          "recall": 0.5384615384615384,
+          "f1": 0.7000000000000001,
+          "accuracy": 0.6666666666666666,
           "fpRate": 0,
           "confusion": {
-            "tp": 11,
+            "tp": 7,
             "fp": 0,
             "tn": 5,
-            "fn": 2
+            "fn": 6
           },
           "sampleCount": 18
         }
@@ -259,16 +294,16 @@
       {
         "difficulty": "hard",
         "metrics": {
-          "precision": 0.8333333333333334,
-          "recall": 1,
-          "f1": 0.9090909090909091,
-          "accuracy": 0.875,
-          "fpRate": 0.3333333333333333,
+          "precision": 1,
+          "recall": 0.6,
+          "f1": 0.7499999999999999,
+          "accuracy": 0.75,
+          "fpRate": 0,
           "confusion": {
-            "tp": 5,
-            "fp": 1,
-            "tn": 2,
-            "fn": 0
+            "tp": 3,
+            "fp": 0,
+            "tn": 3,
+            "fn": 2
           },
           "sampleCount": 8
         }
@@ -282,7 +317,73 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.6186669999999594,
+        "latencyMs": 4.02841699999999,
+        "difficulty": "medium",
+        "tier": "regex"
+      },
+      {
+        "id": "pi-012",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.497415999999987,
+        "difficulty": "medium",
+        "tier": "embedding"
+      },
+      {
+        "id": "pi-013",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.1681669999999826,
+        "difficulty": "medium",
+        "tier": "regex"
+      },
+      {
+        "id": "pi-015",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 1.8220829999999637,
+        "difficulty": "medium",
+        "tier": "regex"
+      },
+      {
+        "id": "pi-017",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.7503339999999525,
+        "difficulty": "hard",
+        "tier": "embedding"
+      },
+      {
+        "id": "pi-019",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.946542000000022,
+        "difficulty": "hard",
+        "tier": "embedding"
+      },
+      {
+        "id": "tp-010",
+        "category": "tool-poisoning",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.974540999999931,
         "difficulty": "medium",
         "tier": "regex"
       },
@@ -293,26 +394,331 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.8600829999999746,
+        "latencyMs": 4.480000000000018,
         "difficulty": "medium",
         "tier": "regex"
-      }
-    ],
-    "falsePositives": [
+      },
       {
-        "id": "bn-016",
-        "category": "benign",
-        "expectedDetection": false,
-        "actualDetection": true,
-        "matchedRules": [
-          "tier2.5-embedding-match"
-        ],
-        "confidence": 0.6674495770009461,
-        "latencyMs": 3.8457919999999604,
-        "difficulty": "hard",
+        "id": "rule-ATR-2026-00075-tp-2",
+        "category": "context-exfiltration",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.2270829999999933,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00075-tp-3",
+        "category": "context-exfiltration",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.2199170000000095,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00075-tp-4",
+        "category": "context-exfiltration",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.506167000000005,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00070-tp-2",
+        "category": "data-poisoning",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 1.5582920000000513,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00070-tp-3",
+        "category": "data-poisoning",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 1.5678340000000617,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00070-tp-4",
+        "category": "data-poisoning",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 1.4047499999999218,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00070-tp-5",
+        "category": "data-poisoning",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 1.730666000000042,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00082-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.7698330000000624,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00082-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.4282499999999345,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00085-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.9573330000000624,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00085-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.173041999999896,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00086-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.2108330000000933,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00086-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.121417000000065,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00087-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.5434170000000904,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00087-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.229791999999861,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00088-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.7717499999998836,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00088-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.326957999999877,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00089-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.5712089999999534,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00089-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.6609169999999267,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00090-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.375124999999798,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00090-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.009540999999899,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00091-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.9680000000000746,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00092-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.5850410000000466,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00092-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 3.00587500000006,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00093-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.2825000000000273,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00093-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.346042000000125,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00094-tp-1",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.5395829999999933,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00094-tp-2",
+        "category": "prompt-injection",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 2.8899999999998727,
+        "difficulty": "easy",
+        "tier": "any"
+      },
+      {
+        "id": "rule-ATR-2026-00096-tp-2",
+        "category": "tool-poisoning",
+        "expectedDetection": true,
+        "actualDetection": false,
+        "matchedRules": [],
+        "confidence": 0,
+        "latencyMs": 5.393125000000055,
+        "difficulty": "easy",
         "tier": "any"
       }
-    ]
+    ],
+    "falsePositives": []
   },
   "regression": {
     "passed": true,
@@ -341,28 +747,10 @@
     }
   },
   "ruleQuality": {
-    "totalRulesEvaluated": 61,
-    "rulesFired": 34,
-    "rulesNeverFired": 28,
+    "totalRulesEvaluated": 100,
+    "rulesFired": 44,
+    "rulesNeverFired": 57,
     "topRules": [
-      {
-        "ruleId": "tier2.5-embedding-match",
-        "matchCount": 278,
-        "tpCount": 277,
-        "fpCount": 1,
-        "categories": [
-          "agent-manipulation",
-          "benign",
-          "context-exfiltration",
-          "data-poisoning",
-          "excessive-autonomy",
-          "model-abuse",
-          "privilege-escalation",
-          "prompt-injection",
-          "tool-poisoning"
-        ],
-        "avgConfidence": 0.8692774288829661
-      },
       {
         "ruleId": "ATR-2026-00001",
         "matchCount": 37,
@@ -384,7 +772,7 @@
         "categories": [
           "prompt-injection"
         ],
-        "avgConfidence": 0.9035714285714288
+        "avgConfidence": 0.9032258064516124
       },
       {
         "ruleId": "ATR-2026-00004",
@@ -405,7 +793,7 @@
         "categories": [
           "prompt-injection"
         ],
-        "avgConfidence": 0.9029576574219434
+        "avgConfidence": 0.902895939186262
       },
       {
         "ruleId": "ATR-2026-00010",
@@ -417,7 +805,7 @@
           "prompt-injection",
           "tool-poisoning"
         ],
-        "avgConfidence": 0.9066666666666664
+        "avgConfidence": 0.9103472222222221
       },
       {
         "ruleId": "ATR-2026-00012",
@@ -429,7 +817,7 @@
           "skill-compromise",
           "tool-poisoning"
         ],
-        "avgConfidence": 0.9071951857666145
+        "avgConfidence": 0.9084196755625327
       },
       {
         "ruleId": "ATR-2026-00040",
@@ -441,7 +829,7 @@
           "skill-compromise",
           "tool-poisoning"
         ],
-        "avgConfidence": 0.9147142857142858
+        "avgConfidence": 0.9160000000000001
       },
       {
         "ruleId": "ATR-2026-00002",
@@ -464,19 +852,7 @@
           "prompt-injection",
           "tool-poisoning"
         ],
-        "avgConfidence": 0.9070940170940172
-      },
-      {
-        "ruleId": "ATR-2026-00063",
-        "matchCount": 12,
-        "tpCount": 12,
-        "fpCount": 0,
-        "categories": [
-          "privilege-escalation",
-          "skill-compromise",
-          "tool-poisoning"
-        ],
-        "avgConfidence": 0.8846626984126984
+        "avgConfidence": 0.9082051282051283
       },
       {
         "ruleId": "ATR-2026-00021",
@@ -501,6 +877,18 @@
         "avgConfidence": 0.9204545454545456
       },
       {
+        "ruleId": "ATR-2026-00063",
+        "matchCount": 11,
+        "tpCount": 11,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "skill-compromise",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.8849999999999999
+      },
+      {
         "ruleId": "ATR-2026-00099",
         "matchCount": 11,
         "tpCount": 11,
@@ -509,7 +897,7 @@
           "privilege-escalation",
           "tool-poisoning"
         ],
-        "avgConfidence": 0.879155844155844
+        "avgConfidence": 0.8803246753246753
       },
       {
         "ruleId": "ATR-2026-00061",
@@ -583,7 +971,28 @@
           "skill-compromise",
           "tool-poisoning"
         ],
-        "avgConfidence": 0.8877551020408163
+        "avgConfidence": 0.8914285714285715
+      },
+      {
+        "ruleId": "ATR-2026-00113",
+        "matchCount": 7,
+        "tpCount": 7,
+        "fpCount": 0,
+        "categories": [
+          "privilege-escalation",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9207142857142857
+      },
+      {
+        "ruleId": "ATR-2026-00121",
+        "matchCount": 6,
+        "tpCount": 6,
+        "fpCount": 0,
+        "categories": [
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9125
       },
       {
         "ruleId": "ATR-2026-00020",
@@ -603,7 +1012,7 @@
         "categories": [
           "agent-manipulation"
         ],
-        "avgConfidence": 0.9071428571428571
+        "avgConfidence": 0.9114285714285715
       },
       {
         "ruleId": "ATR-2026-00074",
@@ -613,7 +1022,7 @@
         "categories": [
           "agent-manipulation"
         ],
-        "avgConfidence": 0.8119047619047618
+        "avgConfidence": 0.8161904761904761
       },
       {
         "ruleId": "ATR-2026-00051",
@@ -710,6 +1119,68 @@
         "avgConfidence": 0.71
       },
       {
+        "ruleId": "tier2.5-embedding-match",
+        "matchCount": 3,
+        "tpCount": 3,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.7930805556353836
+      },
+      {
+        "ruleId": "ATR-2026-00131",
+        "matchCount": 3,
+        "tpCount": 3,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.8435185185185184
+      },
+      {
+        "ruleId": "ATR-2026-00120",
+        "matchCount": 3,
+        "tpCount": 3,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection",
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9244444444444445
+      },
+      {
+        "ruleId": "ATR-2026-00111",
+        "matchCount": 3,
+        "tpCount": 3,
+        "fpCount": 0,
+        "categories": [
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.92
+      },
+      {
+        "ruleId": "ATR-2026-00135",
+        "matchCount": 2,
+        "tpCount": 2,
+        "fpCount": 0,
+        "categories": [
+          "tool-poisoning"
+        ],
+        "avgConfidence": 0.9066666666666667
+      },
+      {
+        "ruleId": "ATR-2026-00117",
+        "matchCount": 2,
+        "tpCount": 2,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation"
+        ],
+        "avgConfidence": 0.92
+      },
+      {
         "ruleId": "ATR-2026-00065",
         "matchCount": 2,
         "tpCount": 2,
@@ -718,26 +1189,68 @@
           "tool-poisoning"
         ],
         "avgConfidence": 0.725
+      },
+      {
+        "ruleId": "ATR-2026-00133",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.7166666666666667
+      },
+      {
+        "ruleId": "ATR-2026-00116",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation"
+        ],
+        "avgConfidence": 0.9071428571428571
+      },
+      {
+        "ruleId": "ATR-2026-00128",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9333333333333333
       }
     ],
     "weakRules": [
       {
-        "ruleId": "tier2.5-embedding-match",
-        "matchCount": 278,
-        "tpCount": 277,
-        "fpCount": 1,
+        "ruleId": "ATR-2026-00133",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
         "categories": [
-          "agent-manipulation",
-          "benign",
-          "context-exfiltration",
-          "data-poisoning",
-          "excessive-autonomy",
-          "model-abuse",
-          "privilege-escalation",
-          "prompt-injection",
-          "tool-poisoning"
+          "prompt-injection"
         ],
-        "avgConfidence": 0.8692774288829661
+        "avgConfidence": 0.7166666666666667
+      },
+      {
+        "ruleId": "ATR-2026-00116",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
+        "categories": [
+          "agent-manipulation"
+        ],
+        "avgConfidence": 0.9071428571428571
+      },
+      {
+        "ruleId": "ATR-2026-00128",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9333333333333333
       }
     ],
     "neverFiredRuleIds": [
@@ -768,10 +1281,39 @@
       "ATR-2026-00105",
       "ATR-2026-00106",
       "ATR-2026-00107",
-      "ATR-2026-00108"
+      "ATR-2026-00108",
+      "ATR-2026-00110",
+      "ATR-2026-00112",
+      "ATR-2026-00114",
+      "ATR-2026-00115",
+      "ATR-2026-00118",
+      "ATR-2026-00119",
+      "ATR-2026-00122",
+      "ATR-2026-00123",
+      "ATR-2026-00124",
+      "ATR-2026-00125",
+      "ATR-2026-00126",
+      "ATR-2026-00127",
+      "ATR-2026-00129",
+      "ATR-2026-00130",
+      "ATR-2026-00132",
+      "ATR-2026-00134",
+      "ATR-2026-00136",
+      "ATR-2026-00137",
+      "ATR-2026-00138",
+      "ATR-2026-00139",
+      "ATR-2026-00140",
+      "ATR-2026-00141",
+      "ATR-2026-00142",
+      "ATR-2026-00143",
+      "ATR-2026-00144",
+      "ATR-2026-00145",
+      "ATR-2026-00146",
+      "ATR-2026-00147",
+      "ATR-2026-00148"
     ]
   },
-  "ruleCount": 61,
+  "ruleCount": 100,
   "engine": "ATREngine",
   "tiers": [
     "tier2-regex",

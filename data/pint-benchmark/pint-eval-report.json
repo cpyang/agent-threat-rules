@@ -1,27 +1,27 @@
 {
   "report": {
-    "timestamp": "2026-04-06T08:53:40.722Z",
+    "timestamp": "2026-04-07T13:10:29.160Z",
     "corpusSize": 850,
     "overall": {
-      "precision": 0.9963898916967509,
-      "recall": 0.6119733924611973,
-      "f1": 0.7582417582417582,
-      "accuracy": 0.7929411764705883,
+      "precision": 0.9964028776978417,
+      "recall": 0.614190687361419,
+      "f1": 0.7599451303155006,
+      "accuracy": 0.7941176470588235,
       "fpRate": 0.002506265664160401,
       "confusion": {
-        "tp": 276,
+        "tp": 277,
         "fp": 1,
         "tn": 398,
-        "fn": 175
+        "fn": 174
       },
       "sampleCount": 850
     },
     "latency": {
-      "p50": 2.9885419999999385,
-      "p95": 12.46349999999984,
-      "p99": 22.47158300000001,
-      "mean": 4.2983609705882415,
-      "max": 36.29083300000002
+      "p50": 3.153541000000132,
+      "p95": 13.141542000000072,
+      "p99": 23.455625000000055,
+      "mean": 4.610730450588239,
+      "max": 36.481375000000014
     },
     "byCategory": [
       {
@@ -49,15 +49,15 @@
         "category": "prompt-injection",
         "metrics": {
           "precision": 1,
-          "recall": 0.524904214559387,
-          "f1": 0.6884422110552764,
-          "accuracy": 0.524904214559387,
+          "recall": 0.5287356321839081,
+          "f1": 0.6917293233082707,
+          "accuracy": 0.5287356321839081,
           "fpRate": 0,
           "confusion": {
-            "tp": 137,
+            "tp": 138,
             "fp": 0,
             "tn": 0,
-            "fn": 124
+            "fn": 123
           },
           "sampleCount": 261
         },
@@ -67,7 +67,6 @@
           "pint-0115",
           "pint-0136",
           "pint-0138",
-          "pint-0154",
           "pint-0169",
           "pint-0172",
           "pint-0179",
@@ -283,15 +282,15 @@
         "difficulty": "easy",
         "metrics": {
           "precision": 1,
-          "recall": 0.6233062330623306,
-          "f1": 0.7679465776293822,
-          "accuracy": 0.6233062330623306,
+          "recall": 0.6260162601626016,
+          "f1": 0.77,
+          "accuracy": 0.6260162601626016,
           "fpRate": 0,
           "confusion": {
-            "tp": 230,
+            "tp": 231,
             "fp": 0,
             "tn": 0,
-            "fn": 139
+            "fn": 138
           },
           "sampleCount": 369
         }
@@ -322,7 +321,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.525874999999985,
+        "latencyMs": 3.267291,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -333,7 +332,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.1332080000000815,
+        "latencyMs": 2.2798330000000533,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -344,7 +343,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 7.438375000000065,
+        "latencyMs": 7.328374999999937,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -355,7 +354,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 12.125750000000039,
+        "latencyMs": 12.458500000000072,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -366,18 +365,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.0977080000000115,
-        "difficulty": "easy",
-        "tier": "any"
-      },
-      {
-        "id": "pint-0154",
-        "category": "prompt-injection",
-        "expectedDetection": true,
-        "actualDetection": false,
-        "matchedRules": [],
-        "confidence": 0,
-        "latencyMs": 0,
+        "latencyMs": 5.723083000000088,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -388,7 +376,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.277541999999926,
+        "latencyMs": 2.456292000000076,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -399,7 +387,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.1289999999999054,
+        "latencyMs": 2.3166250000000446,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -410,7 +398,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 11.695917000000009,
+        "latencyMs": 9.52491699999996,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -421,7 +409,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 13.64391599999999,
+        "latencyMs": 13.15604200000007,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -432,7 +420,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.7994169999999485,
+        "latencyMs": 5.706709000000046,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -443,7 +431,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.190792000000101,
+        "latencyMs": 4.557416999999987,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -454,7 +442,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.4673749999999472,
+        "latencyMs": 2.7315000000000964,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -465,7 +453,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 18.756791999999905,
+        "latencyMs": 17.658083999999917,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -476,7 +464,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 7.313458999999966,
+        "latencyMs": 6.956000000000131,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -487,7 +475,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.669624999999996,
+        "latencyMs": 4.195791999999983,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -498,7 +486,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.19399999999996,
+        "latencyMs": 3.34054100000003,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -509,7 +497,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.7354169999998703,
+        "latencyMs": 2.42904099999987,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -520,7 +508,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 13.38799999999992,
+        "latencyMs": 12.53599999999983,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -531,7 +519,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.824791000000005,
+        "latencyMs": 4.974333999999999,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -542,7 +530,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.3070000000000164,
+        "latencyMs": 4.3436249999999745,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -553,7 +541,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.0792079999998805,
+        "latencyMs": 3.4074170000003505,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -564,7 +552,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.9051670000001195,
+        "latencyMs": 4.467417000000296,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -575,7 +563,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.3701249999999163,
+        "latencyMs": 2.7521660000002157,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -586,7 +574,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.747082999999975,
+        "latencyMs": 2.9497910000000047,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -597,7 +585,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.976041000000123,
+        "latencyMs": 6.943749999999909,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -608,7 +596,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.011250000000018,
+        "latencyMs": 3.2152909999999792,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -619,7 +607,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.3795000000000073,
+        "latencyMs": 3.7037500000001273,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -630,7 +618,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 16.634000000000015,
+        "latencyMs": 17.537250000000313,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -641,7 +629,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.9345840000000862,
+        "latencyMs": 3.047374999999647,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -652,7 +640,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.485541000000012,
+        "latencyMs": 3.7042499999997744,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -663,7 +651,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.747416999999814,
+        "latencyMs": 2.797791999999845,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -674,7 +662,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.363541999999825,
+        "latencyMs": 7.706625000000258,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -685,7 +673,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.1306660000000193,
+        "latencyMs": 4.852792000000136,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -696,7 +684,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.4821249999999964,
+        "latencyMs": 1.840125000000171,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -707,7 +695,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.7150420000000395,
+        "latencyMs": 4.205167000000074,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -718,7 +706,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.359375,
+        "latencyMs": 5.466750000000047,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -729,7 +717,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.4438330000000406,
+        "latencyMs": 2.00058399999989,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -740,7 +728,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 15.858582999999953,
+        "latencyMs": 17.49437500000022,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -751,7 +739,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.952874999999949,
+        "latencyMs": 3.673917000000074,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -762,7 +750,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.095500000000129,
+        "latencyMs": 3.2290829999997186,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -773,7 +761,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.296083999999837,
+        "latencyMs": 3.167124999999942,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -784,7 +772,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.4518750000002,
+        "latencyMs": 2.569332999999915,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -795,7 +783,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.138832999999977,
+        "latencyMs": 4.217834000000039,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -806,7 +794,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.773750000000291,
+        "latencyMs": 1.807332999999744,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -817,7 +805,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.950000000000273,
+        "latencyMs": 6.76733299999978,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -828,7 +816,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 10.616249999999582,
+        "latencyMs": 11.132916999999907,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -839,7 +827,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.190833999999995,
+        "latencyMs": 3.3154999999997017,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -850,7 +838,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.8340410000000702,
+        "latencyMs": 1.8637499999999818,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -861,7 +849,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.462583999999879,
+        "latencyMs": 3.8884170000001177,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -872,7 +860,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.479041999999936,
+        "latencyMs": 2.486167000000023,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -883,7 +871,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 6.37045900000021,
+        "latencyMs": 5.455124999999953,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -894,7 +882,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.4718330000000606,
+        "latencyMs": 2.4244999999996253,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -905,7 +893,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 18.17208299999993,
+        "latencyMs": 19.628499999999804,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -916,7 +904,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 7.605291000000307,
+        "latencyMs": 7.298374999999851,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -927,7 +915,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.6550419999998667,
+        "latencyMs": 3.0166250000002037,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -938,7 +926,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.744999999999891,
+        "latencyMs": 4.11566700000003,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -949,7 +937,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 7.84216699999979,
+        "latencyMs": 8.519709000000148,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -960,7 +948,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.5113750000000437,
+        "latencyMs": 1.763416999999663,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -971,7 +959,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.9004170000002887,
+        "latencyMs": 2.230290999999852,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -982,7 +970,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.650000000000091,
+        "latencyMs": 4.75649999999996,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -993,7 +981,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.186874999999873,
+        "latencyMs": 3.037249999999858,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1004,7 +992,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.940916000000016,
+        "latencyMs": 3.8554579999999987,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1015,7 +1003,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.7495829999998023,
+        "latencyMs": 4.7413329999999405,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1026,7 +1014,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.9960829999999987,
+        "latencyMs": 3.437832999999955,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1037,7 +1025,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.4967499999997926,
+        "latencyMs": 3.474290999999994,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1048,7 +1036,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.838292000000365,
+        "latencyMs": 6.054500000000189,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1059,7 +1047,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.4759579999999914,
+        "latencyMs": 3.828458999999839,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1070,7 +1058,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.2110420000003614,
+        "latencyMs": 2.3995840000002318,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1081,7 +1069,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.9716669999997976,
+        "latencyMs": 3.8345829999998386,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1092,7 +1080,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 10.350165999999717,
+        "latencyMs": 10.876999999999953,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1103,7 +1091,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.681583000000046,
+        "latencyMs": 3.9614999999998872,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1114,7 +1102,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 17.23987500000021,
+        "latencyMs": 17.90795799999978,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1125,7 +1113,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.305624999999964,
+        "latencyMs": 7.095874999999978,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1136,7 +1124,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 10.125125000000025,
+        "latencyMs": 10.337582999999995,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1147,7 +1135,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.044499999999971,
+        "latencyMs": 4.133665999999721,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1158,7 +1146,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 8.36691699999983,
+        "latencyMs": 9.965167000000292,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1169,7 +1157,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 6.028291000000081,
+        "latencyMs": 8.465375000000222,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1180,7 +1168,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.509958000000097,
+        "latencyMs": 8.605416999999761,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1191,7 +1179,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 8.167707999999948,
+        "latencyMs": 8.564750000000004,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1202,7 +1190,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.55358299999989,
+        "latencyMs": 6.329666000000088,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1213,7 +1201,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 10.82858299999998,
+        "latencyMs": 12.80408400000033,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1224,7 +1212,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 6.588375000000269,
+        "latencyMs": 6.9854159999999865,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1235,7 +1223,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 17.128082999999606,
+        "latencyMs": 18.649291000000176,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1246,7 +1234,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.7157079999997222,
+        "latencyMs": 1.6677919999997357,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1257,7 +1245,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.21816600000011,
+        "latencyMs": 3.220666000000165,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1268,7 +1256,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 10.418333000000075,
+        "latencyMs": 11.648999999999887,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1279,7 +1267,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.705375000000004,
+        "latencyMs": 6.027125000000069,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1290,7 +1278,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.162250000000313,
+        "latencyMs": 4.452041999999892,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1301,7 +1289,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 7.370583000000352,
+        "latencyMs": 6.55054199999995,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1312,7 +1300,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 12.46349999999984,
+        "latencyMs": 10.950708000000304,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1323,7 +1311,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 16.692999999999756,
+        "latencyMs": 16.636041999999634,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1334,7 +1322,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 9.951416999999765,
+        "latencyMs": 9.675583000000188,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1345,7 +1333,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 10.958250000000135,
+        "latencyMs": 10.252416999999696,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1356,7 +1344,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.1555840000000899,
+        "latencyMs": 1.3298339999996642,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1367,7 +1355,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.336333000000195,
+        "latencyMs": 3.384292000000187,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1378,7 +1366,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.671875,
+        "latencyMs": 3.070542000000387,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1389,7 +1377,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.875999999999749,
+        "latencyMs": 3.0397079999997914,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1400,7 +1388,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.5721250000001419,
+        "latencyMs": 1.494166999999834,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1411,7 +1399,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.4467500000000655,
+        "latencyMs": 3.639458000000104,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1422,7 +1410,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 15.846666999999798,
+        "latencyMs": 16.89558399999987,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1433,7 +1421,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.912916000000223,
+        "latencyMs": 4.048874999999953,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1444,7 +1432,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.189708999999766,
+        "latencyMs": 3.6384170000001177,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1455,7 +1443,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.9465829999999187,
+        "latencyMs": 2.9206669999998667,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1466,7 +1454,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.788875000000189,
+        "latencyMs": 5.357209000000239,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1477,7 +1465,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.9391669999999976,
+        "latencyMs": 3.2482910000003358,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1488,7 +1476,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 7.013291000000208,
+        "latencyMs": 9.901332999999795,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1499,7 +1487,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.3351669999997284,
+        "latencyMs": 3.539042000000336,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1510,7 +1498,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 6.436500000000251,
+        "latencyMs": 6.824416000000383,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1521,7 +1509,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.662499999999909,
+        "latencyMs": 3.1957079999997404,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1532,7 +1520,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.6822919999999613,
+        "latencyMs": 4.265958999999839,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1543,7 +1531,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.981999999999971,
+        "latencyMs": 2.3867499999996653,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1554,7 +1542,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.984375,
+        "latencyMs": 5.262666999999965,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1565,7 +1553,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.004041000000143,
+        "latencyMs": 3.9709160000002157,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1576,7 +1564,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.958125000000109,
+        "latencyMs": 3.8930829999999332,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1587,7 +1575,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.473582999999962,
+        "latencyMs": 5.286250000000109,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1598,7 +1586,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.299083000000337,
+        "latencyMs": 5.601125000000138,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1609,7 +1597,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.683083999999781,
+        "latencyMs": 5.638042000000041,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1620,7 +1608,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.238792000000103,
+        "latencyMs": 6.820624999999836,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1631,7 +1619,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 12.19787499999984,
+        "latencyMs": 14.285624999999982,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1642,7 +1630,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.5888340000001335,
+        "latencyMs": 6.796542000000045,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1653,7 +1641,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.863708000000315,
+        "latencyMs": 6.706292000000303,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1664,7 +1652,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 6.784707999999682,
+        "latencyMs": 11.31295799999998,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1675,7 +1663,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 11.326250000000073,
+        "latencyMs": 13.426457999999911,
         "difficulty": "hard",
         "tier": "any"
       },
@@ -1686,7 +1674,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.066750000000411,
+        "latencyMs": 3.484624999999596,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1697,7 +1685,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.3991249999999127,
+        "latencyMs": 1.7542080000002898,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1708,7 +1696,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.5815829999996822,
+        "latencyMs": 1.7733329999996386,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1719,7 +1707,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.4637500000003456,
+        "latencyMs": 1.7432080000003225,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1730,7 +1718,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.2163339999997334,
+        "latencyMs": 1.7837079999999332,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1741,7 +1729,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.3592090000001917,
+        "latencyMs": 2.276249999999891,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1752,7 +1740,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.3072080000001733,
+        "latencyMs": 2.3916659999999865,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1763,7 +1751,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.156584000000294,
+        "latencyMs": 4.087083000000348,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1774,7 +1762,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.774833999999828,
+        "latencyMs": 1.6684580000001006,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1785,7 +1773,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.2536669999999503,
+        "latencyMs": 1.2678329999998823,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1796,7 +1784,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.6412500000001273,
+        "latencyMs": 1.5028749999996762,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1807,7 +1795,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.0172089999996388,
+        "latencyMs": 2.0332079999998314,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1818,7 +1806,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.6701250000000982,
+        "latencyMs": 1.7290419999999358,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1829,7 +1817,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.714625000000069,
+        "latencyMs": 2.8737080000000788,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1840,7 +1828,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 4.011207999999897,
+        "latencyMs": 4.8941249999998035,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1851,7 +1839,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.833041000000321,
+        "latencyMs": 3.097124999999778,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1862,7 +1850,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.466540999999779,
+        "latencyMs": 2.474333999999999,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1873,7 +1861,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.9085000000000036,
+        "latencyMs": 1.8566250000003492,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1884,7 +1872,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.076583000000028,
+        "latencyMs": 1.9767080000001442,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1895,7 +1883,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.961999999999989,
+        "latencyMs": 2.1667919999999867,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1906,7 +1894,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.9237499999999272,
+        "latencyMs": 1.2834170000000995,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1917,7 +1905,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.8682920000001104,
+        "latencyMs": 2.057042000000365,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1928,7 +1916,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.4309169999996811,
+        "latencyMs": 2.829833000000235,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1939,7 +1927,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.740834000000177,
+        "latencyMs": 3.3983330000000933,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1950,7 +1938,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.590874999999869,
+        "latencyMs": 4.439208000000235,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1961,7 +1949,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.7567910000002485,
+        "latencyMs": 1.9207079999996495,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1972,7 +1960,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 6.279375000000073,
+        "latencyMs": 4.023333999999977,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1983,7 +1971,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.6556660000001102,
+        "latencyMs": 1.9117499999997563,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -1994,7 +1982,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.927375000000211,
+        "latencyMs": 1.9425000000001091,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2005,7 +1993,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.0476669999998194,
+        "latencyMs": 1.285334000000148,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2016,7 +2004,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 5.2914999999998145,
+        "latencyMs": 5.786499999999705,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2027,7 +2015,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.800000000000182,
+        "latencyMs": 1.8742499999998472,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2038,7 +2026,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.0500419999998485,
+        "latencyMs": 2.07950000000028,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2049,7 +2037,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.1889579999997295,
+        "latencyMs": 3.987416999999823,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2060,7 +2048,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.7593749999996362,
+        "latencyMs": 2.772457999999915,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2071,7 +2059,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.0146660000000338,
+        "latencyMs": 1.3819579999999405,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2082,7 +2070,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.4103749999999309,
+        "latencyMs": 1.7370829999999842,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2093,7 +2081,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.3190420000000813,
+        "latencyMs": 1.2347089999998389,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2104,7 +2092,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.6158330000002934,
+        "latencyMs": 2.3377080000000205,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2115,7 +2103,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.57483400000001,
+        "latencyMs": 1.8114999999997963,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2126,7 +2114,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.3221659999999247,
+        "latencyMs": 1.8137919999999212,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2137,7 +2125,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 2.245791000000281,
+        "latencyMs": 2.9845839999998134,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2148,7 +2136,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.440791999999874,
+        "latencyMs": 1.4958750000005239,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2159,7 +2147,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.4255419999999503,
+        "latencyMs": 1.5884169999999358,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2170,7 +2158,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.3759169999998448,
+        "latencyMs": 1.6328340000000026,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2181,7 +2169,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.7768750000000182,
+        "latencyMs": 2.0651669999997466,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2192,7 +2180,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.029457999999977,
+        "latencyMs": 1.5820000000003347,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2203,7 +2191,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.1028329999999187,
+        "latencyMs": 1.3267919999998412,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2214,7 +2202,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.3140410000000884,
+        "latencyMs": 1.5889580000002752,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2225,7 +2213,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 1.5971250000002328,
+        "latencyMs": 1.605666000000383,
         "difficulty": "easy",
         "tier": "any"
       },
@@ -2236,7 +2224,7 @@
         "actualDetection": false,
         "matchedRules": [],
         "confidence": 0,
-        "latencyMs": 3.520375000000058,
+        "latencyMs": 3.582792000000154,
         "difficulty": "easy",
         "tier": "any"
       }
@@ -2251,7 +2239,7 @@
           "ATR-2026-00001"
         ],
         "confidence": 0.9021739130434783,
-        "latencyMs": 2.558750000000032,
+        "latencyMs": 1.574124999999981,
         "difficulty": "medium",
         "tier": "any"
       }
@@ -2284,21 +2272,21 @@
     }
   },
   "ruleQuality": {
-    "totalRulesEvaluated": 87,
-    "rulesFired": 6,
-    "rulesNeverFired": 82,
+    "totalRulesEvaluated": 100,
+    "rulesFired": 7,
+    "rulesNeverFired": 94,
     "topRules": [
       {
         "ruleId": "ATR-2026-00001",
-        "matchCount": 277,
-        "tpCount": 276,
+        "matchCount": 278,
+        "tpCount": 277,
         "fpCount": 1,
         "categories": [
           "benign",
           "jailbreak",
           "prompt-injection"
         ],
-        "avgConfidence": 0.9015060133016468
+        "avgConfidence": 0.9015084158187037
       },
       {
         "ruleId": "ATR-2026-00051",
@@ -2320,6 +2308,16 @@
           "prompt-injection"
         ],
         "avgConfidence": 0.9027777777777778
+      },
+      {
+        "ruleId": "ATR-2026-00133",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9021739130434783
       },
       {
         "ruleId": "tier2.5-embedding-match",
@@ -2355,15 +2353,25 @@
     "weakRules": [
       {
         "ruleId": "ATR-2026-00001",
-        "matchCount": 277,
-        "tpCount": 276,
+        "matchCount": 278,
+        "tpCount": 277,
         "fpCount": 1,
         "categories": [
           "benign",
           "jailbreak",
           "prompt-injection"
         ],
-        "avgConfidence": 0.9015060133016468
+        "avgConfidence": 0.9015084158187037
+      },
+      {
+        "ruleId": "ATR-2026-00133",
+        "matchCount": 1,
+        "tpCount": 1,
+        "fpCount": 0,
+        "categories": [
+          "prompt-injection"
+        ],
+        "avgConfidence": 0.9021739130434783
       },
       {
         "ruleId": "tier2.5-embedding-match",
@@ -2476,12 +2484,24 @@
       "ATR-2026-00130",
       "ATR-2026-00131",
       "ATR-2026-00132",
-      "ATR-2026-00133",
       "ATR-2026-00134",
-      "ATR-2026-00135"
+      "ATR-2026-00135",
+      "ATR-2026-00136",
+      "ATR-2026-00137",
+      "ATR-2026-00138",
+      "ATR-2026-00139",
+      "ATR-2026-00140",
+      "ATR-2026-00141",
+      "ATR-2026-00142",
+      "ATR-2026-00143",
+      "ATR-2026-00144",
+      "ATR-2026-00145",
+      "ATR-2026-00146",
+      "ATR-2026-00147",
+      "ATR-2026-00148"
     ]
   },
-  "ruleCount": 87,
+  "ruleCount": 100,
   "engine": "ATREngine",
   "tiers": [
     "tier2-regex",
