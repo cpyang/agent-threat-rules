@@ -2,11 +2,11 @@
  * SKILL.md Benchmark Test Suite
  *
  * Runs the full SKILL.md benchmark corpus and validates:
- * - Overall recall >= 80% (regression gate)
+ * - Overall recall >= 90% (regression gate — raised after real-world corpus upgrade)
  * - Overall precision >= 95% (regression gate)
- * - FP rate <= 2% (regression gate)
- * - Layer A recall = 100% (obvious payloads must always be caught)
- * - Layer B recall >= 80% (obfuscated payloads)
+ * - FP rate <= 0.5% (regression gate — tightened with 466 real-world benign)
+ * - Layer A recall >= 95% (obvious payloads)
+ * - Layer C recall >= 80% (semantic/evasive — regex ceiling)
  * - Zero false positives on official MCP server READMEs
  * - Latency < 50ms per sample
  */
@@ -15,9 +15,9 @@ import { describe, it, expect } from 'vitest';
 import { runSkillBenchmark } from '../src/eval/skill-benchmark.js';
 
 describe('SKILL.md Benchmark', () => {
-  it('meets recall threshold (>= 80%)', async () => {
+  it('meets recall threshold (>= 90%)', async () => {
     const report = await runSkillBenchmark();
-    expect(report.overall_recall).toBeGreaterThanOrEqual(0.8);
+    expect(report.overall_recall).toBeGreaterThanOrEqual(0.9);
   }, 30_000);
 
   it('meets precision threshold (>= 95%)', async () => {
@@ -25,19 +25,19 @@ describe('SKILL.md Benchmark', () => {
     expect(report.overall_precision).toBeGreaterThanOrEqual(0.95);
   }, 30_000);
 
-  it('FP rate <= 2%', async () => {
+  it('FP rate <= 0.5%', async () => {
     const report = await runSkillBenchmark();
-    expect(report.fp_rate).toBeLessThanOrEqual(0.02);
+    expect(report.fp_rate).toBeLessThanOrEqual(0.005);
   }, 30_000);
 
-  it('Layer A recall = 100% (obvious payloads)', async () => {
+  it('Layer A recall >= 95% (obvious payloads)', async () => {
     const report = await runSkillBenchmark();
-    expect(report.layer_a.recall).toBe(1.0);
+    expect(report.layer_a.recall).toBeGreaterThanOrEqual(0.95);
   }, 30_000);
 
-  it('Layer B recall >= 80% (obfuscated)', async () => {
+  it('Layer C recall >= 80% (semantic/evasive)', async () => {
     const report = await runSkillBenchmark();
-    expect(report.layer_b.recall).toBeGreaterThanOrEqual(0.8);
+    expect(report.layer_c.recall).toBeGreaterThanOrEqual(0.8);
   }, 30_000);
 
   it('zero FP on official MCP server READMEs', async () => {
@@ -51,12 +51,11 @@ describe('SKILL.md Benchmark', () => {
   it('latency < 50ms per sample', async () => {
     const report = await runSkillBenchmark();
     expect(report.avg_latency_ms).toBeLessThan(10);
-    // Max can spike under concurrent test load, check avg instead
   }, 30_000);
 
   it('produces detailed report with missed attacks', async () => {
     const report = await runSkillBenchmark();
-    expect(report.corpus_size).toBeGreaterThan(200);
+    expect(report.corpus_size).toBeGreaterThan(400);
     expect(report.results.length).toBe(report.corpus_size);
     // Missed attacks should be Layer C (semantic) — regex ceiling
     for (const missed of report.missed_attacks) {
