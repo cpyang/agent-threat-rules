@@ -69,6 +69,18 @@ interface SkillScanReport {
   };
 }
 
+// --- Skill Benchmark ---
+interface SkillBenchmarkReport {
+  corpus_size: number;
+  malicious_count: number;
+  benign_count: number;
+  overall_recall: number;
+  overall_precision: number;
+  overall_f1: number;
+  fp_rate: number;
+  avg_latency_ms: number;
+}
+
 export interface SiteStats {
   // Rules
   ruleCount: number;
@@ -106,6 +118,14 @@ export interface SiteStats {
   skillFlagged: number;
   skillAvgLatency: number;
 
+  // Skill benchmark
+  skillBenchSamples: number;
+  skillBenchRecall: number;
+  skillBenchPrecision: number;
+  skillBenchF1: number;
+  skillBenchFpRate: number;
+  skillBenchLatency: number;
+
   // CVEs
   cveCount: number;
 
@@ -131,6 +151,7 @@ export function loadSiteStats(): SiteStats {
   const pint = readJson<PintReport>(join(DATA_DIR, "pint-benchmark", "pint-eval-report.json"));
   const eval_ = readJson<EvalReport>(join(DATA_DIR, "eval-report.json"));
   const skillScan = readJson<SkillScanReport>(join(DATA_DIR, "skill-scan-report-full.json"));
+  const skillBench = readJson<SkillBenchmarkReport>(join(DATA_DIR, "skill-benchmark", "benchmark-report.json"));
 
   // Count rules from filesystem
   const { loadAllRules } = require("./rules");
@@ -180,6 +201,13 @@ export function loadSiteStats(): SiteStats {
     skillPublishers: skillScan?.scan_metadata?.total_publishers ?? 104,
     skillFlagged: skillScan?.summary?.flagged ?? 26,
     skillAvgLatency: skillScan?.scan_metadata?.avg_latency_ms ?? 5.39,
+
+    skillBenchSamples: skillBench?.corpus_size ?? 498,
+    skillBenchRecall: Math.round((skillBench?.overall_recall ?? 0.969) * 1000) / 10,
+    skillBenchPrecision: Math.round((skillBench?.overall_precision ?? 1) * 1000) / 10,
+    skillBenchF1: Math.round((skillBench?.overall_f1 ?? 0.984) * 1000) / 10,
+    skillBenchFpRate: Math.round((skillBench?.fp_rate ?? 0) * 1000) / 10,
+    skillBenchLatency: Math.round((skillBench?.avg_latency_ms ?? 3.52) * 10) / 10,
 
     cveCount: cves.size || 16,
 

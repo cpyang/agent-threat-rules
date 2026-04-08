@@ -9,12 +9,10 @@ import { t } from "@/lib/i18n";
 export function Nav({ locale }: { locale: Locale }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
-      setAtTop(window.scrollY < window.innerHeight * 0.8);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
@@ -29,20 +27,18 @@ export function Nav({ locale }: { locale: Locale }) {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16 transition-all duration-500 ${
-          atTop
-            ? "bg-transparent border-b border-transparent"
-            : "bg-paper/92 backdrop-blur-md border-b border-fog"
-        } ${scrolled && !atTop ? "shadow-[0_1px_8px_rgba(0,0,0,0.04)]" : ""}`}
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16 transition-all duration-300 ${
+          scrolled
+            ? "bg-paper/92 backdrop-blur-md border-b border-fog shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
+            : "bg-transparent border-b border-transparent"
+        }`}
       >
-        <Link href={prefix} className="flex items-center gap-3">
-          <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-7">
-            <path d="M20 0L40 36H30L20 18L10 36H0L20 0Z" fill={atTop ? "#FAFAF8" : "#0B0B0F"} className="transition-[fill] duration-500" />
-            <line x1="6" y1="28" x2="34" y2="28" stroke={atTop ? "#FAFAF8" : "#0B0B0F"} strokeWidth="1.5" className="transition-[stroke] duration-500" />
-            <line x1="8" y1="31" x2="32" y2="31" stroke={atTop ? "#FAFAF8" : "#0B0B0F"} strokeWidth="1.2" className="transition-[stroke] duration-500" />
-            <line x1="10" y1="34" x2="30" y2="34" stroke={atTop ? "#FAFAF8" : "#0B0B0F"} strokeWidth="1" className="transition-[stroke] duration-500" />
-          </svg>
-          <span className={`font-data text-sm font-bold tracking-widest transition-colors duration-500 ${atTop ? "text-white" : "text-ink"}`}>ATR</span>
+        <Link href={prefix} className="flex items-center">
+          <img
+            src="/atr-logo-black.png"
+            alt="ATR"
+            className="h-7 md:h-8"
+          />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
@@ -52,10 +48,8 @@ export function Nav({ locale }: { locale: Locale }) {
               <Link
                 key={page}
                 href={`${prefix}/${page}`}
-                className={`text-sm font-medium transition-colors duration-500 ${
-                  isActive
-                    ? (atTop ? "text-white" : "text-ink")
-                    : (atTop ? "text-[#808089] hover:text-white" : "text-stone hover:text-ink")
+                className={`text-sm font-medium transition-colors ${
+                  isActive ? "text-ink" : "text-stone hover:text-ink"
                 }`}
               >
                 {t(locale, `nav.${page}`)}
@@ -67,7 +61,7 @@ export function Nav({ locale }: { locale: Locale }) {
         <div className="flex items-center gap-3">
           <Link
             href={`/${otherLocale}`}
-            className={`font-data text-xs transition-colors duration-500 tracking-wide ${atTop ? "text-[#808089] hover:text-white" : "text-stone hover:text-ink"}`}
+            className="font-data text-xs text-stone hover:text-ink transition-colors tracking-wide"
             aria-label={otherLocale === "zh" ? "Switch to Chinese" : "Switch to English"}
           >
             {otherLocale === "zh" ? "ZH" : "EN"}
@@ -84,9 +78,9 @@ export function Nav({ locale }: { locale: Locale }) {
             className="md:hidden flex flex-col gap-1.5 p-2"
             aria-label="Toggle menu"
           >
-            <span className={`block w-5 h-px transition-all duration-300 ${atTop ? "bg-white" : "bg-ink"} ${menuOpen ? "rotate-45 translate-y-[3.5px]" : ""}`} />
-            <span className={`block w-5 h-px transition-all duration-300 ${atTop ? "bg-white" : "bg-ink"} ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-5 h-px transition-all duration-300 ${atTop ? "bg-white" : "bg-ink"} ${menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""}`} />
+            <span className={`block w-5 h-px bg-ink transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[3.5px]" : ""}`} />
+            <span className={`block w-5 h-px bg-ink transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-px bg-ink transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""}`} />
           </button>
         </div>
       </nav>

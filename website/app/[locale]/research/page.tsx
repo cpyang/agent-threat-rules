@@ -111,6 +111,88 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         </p>
       </Reveal>
 
+      {/* SKILL.md Benchmark */}
+      <Reveal>
+        <h2 className="font-display text-2xl font-extrabold tracking-[-1px] mb-1 mt-10">
+          {locale === "zh" ? "SKILL.md 偵測基準" : "SKILL.md Detection Benchmark"}
+        </h2>
+        <p className="text-sm text-stone mb-6">
+          {locale === "zh"
+            ? "使用 498 個真實世界的 OpenClaw SKILL.md 檔案測試（32 個惡意 + 466 個正常）。Layer A = 明確惡意指令，Layer C = 混淆/隱藏攻擊。"
+            : "Tested against 498 real-world OpenClaw SKILL.md files (32 malicious + 466 benign). Layer A = explicit malicious instructions. Layer C = obfuscated / hidden attacks."}
+        </p>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mb-8">
+          <div className="bg-paper p-6">
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-4">
+              {locale === "zh" ? "整體表現" : "Overall Performance"}
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.skillBenchRecall} suffix="%" /></div>
+                <div className="text-xs text-stone">Recall</div>
+              </div>
+              <div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.skillBenchPrecision} suffix="%" /></div>
+                <div className="text-xs text-stone">Precision</div>
+              </div>
+              <div>
+                <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.skillBenchF1} /></div>
+                <div className="text-xs text-stone">F1</div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-fog">
+              <div>
+                <div className="font-data text-lg font-bold text-green"><CountUp target={stats.skillBenchFpRate} suffix="%" /></div>
+                <div className="text-xs text-stone">{locale === "zh" ? "誤報率" : "False positive rate"}</div>
+              </div>
+              <div>
+                <div className="font-data text-lg font-bold text-ink">{stats.skillBenchSamples}</div>
+                <div className="text-xs text-stone">{locale === "zh" ? "真實樣本" : "Real-world samples"}</div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-paper p-6">
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-4">
+              {locale === "zh" ? "按攻擊層分析" : "By Attack Layer"}
+            </div>
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="font-data text-sm font-semibold">Layer A</span>
+                  <span className="font-data text-sm font-bold text-ink">100%</span>
+                </div>
+                <div className="text-xs text-stone">
+                  {locale === "zh" ? "明確惡意指令 — 24/24 全部偵測" : "Explicit malicious instructions — 24/24 detected"}
+                </div>
+                <div className="mt-1.5 h-1.5 bg-fog"><div className="h-full bg-blue" style={{ width: "100%" }} /></div>
+              </div>
+              <div>
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="font-data text-sm font-semibold">Layer C</span>
+                  <span className="font-data text-sm font-bold text-ink">87.5%</span>
+                </div>
+                <div className="text-xs text-stone">
+                  {locale === "zh" ? "混淆/隱藏攻擊 — 7/8 偵測（1 個 rug-pull timebomb 未偵測）" : "Obfuscated attacks — 7/8 detected (1 rug-pull timebomb missed)"}
+                </div>
+                <div className="mt-1.5 h-1.5 bg-fog"><div className="h-full bg-blue" style={{ width: "87.5%" }} /></div>
+              </div>
+              <div>
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="font-data text-sm font-semibold">{locale === "zh" ? "正常樣本" : "Benign"}</span>
+                  <span className="font-data text-sm font-bold text-green">0 FP</span>
+                </div>
+                <div className="text-xs text-stone">
+                  {locale === "zh" ? "466 個正常 SKILL.md — 零誤報" : "466 benign SKILL.md files — zero false positives"}
+                </div>
+                <div className="mt-1.5 h-1.5 bg-fog"><div className="h-full bg-green" style={{ width: "100%" }} /></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       {/* Ecosystem Scan Data */}
       <Reveal>
         <h2 className="font-display text-2xl font-extrabold tracking-[-1px] mb-1 mt-10">{t(locale, "research.scan")}</h2>

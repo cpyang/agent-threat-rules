@@ -1,15 +1,17 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { t } from "@/lib/i18n";
+import { loadSiteStats } from "@/lib/stats";
 
 export function Footer({ locale }: { locale: Locale }) {
   const prefix = `/${locale}`;
   const zh = locale === "zh";
+  const stats = loadSiteStats();
 
   return (
     <footer className="border-t border-fog py-12 px-6">
       <div className="max-w-[1120px] mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           {/* Project */}
           <div>
             <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
@@ -17,13 +19,13 @@ export function Footer({ locale }: { locale: Locale }) {
             </div>
             <div className="flex flex-col gap-2">
               <Link href={`${prefix}/rules`} className="text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "Rules" : "Rules"}
+                Rules
               </Link>
               <Link href={`${prefix}/coverage`} className="text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "Coverage" : "Coverage"}
+                Coverage
               </Link>
               <Link href={`${prefix}/research`} className="text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "Research" : "Research"}
+                Research
               </Link>
             </div>
           </div>
@@ -35,7 +37,7 @@ export function Footer({ locale }: { locale: Locale }) {
             </div>
             <div className="flex flex-col gap-2">
               <Link href={`${prefix}/integrate`} className="text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "Integrate" : "Integrate"}
+                Integrate
               </Link>
               <a href="https://www.npmjs.com/package/agent-threat-rules" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
                 npm
@@ -53,13 +55,13 @@ export function Footer({ locale }: { locale: Locale }) {
             </div>
             <div className="flex flex-col gap-2">
               <Link href={`${prefix}/contribute`} className="text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "Contribute" : "Contribute"}
+                Contribute
               </Link>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/GOVERNANCE.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "Governance" : "Governance"}
+                Governance
               </a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/CONTRIBUTORS.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "Contributors" : "Contributors"}
+                Contributors
               </a>
             </div>
           </div>
@@ -76,6 +78,24 @@ export function Footer({ locale }: { locale: Locale }) {
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/LIMITATIONS.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
                 Limitations
               </a>
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
+                Security Policy
+              </a>
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
+              {zh ? "聯絡" : "Contact"}
+            </div>
+            <div className="flex flex-col gap-2">
+              <a href="mailto:contact@agentthreatrule.org" className="text-sm text-stone hover:text-ink transition-colors">
+                contact@agentthreatrule.org
+              </a>
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/issues" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
+                {zh ? "回報問題" : "Report an Issue"}
+              </a>
             </div>
           </div>
         </div>
@@ -83,17 +103,16 @@ export function Footer({ locale }: { locale: Locale }) {
         {/* Bottom bar */}
         <div className="border-t border-fog pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5">
-              <path d="M20 0L40 36H30L20 18L10 36H0L20 0Z" fill="#6B6B76" />
-              <line x1="6" y1="28" x2="34" y2="28" stroke="#6B6B76" strokeWidth="1.5" />
-              <line x1="8" y1="31" x2="32" y2="31" stroke="#6B6B76" strokeWidth="1.2" />
-              <line x1="10" y1="34" x2="30" y2="34" stroke="#6B6B76" strokeWidth="1" />
-            </svg>
+            <img src="/atr-logo-black.png" alt="ATR" className="h-5 opacity-40" />
             <span className="text-xs text-mist">
               {t(locale, "footer.note")}
             </span>
           </div>
-          <span className="font-data text-xs text-mist">MIT License</span>
+          <div className="flex items-center gap-4 font-data text-xs text-mist">
+            <span>ATR v1.0 · {stats.ruleCount} {zh ? "條規則" : "rules"}</span>
+            <span className="text-fog">|</span>
+            <span>MIT License</span>
+          </div>
         </div>
       </div>
     </footer>

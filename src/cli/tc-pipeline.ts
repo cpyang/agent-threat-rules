@@ -279,7 +279,7 @@ export async function cmdTCCrystallize(options: Record<string, string | undefine
       const tag = r?.cached ? `${DIM}cached${RESET}` : (p > 0 ? `${GREEN}+${p}${RESET}` : `${DIM}0${RESET}`);
       console.log(`  ${tech} (${items.length}) → ${tag}`);
 
-      await new Promise(r => setTimeout(r, 2500));
+      await new Promise(r => setTimeout(r, 5000));
     } catch {
       errors++;
       console.log(`  ${tech} → ${RED}error${RESET}`);

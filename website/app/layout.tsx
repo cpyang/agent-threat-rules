@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | ATR",
   },
   description:
-    "Open-source detection rules for AI agent security threats. 100 rules, 9 categories, 99.7% precision. Shipped in Cisco AI Defense. MIT Licensed.",
+    "Open-source detection rules for AI agent security threats. 108 rules, 9 categories, 99.7% precision, 96.9% SKILL.md recall. Shipped in Cisco AI Defense. MIT Licensed.",
   metadataBase: new URL("https://agentthreatrule.org"),
   openGraph: {
     title: "ATR - Agent Threat Rules",
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ATR - Agent Threat Rules",
     description:
-      "We used to protect people. Now we protect agents. 100 rules, 9 categories, 99.7% precision.",
+      "We used to protect people. Now we protect agents. 108 rules, 9 categories, 96.9% SKILL.md recall.",
   },
   keywords: [
     "AI agent security",
@@ -70,7 +71,7 @@ export default function RootLayout({
       className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col antialiased">
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );

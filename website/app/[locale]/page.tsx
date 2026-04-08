@@ -2,8 +2,10 @@ import { HeroEntrance } from "@/components/HeroEntrance";
 import { CountUp } from "@/components/CountUp";
 import { SpeedLines } from "@/components/SpeedLines";
 import { Reveal } from "@/components/Reveal";
-import { TypedTerminal } from "@/components/TypedTerminal";
 import { StatsHydrator } from "@/components/StatsHydrator";
+import { NumberScramble } from "@/components/NumberScramble";
+import { HeroGrid } from "@/components/DotGrid";
+import { Flywheel } from "@/components/Flywheel";
 import { loadSiteStats } from "@/lib/stats";
 import { loadAllRules, getCategories } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
@@ -65,37 +67,25 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       <StatsHydrator />
 
-      {/* ── Scene 1: The Shift (Dark Hero) ── */}
-      <section className="hero-dark min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6 relative overflow-hidden">
-        <div className="hero-grid absolute inset-0 pointer-events-none" />
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse 60% 50% at 50% 50%, transparent 0%, #08080C 80%)"
-        }} />
+      {/* ── Scene 1: The Shift (Hero) ── */}
+      <section className="bg-paper min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6 relative overflow-hidden">
+        <HeroGrid />
 
         <div className="relative z-10 max-w-[800px]">
-          <HeroEntrance delay={0.3}>
-            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-10 md:h-12 mx-auto mb-8 md:mb-10 drop-shadow-[0_0_30px_rgba(37,99,235,0.3)]">
-              <path d="M20 0L40 36H30L20 18L10 36H0L20 0Z" fill="#FAFAF8" />
-              <line x1="6" y1="28" x2="34" y2="28" stroke="#FAFAF8" strokeWidth="1.5" />
-              <line x1="8" y1="31" x2="32" y2="31" stroke="#FAFAF8" strokeWidth="1.2" />
-              <line x1="10" y1="34" x2="30" y2="34" stroke="#FAFAF8" strokeWidth="1" />
-            </svg>
-          </HeroEntrance>
-
           <HeroEntrance delay={0.5}>
-            <p className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.1] tracking-[-2px] md:tracking-[-3px] text-[#6B6B76]">
+            <p className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.1] tracking-[-2px] md:tracking-[-3px] text-stone">
               {zh ? "我們過去保護人。" : "We used to protect people."}
             </p>
           </HeroEntrance>
 
           <HeroEntrance delay={0.8}>
-            <h1 className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.1] tracking-[-2px] md:tracking-[-3px] hero-headline">
+            <h1 className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.1] tracking-[-2px] md:tracking-[-3px] text-ink">
               {zh ? "現在我們保護 Agent。" : "Now we protect agents."}
             </h1>
           </HeroEntrance>
 
           <HeroEntrance delay={1.0}>
-            <p className="text-sm md:text-base text-[#808089] font-light max-w-[480px] mx-auto mt-4 md:mt-5 leading-[1.7]">
+            <p className="text-sm md:text-base text-mist font-light max-w-[480px] mx-auto mt-4 md:mt-5 leading-[1.7]">
               {zh
                 ? "開源 AI agent 威脅偵測規則。\nnpm install，掃描你的 MCP 工具，安心上線。"
                 : "Open-source threat detection rules for AI agents.\nnpm install, scan your MCP tools, ship with confidence."}
@@ -106,25 +96,38 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="flex gap-3 justify-center flex-wrap mt-7 md:mt-8">
               <Link
                 href={`${prefix}/integrate`}
-                className="cta-glow bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-sm text-sm md:text-sm font-semibold hover:bg-blue-hover transition-all"
+                className="bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-sm text-sm font-semibold hover:bg-blue-hover transition-colors"
               >
                 {zh ? "整合 ATR" : "Integrate ATR"}
               </Link>
               <Link
                 href={`${prefix}/rules`}
-                className="text-[#FAFAF8] px-6 md:px-8 py-3 md:py-3.5 text-sm md:text-sm font-medium border border-[#2A2A35] hover:border-[#6B6B76] transition-colors rounded-sm"
+                className="text-ink px-6 md:px-8 py-3 md:py-3.5 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-sm"
               >
                 {zh ? "瀏覽規則" : "Explore Rules"}
               </Link>
+            </div>
+          </HeroEntrance>
+
+          {/* Credibility bar */}
+          <HeroEntrance delay={1.4}>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 mt-8 md:mt-10 font-data text-xs text-stone tracking-wide">
+              <span>{zh ? "Cisco AI Defense 採用" : "Shipped in Cisco AI Defense"}</span>
+              <span className="text-fog hidden sm:inline">|</span>
+              <span>{zh ? `${stats.ruleCount} 條規則` : `${stats.ruleCount} rules`}</span>
+              <span className="text-fog hidden sm:inline">|</span>
+              <span>OWASP 10/10</span>
+              <span className="text-fog hidden sm:inline">|</span>
+              <span>MIT License</span>
             </div>
           </HeroEntrance>
         </div>
 
         <HeroEntrance delay={1.5} className="absolute bottom-6 md:bottom-8 z-10">
           <div className="flex flex-col items-center gap-2">
-            <span className="font-data text-xs text-[#6B6B76] tracking-[3px] uppercase">scroll</span>
-            <div className="w-px h-5 md:h-6 bg-[#2A2A35] relative overflow-hidden">
-              <div className="absolute left-0 w-px h-5 md:h-6 bg-[#6B6B76]" style={{ animation: "scrollDown 1.8s ease-in-out infinite" }} />
+            <span className="font-data text-xs text-stone tracking-[3px] uppercase">scroll</span>
+            <div className="w-px h-5 md:h-6 bg-fog relative overflow-hidden">
+              <div className="absolute left-0 w-px h-5 md:h-6 bg-stone" style={{ animation: "scrollDown 1.8s ease-in-out infinite" }} />
             </div>
           </div>
         </HeroEntrance>
@@ -135,7 +138,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-[clamp(64px,14vw,180px)] font-bold text-critical/[0.07] leading-[0.85] mb-2 md:mb-3">
-              <CountUp target={stats.megaScanTotal} useComma liveKey="megaScanTotal" />
+              <NumberScramble target={stats.megaScanTotal.toLocaleString()} duration={2000} liveKey="megaScanTotal" />
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -183,8 +186,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px] bg-paper">
               {[
                 { value: stats.ruleCount, suffix: "", label: zh ? "條偵測規則" : "detection rules", desc: zh ? `${stats.categoryCount} 個威脅類別` : `${stats.categoryCount} threat categories`, liveKey: undefined },
-                { value: stats.pintPrecision, suffix: "%", label: zh ? "精準度" : "precision", desc: zh ? "幾乎零誤報" : "Near-zero false alarms", liveKey: "pintPrecision" },
-                { value: 5, suffix: "", label: zh ? "ms 以下延遲" : "ms latency", desc: zh ? "本地執行，無需 API" : "Local, no API calls", liveKey: undefined },
+                { value: stats.pintPrecision, suffix: "%", label: zh ? "MCP 精準度" : "MCP precision", desc: zh ? "幾乎零誤報" : "Near-zero false alarms", liveKey: "pintPrecision" },
+                { value: stats.skillBenchRecall, suffix: "%", label: zh ? "SKILL.md 召回率" : "SKILL.md recall", desc: zh ? `${stats.skillBenchSamples} 個真實樣本，0% 誤報` : `${stats.skillBenchSamples} real-world samples, 0% FP`, liveKey: undefined },
                 { value: stats.megaScanTotal, suffix: "", label: zh ? "skills 已掃描" : "skills scanned", desc: zh ? `${stats.megaScanFlagged.toLocaleString()} 個有風險` : `${stats.megaScanFlagged.toLocaleString()} flagged`, useComma: true, liveKey: "megaScanTotal" },
                 { value: 10, suffix: "/10", label: "OWASP Agentic", desc: zh ? "完整覆蓋" : "Full coverage", liveKey: undefined },
                 { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: zh ? "MCP 安全框架" : "MCP security framework", liveKey: undefined },
@@ -336,10 +339,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.05}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-px bg-paper">
               {[
                 { name: "OWASP Agentic Top 10", score: "10/10", detail: zh ? "完整覆蓋" : "Full coverage" },
                 { name: "SAFE-MCP (OpenSSF)", score: "91.8%", detail: "78/85" },
+                { name: zh ? "SKILL.md 偵測" : "SKILL.md Detection", score: `${stats.skillBenchRecall}%`, detail: zh ? `${stats.skillBenchSamples} 真實樣本 · 0% FP` : `${stats.skillBenchSamples} samples · 0% FP` },
                 { name: "OWASP Skills Top 10", score: "7/10", detail: zh ? "3 項為流程層級" : "3 process-level" },
                 { name: "PINT Benchmark", score: `${stats.pintF1}`, detail: `F1 / ${stats.pintSamples} samples` },
               ].map((std, i) => (
@@ -390,23 +394,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Reveal>
 
           <Reveal delay={0.2}>
-            <div className="pipeline-card bg-[#0B0B0F] border border-[#2A2A35] p-4 md:p-8 font-data text-xs md:text-sm leading-[2] md:leading-[2.4] text-[#A0A0B0] max-w-[620px]">
-              {[
-                zh ? "新攻擊模式在野外被偵測到" : "New attack pattern detected in the wild",
-                zh ? "LLM 分析攻擊結構 + 意圖" : "LLM analyzes attack structure + intent",
-                zh ? "自動產生 YAML 規則 + 測試案例" : "Auto-generates YAML rule + test cases",
-                zh ? "社群審查 + precision 測試" : "Community reviews + precision test gate",
-                zh ? "合併到 ATR，下游自動更新" : "Merged into ATR. Downstream auto-updates.",
-              ].map((step, i) => (
-                <div key={i}>
-                  {i > 0 && <div className="text-[#2A2A35] text-center pl-6 md:pl-8 py-0.5">|</div>}
-                  <div className="flex items-start gap-2 md:gap-3">
-                    <span className="text-blue font-bold w-4 md:w-5 text-right shrink-0 mt-px">{i + 1}.</span>
-                    <span className="text-[#E0E0E8]">{step}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Flywheel locale={locale} />
           </Reveal>
 
           <Reveal delay={0.3}>
@@ -436,20 +424,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
-      {/* ── Scene 8: The CTA (Dark) ── */}
-      <section className="cta-dark py-14 md:py-[120px] px-5 md:px-6 relative overflow-hidden">
-        <div className="hero-grid absolute inset-0 pointer-events-none opacity-50" />
-        <div className="relative z-10 max-w-[1120px] mx-auto text-center">
+      {/* ── Scene 8: The CTA ── */}
+      <section className="py-14 md:py-[120px] px-5 md:px-6 bg-ash">
+        <div className="max-w-[1120px] mx-auto text-center">
           <Reveal>
-            <h2 className="font-display text-[26px] md:text-[clamp(28px,4vw,56px)] font-black tracking-[-2px] mb-5 md:mb-6 text-white">
+            <h2 className="font-display text-[26px] md:text-[clamp(28px,4vw,56px)] font-black tracking-[-2px] mb-5 md:mb-6 text-ink">
               {zh ? "整合 ATR。" : "Integrate ATR."}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <TypedTerminal />
+            <div className="font-data text-sm bg-ink text-[#4ade80] px-6 py-4 border border-fog inline-block rounded-sm">
+              <span className="text-stone">$</span>{" "}
+              <span>npm install agent-threat-rules</span>
+              <span className="inline-block w-[8px] h-[18px] bg-[#4ade80] ml-0.5 align-middle animate-pulse" />
+            </div>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-sm md:text-base text-[#808089] font-light max-w-[460px] mx-auto mb-7 md:mb-8 mt-5 md:mt-6 leading-[1.7]">
+            <p className="text-sm md:text-base text-stone font-light max-w-[460px] mx-auto mb-7 md:mb-8 mt-5 md:mt-6 leading-[1.7]">
               {zh
                 ? <>TypeScript、Python、原始 YAML、<br className="md:hidden" />或 SIEM queries。<br />跟 Cisco 走的同一條路。</>
                 : <>TypeScript, Python, raw YAML,<br className="md:hidden" /> or SIEM queries.<br className="hidden md:block" /> The same path Cisco walked.</>}
@@ -459,13 +450,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="flex gap-3 justify-center flex-wrap">
               <Link
                 href={`${prefix}/integrate`}
-                className="cta-glow bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-sm text-sm md:text-sm font-semibold hover:bg-blue-hover transition-all"
+                className="bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-sm text-sm font-semibold hover:bg-blue-hover transition-colors"
               >
                 {zh ? "整合指南" : "Integration Guide"}
               </Link>
               <Link
                 href={`${prefix}/rules`}
-                className="text-[#FAFAF8] px-6 md:px-8 py-3 md:py-3.5 text-sm md:text-sm font-medium border border-[#2A2A35] hover:border-[#6B6B76] transition-colors rounded-sm"
+                className="text-ink px-6 md:px-8 py-3 md:py-3.5 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-sm"
               >
                 {zh ? "瀏覽所有規則" : "Explore All Rules"}
               </Link>
