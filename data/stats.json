@@ -1,0 +1,27 @@
+{
+  "version": "1.0.1",
+  "generatedAt": "2026-04-08T06:23:25.677Z",
+  "rules": {
+    "total": 100,
+    "categories": 9,
+    "byCategory": {
+      "agent-manipulation": 12,
+      "context-exfiltration": 12,
+      "data-poisoning": 1,
+      "excessive-autonomy": 5,
+      "model-security": 2,
+      "privilege-escalation": 8,
+      "prompt-injection": 29,
+      "skill-compromise": 20,
+      "tool-poisoning": 11
+    }
+  },
+  "ecosystem": {
+    "skillsScanned": 53377,
+    "skillsFlagged": 5939
+  },
+  "benchmark": {
+    "pintRecall": 0.614190687361419,
+    "pintPrecision": 0.9964028776978417
+  }
+}

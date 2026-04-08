@@ -18,15 +18,28 @@ export function StatsHydrator() {
 
     async function hydrate() {
       try {
-        const [megaRes, pintRes, evalRes] = await Promise.all([
+        const [megaRes, pintRes, evalRes, statsRes] = await Promise.all([
           fetch(`${GITHUB_RAW}/mega-scan-report.json`, { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null),
           fetch(`${GITHUB_RAW}/pint-benchmark/pint-eval-report.json`, { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null),
           fetch(`${GITHUB_RAW}/eval-report.json`, { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null),
+          fetch(`${GITHUB_RAW}/stats.json`, { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null),
         ]);
 
         if (cancelled) return;
 
         const live: Record<string, number> = {};
+
+        // Live rule count + categories from stats.json
+        if (statsRes?.rules) {
+          live.ruleCount = statsRes.rules.total;
+          live.categoryCount = statsRes.rules.categories;
+        }
+
+        // Live ecosystem scan data from stats.json (fallback to mega-scan)
+        if (statsRes?.ecosystem?.skillsScanned) {
+          live.megaScanTotal = statsRes.ecosystem.skillsScanned;
+          live.megaScanFlagged = statsRes.ecosystem.skillsFlagged;
+        }
 
         if (megaRes?.totals) {
           live.megaScanTotal = megaRes.totals.scanned;
