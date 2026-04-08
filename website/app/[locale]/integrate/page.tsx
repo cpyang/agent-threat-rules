@@ -16,24 +16,24 @@ const PATHS = [
   {
     title: "TypeScript / Node.js",
     cmd: "npm install agent-threat-rules",
-    code: `import { createEngine } from 'agent-threat-rules';
+    code: `import { ATREngine } from 'agent-threat-rules';
 
-const engine = createEngine();
-const verdict = engine.evaluate({
-  type: 'llm_input',
-  content: userMessage,
+const engine = new ATREngine();
+const matches = engine.evaluate({
+  type: 'tool_response',
+  content: toolOutput,
   timestamp: new Date().toISOString(),
 });
 
-if (verdict.outcome === 'deny') {
-  // Block the request
+if (matches.length > 0) {
+  // Threat detected — block or alert
 }`,
     doc: "https://github.com/Agent-Threat-Rule/agent-threat-rules#quick-start",
   },
   {
     title: "Python (pyATR)",
-    cmd: "cd python && pip install -e .",
-    code: `from atr import ATREngine
+    cmd: "pip install git+https://github.com/Agent-Threat-Rule/agent-threat-rules.git#subdirectory=python",
+    code: `from pyatr import ATREngine
 
 engine = ATREngine()
 result = engine.evaluate(event={
