@@ -83,14 +83,14 @@ export default async function ContributePage({ params }: { params: Promise<{ loc
               <div className="border border-fog p-6 h-full flex flex-col">
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <h2 className="font-display text-base font-semibold text-ink">{item.title}</h2>
-                  <span className="font-data text-[11px] text-stone whitespace-nowrap mt-0.5">{item.time}</span>
+                  <span className="font-data text-xs text-stone whitespace-nowrap mt-0.5">{item.time}</span>
                 </div>
-                <p className="text-[13px] text-stone leading-[1.6] mb-4 flex-1">{item.desc}</p>
+                <p className="text-sm text-stone leading-[1.6] mb-4 flex-1">{item.desc}</p>
                 <a
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-data text-[13px] text-blue hover:underline"
+                  className="font-data text-sm text-blue hover:underline"
                 >
                   {item.cta} &rarr;
                 </a>
@@ -107,14 +107,14 @@ export default async function ContributePage({ params }: { params: Promise<{ loc
             <h2 className="font-display text-base font-semibold">
               {zh ? "Threat Cloud 結晶流程" : "How Threat Cloud Crystallization Works"}
             </h2>
-            <p className="text-[13px] text-stone mt-1">
+            <p className="text-sm text-stone mt-1">
               {zh
                 ? "傳統規則需要數週撰寫、審查、發布。Threat Cloud 目標數小時。"
                 : "Traditional rules take weeks to write, review, and ship. Threat Cloud targets hours."}
             </p>
           </div>
           <div className="p-5 md:p-6">
-            <div className="font-data text-[13px] leading-[2.2] text-graphite">
+            <div className="font-data text-sm leading-[2.2] text-graphite">
               {(zh
                 ? [
                     "在野外偵測到新的攻擊模式",
@@ -149,15 +149,15 @@ export default async function ContributePage({ params }: { params: Promise<{ loc
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog">
           <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/GOVERNANCE.md" target="_blank" rel="noopener noreferrer" className="bg-paper p-6 hover:bg-ash transition-colors">
             <div className="font-display text-sm font-semibold mb-1">{t(locale, "contribute.governance")}</div>
-            <p className="text-[13px] text-stone">{t(locale, "contribute.governance.desc")}</p>
+            <p className="text-sm text-stone">{t(locale, "contribute.governance.desc")}</p>
           </a>
           <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/CONTRIBUTORS.md" target="_blank" rel="noopener noreferrer" className="bg-paper p-6 hover:bg-ash transition-colors">
             <div className="font-display text-sm font-semibold mb-1">{t(locale, "contribute.contributors")}</div>
-            <p className="text-[13px] text-stone">{t(locale, "contribute.contributors.desc")}</p>
+            <p className="text-sm text-stone">{t(locale, "contribute.contributors.desc")}</p>
           </a>
           <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/examples/how-to-write-a-rule.md" target="_blank" rel="noopener noreferrer" className="bg-paper p-6 hover:bg-ash transition-colors">
             <div className="font-display text-sm font-semibold mb-1">{t(locale, "contribute.guide")}</div>
-            <p className="text-[13px] text-stone">{t(locale, "contribute.guide.desc")}</p>
+            <p className="text-sm text-stone">{t(locale, "contribute.guide.desc")}</p>
           </a>
         </div>
       </Reveal>

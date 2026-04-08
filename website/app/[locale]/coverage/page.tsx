@@ -50,19 +50,19 @@ export default async function CoveragePage({ params }: { params: Promise<{ local
       <Reveal delay={0.3}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog mb-12">
           <div className="bg-paper p-6 text-center">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-2">OWASP Agentic</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-2">OWASP Agentic</div>
             <div className="font-data text-3xl font-bold text-ink">{stats.owaspAgentic}</div>
           </div>
           <div className="bg-paper p-6 text-center">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-2">SAFE-MCP</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-2">SAFE-MCP</div>
             <div className="font-data text-3xl font-bold text-ink">{stats.safeMcp}</div>
           </div>
           <div className="bg-paper p-6 text-center">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-2">OWASP AST10</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-2">OWASP AST10</div>
             <div className="font-data text-3xl font-bold text-ink">{stats.owaspAst10}</div>
           </div>
           <div className="bg-paper p-6 text-center">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-2">PINT F1</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-2">PINT F1</div>
             <div className="font-data text-3xl font-bold text-ink"><CountUp target={stats.pintF1} liveKey="pintF1" /></div>
           </div>
         </div>
@@ -76,18 +76,18 @@ export default async function CoveragePage({ params }: { params: Promise<{ local
       <Reveal delay={0.1}>
         <div className="border border-fog">
           <div className="hidden md:grid grid-cols-[100px_1fr_100px_100px] bg-ash border-b border-fog">
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">ID</div>
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "類別" : "Category"}</div>
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "規則數" : "Rules"}</div>
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "狀態" : "Status"}</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">ID</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "類別" : "Category"}</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "規則數" : "Rules"}</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "狀態" : "Status"}</div>
           </div>
           {coverage.owaspAgentic.map((m) => (
             <div key={m.id} className="grid grid-cols-1 md:grid-cols-[100px_1fr_100px_100px] border-b border-fog last:border-b-0 hover:bg-ash/50 transition-colors">
-              <div className="px-4 py-3 font-data text-[13px] text-blue">{m.id}</div>
+              <div className="px-4 py-3 font-data text-sm text-blue">{m.id}</div>
               <div className="px-4 py-3 text-sm text-ink">{m.category}</div>
               <div className="px-4 py-3 font-data text-sm text-ink">{m.ruleCount}</div>
               <div className="px-4 py-3">
-                <span className={`font-data text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-sm ${STATUS_COLORS[m.status] ?? ""}`}>
+                <span className={`font-data text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-sm ${STATUS_COLORS[m.status] ?? ""}`}>
                   {m.status}
                 </span>
               </div>
@@ -104,18 +104,18 @@ export default async function CoveragePage({ params }: { params: Promise<{ local
       <Reveal delay={0.1}>
         <div className="border border-fog">
           <div className="hidden md:grid grid-cols-[100px_1fr_100px_100px] bg-ash border-b border-fog">
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">ID</div>
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "類別" : "Category"}</div>
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "規則數" : "Rules"}</div>
-            <div className="px-4 py-2.5 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "狀態" : "Status"}</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">ID</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "類別" : "Category"}</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "規則數" : "Rules"}</div>
+            <div className="px-4 py-2.5 font-data text-xs text-stone uppercase tracking-wider font-semibold">{locale === "zh" ? "狀態" : "Status"}</div>
           </div>
           {coverage.owaspAst10.map((m) => (
             <div key={m.id} className="grid grid-cols-1 md:grid-cols-[100px_1fr_100px_100px] border-b border-fog last:border-b-0 hover:bg-ash/50 transition-colors">
-              <div className="px-4 py-3 font-data text-[13px] text-blue">{m.id}</div>
+              <div className="px-4 py-3 font-data text-sm text-blue">{m.id}</div>
               <div className="px-4 py-3 text-sm text-ink">{m.category}</div>
               <div className="px-4 py-3 font-data text-sm text-ink">{m.ruleCount}</div>
               <div className="px-4 py-3">
-                <span className={`font-data text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-sm ${STATUS_COLORS[m.status] ?? ""}`}>
+                <span className={`font-data text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-sm ${STATUS_COLORS[m.status] ?? ""}`}>
                   {m.status}
                 </span>
               </div>
@@ -132,7 +132,7 @@ export default async function CoveragePage({ params }: { params: Promise<{ local
           href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/SAFE-MCP-MAPPING.md"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-data text-[13px] text-blue hover:underline"
+          className="font-data text-sm text-blue hover:underline"
         >
           {locale === "zh" ? "在 GitHub 查看完整 SAFE-MCP 對應表" : "View full SAFE-MCP mapping on GitHub"} &rarr;
         </a>
@@ -144,7 +144,7 @@ export default async function CoveragePage({ params }: { params: Promise<{ local
         <p className="text-sm text-stone mb-4">{locale === "zh" ? "每條規則的 YAML 中包含 MITRE ATLAS 參照。在規則瀏覽器中依戰術分組。" : "Per-rule MITRE ATLAS references in each rule YAML. Grouped by tactic in the rule explorer."}</p>
         <Link
           href={`/${locale}/rules`}
-          className="font-data text-[13px] text-blue hover:underline"
+          className="font-data text-sm text-blue hover:underline"
         >
           {locale === "zh" ? "瀏覽含 MITRE 對應的規則" : "Browse rules with MITRE mappings"} &rarr;
         </Link>

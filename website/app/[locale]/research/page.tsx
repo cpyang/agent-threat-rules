@@ -50,10 +50,10 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
               DOI: <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">10.5281/zenodo.19178002</a>
             </div>
             <div className="flex gap-4">
-              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="font-data text-sm text-blue hover:underline">
                 Zenodo ({locale === "zh" ? "已發布" : "published"}) &rarr;
               </a>
-              <span className="font-data text-[13px] text-stone">SSRN: Abstract ID 6457179 ({locale === "zh" ? "審查中" : "pending review"})</span>
+              <span className="font-data text-sm text-stone">SSRN: Abstract ID 6457179 ({locale === "zh" ? "審查中" : "pending review"})</span>
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mb-8">
           {/* PINT */}
           <div className="bg-paper p-6">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">{t(locale, "research.pint")}</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-4">{t(locale, "research.pint")}</div>
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.pintPrecision} suffix="%" liveKey="pintPrecision" /></div>
@@ -87,7 +87,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           </div>
           {/* Self-test */}
           <div className="bg-paper p-6">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">{t(locale, "research.self")}</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-4">{t(locale, "research.self")}</div>
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <div className="font-data text-2xl font-bold text-ink"><CountUp target={stats.selfTestPrecision} suffix="%" liveKey="selfTestPrecision" /></div>
@@ -119,7 +119,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       <Reveal delay={0.1}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mb-8">
           <div className="bg-paper p-6">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">Mega Scan (OpenClaw + Skills.sh)</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">Mega Scan (OpenClaw + Skills.sh)</div>
             <div className="font-data text-3xl font-bold text-ink mb-1"><CountUp target={stats.megaScanTotal} useComma liveKey="megaScanTotal" /></div>
             <div className="text-sm text-stone mb-3">{locale === "zh" ? "個 skill 已掃描" : "skills scanned"}</div>
             <div className="grid grid-cols-3 gap-3 text-center">
@@ -138,7 +138,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
             </div>
           </div>
           <div className="bg-paper p-6">
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">ClawHub Registry Scan</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">ClawHub Registry Scan</div>
             <div className="font-data text-3xl font-bold text-ink mb-1"><CountUp target={stats.clawHubCrawled} useComma /></div>
             <div className="text-sm text-stone mb-3">{locale === "zh" ? "個 skill 已爬取" : "skills crawled"}</div>
             <div className="grid grid-cols-3 gap-3 text-center">
@@ -160,10 +160,10 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       </Reveal>
       <Reveal delay={0.2}>
         <div className="flex gap-4 mb-8">
-          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/clawhub-scan/ecosystem-report.csv" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/clawhub-scan/ecosystem-report.csv" target="_blank" rel="noopener noreferrer" className="font-data text-sm text-blue hover:underline">
             {t(locale, "research.download.csv")} &rarr;
           </a>
-          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/clawhub-scan/ecosystem-stats.json" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/clawhub-scan/ecosystem-stats.json" target="_blank" rel="noopener noreferrer" className="font-data text-sm text-blue hover:underline">
             {t(locale, "research.download.json")} &rarr;
           </a>
         </div>
@@ -181,14 +181,14 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           )).map((limitation) => (
             <div key={limitation.title} className="border-b border-fog pb-4">
               <div className="font-display text-sm font-semibold mb-1">{limitation.title}</div>
-              <p className="text-[13px] text-stone leading-[1.6]">{limitation.desc}</p>
+              <p className="text-sm text-stone leading-[1.6]">{limitation.desc}</p>
             </div>
           ))}
         </div>
       </Reveal>
       <Reveal>
         <div className="mt-6">
-          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/LIMITATIONS.md" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/LIMITATIONS.md" target="_blank" rel="noopener noreferrer" className="font-data text-sm text-blue hover:underline">
             {t(locale, "research.limits.full")} &rarr;
           </a>
         </div>

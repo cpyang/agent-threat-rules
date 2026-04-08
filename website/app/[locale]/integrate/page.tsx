@@ -106,7 +106,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 <div className="font-data text-sm text-stone bg-ash border border-fog px-4 py-3 mb-4">
                   $ <span className="text-ink">{path.cmd}</span>
                 </div>
-                <pre className="font-data text-[13px] text-graphite bg-ash border border-fog p-4 overflow-x-auto leading-relaxed">
+                <pre className="font-data text-sm text-graphite bg-ash border border-fog p-4 overflow-x-auto leading-relaxed">
                   {path.code}
                 </pre>
               </div>
@@ -131,7 +131,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
               <div className="space-y-4">
                 <div>
                   <div className="font-display text-sm font-semibold mb-1">ATR Schema v1.0 ({locale === "zh" ? "目前版本" : "current"})</div>
-                  <p className="text-[13px] text-stone leading-[1.6]">
+                  <p className="text-sm text-stone leading-[1.6]">
                     {locale === "zh"
                       ? "已發布且穩定。所有新增欄位皆為選填。現有欄位不會在主版本升級前被移除或重新命名。"
                       : "Published and stable. All new fields are optional additions. No existing field will be removed or renamed without a major version bump."}
@@ -139,7 +139,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 </div>
                 <div>
                   <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "向後相容" : "Backward Compatibility"}</div>
-                  <p className="text-[13px] text-stone leading-[1.6]">
+                  <p className="text-sm text-stone leading-[1.6]">
                     {locale === "zh"
                       ? "破壞性變更只會發生在主版本轉換時（v1 → v2）。我們提供遷移指南，並至少有 6 個月的重疊期同時支援兩個版本。"
                       : "Breaking changes only happen on major version transitions (v1 \u2192 v2). We provide migration guides and a minimum 6-month overlap period where both versions are supported."}
@@ -149,7 +149,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
               <div className="space-y-4">
                 <div>
                   <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "更新頻率" : "Update Frequency"}</div>
-                  <p className="text-[13px] text-stone leading-[1.6]">
+                  <p className="text-sm text-stone leading-[1.6]">
                     {locale === "zh"
                       ? <>持續新增規則（活躍期平均每週 2-5 條）。每條規則在合併前都通過 CI 驗證 + precision 測試。訂閱{" "}<a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/releases" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">GitHub Releases</a>{" "}取得更新日誌。</>
                       : <>New rules are added continuously (avg 2-5 per week during active periods). Every rule passes CI validation + precision test before merge. Subscribe to{" "}<a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/releases" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">GitHub Releases</a>{" "}for changelogs.</>}
@@ -157,7 +157,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 </div>
                 <div>
                   <div className="font-display text-sm font-semibold mb-1">{locale === "zh" ? "同步方式" : "Sync Methods"}</div>
-                  <div className="font-data text-[13px] text-stone leading-[1.8]">
+                  <div className="font-data text-sm text-stone leading-[1.8]">
                     <span className="text-ink">git submodule</span> &mdash; {locale === "zh" ? "鎖定 tag，按你的節奏更新" : "pin to tag, update on your schedule"}<br />
                     <span className="text-ink">npm install</span> &mdash; {locale === "zh" ? "語意版本控制，lockfile 鎖定版本" : "semver, lockfile controls version"}<br />
                     <span className="text-ink">GitHub Action</span> &mdash; {locale === "zh" ? "CI 自動使用最新規則掃描" : "CI scans with latest rules automatically"}
@@ -185,7 +185,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 { label: locale === "zh" ? "維護成本" : "Maintenance", atr: locale === "zh" ? "社群維護。MIT 授權。零成本。" : "Community-maintained. MIT. Zero cost.", own: locale === "zh" ? "需要持續的人力投入" : "Requires ongoing engineering effort" },
                 { label: locale === "zh" ? "生態系" : "Ecosystem", atr: locale === "zh" ? "Cisco 已整合，OWASP 和 OpenSSF PR 審查中" : "Cisco integrated, OWASP and OpenSSF PRs under review", own: locale === "zh" ? "獨立維護，無共享規則" : "Maintained independently, no shared rules" },
               ].map((row) => (
-                <div key={row.label} className="bg-paper text-[13px]">
+                <div key={row.label} className="bg-paper text-sm">
                   {/* Desktop: 3-column */}
                   <div className="hidden md:grid grid-cols-[140px_1fr_1fr]">
                     <div className="px-4 py-3 font-semibold text-ink border-r border-fog">{row.label}</div>
@@ -195,13 +195,13 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                   {/* Mobile: stacked */}
                   <div className="md:hidden p-4 space-y-2">
                     <div className="font-semibold text-ink">{row.label}</div>
-                    <div className="text-ink"><span className="font-data text-[11px] text-blue mr-1">ATR</span>{row.atr}</div>
-                    <div className="text-stone"><span className="font-data text-[11px] text-mist mr-1">{locale === "zh" ? "自建" : "DIY"}</span>{row.own}</div>
+                    <div className="text-ink"><span className="font-data text-xs text-blue mr-1">ATR</span>{row.atr}</div>
+                    <div className="text-stone"><span className="font-data text-xs text-mist mr-1">{locale === "zh" ? "自建" : "DIY"}</span>{row.own}</div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex gap-8 mt-3 text-[11px] font-data text-stone uppercase tracking-wider">
+            <div className="flex gap-8 mt-3 text-xs font-data text-stone uppercase tracking-wider">
               <span>&nbsp;</span>
               <span className="ml-[140px] text-blue">ATR</span>
               <span className="ml-auto">{locale === "zh" ? "自建規則" : "Internal Rules"}</span>
@@ -217,7 +217,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
             <h2 className="font-display text-lg font-semibold">{t(locale, "integrate.license.title")}</h2>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-[13px]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
               <div>
                 <div className="font-display text-sm font-semibold mb-1">MIT License</div>
                 <p className="text-stone leading-[1.6]">{locale === "zh" ? "可商用、修改、分發、再授權。無任何限制。" : "Use commercially, modify, distribute, sublicense. No restrictions."}</p>
@@ -262,10 +262,10 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 : <>Cisco&apos;s DefenseClaw team integrated ATR rules as an upstream dependency. Their engineer submitted PR #79, we reviewed it, and it merged in 3 days. They then built a <span className="font-data">--rule-packs</span> CLI feature (PR #80) specifically to consume ATR as a first-class rule source.</>}
             </p>
             <div className="flex gap-4">
-              <a href="https://github.com/cisco-ai-defense/skill-scanner/pull/79" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+              <a href="https://github.com/cisco-ai-defense/skill-scanner/pull/79" target="_blank" rel="noopener noreferrer" className="font-data text-sm text-blue hover:underline">
                 PR #79: Rules integration &rarr;
               </a>
-              <a href="https://github.com/cisco-ai-defense/skill-scanner/pull/80" target="_blank" rel="noopener noreferrer" className="font-data text-[13px] text-blue hover:underline">
+              <a href="https://github.com/cisco-ai-defense/skill-scanner/pull/80" target="_blank" rel="noopener noreferrer" className="font-data text-sm text-blue hover:underline">
                 PR #80: Rule-packs CLI &rarr;
               </a>
             </div>

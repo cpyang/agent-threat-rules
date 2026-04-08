@@ -12,7 +12,7 @@ export function Footer({ locale }: { locale: Locale }) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           {/* Project */}
           <div>
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
               {zh ? "專案" : "Project"}
             </div>
             <div className="flex flex-col gap-2">
@@ -30,7 +30,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
           {/* Developers */}
           <div>
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
               {zh ? "開發者" : "Developers"}
             </div>
             <div className="flex flex-col gap-2">
@@ -48,7 +48,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
           {/* Community */}
           <div>
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
               {zh ? "社群" : "Community"}
             </div>
             <div className="flex flex-col gap-2">
@@ -66,7 +66,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
           {/* Research */}
           <div>
-            <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
               {zh ? "研究" : "Research"}
             </div>
             <div className="flex flex-col gap-2">
@@ -93,7 +93,7 @@ export function Footer({ locale }: { locale: Locale }) {
               {t(locale, "footer.note")}
             </span>
           </div>
-          <span className="font-data text-[11px] text-mist">MIT License</span>
+          <span className="font-data text-xs text-mist">MIT License</span>
         </div>
       </div>
     </footer>

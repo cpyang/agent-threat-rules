@@ -128,11 +128,11 @@ export function RuleExplorer({ rules, categories, locale }: Props) {
         <div className="border border-fog">
           {/* Header */}
           <div className="hidden md:grid grid-cols-[140px_1fr_160px_100px_140px] border-b border-fog bg-ash">
-            <div className="px-4 py-3 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.id")}</div>
-            <div className="px-4 py-3 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.name")}</div>
-            <div className="px-4 py-3 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.category")}</div>
-            <div className="px-4 py-3 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.severity")}</div>
-            <div className="px-4 py-3 font-data text-[11px] text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.cves")}</div>
+            <div className="px-4 py-3 font-data text-xs text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.id")}</div>
+            <div className="px-4 py-3 font-data text-xs text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.name")}</div>
+            <div className="px-4 py-3 font-data text-xs text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.category")}</div>
+            <div className="px-4 py-3 font-data text-xs text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.severity")}</div>
+            <div className="px-4 py-3 font-data text-xs text-stone uppercase tracking-wider font-semibold">{t(locale, "rules.col.cves")}</div>
           </div>
 
           {/* Rows */}
@@ -142,11 +142,11 @@ export function RuleExplorer({ rules, categories, locale }: Props) {
                 onClick={() => setExpandedRule(expandedRule === rule.id ? null : rule.id)}
                 className="w-full text-left grid grid-cols-1 md:grid-cols-[140px_1fr_160px_100px_140px] border-b border-fog hover:bg-ash/60 transition-colors"
               >
-                <div className="px-4 py-3 font-data text-[13px] text-blue">{rule.id}</div>
+                <div className="px-4 py-3 font-data text-sm text-blue">{rule.id}</div>
                 <div className="px-4 py-3 text-sm text-ink">{rule.title}</div>
                 <div className="px-4 py-3 font-data text-xs text-stone">{rule.category}</div>
                 <div className="px-4 py-3">
-                  <span className={`font-data text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-sm ${SEVERITY_COLORS[rule.severity] ?? "bg-stone/10 text-stone"}`}>
+                  <span className={`font-data text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-sm ${SEVERITY_COLORS[rule.severity] ?? "bg-stone/10 text-stone"}`}>
                     {rule.severity}
                   </span>
                 </div>
@@ -160,25 +160,25 @@ export function RuleExplorer({ rules, categories, locale }: Props) {
                 <div className="bg-ash border-b border-fog px-6 py-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <div className="font-data text-[11px] text-stone uppercase tracking-wider mb-1">{t(locale, "rules.col.desc")}</div>
+                      <div className="font-data text-xs text-stone uppercase tracking-wider mb-1">{t(locale, "rules.col.desc")}</div>
                       <p className="text-sm text-graphite leading-relaxed">{rule.description}</p>
                     </div>
                     <div className="space-y-4">
                       {rule.owaspAgentic.length > 0 && (
                         <div>
-                          <div className="font-data text-[11px] text-stone uppercase tracking-wider mb-1">OWASP Agentic</div>
+                          <div className="font-data text-xs text-stone uppercase tracking-wider mb-1">OWASP Agentic</div>
                           <div className="font-data text-xs text-ink">{rule.owaspAgentic.join(", ")}</div>
                         </div>
                       )}
                       {rule.mitreAtlas.length > 0 && (
                         <div>
-                          <div className="font-data text-[11px] text-stone uppercase tracking-wider mb-1">MITRE ATLAS</div>
+                          <div className="font-data text-xs text-stone uppercase tracking-wider mb-1">MITRE ATLAS</div>
                           <div className="font-data text-xs text-ink">{rule.mitreAtlas.join(", ")}</div>
                         </div>
                       )}
                       {rule.cves.length > 0 && (
                         <div>
-                          <div className="font-data text-[11px] text-stone uppercase tracking-wider mb-1">CVEs</div>
+                          <div className="font-data text-xs text-stone uppercase tracking-wider mb-1">CVEs</div>
                           <div className="font-data text-xs text-ink">{rule.cves.join(", ")}</div>
                         </div>
                       )}

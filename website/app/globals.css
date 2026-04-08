@@ -51,19 +51,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Global readable line-heights for arbitrary font sizes */
-[class*="text-[12px]"],
-[class*="text-[13px]"] {
-  line-height: 1.65;
+/* Ensure all text has readable line-height */
+* {
+  line-height: inherit;
 }
-[class*="text-[14px]"],
-[class*="text-[15px]"] {
-  line-height: 1.7;
-}
-[class*="text-[10px]"],
-[class*="text-[11px]"],
-[class*="text-[9px]"] {
-  line-height: 1.5;
+p, li, span, div, a {
+  line-height: 1.6;
 }
 
 /* ── Dark Hero ── */
