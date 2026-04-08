@@ -218,7 +218,6 @@ export function loadSiteStats(): SiteStats {
         type: "merged",
         detail: "34 ATR rules merged as upstream. Built --rule-packs CLI for ATR.",
         url: "https://github.com/cisco-ai-defense/skill-scanner/pull/79",
-        logo: "https://github.com/cisco-ai-defense.png?size=128",
       },
       {
         name: "Awesome LM-SSP",
