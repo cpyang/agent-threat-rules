@@ -40,8 +40,7 @@ jobs:
       - name: Pull confirmed rules from TC
         env:
           TC_URL: ${{ vars.TC_URL || 'https://tc.panguard.ai' }}
-          TC_API_KEY: ${{ secrets.TC_API_KEY }}
-        run: npx tsx scripts/pull-from-tc.ts
+        run: node dist/cli.js tc pull
 
       - name: Count rules after
         id: after

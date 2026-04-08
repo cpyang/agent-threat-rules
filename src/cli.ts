@@ -57,6 +57,12 @@ ${BOLD}Usage:${RESET}
   atr badge <package> [--data <audit.json>] [--svg] [--json]
                                            Generate ATR Scanned badge for a package
 
+${BOLD}Threat Cloud Pipeline:${RESET}
+  atr tc status                            Show TC state (rules, proposals, threats)
+  atr tc sync [--tc-key <key>]             Push repo rules → TC (updates metrics + website)
+  atr tc pull [--since <ISO>]              Pull confirmed TC rules → repo (validate + write)
+  atr tc crystallize                       Send missed attacks → TC LLM → new proposals
+
 ${BOLD}Options:${RESET}
   --rules <dir>    Custom rules directory (default: bundled rules)
   --json           Output results as JSON
@@ -956,6 +962,28 @@ async function main(): Promise<void> {
     case 'badge':
       cmdBadge(target, options);
       break;
+    case 'tc': {
+      const { cmdTCSync, cmdTCPull, cmdTCCrystallize, cmdTCStatus } = await import('./cli/tc-pipeline.js');
+      const subcommand = target;
+      switch (subcommand) {
+        case 'status':
+          await cmdTCStatus(options);
+          break;
+        case 'sync':
+          await cmdTCSync(options);
+          break;
+        case 'pull':
+          await cmdTCPull(options);
+          break;
+        case 'crystallize':
+          await cmdTCCrystallize(options);
+          break;
+        default:
+          console.error(`${RED}Unknown tc subcommand: ${subcommand}. Use: status, sync, pull, crystallize${RESET}`);
+          process.exit(1);
+      }
+      break;
+    }
     default:
       console.error(`${RED}Unknown command: ${command}${RESET}`);
       printUsage();
