@@ -42,7 +42,7 @@
 \begin{abstract}
 The deployment of autonomous AI agents --- systems that reason, use tools, maintain memory, and coordinate with other agents --- has created a novel category of security challenge. Unlike traditional software, AI agents are \textbf{non-deterministic systems that process attacks and legitimate instructions through the same channel, in the same language, in the same context space.} The foundational assumption of 40 years of cybersecurity --- that you can separate control flow from data flow --- no longer holds.
 
-This paper presents a comprehensive analysis of the AI agent security landscape based on empirical evidence from 30+ CVEs \cite{cve6514,cve53773,cvegit,cve49596,cve59536,postmark,sandworm}, multiple distinct attack classes, 7 published benchmarks \cite{pint,mcptox,asb,aishell,hacka,tensortrust,caibench}, and multiple real-world production incidents in 2025--2026. We make five contributions:
+This paper presents a empirical analysis of the AI agent security landscape based on empirical evidence from 30+ CVEs \cite{cve6514,cve53773,cvegit,cve49596,cve59536,postmark,sandworm}, multiple distinct attack classes, 7 published benchmarks \cite{pint,mcptox,asb,aishell,hacka,tensortrust,caibench}, and multiple real-world production incidents in 2025--2026. We make five contributions:
 
 \textbf{(1)} We demonstrate that AI agents are missing two of three foundational security trust pillars (authorization and integrity), and that this architectural gap --- not model weakness --- is the root cause of agent vulnerability.
 
@@ -818,7 +818,7 @@ Static defenses at the I/O boundary cannot solve this. The industry needs:
 \begin{itemize}
 \item \textbf{Multi-point defense} across all 10 agent data flow points, not just user input
 \item \textbf{Below-reasoning-layer detection} that cannot be manipulated by the attacks it's detecting
-\item \textbf{Cascade architecture} that makes comprehensive detection economically viable
+\item \textbf{Cascade architecture} that makes full-coverage detection economically viable
 \item \textbf{Evolutionary capability} that keeps pace with attack evolution
 \item \textbf{An open standard} that enables community-driven defense, independent verification, and interoperability across agent platforms
 \end{itemize}
@@ -851,7 +851,7 @@ A.~Chhabra et al., ``Agentic AI Security: Threats, Defenses, Evaluation, and Ope
 ``From Prompt Injections to Protocol Exploits,'' \textit{arXiv:2506.23260}, 2025.
 
 \bibitem{promptinjsurvey}
-``Prompt Injection Attacks in LLMs: A Comprehensive Review,'' \textit{MDPI Information}, 17(1):54, 2025.
+``Prompt Injection Attacks in LLMs: A Review,'' \textit{MDPI Information}, 17(1):54, 2025.
 
 \bibitem{securitymodeling}
 ``Security Threat Modeling for Emerging AI-Agent Protocols,'' \textit{arXiv:2602.11327}, 2026.
