@@ -54,8 +54,8 @@ export default async function ContributePage({ params }: { params: Promise<{ loc
             {
               title: zh ? "回報誤判" : "Report a False Positive",
               desc: zh
-                ? "規則誤判了正常內容？幫我們維持 99.7% precision 的真實性。"
-                : "Rule triggered on legitimate content? Help us keep 99.7% precision real.",
+                ? "規則誤判了正常內容？幫我們維持 99.6% precision 的真實性。"
+                : "Rule triggered on legitimate content? Help us keep 99.6% precision real.",
               time: "~20 min",
               href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=false-positive.md",
               cta: zh ? "開一個 Issue" : "Open an Issue",

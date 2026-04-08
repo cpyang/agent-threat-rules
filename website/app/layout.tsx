@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | ATR",
   },
   description:
-    "Open-source detection rules for AI agent security threats. 108 rules, 9 categories, 99.7% precision, 96.9% SKILL.md recall. Shipped in Cisco AI Defense. MIT Licensed.",
+    "Open-source detection rules for AI agent security threats. 108 rules, 9 categories, 99.6% precision, 96.9% SKILL.md recall. Shipped in Cisco AI Defense. MIT Licensed.",
   metadataBase: new URL("https://agentthreatrule.org"),
   alternates: {
     canonical: "https://agentthreatrule.org",

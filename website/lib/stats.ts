@@ -179,20 +179,20 @@ export function loadSiteStats(): SiteStats {
     clawHubHigh: clawhub?.summary?.HIGH ?? 1124,
     clawHubScanDate: clawhub?.scanDate ?? "2026-03-26",
 
-    megaScanTotal: mega?.totals?.scanned ?? 53377,
-    megaScanFlagged: mega?.totals?.flagged ?? 5939,
-    megaScanCritical: mega?.severity?.critical ?? 3255,
-    megaScanHigh: mega?.severity?.high ?? 2656,
+    megaScanTotal: mega?.totals?.scanned ?? 53577,
+    megaScanFlagged: mega?.totals?.flagged ?? 946,
+    megaScanCritical: mega?.severity?.critical ?? 875,
+    megaScanHigh: mega?.severity?.high ?? 52,
     megaScanSources: {
-      openclaw: mega?.sources?.openclaw ?? 50285,
+      openclaw: mega?.sources?.openclaw ?? 50485,
       skillsSh: mega?.sources?.skills_sh ?? 3115,
     },
-    megaScanDate: mega?.scan_date ?? "2026-04-06",
+    megaScanDate: mega?.scan_date ?? "2026-04-08",
 
     pintSamples: pint?.report?.corpusSize ?? 850,
-    pintPrecision: Math.round((pint?.report?.overall?.precision ?? 0.9964) * 1000) / 10,
-    pintRecall: Math.round((pint?.report?.overall?.recall ?? 0.612) * 1000) / 10,
-    pintF1: Math.round((pint?.report?.overall?.f1 ?? 0.758) * 1000) / 10,
+    pintPrecision: Math.round((pint?.report?.overall?.precision ?? 0.9964) * 1000) / 10, // 99.6%
+    pintRecall: Math.round((pint?.report?.overall?.recall ?? 0.6142) * 1000) / 10, // 61.4%
+    pintF1: Math.round((pint?.report?.overall?.f1 ?? 0.7599) * 1000) / 10, // 76.0%
 
     selfTestSamples: eval_?.report?.corpusSize ?? 341,
     selfTestPrecision: Math.round((eval_?.report?.overall?.precision ?? 0.997) * 1000) / 10,
