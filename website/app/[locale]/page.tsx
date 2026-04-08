@@ -89,10 +89,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </HeroEntrance>
 
           <HeroEntrance delay={1.0}>
-            <p className="text-sm md:text-base text-mist font-light max-w-[480px] mx-auto mt-4 md:mt-5 leading-[1.7]">
+            <p className="text-sm md:text-base text-mist font-light max-w-[520px] mx-auto mt-4 md:mt-5 leading-[1.7]">
               {zh
-                ? "開源 AI agent 威脅偵測規則。\nnpm install，掃描你的 MCP 工具，安心上線。"
-                : "Open-source threat detection rules for AI agents.\nnpm install, scan your MCP tools, ship with confidence."}
+                ? "AI agent 安全的開放偵測標準。108 條規則。Cisco 已採用。保護 90,000+ 個 skill 的生態系。"
+                : "The open detection standard for AI agent security. 108 rules. Shipped in Cisco. Protecting 90,000+ skills across the ecosystem."}
             </p>
           </HeroEntrance>
 
@@ -148,22 +148,22 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.1}>
             <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-4 md:mb-5">
               {zh
-                ? <>MCP skills 已掃描。<br className="md:hidden" />{stats.megaScanFlagged.toLocaleString()} 個有威脅。</>
-                : <>MCP skills scanned.<br className="md:hidden" /> {stats.megaScanFlagged.toLocaleString()} flagged with threats.</>}
+                ? <>skills 已掃描 — 史上最大規模的 AI agent 安全掃描。<br className="md:hidden" />{stats.megaScanFlagged.toLocaleString()} 個有威脅。</>
+                : <>skills scanned — the largest AI agent security scan ever conducted.<br className="md:hidden" /> {stats.megaScanFlagged.toLocaleString()} flagged with threats.</>}
             </div>
           </Reveal>
           <Reveal delay={0.2}>
             <h2 className="font-display text-[20px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-1px] leading-[1.3] mb-3 md:mb-4 max-w-[620px]">
               {zh
-                ? <>你的 AI agent 正在呼叫外部工具。<br className="hidden md:block" />你確定它們是安全的嗎？</>
-                : <>Your AI agent calls external tools.<br className="hidden md:block" /> Are you sure they&apos;re safe?</>}
+                ? <>每個 AI agent 都在呼叫外部工具。<br className="hidden md:block" />整個生態系需要一個共享的偵測標準。</>
+                : <>Every AI agent calls external tools.<br className="hidden md:block" /> The ecosystem needs a shared detection standard.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.3}>
             <p className="text-sm md:text-lg font-light leading-[1.7] text-graphite max-w-[580px]">
               {zh
-                ? (<>攻擊者誘騙 AI agent <strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行惡意指令</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。<br className="hidden md:block" />但沒有一個共享的偵測標準。每個平台都在獨自面對同樣的威脅。</>)
-                : (<>Attackers trick AI agents into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running malicious commands</strong>, and <strong className="font-semibold text-critical">bypassing safety boundaries</strong>.<br className="hidden md:block" /> But there is no shared detection standard. Every platform faces the same threats alone.</>)}
+                ? (<>攻擊者誘騙 AI agent <strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行惡意指令</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。<br className="hidden md:block" />沒有共享規則，每個平台獨自面對同樣的威脅。ATR 讓整個生態系共享防禦。</>)
+                : (<>Attackers trick AI agents into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running malicious commands</strong>, and <strong className="font-semibold text-critical">bypassing safety boundaries</strong>.<br className="hidden md:block" /> Without shared rules, every platform fights the same threats alone. ATR gives the entire ecosystem a shared defense.</>)}
             </p>
           </Reveal>
         </div>
@@ -182,8 +182,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.05}>
             <h2 className="font-display text-[18px] md:text-[clamp(20px,2.5vw,28px)] font-extrabold tracking-[-0.5px] md:tracking-[-1px] leading-[1.4] mb-5 md:mb-6 max-w-[600px]">
               {zh
-                ? <>ATR 是共享的偵測標準。<br />開源規則，任何平台都能直接使用。</>
-                : <>ATR is the shared detection standard.<br className="hidden md:block" /> Open rules any platform can use directly.</>}
+                ? <>一套規則，整個生態系共享。<br />你用的每一條，都在強化所有人的防禦。</>
+                : <>One set of rules, shared across the ecosystem.<br className="hidden md:block" /> Every rule you use strengthens everyone&apos;s defense.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -403,24 +403,24 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       <SpeedLines />
 
-      {/* ── Scene 7: The Future ── */}
+      {/* ── Scene 7: The Network ── */}
       <section className="py-14 md:py-[120px] px-5 md:px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-3 md:mb-4">
-              {zh ? "未來" : "The Future"}
+              {zh ? "飛輪" : "The Network"}
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="font-display text-[22px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.25] max-w-[700px] mb-3">
-              {zh ? "ATR 規則不需要手寫。" : "ATR rules don\u0027t have to be written by hand."}
+              {zh ? <>每個端點都是感測器。<br />每次掃描都在強化網絡。</> : <>Every endpoint is a sensor.<br className="hidden md:block" /> Every scan strengthens the network.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="text-sm md:text-base text-stone font-light max-w-[560px] mb-6 md:mb-8 leading-[1.7]">
               {zh
-                ? <>當新的攻擊手法出現，<br className="md:hidden" />AI 自動分析攻擊結構，產生偵測規則，<br className="md:hidden" />社群審查後合併。<br />從發現到防護，目標數小時而不是數週。</>
-                : <>When a new attack technique appears,<br className="md:hidden" /> AI automatically analyzes the attack, generates a detection rule, and the community reviews it.<br className="hidden md:block" /> From discovery to protection in hours, not weeks.</>}
+                ? <>你的掃描結果回饋到 Threat Cloud。AI 分析新威脅，自動結晶偵測規則，社群審查後合併。你用的規則越多，整個生態系越安全。這不是工具，是網絡效應。</>
+                : <>Your scan results feed back into the Threat Cloud. AI analyzes new threats, crystallizes detection rules, and the community reviews them. The more you use ATR, the safer the entire ecosystem becomes. This is not a tool. It is a network effect.</>}
             </p>
           </Reveal>
 
@@ -429,26 +429,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Reveal>
 
           <Reveal delay={0.3}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mt-10 md:mt-12">
-              <div className="bg-paper p-6">
-                <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-4">
-                  {zh ? "傳統方式" : "The Old Way"}
+            <div className="grid grid-cols-3 gap-px bg-fog mt-10 md:mt-12">
+              <div className="bg-paper p-5 md:p-6 text-center">
+                <div className="font-data text-[clamp(22px,3vw,36px)] font-bold text-ink">
+                  <CountUp target={stats.megaScanTotal} useComma liveKey="megaScanTotal" />
                 </div>
-                <ul className="space-y-3 text-sm text-stone">
-                  <li>{zh ? "每個廠商自己寫規則，閉源，互不共享" : "Every vendor writes their own rules. Closed source. No sharing."}</li>
-                  <li>{zh ? "新攻擊出現，數週到數月後才有規則" : "New attack appears. Rules arrive weeks to months later."}</li>
-                  <li>{zh ? "規則格式不統一，無法跨平台使用" : "Rule formats incompatible across platforms."}</li>
-                </ul>
+                <div className="font-data text-xs text-stone mt-1">{zh ? "次掃描回饋" : "scans fed back"}</div>
               </div>
-              <div className="bg-paper p-6">
-                <div className="font-data text-xs text-blue tracking-[2px] uppercase mb-4">
-                  ATR + Threat Cloud
-                </div>
-                <ul className="space-y-3 text-sm text-ink">
-                  <li>{zh ? "一套開放規則，所有生態系共享，MIT 授權" : "One set of open rules. All ecosystems. MIT licensed."}</li>
-                  <li>{zh ? "新攻擊出現，數小時內產生規則" : "New attack appears. Rules generated in hours."}</li>
-                  <li>{zh ? "統一 YAML，可匯出 Splunk / Elastic / SARIF" : "Unified YAML. Export to Splunk, Elastic, SARIF."}</li>
-                </ul>
+              <div className="bg-paper p-5 md:p-6 text-center">
+                <div className="font-data text-[clamp(22px,3vw,36px)] font-bold text-ink">&lt;1h</div>
+                <div className="font-data text-xs text-stone mt-1">{zh ? "從發現到防護" : "discovery to protection"}</div>
+              </div>
+              <div className="bg-paper p-5 md:p-6 text-center">
+                <div className="font-data text-[clamp(22px,3vw,36px)] font-bold text-ink">{stats.ruleCount}+</div>
+                <div className="font-data text-xs text-stone mt-1">{zh ? "條規則持續增長" : "rules and growing"}</div>
               </div>
             </div>
           </Reveal>
@@ -460,7 +454,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="max-w-[1120px] mx-auto text-center">
           <Reveal>
             <h2 className="font-display text-[26px] md:text-[clamp(28px,4vw,56px)] font-black tracking-[-2px] mb-5 md:mb-6 text-ink">
-              {zh ? "整合 ATR。" : "Integrate ATR."}
+              {zh ? "加入生態系。" : "Join the ecosystem."}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -471,10 +465,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-sm md:text-base text-stone font-light max-w-[460px] mx-auto mb-7 md:mb-8 mt-5 md:mt-6 leading-[1.7]">
+            <p className="text-sm md:text-base text-stone font-light max-w-[480px] mx-auto mb-7 md:mb-8 mt-5 md:mt-6 leading-[1.7]">
               {zh
-                ? <>TypeScript、Python、原始 YAML、<br className="md:hidden" />或 SIEM queries。<br />跟 Cisco 走的同一條路。</>
-                : <>TypeScript, Python, raw YAML,<br className="md:hidden" /> or SIEM queries.<br className="hidden md:block" /> The same path Cisco walked.</>}
+                ? <>Cisco 走了這條路。Awesome LM-SSP 走了。Agentic AI Top 10 也走了。<br />你的平台接上 ATR，就加入了共享防禦網絡。</>
+                : <>Cisco walked this path. Awesome LM-SSP did. Agentic AI Top 10 did.<br className="hidden md:block" /> Connect your platform to ATR and join the shared defense network.</>}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
