@@ -14,11 +14,6 @@
   role: maintainer
   contributions: [rules, engine, website, benchmark, docs]
 
-- github: panguard-ai
-  country: TW
-  role: maintainer
-  contributions: [rules, engine, website, benchmark]
-
 # Cisco AI Defense — merged 34 ATR rules as upstream (PR #79)
 - github: cisco-ai-defense
   country: US
