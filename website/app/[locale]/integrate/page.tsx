@@ -61,6 +61,24 @@ rules/
     doc: "https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/ATR-FRAMEWORK-SPEC.md",
   },
   {
+    title: "GitHub Action (CI/CD)",
+    cmd: "# Add to .github/workflows/atr-scan.yml",
+    code: `name: ATR Scan
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Agent-Threat-Rule/agent-threat-rules@main
+        with:
+          path: '.'            # Scan entire repo
+          severity: 'medium'   # Minimum severity
+          fail-on-finding: 'true'
+          upload-sarif: 'true' # Results in GitHub Security tab`,
+    doc: "https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/action.yml",
+  },
+  {
     title: "SIEM Integration",
     cmd: "atr convert splunk --output splunk-queries.txt",
     code: `# Convert ATR rules to SIEM query language
@@ -90,6 +108,54 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
         <p className="text-base text-stone font-light mb-10">
           {t(locale, "integrate.ready", { count: String(stats.ruleCount) })}
         </p>
+      </Reveal>
+
+      {/* Quick Start — Try it in 30 seconds */}
+      <Reveal>
+        <div className="border-2 border-ink mb-12">
+          <div className="px-6 py-4 border-b border-ink bg-ink text-white">
+            <h2 className="font-display text-lg font-semibold">{locale === "zh" ? "30 秒試用" : "Try it in 30 seconds"}</h2>
+          </div>
+          <div className="p-6">
+            <p className="text-sm text-graphite mb-4 leading-relaxed">
+              {locale === "zh"
+                ? "不需要註冊、不需要 API key。一行指令掃描你的 SKILL.md 或 MCP config。"
+                : "No signup, no API key. One command scans your SKILL.md or MCP config."}
+            </p>
+            <div className="space-y-3">
+              <div>
+                <div className="font-data text-xs text-stone mb-1">{locale === "zh" ? "掃描一個 SKILL.md 檔案" : "Scan a SKILL.md file"}</div>
+                <div className="font-data text-sm bg-[#0B0B0F] text-[#4ade80] px-4 py-3 rounded-sm overflow-x-auto">
+                  <span className="text-stone">$</span> npx agent-threat-rules scan your-skill.md
+                </div>
+              </div>
+              <div>
+                <div className="font-data text-xs text-stone mb-1">{locale === "zh" ? "掃描整個目錄" : "Scan a directory"}</div>
+                <div className="font-data text-sm bg-[#0B0B0F] text-[#4ade80] px-4 py-3 rounded-sm overflow-x-auto">
+                  <span className="text-stone">$</span> npx agent-threat-rules scan ./my-mcp-skills/
+                </div>
+              </div>
+              <div>
+                <div className="font-data text-xs text-stone mb-1">{locale === "zh" ? "安裝為 Claude Code 即時防護" : "Install as Claude Code real-time guard"}</div>
+                <div className="font-data text-sm bg-[#0B0B0F] text-[#4ade80] px-4 py-3 rounded-sm overflow-x-auto">
+                  <span className="text-stone">$</span> npx agent-threat-rules init --global
+                </div>
+              </div>
+            </div>
+            <p className="text-xs text-mist mt-4">
+              {locale === "zh"
+                ? `${stats.ruleCount} 條規則 · 9 個威脅類別 · < 5ms 延遲 · 零依賴 · MIT 授權`
+                : `${stats.ruleCount} rules · 9 threat categories · < 5ms latency · zero dependencies · MIT license`}
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* SDK Integration Paths */}
+      <Reveal>
+        <div className="font-data text-xs font-medium text-stone tracking-[2px] uppercase mb-4">
+          {locale === "zh" ? "SDK 整合" : "SDK Integration"}
+        </div>
       </Reveal>
 
       <div className="space-y-8">
