@@ -225,7 +225,7 @@ export function loadSiteStats(): SiteStats {
         type: "merged",
         detail: "PR #108 merged into LLM safety/security list.",
         url: "https://github.com/ThuCCSLab/Awesome-LM-SSP/pull/108",
-        logo: "https://github.com/ThuCCSLab.png?size=128",
+        logo: "https://github.com/CryptoAILab.png?size=128",
       },
       {
         name: "Agentic AI Top 10 Vulnerability",
