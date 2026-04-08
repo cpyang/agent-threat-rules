@@ -1,15 +1,67 @@
 # Integration and Contribution Paths
 
-ATR is designed to be consumed by any AI agent security tool, regardless of size or stack.
-Pick the path that fits you.
+ATR is an open detection standard. Every tool that integrates ATR becomes part of a
+global sensor network: you get rules, and your scan results (anonymized) help generate
+better rules for everyone.
+
+```
+Your scanner ──── detects threat ────→ ATR Threat Cloud
+                                           │
+                              LLM crystallizes new rule
+                                           │
+All ATR endpoints ←── new rule pushed ─────┘
+```
+
+Every integration is both a consumer and a sensor.
 
 ---
 
-## For Consumers (use ATR rules in your product)
+## Tier 1: Individual Developers (5 minutes)
 
-### Path 1: npm Package (Node.js / TypeScript)
+Use ATR to scan your MCP configs and SKILL.md files in CI/CD.
 
-Best for: Node.js apps, TypeScript projects, MCP servers, Claude Code extensions.
+### GitHub Action
+
+```yaml
+# .github/workflows/atr-scan.yml
+name: ATR Security Scan
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: panguard-ai/atr-action@v1
+```
+
+That's it. Every PR gets scanned against 100 detection rules.
+
+### CLI
+
+```bash
+npm install -g agent-threat-rules
+
+# Scan MCP config
+atr scan my-mcp-config.json
+
+# Scan SKILL.md files
+atr scan ./skills/
+
+# Opt-in: report detections to Threat Cloud
+atr scan ./skills/ --report-to-cloud
+```
+
+**What you get:** Free security scanning, 100 rules, 9 threat categories.
+
+**What the network gets:** If you opt into `--report-to-cloud`, your anonymized detection data (rule ID + severity + content hash, zero raw content) helps crystallize new rules that protect everyone.
+
+---
+
+## Tier 2: Small Teams & AI Startups (30 minutes)
+
+Integrate ATR into your Node.js or Python application.
+
+### Node.js / TypeScript
 
 ```bash
 npm install agent-threat-rules
@@ -17,8 +69,25 @@ npm install agent-threat-rules
 
 ```typescript
 import { ATREngine } from 'agent-threat-rules';
+import type { ATRReporter } from 'agent-threat-rules';
 
-const engine = new ATREngine();
+// Optional: report detections to Threat Cloud
+const reporter: ATRReporter = {
+  onDetection: (report) => {
+    // report contains: ruleId, severity, category, confidence, contentHash
+    // No raw content, no PII, no file paths
+    fetch('https://tc.panguard.ai/api/detections', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(report),
+    }).catch(() => {}); // fire-and-forget, never block your app
+  },
+};
+
+const engine = new ATREngine({ rulesDir: 'node_modules/agent-threat-rules/rules', reporter });
+await engine.loadRules();
+
+// Scan every tool response in your agent pipeline
 const matches = engine.evaluate({
   type: 'tool_response',
   content: toolOutput,
@@ -26,15 +95,11 @@ const matches = engine.evaluate({
 });
 
 if (matches.length > 0) {
-  // Threat detected
+  // Threat detected — block, alert, or log
 }
 ```
 
-Time to integrate: ~30 minutes.
-
-### Path 2: Python (pyATR)
-
-Best for: Python apps, FastAPI services, LangChain/CrewAI agents.
+### Python (pyATR)
 
 ```bash
 pip install git+https://github.com/Agent-Threat-Rule/agent-threat-rules.git#subdirectory=python
@@ -53,212 +118,151 @@ if result.outcome == "deny":
     # Block the request
 ```
 
-Time to integrate: ~30 minutes.
+**What you get:** Real-time threat detection in your agent pipeline. 100 rules maintained by the community. Zero maintenance cost.
 
-### Path 3: Raw YAML (any language)
+**What the network gets:** Your scanner becomes an endpoint. Attacks seen by your users (anonymized) help generate rules that protect Cisco, Microsoft, and every other endpoint.
 
-Best for: Go, Rust, Java, or any language. Parse the YAML yourself.
+---
 
-```bash
-# Add as git submodule
-git submodule add https://github.com/Agent-Threat-Rule/agent-threat-rules.git vendor/atr
+## Tier 3: Security Platforms (2-4 hours)
 
-# Rules are at vendor/atr/rules/
-# Schema spec at vendor/atr/spec/atr-schema.yaml
-# Each .yaml file has regex patterns you can compile natively
-```
+Integrate ATR rules into your scanner, SIEM, or governance toolkit.
 
-Directory structure:
-```
-rules/
-  prompt-injection/      (29 rules)
-  skill-compromise/      (20 rules)
-  agent-manipulation/    (12 rules)
-  context-exfiltration/  (12 rules)
-  tool-poisoning/        (11 rules)
-  privilege-escalation/  (8 rules)
-  excessive-autonomy/    (5 rules)
-  data-poisoning/        (2 rules)
-  model-security/        (1 rule)
-```
+### Generic Regex Export (how Cisco did it)
 
-Time to integrate: ~2 hours (parse YAML + compile regex).
-
-### Path 4: SIEM / Security Pipeline
-
-Best for: SOC teams, Splunk/Elastic deployments, CI/CD security scanning.
-
-```bash
-# Install CLI
-npm install -g agent-threat-rules
-
-# Convert to your SIEM format
-atr convert splunk --output splunk-queries.txt
-atr convert elastic --output elastic-queries.json
-
-# Or export as SARIF for GitHub Security tab
-atr scan my-config.json --format sarif --output results.sarif
-```
-
-Time to integrate: ~1 hour.
-
-### Path 5: GitHub Action (CI/CD)
-
-Best for: scanning MCP configs and SKILL.md files on every PR.
-
-```yaml
-# .github/workflows/atr-scan.yml
-name: ATR Security Scan
-on: [push, pull_request]
-jobs:
-  scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: panguard-ai/atr-action@v1
-```
-
-Time to integrate: ~5 minutes.
-
-### Path 6: Generic Regex Export (platform integration)
-
-Best for: security platforms that want ATR patterns without the ATR engine.
-This is how Cisco AI Defense integrated 34 ATR rules.
+Extract ATR patterns in a format any scanner can consume:
 
 ```typescript
 import { loadRulesFromDirectory } from 'agent-threat-rules';
 import { rulesToGenericRegex } from 'agent-threat-rules/converters';
 
 const rules = loadRulesFromDirectory('./node_modules/agent-threat-rules/rules');
-const exported = rulesToGenericRegex(rules);
+const patterns = rulesToGenericRegex(rules);
 // Returns: [{ id, title, severity, category, patterns: [{ field, regex, flags }] }]
 ```
 
-Or use the CLI:
+Or via CLI:
 ```bash
 atr convert generic-regex --output atr-patterns.json
 ```
 
-Time to integrate: ~1 hour.
+### SIEM Integration (Splunk / Elasticsearch)
+
+```bash
+atr convert splunk --output splunk-queries.txt    # SPL queries
+atr convert elastic --output elastic-queries.json  # Elasticsearch Query DSL
+```
+
+### Raw YAML (any language — Go, Rust, Java)
+
+```bash
+git submodule add https://github.com/Agent-Threat-Rule/agent-threat-rules.git vendor/atr
+```
+
+Parse `vendor/atr/rules/*.yaml` with any YAML library. Schema at `vendor/atr/spec/atr-schema.yaml`.
+
+### SARIF (GitHub Security tab)
+
+```bash
+atr scan my-config.json --format sarif --output results.sarif
+```
+
+Upload to GitHub Code Scanning for security alerts in your PR review.
+
+**What you get:** 100 detection rules in your platform's format. Auto-updated via npm or git. Cisco-proven integration path.
+
+**What the network gets:** Your platform's users become endpoints. A threat first seen by a Garak probe protects a Microsoft AGT deployment. A pattern caught by your SIEM triggers a rule that shields individual developers.
+
+---
+
+## Tier 4: Deep Ecosystem Partners (ongoing relationship)
+
+For platforms that want to be part of the ATR governance and rule lifecycle.
+
+### What we offer
+
+- **Custom format converter**: We write the code to convert ATR YAML to your platform's native format
+- **Integration PR**: We submit the PR to your repo, matching your code style and test patterns
+- **Co-maintenance**: When ATR rules update, the integration updates automatically
+- **Threat Cloud data exchange**: Your platform's detections feed TC, TC's crystallized rules feed your platform
+
+### What we ask
+
+- List ATR in your README or integrations page
+- (Encouraged) Enable ATRReporter so your users' detections strengthen the network
+- (Optional) Display the ATR badge on your platform
+
+### Current partners
+
+| Platform | Integration | How they consume ATR |
+|----------|------------|---------------------|
+| **Cisco AI Defense** | 34 rules in skill-scanner | Generic regex export → their scanner engine ([PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79)) |
+| **OWASP Agentic Top 10** | Detection mapping | Rule-to-category mapping document ([PR #14](https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14)) |
+
+### Become a partner
+
+Open an issue with the `ecosystem-integration` label. We will:
+1. Study your platform's architecture
+2. Write the integration code
+3. Submit a PR that matches your standards
+4. Maintain the integration as ATR evolves
 
 ---
 
 ## For Contributors (write new detection rules)
 
-### Path A: Manual Rule Writing
+### Write a rule (1-2 hours)
 
-Best for: security researchers, red teamers, developers who discovered an attack pattern.
+```bash
+atr scaffold                    # Generate template
+# Edit the YAML: patterns, test cases, OWASP mapping
+atr validate my-rule.yaml       # Check schema
+atr test my-rule.yaml           # Run test cases
+# Submit PR to rules/<category>/
+```
 
-1. **Scaffold** a rule template:
-   ```bash
-   atr scaffold
-   ```
+Requirements: 5+ true positive tests, 5+ true negative tests, 3+ evasion tests, OWASP or MITRE mapping.
 
-2. **Edit** the YAML:
-   - Define detection conditions (regex patterns)
-   - Write 5+ true positive test cases
-   - Write 5+ true negative test cases
-   - Add 3+ evasion tests documenting known bypasses
-   - Map to OWASP LLM Top 10, OWASP Agentic Top 10, or MITRE ATLAS
+### Report an evasion (15 minutes)
 
-3. **Validate and test**:
-   ```bash
-   atr validate my-rule.yaml
-   atr test my-rule.yaml
-   ```
+Found a way to bypass a rule? Open an issue with the **Evasion Report** template. Include: rule ID, bypass input, technique. This is the most valuable contribution.
 
-4. **Submit** a PR to [agent-threat-rules](https://github.com/Agent-Threat-Rule/agent-threat-rules):
-   - Place in `rules/<category>/`
-   - Include attack pattern description
-   - Reference CVEs, papers, or blog posts
+### Report a false positive (20 minutes)
 
-Time: 1-2 hours for a well-researched rule.
+A rule triggered on safe content? Open an issue with the **False Positive Report** template. Include: rule ID, the input, why it's legitimate.
 
-### Path B: Report an Evasion
+### Runtime auto-draft
 
-Found a way to bypass an existing rule? This is the most valuable contribution.
-
-1. Check the rule's existing `evasion_tests` section
-2. Open an issue using the **Evasion Report** template
-3. Include: rule ID, bypass input, technique used, why it works
-
-Every confirmed evasion becomes a new test case. You get credited in CONTRIBUTORS.md.
-
-Time: ~15 minutes.
-
-### Path C: Report a False Positive
-
-A rule triggered on legitimate content?
-
-1. Open an issue using the **False Positive Report** template
-2. Include: rule ID, the input that triggered it, why it is legitimate
-
-Confirmed false positives become new `true_negatives` test cases.
-
-Time: ~20 minutes.
-
-### Path D: Runtime Detection Auto-Draft
-
-Best for: operators running ATR in production who encounter novel attacks.
-
-When your ATR-compatible runtime monitor detects anomalous behavior that no existing rule covers:
-
-1. The ATR Drafter captures the event and generates a draft rule YAML
-2. An issue is opened automatically with the `auto-drafted` label
-3. Community reviews, adds test cases, maps to OWASP/MITRE
-4. Once it passes the quality gate, it merges into the rule set
+If you run ATR in production and encounter a novel attack that no rule catches, the ATR Drafter module can auto-generate a draft rule and open a GitHub issue for community review.
 
 ---
 
-## For Platform Partners (deep integration + data exchange)
+## Quality Gate (all contributions)
 
-### Ecosystem Integration PR
+Every rule must pass before merge:
 
-Want ATR rules in your scanner/platform? We will write the integration PR for you.
-
-What we provide:
-- ATR rules converted to your platform's format
-- Test cases adapted to your test framework
-- Documentation for your users
-
-What we ask:
-- Mention ATR in your README or integrations page
-- (Optional) Feed anonymized scan results back to ATR Threat Cloud
-
-Current integrations:
-| Platform | Integration | Reference |
-|----------|------------|-----------|
-| Cisco AI Defense | 34 rules in skill-scanner | [PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79) |
-| OWASP Agentic Top 10 | Detection mapping | [PR #14](https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14) |
-
-Contact: Open an issue with the `ecosystem-integration` label, or email the maintainers.
+| Automated (CI) | Human Review |
+|----------------|-------------|
+| Schema validation passes | Patterns target real attacks, not generic language |
+| 5+ true positives pass | False positive scenarios documented |
+| 5+ true negatives pass | 3+ evasion tests with known bypasses |
+| OWASP or MITRE reference | Severity matches real-world impact |
+| No ReDoS-vulnerable regex | At least one maintainer approval |
 
 ---
 
-## Unified Quality Gate
+## The Network Effect
 
-All contributed rules must pass this gate. No exceptions.
+Every integration makes ATR more valuable for every other integration:
 
-### Automated checks (CI)
+```
+More endpoints → more detection data → better rules → more endpoints
+```
 
-| Check | Requirement |
-|-------|-------------|
-| Schema validation | `atr validate` passes with zero errors |
-| True positives | Minimum 5 test cases, all pass |
-| True negatives | Minimum 5 test cases, all pass |
-| Framework reference | At least one OWASP LLM, OWASP Agentic, or MITRE ATLAS reference |
-| Regex safety | No overly broad patterns (`.+` or `.*` alone) |
-| Regex complexity | No patterns vulnerable to ReDoS |
-| ID format | Matches `ATR-YYYY-NNN` pattern |
-| Required fields | All schema-required fields present |
+A malicious MCP server discovered by a solo developer's GitHub Action
+becomes a rule that protects every Cisco AI Defense deployment.
 
-### Human review
+An evasion technique found by NVIDIA Garak's probes
+becomes a hardened pattern that shields every small startup's agent pipeline.
 
-| Check | Requirement |
-|-------|-------------|
-| Detection specificity | Patterns target actual attack indicators, not generic language |
-| False positive documentation | `false_positives` section lists realistic scenarios |
-| Evasion honesty | At least 3 evasion tests with known bypasses documented |
-| Severity justification | Severity matches real-world impact |
-| Description accuracy | States what IS detected and what IS NOT |
-| Reviewer approval | At least one maintainer approval |
+This is the flywheel. Every scan makes the network smarter.
