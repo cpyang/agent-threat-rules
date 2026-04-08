@@ -1,23 +1,16 @@
-import { execSync } from "node:child_process";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { t } from "@/lib/i18n";
 import { loadSiteStats } from "@/lib/stats";
 
-function getLastUpdated(): string {
-  try {
-    const date = execSync("git log -1 --format=%ci", { encoding: "utf-8" }).trim();
-    return new Date(date).toISOString().slice(0, 10);
-  } catch {
-    return new Date().toISOString().slice(0, 10);
-  }
-}
+/** Build-time date stamp — safe for all environments */
+const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 export function Footer({ locale }: { locale: Locale }) {
   const prefix = `/${locale}`;
   const zh = locale === "zh";
   const stats = loadSiteStats();
-  const lastUpdated = getLastUpdated();
+  const lastUpdated = BUILD_DATE;
 
   return (
     <footer className="border-t border-fog py-12 px-6">
