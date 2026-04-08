@@ -56,7 +56,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                 : "108 detection rules, dual benchmarks (PINT 99.6% precision + SKILL.md 96.9% recall), 53K mega scan, Cisco adoption. The complete ATR thesis."}
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo DOI</a>
+              <a href="https://doi.org/10.5281/zenodo.19476495" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-Paper-v4.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
               <span className="font-data text-xs text-stone">SSRN: 6457179</span>
             </div>
@@ -66,7 +66,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           <div className="bg-paper p-5 md:p-6">
             <div className="flex items-center gap-2 mb-2">
               <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "新" : "NEW"}</span>
-              <span className="font-data text-xs text-mist">April 2026 · 10 pages · 25 references</span>
+              <span className="font-data text-xs text-mist">April 2026 · 7 pages · 32 references</span>
             </div>
             <div className="font-display text-base font-semibold text-ink mb-1">
               53,577 Skills, 946 Threats: The First Large-Scale Security Audit of the AI Agent Ecosystem
@@ -77,6 +77,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                 : "The largest AI agent security scan to date. 53,577 skills, 946 threats, 875 critical, 0% false positive. Tool description poisoning accounts for 71% of detections."}
             </p>
             <div className="flex flex-wrap gap-3">
+              <a href="https://doi.org/10.5281/zenodo.19476481" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-MegaScan-2026.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
             </div>
           </div>
@@ -85,7 +86,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           <div className="bg-paper p-5 md:p-6">
             <div className="flex items-center gap-2 mb-2">
               <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "新" : "NEW"}</span>
-              <span className="font-data text-xs text-mist">April 2026 · 14 pages · 22 references</span>
+              <span className="font-data text-xs text-mist">April 2026 · 18 pages · 30 references</span>
             </div>
             <div className="font-display text-base font-semibold text-ink mb-1">
               30 CVEs in 60 Days: The Model Context Protocol Attack Surface
@@ -96,6 +97,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                 : "Empirical analysis of the MCP attack surface. 30 CVEs in 60 days, 38% zero authentication, 7-class attack taxonomy, 53K ecosystem scan. 15x faster than Docker's first two years."}
             </p>
             <div className="flex flex-wrap gap-3">
+              <a href="https://doi.org/10.5281/zenodo.19476483" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/MCP-Attack-Surface-2026.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
             </div>
           </div>
