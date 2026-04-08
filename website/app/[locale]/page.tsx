@@ -77,22 +77,22 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
         <div className="relative z-10 max-w-[800px]">
           <HeroEntrance delay={0.5}>
-            <p className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.1] tracking-[-2px] md:tracking-[-3px] text-stone">
+            <p className="font-display text-[24px] md:text-[clamp(36px,5.5vw,72px)] font-bold md:font-black leading-[1.15] tracking-[-1.5px] md:tracking-[-3px] text-stone">
               {zh ? "我們過去保護人。" : "We used to protect people."}
             </p>
           </HeroEntrance>
 
           <HeroEntrance delay={0.8}>
-            <h1 className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.1] tracking-[-2px] md:tracking-[-3px] text-ink">
+            <h1 className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.15] tracking-[-1.5px] md:tracking-[-3px] text-ink mt-1">
               {zh ? "現在我們保護 Agent。" : "Now we protect agents."}
             </h1>
           </HeroEntrance>
 
           <HeroEntrance delay={1.0}>
-            <p className="text-sm md:text-base text-mist font-light max-w-[520px] mx-auto mt-4 md:mt-5 leading-[1.7]">
+            <p className="text-[13px] md:text-base text-mist font-light max-w-[520px] mx-auto mt-5 md:mt-5 leading-[1.8]">
               {zh
-                ? "AI agent 安全的開放偵測標準。108 條規則。Cisco 已採用。保護 90,000+ 個 skill 的生態系。"
-                : "The open detection standard for AI agent security. 108 rules. Shipped in Cisco. Protecting 90,000+ skills across the ecosystem."}
+                ? <>AI agent 安全的開放偵測標準。<br className="sm:hidden" />108 條規則。Cisco 已採用。<br className="sm:hidden" />保護 90,000+ 個 skill 的生態系。</>
+                : <>The open detection standard for AI agent security.<br className="sm:hidden" /> 108 rules. Shipped in Cisco.<br className="sm:hidden" /> Protecting 90,000+ skills across the ecosystem.</>}
             </p>
           </HeroEntrance>
 
@@ -115,14 +115,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
           {/* Credibility bar */}
           <HeroEntrance delay={1.4}>
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 mt-8 md:mt-10 font-data text-xs text-stone tracking-wide">
-              <span>{zh ? "Cisco AI Defense 採用" : "Shipped in Cisco AI Defense"}</span>
-              <span className="text-fog hidden sm:inline">|</span>
-              <span>{zh ? `${stats.ruleCount} 條規則` : `${stats.ruleCount} rules`}</span>
-              <span className="text-fog hidden sm:inline">|</span>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-8 md:mt-10 font-data text-[11px] md:text-xs text-stone tracking-wide">
+              <span>Cisco AI Defense</span>
+              <span className="text-fog">·</span>
+              <span>{stats.ruleCount} {zh ? "規則" : "rules"}</span>
+              <span className="text-fog">·</span>
               <span>OWASP 10/10</span>
-              <span className="text-fog hidden sm:inline">|</span>
-              <span>MIT License</span>
+              <span className="text-fog hidden sm:inline">·</span>
+              <span className="hidden sm:inline">MIT</span>
             </div>
           </HeroEntrance>
         </div>
@@ -146,10 +146,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-4 md:mb-5 leading-relaxed">
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-4 md:mb-5 leading-[1.8]">
               {zh
-                ? <>skills 已掃描 —<br className="md:hidden" /> 史上最大規模的 AI agent 安全掃描。<br />{stats.megaScanFlagged.toLocaleString()} 個有威脅。</>
-                : <>skills scanned —<br className="md:hidden" /> the largest AI agent security scan ever conducted.<br className="md:hidden" /> {stats.megaScanFlagged.toLocaleString()} flagged with threats.</>}
+                ? <>skills 已掃描<br className="md:hidden" />史上最大規模的 AI agent 安全掃描<br />{stats.megaScanFlagged.toLocaleString()} 個有威脅</>
+                : <>skills scanned<br className="md:hidden" />the largest AI agent security scan ever conducted<br className="md:hidden" />{stats.megaScanFlagged.toLocaleString()} flagged with threats</>}
             </div>
           </Reveal>
           <Reveal delay={0.2}>
@@ -175,15 +175,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-14 md:py-[120px] px-5 md:px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-2">
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-2">
               {zh ? "ATR 現況" : "ATR at a Glance"}
             </div>
           </Reveal>
           <Reveal delay={0.05}>
-            <h2 className="font-display text-[18px] md:text-[clamp(20px,2.5vw,28px)] font-extrabold tracking-[-0.5px] md:tracking-[-1px] leading-[1.4] mb-5 md:mb-6 max-w-[600px]">
+            <h2 className="font-display text-[18px] md:text-[clamp(20px,2.5vw,28px)] font-extrabold tracking-[-0.5px] md:tracking-[-1px] leading-[1.45] mb-5 md:mb-6 max-w-[600px]">
               {zh
-                ? <>一套規則，整個生態系共享。<br />你用的每一條，都在強化所有人的防禦。</>
-                : <>One set of rules, shared across the ecosystem.<br className="hidden md:block" /> Every rule you use strengthens everyone&apos;s defense.</>}
+                ? <>一套規則，<br className="sm:hidden" />整個生態系共享。<br />你用的每一條，<br className="sm:hidden" />都在強化所有人的防禦。</>
+                : <>One set of rules,<br className="sm:hidden" /> shared across the ecosystem.<br /> Every rule you use<br className="sm:hidden" /> strengthens everyone&apos;s defense.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -215,15 +215,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-14 md:py-[120px] px-5 md:px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-3 md:mb-4">
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
               {zh ? "ATR 偵測什麼" : "What ATR Detects"}
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="font-display text-[20px] md:text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.3] mb-6 md:mb-8 max-w-[700px]">
               {zh
-                ? <>{stats.categoryCount} 個威脅類別。<br className="md:hidden" />{stats.ruleCount} 條規則。真實 CVE。</>
-                : <>{stats.categoryCount} threat categories. {stats.ruleCount} rules.<br className="hidden md:block" /> Real CVEs.</>}
+                ? <>{stats.categoryCount} 個威脅類別。{stats.ruleCount} 條規則。<br className="sm:hidden" />真實 CVE。</>
+                : <>{stats.categoryCount} threat categories.<br className="sm:hidden" /> {stats.ruleCount} rules. Real CVEs.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
@@ -285,15 +285,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-14 md:py-[120px] px-5 md:px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-3 md:mb-4">
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
               {zh ? "已在生產環境運行" : "Already in Production"}
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-display text-[22px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.3] max-w-[800px]">
+            <h2 className="font-display text-[20px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.35] max-w-[800px]">
               <span className="text-blue">Cisco AI Defense</span>
               {zh
-                ? <><br /> 將 34 條 ATR 規則作為上游依賴。</>
+                ? <><br />將 34 條 ATR 規則<br className="sm:hidden" />作為上游依賴。</>
                 : <><br className="md:hidden" /> ships 34 ATR rules<br className="hidden md:block" /> as upstream.</>}
             </h2>
           </Reveal>
@@ -370,7 +370,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-12 md:py-[100px] px-5 md:px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-3 md:mb-4">
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
               {zh ? "標準覆蓋" : "Standards Coverage"}
             </div>
           </Reveal>
@@ -412,12 +412,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-14 md:py-[120px] px-5 md:px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-3 md:mb-4">
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
               {zh ? "飛輪" : "The Network"}
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-display text-[22px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.3] max-w-[700px] mb-3">
+            <h2 className="font-display text-[20px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.35] max-w-[700px] mb-3">
               {zh ? <>每個端點都是感測器。<br />每次掃描都在強化網絡。</> : <>Every endpoint is a sensor.<br /> Every scan strengthens the network.</>}
             </h2>
           </Reveal>
@@ -461,7 +461,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-14 md:py-[120px] px-5 md:px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto text-center">
           <Reveal>
-            <h2 className="font-display text-[26px] md:text-[clamp(28px,4vw,56px)] font-black tracking-[-2px] mb-5 md:mb-6 text-ink">
+            <h2 className="font-display text-[24px] md:text-[clamp(28px,4vw,56px)] font-black tracking-[-1.5px] md:tracking-[-2px] mb-5 md:mb-6 text-ink">
               {zh ? "加入生態系。" : "Join the ecosystem."}
             </h2>
           </Reveal>
@@ -502,15 +502,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-12 md:py-[100px] px-5 md:px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-2">
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-2">
               {zh ? "一起打造" : "Build With Us"}
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-display text-[18px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-0.5px] md:tracking-[-1px] leading-[1.35] mb-5 md:mb-6 max-w-[540px]">
+            <h2 className="font-display text-[18px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-0.5px] md:tracking-[-1px] leading-[1.45] mb-5 md:mb-6 max-w-[540px]">
               {zh
-                ? <>ATR 是社群驅動的開放標準。<br />你的每一個貢獻都在保護整個生態系。</>
-                : <>ATR is community-driven.<br className="hidden md:block" /> Every contribution protects the entire ecosystem.</>}
+                ? <>ATR 是社群驅動的開放標準。<br />你的每一個貢獻<br className="sm:hidden" />都在保護整個生態系。</>
+                : <>ATR is community-driven.<br /> Every contribution protects<br className="sm:hidden" /> the entire ecosystem.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
