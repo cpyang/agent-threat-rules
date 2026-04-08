@@ -35,10 +35,13 @@ module.exports = {
       "/zh/contribute": 0.7,
     };
 
+    // Individual rule pages get 0.6 priority
+    const isRulePage = /^\/(en|zh)\/rules\/ATR-/.test(path);
+
     return {
       loc: path,
-      changefreq: path.includes("rules") ? "weekly" : "monthly",
-      priority: priorities[path] ?? 0.5,
+      changefreq: isRulePage ? "weekly" : path.includes("rules") ? "weekly" : "monthly",
+      priority: priorities[path] ?? (isRulePage ? 0.6 : 0.5),
       lastmod: new Date().toISOString(),
     };
   },

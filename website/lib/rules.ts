@@ -17,6 +17,10 @@ export interface RuleSummary {
   author: string;
   date: string;
   filePath: string;
+  status?: string;
+  responseActions?: string[];
+  detectionTier?: string;
+  confidence?: string;
 }
 
 interface RawRule {
@@ -26,16 +30,22 @@ interface RawRule {
   description?: string;
   author?: string;
   date?: string;
+  status?: string;
+  detection_tier?: string;
   tags?: {
     category?: string;
     subcategory?: string;
     scan_target?: string;
+    confidence?: string;
   };
   references?: {
     cve?: string[];
     owasp_agentic?: string[];
     owasp_llm?: string[];
     mitre_atlas?: string[];
+  };
+  response?: {
+    actions?: string[];
   };
 }
 
@@ -71,6 +81,10 @@ function loadRulesRecursive(dir: string, rootDir: string): RuleSummary[] {
           author: raw.author ?? "ATR Community",
           date: raw.date ?? "",
           filePath: relative(rootDir, fullPath),
+          status: raw.status,
+          responseActions: raw.response?.actions,
+          detectionTier: raw.detection_tier,
+          confidence: raw.tags?.confidence,
         });
       } catch {
         // Skip malformed files
@@ -85,6 +99,16 @@ export function loadAllRules(): RuleSummary[] {
   const rulesDir = join(process.cwd(), "..", "rules");
   const rules = loadRulesRecursive(rulesDir, join(process.cwd(), ".."));
   return rules.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+export function findRuleById(rules: RuleSummary[], id: string): RuleSummary | undefined {
+  return rules.find((r) => r.id === id);
+}
+
+export function getRelatedRules(rules: RuleSummary[], rule: RuleSummary, limit = 5): RuleSummary[] {
+  return rules
+    .filter((r) => r.id !== rule.id && r.category === rule.category)
+    .slice(0, limit);
 }
 
 export function getCategories(rules: RuleSummary[]): { name: string; count: number }[] {
