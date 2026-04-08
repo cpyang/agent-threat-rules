@@ -36,8 +36,8 @@ detection:
   conditions:
     - field: content
       operator: regex
-      value: '(?i)(install|npm\s+i|pip\s+install|cargo\s+add)\s+\S+.{0,40}(community\s+fork|enhanced\s+(version|fork)|patched\s+(version|fork)|improved\s+fork|unofficial\s+fork)'
-      description: "Install command + fork/enhanced claim"
+      value: '(?i)(npm\s+i(nstall)?|pip\s+install|cargo\s+add|go\s+get)\s+\S+.{0,40}(community\s+fork|enhanced\s+(version|fork)|patched\s+(version|fork)|improved\s+fork|unofficial\s+fork)'
+      description: "Package install command + fork/enhanced claim"
 
     - field: content
       operator: regex
