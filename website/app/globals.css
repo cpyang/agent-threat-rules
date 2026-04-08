@@ -33,6 +33,11 @@
   --font-display: var(--font-inter-tight);
   --font-body: var(--font-inter);
   --font-data: var(--font-jetbrains-mono);
+  /* Override Tailwind's tight default line-heights for CJK readability */
+  --text-xs--line-height: 1.6;
+  --text-sm--line-height: 1.7;
+  --text-base--line-height: 1.7;
+  --text-lg--line-height: 1.7;
 }
 
 html {
@@ -51,13 +56,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Ensure all text has readable line-height */
-* {
-  line-height: inherit;
-}
-p, li, span, div, a {
-  line-height: 1.6;
-}
 
 /* ── Dark Hero ── */
 .hero-dark {
