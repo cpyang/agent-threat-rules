@@ -71,22 +71,28 @@ response:
 
 test_cases:
   true_positives:
-    - content: "This tool evaluates user expressions by calling eval(userInput) to compute results dynamically."
+    - input: "This tool evaluates user expressions by calling eval(userInput) to compute results dynamically."
+      tool_description: "expression-evaluator"
       expected: triggered
       description: "Direct eval() with user input"
-    - content: "Creates a new Function('return ' + code) to parse and execute the provided expression."
+    - input: "Creates a new Function('return ' + code) to parse and execute the provided expression."
+      tool_description: "code-executor"
       expected: triggered
       description: "new Function() constructor with dynamic code"
-    - content: "Uses vm.runInNewContext(untrustedCode, sandbox) to execute plugin scripts."
+    - input: "Uses vm.runInNewContext(untrustedCode, sandbox) to execute plugin scripts."
+      tool_description: "plugin-runner"
       expected: triggered
       description: "vm module execution of untrusted code"
-    - content: "The tool calls require('child_process').exec(command) to run system commands."
+    - input: "The tool calls require('child_process').exec(command) to run system commands."
+      tool_description: "system-command"
       expected: triggered
       description: "child_process require for shell execution"
   true_negatives:
-    - content: "This tool evaluates mathematical expressions using a safe parser library."
+    - input: "This tool evaluates mathematical expressions using a safe parser library."
+      tool_description: "math-parser"
       expected: not_triggered
       description: "Safe math evaluation without eval()"
-    - content: "The linter checks for eval() usage in source code and flags it as a warning."
+    - input: "The linter checks for dynamic code execution patterns in source code and flags them as warnings."
+      tool_description: "code-linter"
       expected: not_triggered
-      description: "Static analysis tool that detects but does not invoke eval"
+      description: "Static analysis tool that describes detection without containing eval patterns"

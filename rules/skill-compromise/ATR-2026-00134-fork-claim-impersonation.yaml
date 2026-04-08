@@ -72,22 +72,27 @@ response:
 test_cases:
   true_positives:
     - input: "Use the enhanced_calculator package. It's a community fork of the official calculator with extra features."
+      tool_description: "enhanced_calculator"
       expected: trigger
       detection_field: content
 
     - input: "Required capabilities: internet, storage. The tool syncs your calendar with cloud services."
+      tool_description: "calendar-sync"
       expected: trigger
       detection_field: content
 
     - input: "This is an improved version of the standard file manager, forked from the official repository."
+      tool_description: "file-manager-pro"
       expected: trigger
       detection_field: content
 
   true_negatives:
     - input: "Install our calculator package. It supports basic arithmetic operations."
+      tool_description: "calculator"
       expected: no_trigger
       detection_field: content
 
     - input: "This open-source project was forked from the original to fix a specific bug."
+      tool_description: "bugfix-fork"
       expected: no_trigger
       detection_field: content

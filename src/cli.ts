@@ -274,11 +274,22 @@ async function cmdTest(target: string, options: Record<string, string>): Promise
     const tp = rule.test_cases.true_positives ?? [];
     const tn = rule.test_cases.true_negatives ?? [];
 
+    // Test via both evaluate() and scanSkill() — pass if either detects
+    const runTest = (tcObj: Record<string, unknown>): boolean => {
+      const event = buildEventFromTestCase(tcObj, rule);
+      const mcpHit = engine.evaluate(event).some(m => m.rule.id === rule.id);
+      if (mcpHit) return true;
+      const input = String(tcObj['input'] ?? tcObj['tool_response'] ?? tcObj['agent_output'] ?? '');
+      if (input) {
+        const skillHit = engine.scanSkill(input).some(m => m.rule.id === rule.id);
+        if (skillHit) return true;
+      }
+      return false;
+    };
+
     for (const tc of tp) {
       totalTests++;
-      const event = buildEventFromTestCase(tc as unknown as Record<string, unknown>, rule);
-      const matches = engine.evaluate(event);
-      const triggered = matches.some(m => m.rule.id === rule.id);
+      const triggered = runTest(tc as unknown as Record<string, unknown>);
       if (triggered) {
         passed++;
       } else {
@@ -295,9 +306,7 @@ async function cmdTest(target: string, options: Record<string, string>): Promise
 
     for (const tc of tn) {
       totalTests++;
-      const event = buildEventFromTestCase(tc as unknown as Record<string, unknown>, rule);
-      const matches = engine.evaluate(event);
-      const triggered = matches.some(m => m.rule.id === rule.id);
+      const triggered = runTest(tc as unknown as Record<string, unknown>);
       if (!triggered) {
         passed++;
       } else {
