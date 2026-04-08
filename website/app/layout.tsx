@@ -27,20 +27,37 @@ export const metadata: Metadata = {
   description:
     "Open-source detection rules for AI agent security threats. 108 rules, 9 categories, 99.7% precision, 96.9% SKILL.md recall. Shipped in Cisco AI Defense. MIT Licensed.",
   metadataBase: new URL("https://agentthreatrule.org"),
+  alternates: {
+    canonical: "https://agentthreatrule.org",
+    languages: {
+      en: "https://agentthreatrule.org/en",
+      zh: "https://agentthreatrule.org/zh",
+    },
+  },
   openGraph: {
     title: "ATR - Agent Threat Rules",
     description:
-      "We used to protect people. Now we protect agents. Open-source detection standard for AI agent threats.",
+      "The open detection standard for AI agent security. 108 rules. Shipped in Cisco. Protecting 90,000+ skills.",
     url: "https://agentthreatrule.org",
     siteName: "ATR - Agent Threat Rules",
     type: "website",
     locale: "en_US",
+    alternateLocale: "zh_TW",
+    images: [
+      {
+        url: "https://agentthreatrule.org/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ATR - Agent Threat Rules: The open detection standard for AI agent security",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "ATR - Agent Threat Rules",
     description:
-      "We used to protect people. Now we protect agents. 108 rules, 9 categories, 96.9% SKILL.md recall.",
+      "The open detection standard for AI agent security. 108 rules. Shipped in Cisco. 96.9% SKILL.md recall.",
+    images: ["https://agentthreatrule.org/og-image.png"],
   },
   keywords: [
     "AI agent security",
@@ -53,10 +70,51 @@ export const metadata: Metadata = {
     "Sigma for AI agents",
     "AI security rules",
     "LLM security",
+    "AI agent firewall",
+    "agentic AI defense",
+    "MCP threat detection",
+    "SKILL.md security",
   ],
   authors: [{ name: "ATR Community" }],
   creator: "ATR Community",
   publisher: "Agent Threat Rules",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "Agent Threat Rules",
+      alternateName: "ATR",
+      url: "https://agentthreatrule.org",
+      logo: "https://agentthreatrule.org/atr-logo-black.png",
+      description:
+        "The open detection standard for AI agent security. Community-driven rules to protect AI agents from prompt injection, tool poisoning, and context exfiltration.",
+      sameAs: [
+        "https://github.com/Agent-Threat-Rule/agent-threat-rules",
+        "https://www.npmjs.com/package/agent-threat-rules",
+        "https://doi.org/10.5281/zenodo.19178002",
+      ],
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      name: "agent-threat-rules",
+      description:
+        "Open-source detection rules for AI agent security threats. 108 rules, 9 categories. Regex-based, sub-millisecond, zero dependencies.",
+      codeRepository: "https://github.com/Agent-Threat-Rule/agent-threat-rules",
+      programmingLanguage: ["YAML", "TypeScript"],
+      license: "https://opensource.org/licenses/MIT",
+      runtimePlatform: "Node.js",
+      author: { "@type": "Organization", name: "ATR Community" },
+    },
+    {
+      "@type": "WebSite",
+      url: "https://agentthreatrule.org",
+      name: "ATR - Agent Threat Rules",
+      inLanguage: ["en", "zh-TW"],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -70,6 +128,10 @@ export default function RootLayout({
       className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {children}
       </body>
     </html>

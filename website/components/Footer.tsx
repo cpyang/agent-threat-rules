@@ -15,7 +15,7 @@ export function Footer({ locale }: { locale: Locale }) {
   return (
     <footer className="border-t border-fog py-12 px-6">
       <div className="max-w-[1120px] mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 mb-10">
           {/* Project */}
           <div>
             <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
@@ -67,6 +67,9 @@ export function Footer({ locale }: { locale: Locale }) {
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/CONTRIBUTORS.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
                 Contributors
               </a>
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/discussions" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
+                Discussions
+              </a>
             </div>
           </div>
 
@@ -94,7 +97,7 @@ export function Footer({ locale }: { locale: Locale }) {
               {zh ? "聯絡" : "Contact"}
             </div>
             <div className="flex flex-col gap-2">
-              <a href="mailto:contact@agentthreatrule.org" className="text-sm text-stone hover:text-ink transition-colors">
+              <a href="mailto:contact@agentthreatrule.org" className="text-sm text-stone hover:text-ink transition-colors break-all sm:break-normal">
                 contact@agentthreatrule.org
               </a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/issues" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
@@ -125,11 +128,11 @@ export function Footer({ locale }: { locale: Locale }) {
               {t(locale, "footer.note")}
             </span>
           </div>
-          <div className="flex items-center gap-4 font-data text-xs text-mist">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-data text-xs text-mist">
             <span>ATR v1.0 · {stats.ruleCount} {zh ? "條規則" : "rules"}</span>
-            <span className="text-fog">|</span>
+            <span className="text-fog hidden sm:inline">|</span>
             <span>{zh ? "更新於" : "Updated"} {lastUpdated}</span>
-            <span className="text-fog">|</span>
+            <span className="text-fog hidden sm:inline">|</span>
             <span>MIT License</span>
           </div>
         </div>

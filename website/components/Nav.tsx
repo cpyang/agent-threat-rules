@@ -60,7 +60,7 @@ export function Nav({ locale }: { locale: Locale }) {
 
         <div className="flex items-center gap-3">
           <Link
-            href={`/${otherLocale}`}
+            href={`/${otherLocale}${pathname.replace(/^\/(en|zh)/, "")}`}
             className="font-data text-xs text-stone hover:text-ink transition-colors tracking-wide"
             aria-label={otherLocale === "zh" ? "Switch to Chinese" : "Switch to English"}
           >

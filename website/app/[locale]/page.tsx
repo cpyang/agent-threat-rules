@@ -146,24 +146,24 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-4 md:mb-5">
+            <div className="font-data text-xs md:text-xs font-medium text-stone tracking-[2px] md:tracking-[3px] uppercase mb-4 md:mb-5 leading-relaxed">
               {zh
-                ? <>skills 已掃描 — 史上最大規模的 AI agent 安全掃描。<br className="md:hidden" />{stats.megaScanFlagged.toLocaleString()} 個有威脅。</>
-                : <>skills scanned — the largest AI agent security scan ever conducted.<br className="md:hidden" /> {stats.megaScanFlagged.toLocaleString()} flagged with threats.</>}
+                ? <>skills 已掃描 —<br className="md:hidden" /> 史上最大規模的 AI agent 安全掃描。<br />{stats.megaScanFlagged.toLocaleString()} 個有威脅。</>
+                : <>skills scanned —<br className="md:hidden" /> the largest AI agent security scan ever conducted.<br className="md:hidden" /> {stats.megaScanFlagged.toLocaleString()} flagged with threats.</>}
             </div>
           </Reveal>
           <Reveal delay={0.2}>
-            <h2 className="font-display text-[20px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-1px] leading-[1.3] mb-3 md:mb-4 max-w-[620px]">
+            <h2 className="font-display text-[20px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-1px] leading-[1.35] mb-3 md:mb-4 max-w-[620px]">
               {zh
-                ? <>每個 AI agent 都在呼叫外部工具。<br className="hidden md:block" />整個生態系需要一個共享的偵測標準。</>
-                : <>Every AI agent calls external tools.<br className="hidden md:block" /> The ecosystem needs a shared detection standard.</>}
+                ? <>每個 AI agent 都在呼叫外部工具。<br />整個生態系需要一個共享的偵測標準。</>
+                : <>Every AI agent calls external tools.<br /> The ecosystem needs a shared detection standard.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.3}>
-            <p className="text-sm md:text-lg font-light leading-[1.7] text-graphite max-w-[580px]">
+            <p className="text-sm md:text-lg font-light leading-[1.8] text-graphite max-w-[580px]">
               {zh
-                ? (<>攻擊者誘騙 AI agent <strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行惡意指令</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。<br className="hidden md:block" />沒有共享規則，每個平台獨自面對同樣的威脅。ATR 讓整個生態系共享防禦。</>)
-                : (<>Attackers trick AI agents into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running malicious commands</strong>, and <strong className="font-semibold text-critical">bypassing safety boundaries</strong>.<br className="hidden md:block" /> Without shared rules, every platform fights the same threats alone. ATR gives the entire ecosystem a shared defense.</>)}
+                ? (<>攻擊者誘騙 AI agent <strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行惡意指令</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。<br /><br className="md:hidden" />沒有共享規則，每個平台獨自面對同樣的威脅。<br className="md:hidden" />ATR 讓整個生態系共享防禦。</>)
+                : (<>Attackers trick AI agents into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running malicious commands</strong>, and <strong className="font-semibold text-critical">bypassing safety boundaries</strong>.<br /><br className="md:hidden" />Without shared rules, every platform fights the same threats alone.<br className="md:hidden" /> ATR gives the entire ecosystem a shared defense.</>)}
             </p>
           </Reveal>
         </div>
@@ -197,12 +197,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: zh ? "MCP 安全框架" : "MCP security framework", liveKey: undefined },
               ].map((item, i) => (
                 <Reveal key={i} delay={0.1 + i * 0.05}>
-                  <div className="bg-ash p-6 md:p-10">
+                  <div className="bg-ash p-5 md:p-10">
                     <div className="font-data text-[clamp(28px,5vw,56px)] font-bold text-ink leading-none">
                       <CountUp target={item.value} suffix={item.suffix} useComma={item.useComma} liveKey={item.liveKey} />
                     </div>
-                    <div className="font-data text-sm md:text-sm text-stone mt-2 md:mt-3">{item.label}</div>
-                    <div className="text-xs md:text-xs text-mist mt-1">{item.desc}</div>
+                    <div className="font-data text-sm text-stone mt-2 md:mt-3">{item.label}</div>
+                    <div className="text-xs text-mist mt-1 leading-relaxed">{item.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -290,10 +290,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-display text-[22px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.25] max-w-[800px]">
+            <h2 className="font-display text-[22px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.3] max-w-[800px]">
               <span className="text-blue">Cisco AI Defense</span>
               {zh
-                ? <><br className="md:hidden" /> 將 34 條 ATR 規則<br className="hidden md:block" />作為上游依賴。</>
+                ? <><br /> 將 34 條 ATR 規則作為上游依賴。</>
                 : <><br className="md:hidden" /> ships 34 ATR rules<br className="hidden md:block" /> as upstream.</>}
             </h2>
           </Reveal>
@@ -317,32 +317,37 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
           {/* Adopters + Key Numbers */}
           <Reveal delay={0.4}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog mt-10 md:mt-12">
-              <div className="bg-paper p-5 md:p-6 flex flex-col justify-center">
-                <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-2">
-                  {zh ? "企業採用" : "Enterprise Adoption"}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-fog mt-10 md:mt-12">
+              <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between">
+                <div>
+                  <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-1 sm:mb-2">
+                    {zh ? "企業採用" : "Enterprise Adoption"}
+                  </div>
+                  <div className="font-display text-sm font-semibold text-ink">Cisco AI Defense</div>
                 </div>
-                <div className="font-display text-sm font-semibold text-ink">Cisco AI Defense</div>
-                <p className="text-xs text-stone mt-1">{zh ? "34 條規則作為上游" : "34 rules as upstream"}</p>
+                <p className="text-xs text-stone sm:mt-1">{zh ? "34 條規則作為上游" : "34 rules as upstream"}</p>
               </div>
-              <div className="bg-paper p-5 md:p-6">
-                <div className="font-data text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
+              <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between">
+                <div className="font-data text-xs text-stone sm:hidden">{zh ? "npm 月下載量" : "npm downloads / month"}</div>
+                <div className="font-data text-2xl sm:text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
                   <CountUp target={23000} useComma suffix="+" />
                 </div>
-                <div className="font-data text-xs text-stone mt-2">{zh ? "npm 月下載量" : "npm downloads / month"}</div>
+                <div className="font-data text-xs text-stone mt-2 hidden sm:block">{zh ? "npm 月下載量" : "npm downloads / month"}</div>
               </div>
-              <div className="bg-paper p-5 md:p-6">
-                <div className="font-data text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
+              <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between">
+                <div className="font-data text-xs text-stone sm:hidden">{zh ? "skills 已掃描" : "skills scanned"}</div>
+                <div className="font-data text-2xl sm:text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
                   <CountUp target={90000} useComma suffix="+" />
                 </div>
-                <div className="font-data text-xs text-stone mt-2">{zh ? "skills 已掃描" : "skills scanned"}</div>
+                <div className="font-data text-xs text-stone mt-2 hidden sm:block">{zh ? "skills 已掃描" : "skills scanned"}</div>
               </div>
-              <div className="bg-paper p-5 md:p-6">
-                <div className="font-data text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
+              <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between">
+                <div className="font-data text-xs text-stone sm:hidden">{zh ? "生態系 PR 已合併" : "ecosystem PRs merged"}</div>
+                <div className="font-data text-2xl sm:text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
                   {stats.ecosystemIntegrations.filter(e => e.type === "merged").length}
                   <span className="text-[0.5em] text-stone font-normal">/{stats.ecosystemIntegrations.length}</span>
                 </div>
-                <div className="font-data text-xs text-stone mt-2">{zh ? "生態系 PR 已合併" : "ecosystem PRs merged"}</div>
+                <div className="font-data text-xs text-stone mt-2 hidden sm:block">{zh ? "生態系 PR 已合併" : "ecosystem PRs merged"}</div>
               </div>
             </div>
           </Reveal>
@@ -370,7 +375,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.05}>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-px bg-paper">
+            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-px bg-paper">
               {[
                 { name: "OWASP Agentic Top 10", score: "10/10", detail: zh ? "完整覆蓋" : "Full coverage" },
                 { name: "SAFE-MCP (OpenSSF)", score: "91.8%", detail: "78/85" },
@@ -379,10 +384,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 { name: "PINT Benchmark", score: `${stats.pintF1}`, detail: `F1 / ${stats.pintSamples} samples` },
               ].map((std, i) => (
                 <Reveal key={std.name} delay={i * 0.05}>
-                  <div className="bg-ash py-8 md:py-10 px-4 md:px-5 text-center">
-                    <div className="font-data text-xs text-stone tracking-[1.5px] md:tracking-[2px] uppercase mb-2 md:mb-3">{std.name}</div>
-                    <div className="font-data text-[clamp(22px,3vw,40px)] font-bold text-ink">{std.score}</div>
-                    <div className="text-xs md:text-xs text-stone mt-1">{std.detail}</div>
+                  <div className="bg-ash py-6 sm:py-8 md:py-10 px-5 md:px-5 sm:text-center flex sm:block items-center justify-between">
+                    <div className="font-data text-xs text-stone tracking-[1.5px] md:tracking-[2px] uppercase sm:mb-2 md:mb-3">{std.name}</div>
+                    <div className="font-data text-2xl sm:text-[clamp(22px,3vw,40px)] font-bold text-ink">{std.score}</div>
+                    <div className="text-xs text-stone sm:mt-1 hidden sm:block">{std.detail}</div>
                   </div>
                 </Reveal>
               ))}
@@ -412,15 +417,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-display text-[22px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.25] max-w-[700px] mb-3">
-              {zh ? <>每個端點都是感測器。<br />每次掃描都在強化網絡。</> : <>Every endpoint is a sensor.<br className="hidden md:block" /> Every scan strengthens the network.</>}
+            <h2 className="font-display text-[22px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.3] max-w-[700px] mb-3">
+              {zh ? <>每個端點都是感測器。<br />每次掃描都在強化網絡。</> : <>Every endpoint is a sensor.<br /> Every scan strengthens the network.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="text-sm md:text-base text-stone font-light max-w-[560px] mb-6 md:mb-8 leading-[1.7]">
+            <p className="text-sm md:text-base text-stone font-light max-w-[560px] mb-6 md:mb-8 leading-[1.8]">
               {zh
-                ? <>你的掃描結果回饋到 Threat Cloud。AI 分析新威脅，自動結晶偵測規則，社群審查後合併。你用的規則越多，整個生態系越安全。這不是工具，是網絡效應。</>
-                : <>Your scan results feed back into the Threat Cloud. AI analyzes new threats, crystallizes detection rules, and the community reviews them. The more you use ATR, the safer the entire ecosystem becomes. This is not a tool. It is a network effect.</>}
+                ? <>你的掃描結果回饋到 Threat Cloud。<br className="md:hidden" />AI 分析新威脅，自動結晶偵測規則，社群審查後合併。<br /><br className="md:hidden" />你用的規則越多，整個生態系越安全。<br className="md:hidden" />這不是工具，是網絡效應。</>
+                : <>Your scan results feed back into the Threat Cloud. AI analyzes new threats, crystallizes detection rules, and the community reviews them.<br /><br className="md:hidden" />The more you use ATR, the safer the entire ecosystem becomes.<br className="md:hidden" /> This is not a tool. It is a network effect.</>}
             </p>
           </Reveal>
 
@@ -429,20 +434,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Reveal>
 
           <Reveal delay={0.3}>
-            <div className="grid grid-cols-3 gap-px bg-fog mt-10 md:mt-12">
-              <div className="bg-paper p-5 md:p-6 text-center">
-                <div className="font-data text-[clamp(22px,3vw,36px)] font-bold text-ink">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-fog mt-10 md:mt-12">
+              <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between sm:text-center">
+                <div className="font-data text-xs text-stone sm:hidden">{zh ? "次掃描回饋" : "scans fed back"}</div>
+                <div className="font-data text-2xl sm:text-[clamp(22px,3vw,36px)] font-bold text-ink">
                   <CountUp target={stats.megaScanTotal} useComma liveKey="megaScanTotal" />
                 </div>
-                <div className="font-data text-xs text-stone mt-1">{zh ? "次掃描回饋" : "scans fed back"}</div>
+                <div className="font-data text-xs text-stone mt-1 hidden sm:block">{zh ? "次掃描回饋" : "scans fed back"}</div>
               </div>
-              <div className="bg-paper p-5 md:p-6 text-center">
-                <div className="font-data text-[clamp(22px,3vw,36px)] font-bold text-ink">&lt;1h</div>
-                <div className="font-data text-xs text-stone mt-1">{zh ? "從發現到防護" : "discovery to protection"}</div>
+              <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between sm:text-center">
+                <div className="font-data text-xs text-stone sm:hidden">{zh ? "從發現到防護" : "discovery to protection"}</div>
+                <div className="font-data text-2xl sm:text-[clamp(22px,3vw,36px)] font-bold text-ink">&lt;1h</div>
+                <div className="font-data text-xs text-stone mt-1 hidden sm:block">{zh ? "從發現到防護" : "discovery to protection"}</div>
               </div>
-              <div className="bg-paper p-5 md:p-6 text-center">
-                <div className="font-data text-[clamp(22px,3vw,36px)] font-bold text-ink">{stats.ruleCount}+</div>
-                <div className="font-data text-xs text-stone mt-1">{zh ? "條規則持續增長" : "rules and growing"}</div>
+              <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between sm:text-center">
+                <div className="font-data text-xs text-stone sm:hidden">{zh ? "條規則持續增長" : "rules and growing"}</div>
+                <div className="font-data text-2xl sm:text-[clamp(22px,3vw,36px)] font-bold text-ink">{stats.ruleCount}+</div>
+                <div className="font-data text-xs text-stone mt-1 hidden sm:block">{zh ? "條規則持續增長" : "rules and growing"}</div>
               </div>
             </div>
           </Reveal>
@@ -465,10 +473,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-sm md:text-base text-stone font-light max-w-[480px] mx-auto mb-7 md:mb-8 mt-5 md:mt-6 leading-[1.7]">
+            <p className="text-sm md:text-base text-stone font-light max-w-[480px] mx-auto mb-7 md:mb-8 mt-5 md:mt-6 leading-[1.8]">
               {zh
-                ? <>Cisco 走了這條路。Awesome LM-SSP 走了。Agentic AI Top 10 也走了。<br />你的平台接上 ATR，就加入了共享防禦網絡。</>
-                : <>Cisco walked this path. Awesome LM-SSP did. Agentic AI Top 10 did.<br className="hidden md:block" /> Connect your platform to ATR and join the shared defense network.</>}
+                ? <>Cisco 走了這條路。<br className="sm:hidden" />Awesome LM-SSP 走了。<br className="sm:hidden" />Agentic AI Top 10 也走了。<br />你的平台接上 ATR，就加入了共享防禦網絡。</>
+                : <>Cisco walked this path. Awesome LM-SSP did.<br className="sm:hidden" /> Agentic AI Top 10 did.<br /> Connect your platform to ATR and join the shared defense network.</>}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -506,7 +514,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-fog">
               {[
                 { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=evasion-report.md", en: "Report an Evasion", zh: "回報繞過方法", desc: zh ? "最有影響力的貢獻" : "Most impactful contribution", time: "15 min" },
                 { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=false-positive.md", en: "Report a False Positive", zh: "回報誤判", desc: zh ? "幫助維持精準度" : "Helps maintain precision", time: "20 min" },
