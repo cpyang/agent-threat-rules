@@ -65,7 +65,7 @@ Every scan generates structured findings that feed back into the
 community threat database.
 
 ```bash
-npx @panguard-ai/panguard audit          # Scan your installed MCP skills
+npx agent-threat-rules scan skill.md      # Scan your installed MCP skills
 npx agent-threat-rules scan events.json   # Scan any MCP event log
 ```
 

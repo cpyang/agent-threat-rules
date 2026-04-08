@@ -10,7 +10,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Rules](https://img.shields.io/badge/rules-108-blue?style=flat-square)](#what-atr-detects)
-[![Tests](https://img.shields.io/badge/tests-278_passing-green?style=flat-square)](#ecosystem)
+[![Tests](https://img.shields.io/badge/tests-297_passing-green?style=flat-square)](#ecosystem)
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
 [![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-96.9%25-brightgreen?style=flat-square)](#evaluation)
 [![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
@@ -148,7 +148,7 @@ ATR maps to established AI security frameworks so teams can go from "understand 
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 278 tests passing |
+| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 297 tests passing |
 | [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v1.0.0 |
 | [Python engine (pyATR)](python/) | Local install only (`cd python && pip install -e .`) | 48 tests passing |
 | [GitHub Action](action.yml) | One-line CI scan with SARIF output | **New** |

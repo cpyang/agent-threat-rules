@@ -31,7 +31,7 @@ detection:
   conditions:
     - field: content
       operator: regex
-      value: '(?i)(?:use|install|adopt|deploy|enable|set ?up|add|activate|configure)\s+(?:the\s+)?(?:enhanced|improved|upgraded|extended|advanced|better|super|pro|plus)[_-]?\w+\s*(?:package|module|library|tool|plugin|skill)?\s*[.,;:]?\s*(?:it.s|which is|this is|a|the)?\s*(?:a\s+)?(?:community|unofficial|third.party|independent)\s*(?:-\s*)?(?:fork|variant|alternative|adaptation|version|build|branch|port)\s+(?:of|from|based on)'
+      value: '(?i)(?:use|install|adopt|deploy|enable|set ?up|add|activate|configure)\s+(?:the\s+)?(?:enhanced|improved|upgraded|extended|advanced|better|super|pro|plus)[_-]?\w+\s*(?:package|module|library|tool|plugin|skill)?\s*[.,;:]?\s*(?:it.s|which is|this is|a|the)?\s*(?:a\s+)?(?:community|unofficial|third.party|independent)\s*(?:-\s*)?(?:maintained\s+)?(?:fork|variant|alternative|adaptation|version|build|branch|port)\s+(?:of|from|based on)'
       description: "Promoting package as community fork of legitimate tool"
 test_cases:
   true_positives:

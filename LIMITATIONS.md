@@ -2,7 +2,7 @@
 
 ATR v0.4 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
 
-**Current stats:** 101 rules, 278 tests passing. MCP benchmark: 62.7% recall, 99.7% precision (PINT, 850 samples). SKILL.md benchmark: 96.9% recall, 100% precision, 0% FP (498 real-world samples). Plus 64 evasion tests documenting known bypasses.
+**Current stats:** 108 rules, 297 tests passing. MCP benchmark: 62.7% recall, 99.7% precision (PINT, 850 samples). SKILL.md benchmark: 96.9% recall, 100% precision, 0% FP (498 real-world samples). Plus 64 evasion tests documenting known bypasses.
 
 That pass rate sounds impressive. It is not. It means ATR correctly matches the patterns it was written to match. It says nothing about attacks that use different words to express the same intent.
 
@@ -153,7 +153,7 @@ Non-English recall at 24.4% is consistent with the multilingual limitation docum
 
 ### Rule Concentration
 
-On the MCP/PINT benchmark (v0.4, 71 rules at the time), only 6 rules fired on external data. ATR-2026-001 (prompt override detection) accounted for over 95% of all detections. The remaining rules contributed zero detections on this corpus. This does not mean those rules are useless -- they target specific attack types (credential leaks, SSRF, tool injection) that are not represented in prompt-injection benchmarks. The SKILL.md benchmark (v1.0, 101 rules) shows much broader rule activation: 96.9% recall across 498 real-world samples with 0% false positives.
+On the MCP/PINT benchmark (v0.4, 71 rules at the time), only 6 rules fired on external data. ATR-2026-001 (prompt override detection) accounted for over 95% of all detections. The remaining rules contributed zero detections on this corpus. This does not mean those rules are useless -- they target specific attack types (credential leaks, SSRF, tool injection) that are not represented in prompt-injection benchmarks. The SKILL.md benchmark (v1.0, 108 rules) shows much broader rule activation: 96.9% recall across 498 real-world samples with 0% false positives.
 
 ### Self-Test vs. External Recall Gap
 

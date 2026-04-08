@@ -38,7 +38,7 @@ def get_rule_count():
 ```
 
 **Pitch:** "Your users are on static 34 rules. TC has 108 and growing. One file adds auto-update."
-**Ask:** Logo usage for panguard.ai ("Integrated with Cisco AI Defense")
+**Ask:** Logo usage ("Integrated with Cisco AI Defense")
 
 ---
 

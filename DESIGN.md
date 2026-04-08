@@ -81,7 +81,7 @@ No gradients. Period. Depth is achieved through whitespace, typography scale, an
 | Badge | JetBrains Mono | 11px | 600 | 1.0 | 0.5px | Semantic color | Severity badges, status labels, UPPERCASE |
 
 ### Typography Principles
-- **Monospace for every number.** This is the rule. "100 rules" uses JetBrains Mono for "100" and Inter for "rules." This creates visual rhythm that says "we measured this precisely."
+- **Monospace for every number.** This is the rule. "108 rules" uses JetBrains Mono for "108" and Inter for "rules." This creates visual rhythm that says "we measured this precisely."
 - **Weight contrast, not size contrast.** Hero is 900 weight. Body is 400. The difference in authority comes from weight, not from making things bigger.
 - **Negative letter-spacing at display sizes.** -3px on hero, -2px on section headings. Creates density and gravitas. Normal spacing at body size for readability.
 - **UPPERCASE monospace for section labels.** "WHAT ATR DETECTS", "THE NUMBERS", "ALREADY IN PRODUCTION" — this is the intelligence briefing aesthetic. Sparse, formatted, classified-document-feeling.
@@ -356,7 +356,7 @@ Below: narrative paragraph about the attack surface.
 
 **Scene 3 — The Numbers:**
 6-cell grid. Each cell: one big monospace number + one description line.
-100 rules / 99.7% precision / <5ms / 36,394 skills scanned / 10/10 OWASP / 91.8% SAFE-MCP
+108 rules / 99.7% precision / <5ms / 36,394 skills scanned / 10/10 OWASP / 91.8% SAFE-MCP
 
 **Scene 4 — The Categories:**
 "What ATR detects."
@@ -403,10 +403,10 @@ Four paths: TypeScript, Python, Raw YAML, SIEM converters.
 ### Example Component Prompts
 
 **Hero Section:**
-"Create a full-viewport hero on Paper White (#FAFAF8). Center the ATR logo mark at top (the geometric A with speed lines, 80px height). Below: 'We used to protect people.' in Inter Tight 80px weight 900 color Stone (#6B6B76). Next line: 'Now we protect agents.' in Inter Tight 80px weight 900 color Ink Black (#0B0B0F). Below: three stats in JetBrains Mono — '100 rules', '9 categories', '99.7% precision' separated by centered dots. Two buttons: primary Signal Blue 'Integrate ATR' and secondary bordered 'Explore Rules'. Both 2px border-radius."
+"Create a full-viewport hero on Paper White (#FAFAF8). Center the ATR logo mark at top (the geometric A with speed lines, 80px height). Below: 'We used to protect people.' in Inter Tight 80px weight 900 color Stone (#6B6B76). Next line: 'Now we protect agents.' in Inter Tight 80px weight 900 color Ink Black (#0B0B0F). Below: three stats in JetBrains Mono — '108 rules', '9 categories', '99.7% precision' separated by centered dots. Two buttons: primary Signal Blue 'Integrate ATR' and secondary bordered 'Explore Rules'. Both 2px border-radius."
 
 **Numbers Grid:**
-"Build a 3-column grid on Ash (#F3F3F0) background with 2px Paper White gaps between cells. Each cell: big number in JetBrains Mono 64px weight 700 Ink Black, unit text in JetBrains Mono 24px weight 400 Stone, description in Inter 14px weight 400 Stone below. Six cells: 100 rules, 99.7%, <5ms, 36,394 skills, 10/10, 91.8%."
+"Build a 3-column grid on Ash (#F3F3F0) background with 2px Paper White gaps between cells. Each cell: big number in JetBrains Mono 64px weight 700 Ink Black, unit text in JetBrains Mono 24px weight 400 Stone, description in Inter 14px weight 400 Stone below. Six cells: 108 rules, 99.7%, <5ms, 36,394 skills, 10/10, 91.8%."
 
 **Category Grid:**
 "Create a 3-column grid with 1px Fog (#E8E8E5) borders between cells, on Paper White. Each cell: category name in Inter Tight 15px weight 600 Ink Black, rule count in JetBrains Mono 12px Signal Blue (#2563EB), one-line description in Inter 13px Stone. Nine cells for nine threat categories. Hover: border-color transitions to Stone. Sharp corners everywhere."
