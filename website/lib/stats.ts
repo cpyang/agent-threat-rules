@@ -143,6 +143,7 @@ export interface EcosystemIntegration {
   type: "merged" | "open" | "using";
   detail: string;
   url?: string;
+  logo?: string; // path to logo in public/ecosystem/ or external URL
 }
 
 export function loadSiteStats(): SiteStats {
@@ -217,18 +218,21 @@ export function loadSiteStats(): SiteStats {
         type: "merged",
         detail: "34 ATR rules merged as upstream. Built --rule-packs CLI for ATR.",
         url: "https://github.com/cisco-ai-defense/skill-scanner/pull/79",
+        logo: "https://github.com/cisco-ai-defense.png?size=128",
       },
       {
         name: "Awesome LM-SSP",
         type: "merged",
         detail: "PR #108 merged into LLM safety/security list.",
         url: "https://github.com/ThuCCSLab/Awesome-LM-SSP/pull/108",
+        logo: "https://github.com/ThuCCSLab.png?size=128",
       },
       {
         name: "Agentic AI Top 10 Vulnerability",
         type: "merged",
         detail: "PR #14 merged. ATR detection mapping for 12 vulnerability categories.",
         url: "https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14",
+        logo: "https://github.com/precize.png?size=128",
       },
       {
         name: "OWASP LLM Top 10",

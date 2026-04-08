@@ -6,7 +6,10 @@ import { StatsHydrator } from "@/components/StatsHydrator";
 import { NumberScramble } from "@/components/NumberScramble";
 import { HeroGrid } from "@/components/DotGrid";
 import { Flywheel } from "@/components/Flywheel";
+import { ContributorWall } from "@/components/ContributorWall";
+import { EcosystemWall } from "@/components/EcosystemWall";
 import { loadSiteStats } from "@/lib/stats";
+import { loadContributors, getCountryStats } from "@/lib/contributors";
 import { loadAllRules, getCategories } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
 import Link from "next/link";
@@ -62,6 +65,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const zh = locale === "zh";
   const rules = loadAllRules();
   const categories = getCategories(rules);
+  const contributors = loadContributors();
+  const countries = getCountryStats(contributors);
 
   return (
     <>
@@ -343,20 +348,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
 
+          {/* Ecosystem Wall */}
           <Reveal delay={0.5}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog mt-px">
-              {[
-                { name: "OWASP LLM Top 10", en: "Detection mapping submitted. PR #814.", zh: "偵測對應已提交。PR #814。" },
-                { name: "SAFE-MCP (OpenSSF)", en: "78/85 techniques (91.8%). PR #187.", zh: "78/85 項技術（91.8%）。PR #187。" },
-                { name: zh ? `${stats.ecosystemIntegrations.length} 個生態系 PR` : `${stats.ecosystemIntegrations.length} Ecosystem PRs`, en: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged, ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} under review.`, zh2: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} 個已合併，${stats.ecosystemIntegrations.filter(e => e.type === "open").length} 個審查中。` },
-              ].map((eco) => (
-                <Reveal key={eco.name} delay={0.1}>
-                  <div className="bg-paper p-5 md:p-6">
-                    <div className="font-display text-sm font-semibold mb-2">{eco.name}</div>
-                    <p className="text-sm text-stone">{zh ? (eco.zh2 ?? eco.zh) : eco.en}</p>
-                  </div>
-                </Reveal>
-              ))}
+            <div className="mt-10 md:mt-12">
+              <EcosystemWall integrations={stats.ecosystemIntegrations} locale={locale} />
             </div>
           </Reveal>
         </div>
@@ -533,6 +528,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   <a key={item.en} href={item.href} target="_blank" rel="noopener noreferrer">{inner}</a>
                 );
               })}
+            </div>
+          </Reveal>
+
+          {/* Contributor Wall */}
+          <Reveal delay={0.3}>
+            <div className="mt-10 md:mt-12">
+              <ContributorWall contributors={contributors} countries={countries} locale={locale} />
             </div>
           </Reveal>
         </div>
