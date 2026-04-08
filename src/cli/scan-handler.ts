@@ -10,6 +10,7 @@ import { resolve } from 'node:path';
 import { ATREngine } from '../engine.js';
 import type { AgentEvent, ATRMatch, ScanResult, ScanType } from '../types.js';
 import { scanResultToSARIF } from '../converters/sarif.js';
+import { createTCReporter } from '../tc-reporter.js';
 
 const SEVERITY_ORDER = ['informational', 'low', 'medium', 'high', 'critical'] as const;
 
@@ -34,6 +35,8 @@ export interface ScanOptions {
   readonly sarif?: boolean;
   readonly severity?: string;
   readonly forceType?: ScanType;
+  readonly reportToCloud?: boolean;
+  readonly tcUrl?: string;
 }
 
 /** Detect whether the target is an MCP event JSON or SKILL.md file/directory. */
@@ -82,12 +85,30 @@ export async function cmdScanUnified(
     process.exit(1);
   }
 
+  // Create TC reporter if --report-to-cloud is set
+  const reporter = options.reportToCloud
+    ? createTCReporter({
+        tcUrl: options.tcUrl,
+        onError: (err) => console.error(`${DIM}TC upload: ${err.message}${RESET}`),
+      })
+    : undefined;
+
   const scanType = options.forceType ?? detectInputType(targetPath);
 
-  if (scanType === 'skill') {
-    await scanSkillFiles(targetPath, rulesDir, options);
-  } else {
-    await scanMcpEvents(targetPath, rulesDir, options);
+  try {
+    if (scanType === 'skill') {
+      await scanSkillFiles(targetPath, rulesDir, options, reporter);
+    } else {
+      await scanMcpEvents(targetPath, rulesDir, options, reporter);
+    }
+  } finally {
+    // Flush remaining events before exit
+    if (reporter) {
+      await reporter.destroy();
+      if (!options.json && !options.sarif) {
+        console.log(`${DIM}  Threat Cloud: detections reported to ${options.tcUrl ?? 'https://tc.panguard.ai'}${RESET}`);
+      }
+    }
   }
 }
 
@@ -97,6 +118,7 @@ async function scanMcpEvents(
   eventsPath: string,
   rulesDir: string,
   options: ScanOptions,
+  reporter?: ReturnType<typeof createTCReporter>,
 ): Promise<void> {
   const fileStat = statSync(eventsPath);
   if (fileStat.size > 50 * 1024 * 1024) {
@@ -114,7 +136,7 @@ async function scanMcpEvents(
     process.exit(1);
   }
 
-  const engine = new ATREngine({ rulesDir });
+  const engine = new ATREngine({ rulesDir, reporter });
   await engine.loadRules();
 
   const minIdx = SEVERITY_ORDER.indexOf(
@@ -189,6 +211,7 @@ async function scanSkillFiles(
   targetPath: string,
   rulesDir: string,
   options: ScanOptions,
+  reporter?: ReturnType<typeof createTCReporter>,
 ): Promise<void> {
   const skillFiles = collectSkillFiles(targetPath);
 
@@ -197,7 +220,7 @@ async function scanSkillFiles(
     process.exit(1);
   }
 
-  const engine = new ATREngine({ rulesDir });
+  const engine = new ATREngine({ rulesDir, reporter });
   await engine.loadRules();
 
   const minIdx = SEVERITY_ORDER.indexOf(

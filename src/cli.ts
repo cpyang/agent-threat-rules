@@ -63,6 +63,8 @@ ${BOLD}Options:${RESET}
   --sarif          Output results as SARIF v2.1.0 (GitHub Security tab)
   --output <file>  Write output to file instead of stdout (convert)
   --severity <s>   Minimum severity to report (critical|high|medium|low|informational)
+  --report-to-cloud  Report detections to ATR Threat Cloud (anonymous, opt-in)
+  --tc-url <url>     Threat Cloud endpoint (default: https://tc.panguard.ai)
   --dry-run        Log actions without executing (guard mode)
   --fail-open      Default to allow on errors (guard mode, default: true)
   --timeout <ms>   Evaluation timeout in ms (guard mode, default: 5000)
@@ -913,6 +915,8 @@ async function main(): Promise<void> {
         json: options['json'] === 'true',
         sarif: options['sarif'] === 'true',
         severity: options['severity'],
+        reportToCloud: options['report-to-cloud'] === 'true',
+        tcUrl: options['tc-url'],
       });
       break;
     case 'scan-skill':
@@ -921,6 +925,8 @@ async function main(): Promise<void> {
         sarif: options['sarif'] === 'true',
         severity: options['severity'],
         forceType: 'skill',
+        reportToCloud: options['report-to-cloud'] === 'true',
+        tcUrl: options['tc-url'],
       });
       break;
     case 'validate':
