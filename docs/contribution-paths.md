@@ -1,166 +1,243 @@
-# Contribution Paths
+# Integration and Contribution Paths
 
-Three paths to contributing ATR rules, from manual to fully automated.
-
-All paths converge at the same quality gate before merge.
+ATR is designed to be consumed by any AI agent security tool, regardless of size or stack.
+Pick the path that fits you.
 
 ---
 
-## Path A: Manual Rule Writing
+## For Consumers (use ATR rules in your product)
 
-Best for: security researchers, red teamers, developers who have discovered an attack pattern firsthand.
+### Path 1: npm Package (Node.js / TypeScript)
 
-### Workflow
+Best for: Node.js apps, TypeScript projects, MCP servers, Claude Code extensions.
 
-1. **Scaffold** -- Generate a rule template:
+```bash
+npm install agent-threat-rules
+```
+
+```typescript
+import { ATREngine } from 'agent-threat-rules';
+
+const engine = new ATREngine();
+const matches = engine.evaluate({
+  type: 'tool_response',
+  content: toolOutput,
+  timestamp: new Date().toISOString(),
+});
+
+if (matches.length > 0) {
+  // Threat detected
+}
+```
+
+Time to integrate: ~30 minutes.
+
+### Path 2: Python (pyATR)
+
+Best for: Python apps, FastAPI services, LangChain/CrewAI agents.
+
+```bash
+pip install git+https://github.com/Agent-Threat-Rule/agent-threat-rules.git#subdirectory=python
+```
+
+```python
+from pyatr import ATREngine
+
+engine = ATREngine()
+result = engine.evaluate(event={
+    "type": "tool_response",
+    "content": tool_output,
+})
+
+if result.outcome == "deny":
+    # Block the request
+```
+
+Time to integrate: ~30 minutes.
+
+### Path 3: Raw YAML (any language)
+
+Best for: Go, Rust, Java, or any language. Parse the YAML yourself.
+
+```bash
+# Add as git submodule
+git submodule add https://github.com/Agent-Threat-Rule/agent-threat-rules.git vendor/atr
+
+# Rules are at vendor/atr/rules/
+# Schema spec at vendor/atr/spec/atr-schema.yaml
+# Each .yaml file has regex patterns you can compile natively
+```
+
+Directory structure:
+```
+rules/
+  prompt-injection/      (29 rules)
+  skill-compromise/      (20 rules)
+  agent-manipulation/    (12 rules)
+  context-exfiltration/  (12 rules)
+  tool-poisoning/        (11 rules)
+  privilege-escalation/  (8 rules)
+  excessive-autonomy/    (5 rules)
+  data-poisoning/        (2 rules)
+  model-security/        (1 rule)
+```
+
+Time to integrate: ~2 hours (parse YAML + compile regex).
+
+### Path 4: SIEM / Security Pipeline
+
+Best for: SOC teams, Splunk/Elastic deployments, CI/CD security scanning.
+
+```bash
+# Install CLI
+npm install -g agent-threat-rules
+
+# Convert to your SIEM format
+atr convert splunk --output splunk-queries.txt
+atr convert elastic --output elastic-queries.json
+
+# Or export as SARIF for GitHub Security tab
+atr scan my-config.json --format sarif --output results.sarif
+```
+
+Time to integrate: ~1 hour.
+
+### Path 5: GitHub Action (CI/CD)
+
+Best for: scanning MCP configs and SKILL.md files on every PR.
+
+```yaml
+# .github/workflows/atr-scan.yml
+name: ATR Security Scan
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: panguard-ai/atr-action@v1
+```
+
+Time to integrate: ~5 minutes.
+
+### Path 6: Generic Regex Export (platform integration)
+
+Best for: security platforms that want ATR patterns without the ATR engine.
+This is how Cisco AI Defense integrated 34 ATR rules.
+
+```typescript
+import { loadRulesFromDirectory } from 'agent-threat-rules';
+import { rulesToGenericRegex } from 'agent-threat-rules/converters';
+
+const rules = loadRulesFromDirectory('./node_modules/agent-threat-rules/rules');
+const exported = rulesToGenericRegex(rules);
+// Returns: [{ id, title, severity, category, patterns: [{ field, regex, flags }] }]
+```
+
+Or use the CLI:
+```bash
+atr convert generic-regex --output atr-patterns.json
+```
+
+Time to integrate: ~1 hour.
+
+---
+
+## For Contributors (write new detection rules)
+
+### Path A: Manual Rule Writing
+
+Best for: security researchers, red teamers, developers who discovered an attack pattern.
+
+1. **Scaffold** a rule template:
    ```bash
    atr scaffold
    ```
 
-2. **Edit** -- Fill in the YAML with your detection logic:
-   - Define detection conditions (regex patterns, field matching)
-   - Write at least 5 true positive test cases
-   - Write at least 5 true negative test cases (include adversarial near-misses)
+2. **Edit** the YAML:
+   - Define detection conditions (regex patterns)
+   - Write 5+ true positive test cases
+   - Write 5+ true negative test cases
    - Add 3+ evasion tests documenting known bypasses
    - Map to OWASP LLM Top 10, OWASP Agentic Top 10, or MITRE ATLAS
 
-3. **Validate** -- Check schema conformance:
+3. **Validate and test**:
    ```bash
    atr validate my-rule.yaml
-   ```
-
-4. **Test** -- Run embedded test cases:
-   ```bash
    atr test my-rule.yaml
    ```
 
-5. **Submit** -- Open a PR to [Agent-Threat-Rule/agent-threat-rules](https://github.com/Agent-Threat-Rule/agent-threat-rules):
-   - Place the file in `rules/<category>/`
-   - Include a description of the attack pattern
-   - Reference any CVEs, papers, or blog posts that document the attack
+4. **Submit** a PR to [agent-threat-rules](https://github.com/Agent-Threat-Rule/agent-threat-rules):
+   - Place in `rules/<category>/`
+   - Include attack pattern description
+   - Reference CVEs, papers, or blog posts
 
-### Time estimate
+Time: 1-2 hours for a well-researched rule.
 
-1-2 hours for a well-researched rule.
+### Path B: Report an Evasion
 
----
+Found a way to bypass an existing rule? This is the most valuable contribution.
 
-## Path B: MiroFish AI Prediction
+1. Check the rule's existing `evasion_tests` section
+2. Open an issue using the **Evasion Report** template
+3. Include: rule ID, bypass input, technique used, why it works
 
-Best for: generating rules for emerging threats before they appear in the wild, using swarm intelligence simulation to predict attack patterns.
+Every confirmed evasion becomes a new test case. You get credited in CONTRIBUTORS.md.
 
-### What is MiroFish?
+Time: ~15 minutes.
 
-MiroFish is a multi-agent swarm intelligence framework. It runs N agents through M rounds of deliberation on a topic, producing a consensus prediction report. When seeded with security domain data, it predicts plausible future attack patterns that can be converted to ATR rules.
+### Path C: Report a False Positive
 
-### Workflow
+A rule triggered on legitimate content?
 
-1. **Prepare seed data** -- Create agent profiles and a knowledge base:
-   - `agent-profiles.json`: Define agent personas (red teamer, defense analyst, protocol researcher, etc.)
-   - `knowledge-base.json`: Include OWASP Top 10 descriptions, known CVEs, published attack research
+1. Open an issue using the **False Positive Report** template
+2. Include: rule ID, the input that triggered it, why it is legitimate
 
-2. **Run simulation** -- Execute the MiroFish swarm:
-   ```bash
-   python mirofish_run.py \
-     --agents agent-profiles.json \
-     --knowledge knowledge-base.json \
-     --rounds 40 \
-     --model claude-sonnet-4-20250514
-   ```
-   - 40 rounds recommended for stable consensus
-   - Cost estimate: $1-3 USD for 40 rounds with Claude Sonnet
+Confirmed false positives become new `true_negatives` test cases.
 
-3. **Export report** -- Save the prediction output:
-   ```bash
-   python mirofish_export.py --format json --output prediction-report.json
-   ```
+Time: ~20 minutes.
 
-4. **Convert to ATR rules** -- Use the converter script:
-   ```bash
-   python mirofish_to_atr.py \
-     --input prediction-report.json \
-     --output-dir generated-rules/
-   ```
-   The converter:
-   - Extracts attack patterns from the prediction report
-   - Generates ATR-compliant YAML for each pattern
-   - Assigns appropriate categories, severity, and framework references
-   - Creates initial test cases from the prediction examples
+### Path D: Runtime Detection Auto-Draft
 
-5. **Quality review** -- The converter runs an automated quality gate:
-   - Schema validation
-   - Regex complexity check (ReDoS prevention)
-   - Minimum test case count
-   - OWASP/MITRE reference requirement
+Best for: operators running ATR in production who encounter novel attacks.
 
-6. **Human review and refinement** -- Review each generated rule:
-   - Verify detection patterns are specific enough (not overly broad)
-   - Add adversarial true negatives
-   - Add evasion tests with honest `expected: not_triggered`
-   - Adjust severity based on real-world impact assessment
+When your ATR-compatible runtime monitor detects anomalous behavior that no existing rule covers:
 
-7. **Submit** -- Open a PR with the `mirofish-generated` label.
-
-### Real-world example
-
-The first MiroFish-to-ATR pipeline run used the following configuration:
-
-- **Model**: Claude Sonnet API
-- **Agents**: 14 specialized personas (red teamer, blue teamer, protocol analyst, supply chain auditor, and others)
-- **Rounds**: 40 deliberation rounds
-- **Knowledge base**: OWASP Agentic Top 10 (2026), MITRE ATLAS techniques, published MCP vulnerability research
-- **Output**: Prediction report covering 17 novel attack vectors
-- **Conversion**: `mirofish_to_atr.py` generated 17 ATR rule drafts
-- **Result**: After human review and refinement, 17 rules passed quality gate
-
-### When to use this path
-
-- You want to detect threats that have not been publicly exploited yet
-- You have access to the MiroFish framework and a Claude API key
-- You are comfortable reviewing AI-generated detection patterns for accuracy
-- You want to contribute multiple rules at once
+1. The ATR Drafter captures the event and generates a draft rule YAML
+2. An issue is opened automatically with the `auto-drafted` label
+3. Community reviews, adds test cases, maps to OWASP/MITRE
+4. Once it passes the quality gate, it merges into the rule set
 
 ---
 
-## Path C: Detection-Driven Auto-Draft
+## For Platform Partners (deep integration + data exchange)
 
-Best for: operators running ATR-compatible runtime monitors in production who encounter novel attack patterns in real agent traffic.
+### Ecosystem Integration PR
 
-### Workflow
+Want ATR rules in your scanner/platform? We will write the integration PR for you.
 
-1. **Runtime detection** -- Your ATR-compatible runtime monitor detects anomalous agent behavior that does not match any existing ATR rule.
+What we provide:
+- ATR rules converted to your platform's format
+- Test cases adapted to your test framework
+- Documentation for your users
 
-2. **Auto-draft** -- The ATR Drafter module:
-   - Captures the event that triggered the anomaly
-   - Extracts candidate detection patterns
-   - Generates a draft ATR rule YAML
-   - Runs schema validation and basic quality checks
+What we ask:
+- Mention ATR in your README or integrations page
+- (Optional) Feed anonymized scan results back to ATR Threat Cloud
 
-3. **GitHub issue** -- The drafter automatically opens a GitHub issue:
-   - Uses the `auto-drafted` label
-   - Includes the draft rule YAML
-   - Includes the anonymized event context
-   - Requests community review
+Current integrations:
+| Platform | Integration | Reference |
+|----------|------------|-----------|
+| Cisco AI Defense | 34 rules in skill-scanner | [PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79) |
+| OWASP Agentic Top 10 | Detection mapping | [PR #14](https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14) |
 
-4. **Community review** -- Contributors:
-   - Verify the detection pattern is valid and specific
-   - Add additional test cases
-   - Refine regex patterns for evasion resistance
-   - Map to OWASP/MITRE frameworks
-
-5. **Merge** -- Once the rule passes the quality gate and receives reviewer approval, it is merged into the main rule set.
-
-### When to use this path
-
-- You are running an ATR-compatible agent security tool in production
-- You observe agent behavior that existing rules do not cover
-- You want to contribute real-world detection data (anonymized)
+Contact: Open an issue with the `ecosystem-integration` label, or email the maintainers.
 
 ---
 
 ## Unified Quality Gate
 
-All three paths must pass the same quality gate before merge. No exceptions.
+All contributed rules must pass this gate. No exceptions.
 
 ### Automated checks (CI)
 
@@ -170,8 +247,8 @@ All three paths must pass the same quality gate before merge. No exceptions.
 | True positives | Minimum 5 test cases, all pass |
 | True negatives | Minimum 5 test cases, all pass |
 | Framework reference | At least one OWASP LLM, OWASP Agentic, or MITRE ATLAS reference |
-| Regex safety | No overly broad patterns (`.+` or `.*` alone as the full value) |
-| Regex complexity | No patterns vulnerable to catastrophic backtracking (ReDoS) |
+| Regex safety | No overly broad patterns (`.+` or `.*` alone) |
+| Regex complexity | No patterns vulnerable to ReDoS |
 | ID format | Matches `ATR-YYYY-NNN` pattern |
 | Required fields | All schema-required fields present |
 
@@ -181,14 +258,7 @@ All three paths must pass the same quality gate before merge. No exceptions.
 |-------|-------------|
 | Detection specificity | Patterns target actual attack indicators, not generic language |
 | False positive documentation | `false_positives` section lists realistic scenarios |
-| Evasion honesty | At least 3 evasion tests with `expected: not_triggered` where appropriate |
-| Severity justification | Severity matches real-world impact, not pattern complexity |
+| Evasion honesty | At least 3 evasion tests with known bypasses documented |
+| Severity justification | Severity matches real-world impact |
 | Description accuracy | States what IS detected and what IS NOT |
 | Reviewer approval | At least one maintainer approval |
-
-### Labels applied by CI
-
-- `quality-ready` -- All automated checks pass
-- `needs-work` -- One or more automated checks failed
-- `mirofish-generated` -- Rule was generated via MiroFish prediction (Path B)
-- `auto-drafted` -- Rule was auto-drafted from runtime detection (Path C)
