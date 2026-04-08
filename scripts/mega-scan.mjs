@@ -6,8 +6,11 @@
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
-import { ATREngine } from './dist/engine.js';
-import { computeContentHash } from './dist/content-hash.js';
+import { ATREngine } from '../dist/engine.js';
+
+function computeContentHash(content) {
+  return createHash('sha256').update(content).digest('hex');
+}
 
 const RULES_DIR = resolve('rules');
 const TC_URL = 'https://tc.panguard.ai';
@@ -174,8 +177,82 @@ async function main() {
     if ((i + 1) % 100 === 0) process.stdout.write(`  ${i+1}/${threats.length} pushed\r`);
   }
   
-  console.log(`\nTC push: ${pushOk} ok, ${pushFail} failed`);
-  
+  console.log(`\nTC push threats: ${pushOk} ok, ${pushFail} failed`);
+
+  // Push scan event summary
+  console.log(`\nPushing scan event summary...`);
+  try {
+    const resp = await fetch(TC_URL + '/api/scan-events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source: 'bulk-pipeline',
+        skillsScanned: scanned,
+        findingsCount: flagged,
+        confirmedMalicious: severityCount.critical,
+        highlySuspicious: severityCount.high,
+        generalSuspicious: severityCount.medium,
+        cleanCount: clean,
+      }),
+    });
+    console.log(`  Scan event: ${resp.ok ? 'ok' : 'failed'}`);
+  } catch { console.log('  Scan event: error'); }
+
+  // Push blacklist (CRITICAL threats)
+  const criticalThreats = threats.filter(t => t.level === 'CRITICAL');
+  console.log(`\nPushing ${criticalThreats.length} CRITICAL to blacklist...`);
+  let blOk = 0;
+  for (const t of criticalThreats.slice(0, 200)) {
+    try {
+      const resp = await fetch(TC_URL + '/api/skill-threats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          skillHash: t.hash,
+          skillName: t.name,
+          riskScore: Math.round(t.score),
+          riskLevel: 'CRITICAL',
+          findingSummaries: t.findings.slice(0, 5).map(f => ({
+            id: f.ruleId, category: f.category, severity: f.severity, title: f.title,
+          })),
+        }),
+      });
+      if (resp.ok) blOk++;
+    } catch {}
+  }
+  console.log(`  Blacklist pushed: ${blOk}`);
+
+  // Push whitelist sample (batch hashes of clean skills — TC deduplicates)
+  // Only push a representative sample, not all 52K
+  console.log(`\nPushing clean skills sample to whitelist...`);
+  let wlOk = 0;
+  // Re-scan and collect clean hashes (we don't store them above to save memory)
+  const cleanSample = [];
+  for (let i = 0; i < Math.min(allFiles.length, 5000); i++) {
+    try {
+      const content = readFileSync(allFiles[i], 'utf-8');
+      const matches = engine.scanSkill(content);
+      if (matches.length === 0) {
+        cleanSample.push({
+          skillHash: computeContentHash(content),
+          skillName: allFiles[i].split('/').slice(-2).join('/'),
+        });
+      }
+    } catch {}
+  }
+  // Batch push to whitelist
+  for (const s of cleanSample) {
+    try {
+      const resp = await fetch(TC_URL + '/api/skill-whitelist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(s),
+      });
+      if (resp.ok) wlOk++;
+    } catch {}
+  }
+  console.log(`  Whitelist pushed: ${wlOk}/${cleanSample.length}`);
+
   // Save report
   const report = {
     scan_date: new Date().toISOString(),
