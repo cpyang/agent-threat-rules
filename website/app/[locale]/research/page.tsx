@@ -36,24 +36,67 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         </p>
       </Reveal>
 
-      {/* Paper */}
+      {/* Papers */}
       <Reveal>
-        <div className="border border-fog mb-8">
-          <div className="px-6 py-4 border-b border-fog bg-ash">
-            <h2 className="font-display text-lg font-semibold">{t(locale, "research.paper")}</h2>
-          </div>
-          <div className="p-6">
-            <p className="text-sm text-graphite leading-relaxed mb-4">
-              Pan, Y. (2026). <em>Agent Threat Rules: A Community-Driven Detection Standard for AI Agent Security Threats.</em>
-            </p>
-            <div className="font-data text-sm text-ink bg-ash border border-fog px-4 py-3 mb-4">
-              DOI: <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">10.5281/zenodo.19178002</a>
+        <div className="grid grid-cols-1 gap-px bg-fog mb-8 border border-fog">
+          {/* Main paper */}
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-data text-xs bg-blue/10 text-blue px-2 py-0.5 rounded-sm">v4</span>
+              <span className="font-data text-xs text-mist">April 2026 · 23 pages · 65 references</span>
             </div>
-            <div className="flex gap-4">
-              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="font-data text-sm text-blue hover:underline">
-                Zenodo ({locale === "zh" ? "已發布" : "published"}) &rarr;
-              </a>
-              <span className="font-data text-sm text-stone">SSRN: Abstract ID 6457179 ({locale === "zh" ? "審查中" : "pending review"})</span>
+            <div className="font-display text-base font-semibold text-ink mb-1">
+              {locale === "zh"
+                ? "信任的崩塌：自主 AI Agent 時代的安全架構"
+                : "The Collapse of Trust: Security Architecture for the Age of Autonomous AI Agents"}
+            </div>
+            <p className="text-sm text-stone mb-3">
+              {locale === "zh"
+                ? "108 條偵測規則、雙 benchmark（PINT 99.6% precision + SKILL.md 96.9% recall）、53K mega scan、Cisco 採用。ATR 標準的完整論述。"
+                : "108 detection rules, dual benchmarks (PINT 99.6% precision + SKILL.md 96.9% recall), 53K mega scan, Cisco adoption. The complete ATR thesis."}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo DOI</a>
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-Paper-v4.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
+              <span className="font-data text-xs text-stone">SSRN: 6457179</span>
+            </div>
+          </div>
+
+          {/* Mega scan paper */}
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "新" : "NEW"}</span>
+              <span className="font-data text-xs text-mist">April 2026 · 10 pages · 25 references</span>
+            </div>
+            <div className="font-display text-base font-semibold text-ink mb-1">
+              53,577 Skills, 946 Threats: The First Large-Scale Security Audit of the AI Agent Ecosystem
+            </div>
+            <p className="text-sm text-stone mb-3">
+              {locale === "zh"
+                ? "史上最大規模 AI agent 安全掃描。53,577 個 skill、946 個威脅、875 嚴重、0% 誤報。工具描述下毒佔偵測的 71%。"
+                : "The largest AI agent security scan to date. 53,577 skills, 946 threats, 875 critical, 0% false positive. Tool description poisoning accounts for 71% of detections."}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-MegaScan-2026.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
+            </div>
+          </div>
+
+          {/* MCP attack surface paper */}
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "新" : "NEW"}</span>
+              <span className="font-data text-xs text-mist">April 2026 · 14 pages · 22 references</span>
+            </div>
+            <div className="font-display text-base font-semibold text-ink mb-1">
+              30 CVEs in 60 Days: The Model Context Protocol Attack Surface
+            </div>
+            <p className="text-sm text-stone mb-3">
+              {locale === "zh"
+                ? "MCP 攻擊面實證分析。60 天 30 個 CVE、38% 零認證、7 類攻擊分類學、53K 生態系掃描。比 Docker 前兩年快 15 倍。"
+                : "Empirical analysis of the MCP attack surface. 30 CVEs in 60 days, 38% zero authentication, 7-class attack taxonomy, 53K ecosystem scan. 15x faster than Docker's first two years."}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/MCP-Attack-Surface-2026.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
             </div>
           </div>
         </div>
