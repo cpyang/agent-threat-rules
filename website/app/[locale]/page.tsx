@@ -190,12 +190,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 { value: 91.8, suffix: "%", label: "SAFE-MCP", desc: zh ? "MCP 安全框架" : "MCP security framework", liveKey: undefined },
               ].map((item, i) => (
                 <Reveal key={i} delay={0.1 + i * 0.05}>
-                  <div className="bg-ash p-5 md:p-10">
+                  <div className="bg-ash p-6 md:p-10">
                     <div className="font-data text-[clamp(28px,5vw,56px)] font-bold text-ink leading-none">
                       <CountUp target={item.value} suffix={item.suffix} useComma={item.useComma} liveKey={item.liveKey} />
                     </div>
-                    <div className="font-data text-[12px] md:text-sm text-stone mt-1.5 md:mt-2">{item.label}</div>
-                    <div className="text-[11px] md:text-xs text-mist mt-0.5 md:mt-1">{item.desc}</div>
+                    <div className="font-data text-[13px] md:text-sm text-stone mt-2 md:mt-3">{item.label}</div>
+                    <div className="text-[12px] md:text-xs text-mist mt-1">{item.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -226,9 +226,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 const displayName = cat.name.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
                 return (
                   <div key={cat.name} className="bg-paper p-5 md:p-6 hover:bg-ash/50 transition-colors">
-                    <div className="font-display text-[14px] md:text-[15px] font-semibold text-ink">{displayName}</div>
-                    <div className="font-data text-[11px] md:text-xs text-blue mt-1">{cat.count} {zh ? "條規則" : "rules"}</div>
-                    <p className="text-[12px] md:text-[13px] text-stone leading-[1.5] mt-1.5 md:mt-2">
+                    <div className="font-display text-[15px] font-semibold text-ink">{displayName}</div>
+                    <div className="font-data text-[12px] text-blue mt-1.5">{cat.count} {zh ? "條規則" : "rules"}</div>
+                    <p className="text-[13px] text-stone mt-2">
                       {desc ? (zh ? desc.zh : desc.en) : cat.name}
                     </p>
                   </div>
@@ -317,8 +317,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               ].map((eco) => (
                 <Reveal key={eco.name} delay={0.1}>
                   <div className="bg-paper p-5 md:p-6">
-                    <div className="font-display text-[13px] md:text-sm font-semibold mb-1.5 md:mb-2">{eco.name}</div>
-                    <p className="text-[12px] md:text-[13px] text-stone leading-[1.6]">{zh ? (eco.zh2 ?? eco.zh) : eco.en}</p>
+                    <div className="font-display text-sm font-semibold mb-2">{eco.name}</div>
+                    <p className="text-[13px] text-stone">{zh ? (eco.zh2 ?? eco.zh) : eco.en}</p>
                   </div>
                 </Reveal>
               ))}
@@ -344,8 +344,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 { name: "PINT Benchmark", score: `${stats.pintF1}`, detail: `F1 / ${stats.pintSamples} samples` },
               ].map((std, i) => (
                 <Reveal key={std.name} delay={i * 0.05}>
-                  <div className="bg-ash py-6 md:py-10 px-4 md:px-5 text-center">
-                    <div className="font-data text-[10px] md:text-[11px] text-stone tracking-[1.5px] md:tracking-[2px] uppercase mb-2 md:mb-3 leading-[1.4]">{std.name}</div>
+                  <div className="bg-ash py-8 md:py-10 px-4 md:px-5 text-center">
+                    <div className="font-data text-[11px] text-stone tracking-[1.5px] md:tracking-[2px] uppercase mb-2 md:mb-3">{std.name}</div>
                     <div className="font-data text-[clamp(22px,3vw,40px)] font-bold text-ink">{std.score}</div>
                     <div className="text-[11px] md:text-xs text-stone mt-1">{std.detail}</div>
                   </div>
@@ -411,21 +411,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
           <Reveal delay={0.3}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mt-10 md:mt-12">
-              <div className="bg-paper p-5 md:p-6">
-                <div className="font-data text-[10px] md:text-[11px] text-stone tracking-[1.5px] md:tracking-[2px] uppercase mb-3 md:mb-4">
+              <div className="bg-paper p-6">
+                <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-4">
                   {zh ? "傳統方式" : "The Old Way"}
                 </div>
-                <ul className="space-y-2.5 md:space-y-3 text-[12px] md:text-[13px] text-stone leading-[1.6]">
+                <ul className="space-y-3 text-[14px] text-stone">
                   <li>{zh ? "每個廠商自己寫規則，閉源，互不共享" : "Every vendor writes their own rules. Closed source. No sharing."}</li>
                   <li>{zh ? "新攻擊出現，數週到數月後才有規則" : "New attack appears. Rules arrive weeks to months later."}</li>
                   <li>{zh ? "規則格式不統一，無法跨平台使用" : "Rule formats incompatible across platforms."}</li>
                 </ul>
               </div>
-              <div className="bg-paper p-5 md:p-6">
-                <div className="font-data text-[10px] md:text-[11px] text-blue tracking-[1.5px] md:tracking-[2px] uppercase mb-3 md:mb-4">
+              <div className="bg-paper p-6">
+                <div className="font-data text-[11px] text-blue tracking-[2px] uppercase mb-4">
                   ATR + Threat Cloud
                 </div>
-                <ul className="space-y-2.5 md:space-y-3 text-[12px] md:text-[13px] text-ink leading-[1.6]">
+                <ul className="space-y-3 text-[14px] text-ink">
                   <li>{zh ? "一套開放規則，所有生態系共享，MIT 授權" : "One set of open rules. All ecosystems. MIT licensed."}</li>
                   <li>{zh ? "新攻擊出現，數小時內產生規則" : "New attack appears. Rules generated in hours."}</li>
                   <li>{zh ? "統一 YAML，可匯出 Splunk / Elastic / SARIF" : "Unified YAML. Export to Splunk, Elastic, SARIF."}</li>
@@ -498,10 +498,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules", en: "Star on GitHub", zh: "GitHub Star", desc: zh ? "幫助更多人發現" : "Help others discover ATR", time: "10 sec" },
               ].map((item) => {
                 const inner = (
-                  <div className="bg-paper p-4 md:p-5 h-full flex flex-col hover:bg-ash/50 transition-colors">
-                    <div className="font-display text-[13px] md:text-sm font-semibold text-ink mb-1">{zh ? item.zh : item.en}</div>
-                    <p className="text-[11px] md:text-[12px] text-stone leading-[1.5] flex-1">{item.desc}</p>
-                    <div className="font-data text-[10px] md:text-[11px] text-mist mt-2 md:mt-3">{item.time}</div>
+                  <div className="bg-paper p-5 h-full flex flex-col hover:bg-ash/50 transition-colors">
+                    <div className="font-display text-sm font-semibold text-ink mb-1.5">{zh ? item.zh : item.en}</div>
+                    <p className="text-[13px] text-stone flex-1">{item.desc}</p>
+                    <div className="font-data text-[11px] text-mist mt-3">{item.time}</div>
                   </div>
                 );
                 return item.internal ? (

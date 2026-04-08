@@ -44,9 +44,26 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* Global readable line-heights for arbitrary font sizes */
+[class*="text-[12px]"],
+[class*="text-[13px]"] {
+  line-height: 1.65;
+}
+[class*="text-[14px]"],
+[class*="text-[15px]"] {
+  line-height: 1.7;
+}
+[class*="text-[10px]"],
+[class*="text-[11px]"],
+[class*="text-[9px]"] {
+  line-height: 1.5;
 }
 
 /* ── Dark Hero ── */
