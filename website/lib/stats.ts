@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { loadAllRules } from "./rules";
 
 const DATA_DIR = join(process.cwd(), "..", "data");
 
@@ -146,6 +147,15 @@ export interface EcosystemIntegration {
   logo?: string; // path to logo in public/ecosystem/ or external URL
 }
 
+function isSafeUrl(url: string | undefined): boolean {
+  if (!url) return true;
+  try {
+    return new URL(url).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export function loadSiteStats(): SiteStats {
   const clawhub = readJson<ClawHubStats>(join(DATA_DIR, "clawhub-scan", "ecosystem-stats.json"));
   const mega = readJson<MegaScanReport>(join(DATA_DIR, "mega-scan-report.json"));
@@ -154,8 +164,6 @@ export function loadSiteStats(): SiteStats {
   const skillScan = readJson<SkillScanReport>(join(DATA_DIR, "skill-scan-report-full.json"));
   const skillBench = readJson<SkillBenchmarkReport>(join(DATA_DIR, "skill-benchmark", "benchmark-report.json"));
 
-  // Count rules from filesystem
-  const { loadAllRules } = require("./rules");
   const rules = loadAllRules();
 
   const categories = new Set(rules.map((r: { category: string }) => r.category));

@@ -96,7 +96,7 @@ export default async function RuleDetailPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/<\/script>/gi, "<\\/script>") }}
       />
 
       <div className="pt-20 pb-16 px-5 md:px-6 max-w-[860px] mx-auto">

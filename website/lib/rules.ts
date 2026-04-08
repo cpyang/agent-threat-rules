@@ -62,7 +62,7 @@ function loadRulesRecursive(dir: string, rootDir: string): RuleSummary[] {
     } else if (stat.isFile() && (extname(entry) === ".yaml" || extname(entry) === ".yml")) {
       try {
         const content = readFileSync(fullPath, "utf-8");
-        const raw = yaml.load(content) as RawRule;
+        const raw = yaml.load(content, { schema: yaml.CORE_SCHEMA }) as RawRule;
 
         if (!raw?.id || !raw?.title) return results;
 
