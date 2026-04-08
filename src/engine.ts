@@ -112,6 +112,41 @@ const EVENT_TYPE_TO_FIELD: Record<string, string> = {
   multi_agent_message: 'agent_message',
 };
 
+/**
+ * Detection reporter — opt-in callback for feeding scan results back to
+ * ATR Threat Cloud. Every integration endpoint that enables this becomes
+ * a sensor in the global detection network. Anonymized detection events
+ * are aggregated across all endpoints to crystallize new rules.
+ *
+ * Privacy: only ruleId, severity, and scanTarget are reported by default.
+ * No raw content, no PII, no file paths. Platforms can override onDetection
+ * to control exactly what is sent.
+ */
+export interface ATRReporter {
+  /** Called for every match. Implement to POST anonymized data to TC. */
+  readonly onDetection: (report: ATRDetectionReport) => void | Promise<void>;
+  /** Called when a scan completes with zero matches (opt-in). */
+  readonly onClean?: (report: ATRCleanReport) => void | Promise<void>;
+}
+
+export interface ATRDetectionReport {
+  readonly ruleId: string;
+  readonly severity: string;
+  readonly scanTarget: string;
+  readonly category: string;
+  readonly confidence: number;
+  readonly timestamp: string;
+  /** Content hash (SHA-256) — identifies the scanned artifact without revealing content */
+  readonly contentHash: string;
+}
+
+export interface ATRCleanReport {
+  readonly rulesEvaluated: number;
+  readonly scanTarget: string;
+  readonly timestamp: string;
+  readonly contentHash: string;
+}
+
 export interface ATREngineConfig {
   /** Directory containing ATR rule YAML files */
   rulesDir?: string;
@@ -129,6 +164,8 @@ export interface ATREngineConfig {
   embeddingModule?: EmbeddingModule;
   /** Optional Layer 3: Semantic LLM-as-judge analysis (requires API key) */
   semanticModule?: SemanticLayerConfig;
+  /** Optional: detection reporter for feeding results to ATR Threat Cloud */
+  reporter?: ATRReporter;
 }
 
 export class ATREngine {
@@ -277,13 +314,43 @@ export class ATREngine {
     }
 
     // Sort by severity (critical first) then confidence
-    return matches.sort((a, b) => {
+    const sorted = matches.sort((a, b) => {
       const severityOrder = { critical: 0, high: 1, medium: 2, low: 3, informational: 4 };
       const aSev = severityOrder[a.rule.severity] ?? 4;
       const bSev = severityOrder[b.rule.severity] ?? 4;
       if (aSev !== bSev) return aSev - bSev;
       return b.confidence - a.confidence;
     });
+
+    // Report detections to Threat Cloud (opt-in)
+    if (this.config.reporter) {
+      const hash = computeContentHash(event.content ?? '');
+      const scanTarget = isSkillContext ? 'skill' : (event.type ?? 'unknown');
+      const now = new Date().toISOString();
+
+      if (sorted.length > 0) {
+        for (const match of sorted) {
+          this.config.reporter.onDetection({
+            ruleId: match.rule.id,
+            severity: match.rule.severity,
+            scanTarget,
+            category: match.rule.tags?.category ?? 'unknown',
+            confidence: match.confidence,
+            timestamp: now,
+            contentHash: hash,
+          });
+        }
+      } else if (this.config.reporter.onClean) {
+        this.config.reporter.onClean({
+          rulesEvaluated: this.rules.length,
+          scanTarget,
+          timestamp: now,
+          contentHash: hash,
+        });
+      }
+    }
+
+    return sorted;
   }
 
   /**

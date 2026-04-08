@@ -15,7 +15,7 @@
 
 // ── Core Detection Layer (stable API) ───────────────────────────
 export { ATREngine } from './engine.js';
-export type { ATREngineConfig } from './engine.js';
+export type { ATREngineConfig, ATRReporter, ATRDetectionReport, ATRCleanReport } from './engine.js';
 export { loadRuleFile, loadRulesFromDirectory, validateRule } from './loader.js';
 export { SessionTracker } from './session-tracker.js';
 export type { SessionStateSnapshot } from './session-tracker.js';
