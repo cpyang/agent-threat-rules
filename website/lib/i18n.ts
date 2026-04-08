@@ -12,6 +12,8 @@ export const messages: Record<Locale, Record<string, string>> = {
     "nav.coverage": "Coverage",
     "nav.integrate": "Integrate",
     "nav.contribute": "Contribute",
+    "nav.wall": "Wall",
+    "nav.ecosystem": "Ecosystem",
     "nav.research": "Research",
     "nav.cta": "Add ATR to Your Platform",
 
@@ -193,6 +195,8 @@ export const messages: Record<Locale, Record<string, string>> = {
     "nav.coverage": "Coverage",
     "nav.integrate": "Integrate",
     "nav.contribute": "Contribute",
+    "nav.wall": "Wall",
+    "nav.ecosystem": "Ecosystem",
     "nav.research": "Research",
     "nav.cta": "\u5C07 ATR \u52A0\u5165\u4F60\u7684\u5E73\u53F0",
 
