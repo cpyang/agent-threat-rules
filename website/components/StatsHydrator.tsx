@@ -14,6 +14,10 @@ const GITHUB_RAW =
  */
 export function StatsHydrator() {
   useEffect(() => {
+    // Mark document as JS-ready so reveal animations work.
+    // Without this class, CSS shows all content visible (for crawlers/noscript).
+    document.documentElement.classList.add("js-ready");
+
     let cancelled = false;
 
     async function hydrate() {

@@ -143,3 +143,25 @@ a:hover > div {
   .speed-line { transform: scaleX(1); transition: none; }
   a:hover > div { transform: none; box-shadow: none; }
 }
+
+/* ══════════════════════════════════════════
+   SEO: Make content visible to crawlers
+   Crawlers don't run JS, so reveal animations
+   leave all content at opacity:0. This ensures
+   content is visible in the initial HTML.
+   JS adds .js-ready to <html> on hydration,
+   which re-enables the animations.
+   ══════════════════════════════════════════ */
+html:not(.js-ready) .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html:not(.js-ready) .hero-enter {
+  opacity: 1;
+  transform: none;
+}
+
+html:not(.js-ready) .speed-line {
+  transform: scaleX(1);
+}
