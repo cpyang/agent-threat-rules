@@ -1,7 +1,7 @@
 # ATR → OWASP Agentic Skills Top 10 (AST10) Mapping
 
 Last updated: 2026-03-29
-ATR version: v1.0.0+ (101 rules, including 20 skill-specific rules)
+ATR version: v1.0.0+ (108 rules, including 20 skill-specific rules)
 OWASP framework: Agentic Skills Top 10 (AST10), March 2026
 
 ## Background
@@ -139,8 +139,8 @@ scanners; ATR's multi-tier approach partially addresses semantic attack gaps.
 
 No centralized skill inventory, no approval workflow, no audit logging.
 
-**Mitigation:** This is an organizational process gap. PanGuard Guard provides runtime
-monitoring and audit logging. Threat Cloud provides centralized rule management.
+**Mitigation:** This is an organizational process gap. Runtime monitoring tools provide
+audit logging. Threat Cloud provides centralized rule management.
 ATR rules cannot enforce governance policies.
 
 ### AST10: Cross-Platform Reuse (MEDIUM) — PARTIAL

@@ -1,5 +1,5 @@
 {
-  "scan_date": "2026-04-08T10:30:41.258Z",
+  "scan_date": "2026-04-08T11:05:55.460Z",
   "engine_version": "1.1.0",
   "rules_loaded": 108,
   "sources": {
@@ -71,8 +71,8 @@
     }
   ],
   "tc_pushed": {
-    "ok": 925,
-    "fail": 2
+    "ok": 926,
+    "fail": 1
   },
   "threats_summary": 927
 }

@@ -45,7 +45,7 @@ runs:
 
     - name: Install ATR
       shell: bash
-      run: npm install -g agent-threat-rules@1.0.0
+      run: npm install -g agent-threat-rules@latest
 
     - name: Run ATR Scan
       id: scan
