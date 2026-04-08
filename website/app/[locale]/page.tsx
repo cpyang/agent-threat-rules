@@ -6,8 +6,7 @@ import { StatsHydrator } from "@/components/StatsHydrator";
 import { NumberScramble } from "@/components/NumberScramble";
 import { HeroGrid } from "@/components/DotGrid";
 import { Flywheel } from "@/components/Flywheel";
-import { ContributorWall } from "@/components/ContributorWall";
-import { EcosystemWall } from "@/components/EcosystemWall";
+import { CommunityWall } from "@/components/CommunityWall";
 import { loadSiteStats } from "@/lib/stats";
 import { loadContributors, getCountryStats } from "@/lib/contributors";
 import { loadAllRules, getCategories } from "@/lib/rules";
@@ -348,10 +347,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
 
-          {/* Ecosystem Wall */}
+          {/* Community + Ecosystem Wall */}
           <Reveal delay={0.5}>
             <div className="mt-10 md:mt-12">
-              <EcosystemWall integrations={stats.ecosystemIntegrations} locale={locale} />
+              <CommunityWall
+                contributors={contributors}
+                countries={countries}
+                integrations={stats.ecosystemIntegrations}
+                locale={locale}
+              />
             </div>
           </Reveal>
         </div>
@@ -531,12 +535,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
 
-          {/* Contributor Wall */}
-          <Reveal delay={0.3}>
-            <div className="mt-10 md:mt-12">
-              <ContributorWall contributors={contributors} countries={countries} locale={locale} />
-            </div>
-          </Reveal>
         </div>
       </section>
     </>
