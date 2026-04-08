@@ -1,7 +1,7 @@
 # ATR → SAFE-MCP Technique Mapping
 
 Last updated: 2026-03-27
-ATR version: v0.4.0 (71 rules)
+ATR version: v1.0.0+ (101 rules)
 SAFE-MCP version: latest (85 techniques, 47 mitigations)
 
 ## Coverage Summary

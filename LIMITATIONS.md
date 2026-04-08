@@ -2,7 +2,7 @@
 
 ATR v0.4 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
 
-**Current stats:** 71 rules, 257 tests passing, 341 eval corpus samples. Plus 64 evasion tests documenting known bypasses.
+**Current stats:** 101 rules, 278 tests passing. MCP benchmark: 62.7% recall, 99.7% precision (PINT, 850 samples). SKILL.md benchmark: 96.9% recall, 100% precision, 0% FP (498 real-world samples). Plus 64 evasion tests documenting known bypasses.
 
 That pass rate sounds impressive. It is not. It means ATR correctly matches the patterns it was written to match. It says nothing about attacks that use different words to express the same intent.
 

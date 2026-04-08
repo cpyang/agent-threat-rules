@@ -9,9 +9,10 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 <br />
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
-[![Rules](https://img.shields.io/badge/rules-100-blue?style=flat-square)](#what-atr-detects)
+[![Rules](https://img.shields.io/badge/rules-101-blue?style=flat-square)](#what-atr-detects)
 [![Tests](https://img.shields.io/badge/tests-278_passing-green?style=flat-square)](#ecosystem)
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
+[![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-96.9%25-brightgreen?style=flat-square)](#evaluation)
 [![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
 [![Status](https://img.shields.io/badge/status-v1.0.0-brightgreen?style=flat-square)](#roadmap)
 
@@ -44,17 +45,17 @@ ATR maps to **10/10 OWASP Agentic Top 10 categories** ([full mapping](docs/OWASP
 
 > ATR rules are consumed as a standard -- not a product. MIT licensed, auto-updated via npm, zero strings attached.
 
-### Ecosystem scan (53,377 skills)
+### Ecosystem scan (90,000+ skills)
 
-We scanned the two largest MCP skill registries: OpenClaw (50,285) and Skills.sh (3,115).
+We scanned the three largest MCP skill registries: ClawHub (37,394), OpenClaw (50,283), and Skills.sh (3,115).
 
 | Metric | Number |
 |--------|--------|
-| Skills scanned | **53,377** |
-| Clean | 47,438 (88.87%) |
-| **CRITICAL** | 3,255 |
-| **HIGH** | 2,656 |
-| **MEDIUM** | 28 |
+| Skills scanned | **90,000+** |
+| ClawHub CRITICAL | 182 |
+| ClawHub HIGH | 1,124 |
+| SKILL.md benchmark | 498 samples, **96.9% recall**, **100% precision**, **0% FP** |
+| Wild scan FP rate | 0.48% on 3,115 real-world Skills.sh files |
 
 Raw data: [mega-scan-report.json](data/mega-scan-report.json) / [ecosystem-report.csv](data/clawhub-scan/ecosystem-report.csv)
 
