@@ -41,16 +41,10 @@ const COUNTRY_NAMES: Record<string, { en: string; zh: string }> = {
   AU: { en: "Australia", zh: "澳洲" },
   SG: { en: "Singapore", zh: "新加坡" },
   IL: { en: "Israel", zh: "以色列" },
-  NL: { en: "Netherlands", zh: "荷蘭" },
-  SE: { en: "Sweden", zh: "瑞典" },
   CN: { en: "China", zh: "中國" },
+  SE: { en: "Sweden", zh: "瑞典" },
+  NL: { en: "Netherlands", zh: "荷蘭" },
 };
-
-function scaleSize(value: number, max: number, minPx: number, maxPx: number): number {
-  const ratio = Math.min(value / Math.max(max, 1), 1);
-  const eased = Math.pow(ratio, 0.5);
-  return minPx + (maxPx - minPx) * eased;
-}
 
 export function CommunityWall({
   contributors,
@@ -73,105 +67,107 @@ export function CommunityWall({
 
   return (
     <div ref={ref}>
-      {/* Combined wall: flags + ecosystem logos, all sized by contribution */}
-      <div className="flex flex-wrap items-end justify-center gap-4 md:gap-6">
-        {/* Country flags — sized by contribution, hover shows details */}
+      {/* Country rows — each country is a horizontal bar */}
+      <div className="border border-fog divide-y divide-fog">
         {countries.map((country, i) => {
-          const size = scaleSize(country.contributions, maxContributions, 1.5, 4);
           const name = COUNTRY_NAMES[country.code]?.[zh ? "zh" : "en"] ?? country.code;
+          const barWidth = Math.max((country.contributions / maxContributions) * 100, 8);
           const countryContributors = contributors.filter((c) => c.country === country.code);
+
           return (
             <motion.div
-              key={`flag-${country.code}`}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+              key={country.code}
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
               transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
-              className="flex flex-col items-center group relative cursor-default"
+              className="flex items-center gap-4 md:gap-6 px-5 md:px-6 py-4 md:py-5"
             >
-              <span style={{ fontSize: `${size}rem`, lineHeight: 1 }}>
-                {country.flag}
-              </span>
-              <span className="font-data text-xs text-mist mt-1">{country.contributions}</span>
+              {/* Flag */}
+              <span className="text-3xl md:text-4xl leading-none shrink-0">{country.flag}</span>
 
-              {/* Hover tooltip */}
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-                <div className="bg-ink text-white px-4 py-3 rounded-sm text-left whitespace-nowrap shadow-lg">
-                  <div className="font-display text-sm font-semibold mb-1">{name}</div>
-                  <div className="font-data text-xs text-[#A0A0B0] mb-2">
-                    {country.count} {zh ? "位貢獻者" : (country.count === 1 ? "contributor" : "contributors")} · {country.contributions} {zh ? "項貢獻" : "contributions"}
-                  </div>
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline gap-3 mb-1.5">
+                  <span className="font-display text-sm font-semibold text-ink">{name}</span>
+                  <span className="font-data text-xs text-mist">
+                    {country.count} {zh ? "人" : (country.count === 1 ? "contributor" : "contributors")}
+                  </span>
+                </div>
+
+                {/* Contribution bar */}
+                <div className="h-2 bg-ash rounded-sm overflow-hidden mb-2">
+                  <motion.div
+                    className="h-full bg-blue rounded-sm"
+                    initial={{ width: 0 }}
+                    animate={isInView ? { width: `${barWidth}%` } : { width: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: EASE }}
+                  />
+                </div>
+
+                {/* Contributor avatars inline */}
+                <div className="flex items-center gap-1.5">
                   {countryContributors.map((c) => (
-                    <div key={c.github} className="flex items-center gap-2 mt-1.5">
+                    <a
+                      key={c.github}
+                      href={`https://github.com/${c.github}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-1.5"
+                    >
                       <img
                         src={`https://github.com/${c.github}.png?size=32`}
                         alt={c.github}
                         width={20}
                         height={20}
-                        className="rounded-sm"
+                        className="rounded-sm ring-1 ring-fog group-hover:ring-blue transition-all"
                       />
-                      <span className="font-data text-xs">@{c.github}</span>
-                      <span className="font-data text-xs text-[#6B6B76]">{c.role}</span>
-                    </div>
+                      <span className="font-data text-xs text-stone group-hover:text-ink transition-colors">
+                        @{c.github}
+                      </span>
+                    </a>
                   ))}
                 </div>
-                {/* Arrow */}
-                <div className="w-2 h-2 bg-ink rotate-45 mx-auto -mt-1" />
+              </div>
+
+              {/* Contribution count */}
+              <div className="text-right shrink-0">
+                <div className="font-data text-xl md:text-2xl font-bold text-ink">{country.contributions}</div>
+                <div className="font-data text-xs text-mist">{zh ? "貢獻" : "contribs"}</div>
               </div>
             </motion.div>
           );
         })}
-
-        {/* Ecosystem logos — merged projects */}
-        {merged.map((item, i) => {
-          // Use a weight based on detail text (extract number of rules if present)
-          const rulesMatch = item.detail.match(/(\d+)\s*ATR\s*rules/i);
-          const weight = rulesMatch ? parseInt(rulesMatch[1], 10) : 5;
-          const maxWeight = 34; // Cisco has 34
-          const size = scaleSize(weight, maxWeight, 36, 72);
-          return (
-            <motion.a
-              key={`eco-${item.name}`}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
-              transition={{
-                duration: 0.5,
-                delay: countries.length * 0.1 + i * 0.1,
-                ease: EASE,
-              }}
-              className="flex flex-col items-center group"
-              title={`${item.name}: ${item.detail}`}
-            >
-              {item.logo ? (
-                <img
-                  src={item.logo}
-                  alt={item.name}
-                  style={{ width: `${size}px`, height: `${size}px` }}
-                  className="rounded-sm ring-1 ring-fog group-hover:ring-blue transition-all"
-                />
-              ) : (
-                <div
-                  style={{ width: `${size}px`, height: `${size}px` }}
-                  className="bg-ash rounded-sm ring-1 ring-fog flex items-center justify-center font-data text-xs text-stone"
-                >
-                  {item.name.slice(0, 2)}
-                </div>
-              )}
-              <span className="font-data text-xs text-mist mt-1 group-hover:text-blue transition-colors max-w-[80px] text-center truncate">
-                {item.name.split(" ")[0]}
-              </span>
-            </motion.a>
-          );
-        })}
       </div>
 
-      {/* Under review — compact */}
+      {/* Ecosystem integrations */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-px bg-fog">
+        {merged.map((item, i) => (
+          <motion.a
+            key={item.name}
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: 0.4, delay: 0.4 + i * 0.1, ease: EASE }}
+            className="bg-paper px-5 py-4 flex items-center gap-3 hover:bg-ash/50 transition-colors"
+          >
+            {item.logo && (
+              <img src={item.logo} alt="" width={28} height={28} className="rounded-sm ring-1 ring-fog" />
+            )}
+            <div className="min-w-0">
+              <div className="font-display text-sm font-semibold text-ink truncate">{item.name}</div>
+              <div className="text-xs text-stone truncate">{item.detail}</div>
+            </div>
+          </motion.a>
+        ))}
+      </div>
+
+      {/* Open PRs */}
       {open.length > 0 && (
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-          <span className="font-data text-xs text-mist tracking-[1px] mr-2">
-            {zh ? "審查中" : "Under review"}:
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          <span className="font-data text-xs text-mist tracking-[1px] uppercase mr-1">
+            {zh ? "審查中" : "Pending"}
           </span>
           {open.map((item) => (
             <a
@@ -179,61 +175,27 @@ export function CommunityWall({
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-data text-xs text-stone border border-fog px-2 py-1 hover:border-stone hover:text-ink transition-colors"
+              className="font-data text-xs text-stone hover:text-ink transition-colors"
             >
-              {item.name}
+              {item.name}{item !== open[open.length - 1] ? " ·" : ""}
             </a>
           ))}
         </div>
       )}
 
-      {/* Contributor avatars */}
-      <div className="mt-8 flex flex-wrap justify-center gap-3">
-        {contributors.map((c, i) => (
-          <motion.a
-            key={c.github}
-            href={`https://github.com/${c.github}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 12 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            transition={{ duration: 0.4, delay: 0.5 + i * 0.08, ease: EASE }}
-            className="group relative"
-            title={`@${c.github} (${c.role})`}
-          >
-            <img
-              src={`https://github.com/${c.github}.png?size=64`}
-              alt={c.github}
-              width={44}
-              height={44}
-              className={`rounded-sm ${
-                c.role === "maintainer" ? "ring-2 ring-blue" : "ring-1 ring-fog"
-              } group-hover:ring-ink transition-all`}
-            />
-            <span className="absolute -bottom-1 -right-1 text-xs leading-none">
-              {countries.find((co) => co.code === c.country)?.flag}
-            </span>
-          </motion.a>
-        ))}
-      </div>
-
-      {/* Stats + CTA */}
-      <div className="text-center mt-6">
-        <span className="font-data text-xs text-stone tracking-[1px]">
-          {contributors.length} {zh ? "位貢獻者" : "contributors"} · {countries.length}{" "}
-          {zh ? "個國家" : "countries"} · {merged.length}{" "}
-          {zh ? "個整合" : "integrations"}
-        </span>
-      </div>
-      <div className="text-center mt-3">
+      {/* CTA */}
+      <div className="mt-6 flex items-center gap-4">
         <a
           href="https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=add-contributor.md&title=Add+contributor:+MY_GITHUB_USERNAME"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-data text-xs text-blue hover:underline tracking-wide"
+          className="font-data text-xs text-blue hover:underline"
         >
-          {zh ? "加入社群 →" : "Join the community →"}
+          {zh ? "加入社群 →" : "Add yourself to the wall →"}
         </a>
+        <span className="font-data text-xs text-mist">
+          {contributors.length} {zh ? "位貢獻者" : "contributors"} · {countries.length} {zh ? "個國家" : "countries"} · {merged.length} {zh ? "個整合" : "integrations"}
+        </span>
       </div>
     </div>
   );
