@@ -141,7 +141,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-14 md:py-[120px] px-5 md:px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
-            <div className="font-data text-[clamp(64px,14vw,180px)] font-bold text-critical/[0.07] leading-[0.85] mb-2 md:mb-3">
+            <div className="font-data text-[clamp(64px,14vw,180px)] font-bold text-critical/[0.12] leading-[0.85] mb-2 md:mb-3">
               <NumberScramble target={stats.megaScanTotal.toLocaleString()} duration={2000} liveKey="megaScanTotal" />
             </div>
           </Reveal>

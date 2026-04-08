@@ -23,7 +23,12 @@ export function CountUp({
   liveKey,
 }: CountUpProps) {
   const [currentTarget, setCurrentTarget] = useState(target);
-  const [display, setDisplay] = useState(`${prefix}0${suffix}`);
+  // SSR: render real target value so crawlers index actual numbers, not "0"
+  const formatInitial = (n: number) => {
+    const isFloat = n % 1 !== 0;
+    return isFloat ? n.toFixed(1) : useComma ? n.toLocaleString() : String(n);
+  };
+  const [display, setDisplay] = useState(`${prefix}${formatInitial(target)}${suffix}`);
   const ref = useRef<HTMLSpanElement>(null);
   const animated = useRef(false);
 
@@ -61,6 +66,11 @@ export function CountUp({
     if (animated.current) {
       setDisplay(`${prefix}${formatNumber(currentTarget)}${suffix}`);
       return;
+    }
+
+    // Reset to 0 for animation start (only in browser, not SSR)
+    if (!animated.current) {
+      setDisplay(`${prefix}0${suffix}`);
     }
 
     const observer = new IntersectionObserver(
