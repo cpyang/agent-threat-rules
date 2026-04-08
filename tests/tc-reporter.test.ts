@@ -79,8 +79,8 @@ describe('createTCReporter', () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const body = JSON.parse(fetchSpy.mock.calls[0][1]!.body as string);
     expect(body.events).toHaveLength(2);
-    expect(body.events[0].ruleId).toBe('ATR-001');
-    expect(body.events[1].ruleId).toBe('ATR-002');
+    expect(body.events[0].sigmaRuleMatched).toBe('ATR-001');
+    expect(body.events[1].sigmaRuleMatched).toBe('ATR-002');
 
     await reporter.destroy();
   });
@@ -175,7 +175,7 @@ describe('createTCReporter', () => {
     await vi.advanceTimersByTimeAsync(50);
 
     const body = JSON.parse(fetchSpy.mock.calls[0][1]!.body as string);
-    expect(body.events[0].ruleId).toBe('__clean__');
+    expect(body.events[0].sigmaRuleMatched).toBe('__clean__');
     expect(body.events[0].scanTarget).toBe('clean-skill');
 
     await reporter.destroy();
@@ -203,7 +203,7 @@ describe('createTCReporter', () => {
     await reporter.flush();
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     const body = JSON.parse(fetchSpy.mock.calls[1][1]!.body as string);
-    expect(body.events[0].ruleId).toBe('ATR-001');
+    expect(body.events[0].sigmaRuleMatched).toBe('ATR-001');
 
     await reporter.destroy();
   });
@@ -295,11 +295,16 @@ describe('createTCReporter', () => {
 
     const body = JSON.parse(fetchSpy.mock.calls[0][1]!.body as string);
     const event = body.events[0];
-    const keys = Object.keys(event).sort();
-    expect(keys).toEqual([
-      'category', 'confidence', 'contentHash', 'ruleId',
-      'scanTarget', 'severity', 'timestamp',
-    ]);
+    // TC ThreatDataSchema format: mapped from internal ATR fields
+    expect(event.sigmaRuleMatched).toBe('ATR-001');
+    expect(event.attackType).toBe('prompt-injection');
+    expect(event.mitreTechnique).toBe('ATR-001');
+    expect(event.region).toBe('unknown');
+    expect(event.timestamp).toBeDefined();
+    // Extra fields for richer data
+    expect(event.severity).toBe('HIGH');
+    expect(event.confidence).toBe(0.95);
+    expect(event.contentHash).toBe('sha256-abc123');
 
     await reporter.destroy();
   });

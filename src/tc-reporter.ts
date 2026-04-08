@@ -93,6 +93,21 @@ export function createTCReporter(config?: TCReporterConfig): ATRReporter & {
     const batch = [...buffer];
     buffer = [];
 
+    // Map ATR events to TC ThreatDataSchema format
+    const tcEvents = batch.map((e) => ({
+      attackSourceIP: clientId,
+      attackType: e.category,
+      mitreTechnique: e.ruleId,
+      sigmaRuleMatched: e.ruleId,
+      timestamp: e.timestamp,
+      region: 'unknown',
+      // Extra fields for richer data (TC ignores unknown fields via Zod passthrough)
+      severity: e.severity,
+      confidence: e.confidence,
+      contentHash: e.contentHash,
+      scanTarget: e.scanTarget,
+    }));
+
     try {
       const res = await fetch(`${tcUrl}/api/threats`, {
         method: 'POST',
@@ -101,7 +116,7 @@ export function createTCReporter(config?: TCReporterConfig): ATRReporter & {
           'X-Panguard-Client-Id': clientId,
           ...(apiKey ? { 'Authorization': `Bearer ${apiKey}` } : {}),
         },
-        body: JSON.stringify({ events: batch }),
+        body: JSON.stringify({ events: tcEvents }),
         signal: AbortSignal.timeout(10_000),
       });
 
