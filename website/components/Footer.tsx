@@ -1,12 +1,23 @@
+import { execSync } from "node:child_process";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { t } from "@/lib/i18n";
 import { loadSiteStats } from "@/lib/stats";
 
+function getLastUpdated(): string {
+  try {
+    const date = execSync("git log -1 --format=%ci", { encoding: "utf-8" }).trim();
+    return new Date(date).toISOString().slice(0, 10);
+  } catch {
+    return new Date().toISOString().slice(0, 10);
+  }
+}
+
 export function Footer({ locale }: { locale: Locale }) {
   const prefix = `/${locale}`;
   const zh = locale === "zh";
   const stats = loadSiteStats();
+  const lastUpdated = getLastUpdated();
 
   return (
     <footer className="border-t border-fog py-12 px-6">
@@ -100,8 +111,21 @@ export function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
+        {/* Badges */}
+        <div className="border-t border-fog pt-6 pb-4 flex flex-wrap items-center gap-3">
+          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/github/stars/Agent-Threat-Rule/agent-threat-rules?style=flat&color=E8E8E5&labelColor=FAFAF8&logo=github&logoColor=0B0B0F" alt="GitHub stars" className="h-5" />
+          </a>
+          <a href="https://www.npmjs.com/package/agent-threat-rules" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/npm/dm/agent-threat-rules?style=flat&color=E8E8E5&labelColor=FAFAF8&logo=npm&logoColor=0B0B0F&label=npm" alt="npm downloads" className="h-5" />
+          </a>
+          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/badge/license-MIT-E8E8E5?style=flat&labelColor=FAFAF8" alt="MIT License" className="h-5" />
+          </a>
+        </div>
+
         {/* Bottom bar */}
-        <div className="border-t border-fog pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 pt-4">
           <div className="flex items-center gap-3">
             <img src="/atr-logo-black.png" alt="ATR" className="h-5 opacity-40" />
             <span className="text-xs text-mist">
@@ -110,6 +134,8 @@ export function Footer({ locale }: { locale: Locale }) {
           </div>
           <div className="flex items-center gap-4 font-data text-xs text-mist">
             <span>ATR v1.0 · {stats.ruleCount} {zh ? "條規則" : "rules"}</span>
+            <span className="text-fog">|</span>
+            <span>{zh ? "更新於" : "Updated"} {lastUpdated}</span>
             <span className="text-fog">|</span>
             <span>MIT License</span>
           </div>

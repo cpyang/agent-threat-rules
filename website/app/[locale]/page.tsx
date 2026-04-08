@@ -311,8 +311,40 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </a>
           </Reveal>
 
+          {/* Adopters + Key Numbers */}
           <Reveal delay={0.4}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog mt-10 md:mt-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog mt-10 md:mt-12">
+              <div className="bg-paper p-5 md:p-6 flex flex-col justify-center">
+                <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-2">
+                  {zh ? "企業採用" : "Enterprise Adoption"}
+                </div>
+                <div className="font-display text-sm font-semibold text-ink">Cisco AI Defense</div>
+                <p className="text-xs text-stone mt-1">{zh ? "34 條規則作為上游" : "34 rules as upstream"}</p>
+              </div>
+              <div className="bg-paper p-5 md:p-6">
+                <div className="font-data text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
+                  <CountUp target={23000} useComma suffix="+" />
+                </div>
+                <div className="font-data text-xs text-stone mt-2">{zh ? "npm 月下載量" : "npm downloads / month"}</div>
+              </div>
+              <div className="bg-paper p-5 md:p-6">
+                <div className="font-data text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
+                  <CountUp target={90000} useComma suffix="+" />
+                </div>
+                <div className="font-data text-xs text-stone mt-2">{zh ? "skills 已掃描" : "skills scanned"}</div>
+              </div>
+              <div className="bg-paper p-5 md:p-6">
+                <div className="font-data text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
+                  {stats.ecosystemIntegrations.filter(e => e.type === "merged").length}
+                  <span className="text-[0.5em] text-stone font-normal">/{stats.ecosystemIntegrations.length}</span>
+                </div>
+                <div className="font-data text-xs text-stone mt-2">{zh ? "生態系 PR 已合併" : "ecosystem PRs merged"}</div>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.5}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog mt-px">
               {[
                 { name: "OWASP LLM Top 10", en: "Detection mapping submitted. PR #814.", zh: "偵測對應已提交。PR #814。" },
                 { name: "SAFE-MCP (OpenSSF)", en: "78/85 techniques (91.8%). PR #187.", zh: "78/85 項技術（91.8%）。PR #187。" },

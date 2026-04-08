@@ -235,9 +235,31 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
         </div>
       </Reveal>
 
+      {/* Trusted By */}
+      <Reveal>
+        <div className="mt-12 mb-px">
+          <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-5">
+            {locale === "zh" ? "已被採用" : "Trusted By"}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog">
+            {[
+              { label: "Cisco AI Defense", detail: locale === "zh" ? "34 條 ATR 規則上游整合" : "34 ATR rules as upstream", highlight: true },
+              { label: locale === "zh" ? "23,000+ 月下載" : "23,000+ monthly downloads", detail: locale === "zh" ? "npm，零行銷" : "npm, zero marketing", highlight: false },
+              { label: locale === "zh" ? "90,000+ 已掃描" : "90,000+ skills scanned", detail: locale === "zh" ? "ClawHub + OpenClaw + Skills.sh" : "ClawHub + OpenClaw + Skills.sh", highlight: false },
+              { label: locale === "zh" ? `${9} 個生態系整合` : `${9} ecosystem integrations`, detail: locale === "zh" ? "3 merged · 6 under review" : "3 merged · 6 under review", highlight: false },
+            ].map((item) => (
+              <div key={item.label} className="bg-paper p-5">
+                <div className={`font-display text-sm font-semibold ${item.highlight ? "text-blue" : "text-ink"}`}>{item.label}</div>
+                <p className="text-xs text-stone mt-1">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
       {/* Cisco Case Study */}
       <Reveal>
-        <div className="mt-12 border border-fog">
+        <div className="mt-8 border border-fog">
           <div className="px-6 py-4 border-b border-fog bg-ash">
             <h2 className="font-display text-lg font-semibold">{t(locale, "integrate.cisco.title")}</h2>
           </div>
