@@ -153,7 +153,7 @@ Non-English recall at 24.4% is consistent with the multilingual limitation docum
 
 ### Rule Concentration
 
-Only 6 out of 71 rules fired on external data. ATR-2026-001 (prompt override detection) accounted for over 95% of all detections. The remaining 65 rules contributed zero detections on this corpus. This does not mean those rules are useless -- they target specific attack types (credential leaks, SSRF, tool injection) that are not represented in prompt-injection benchmarks. But it does mean ATR's external detection capability is heavily concentrated in a single rule.
+On the MCP/PINT benchmark (v0.4, 71 rules at the time), only 6 rules fired on external data. ATR-2026-001 (prompt override detection) accounted for over 95% of all detections. The remaining rules contributed zero detections on this corpus. This does not mean those rules are useless -- they target specific attack types (credential leaks, SSRF, tool injection) that are not represented in prompt-injection benchmarks. The SKILL.md benchmark (v1.0, 101 rules) shows much broader rule activation: 96.9% recall across 498 real-world samples with 0% false positives.
 
 ### Self-Test vs. External Recall Gap
 
