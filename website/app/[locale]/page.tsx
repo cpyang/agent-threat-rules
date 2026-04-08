@@ -328,11 +328,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <p className="text-xs text-stone sm:mt-1">{zh ? "34 條規則作為上游" : "34 rules as upstream"}</p>
               </div>
               <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between">
-                <div className="font-data text-xs text-stone sm:hidden">{zh ? "npm 月下載量" : "npm downloads / month"}</div>
+                <div className="font-data text-xs text-stone sm:hidden">{zh ? "偵測規則" : "detection rules"}</div>
                 <div className="font-data text-2xl sm:text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
-                  <CountUp target={23000} useComma suffix="+" />
+                  <CountUp target={stats.ruleCount} />
                 </div>
-                <div className="font-data text-xs text-stone mt-2 hidden sm:block">{zh ? "npm 月下載量" : "npm downloads / month"}</div>
+                <div className="font-data text-xs text-stone mt-2 hidden sm:block">{zh ? "偵測規則跨 9 類別" : "rules across 9 categories"}</div>
               </div>
               <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between">
                 <div className="font-data text-xs text-stone sm:hidden">{zh ? "skills 已掃描" : "skills scanned"}</div>

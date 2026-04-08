@@ -94,7 +94,7 @@ const jsonLd = {
       sameAs: [
         "https://github.com/Agent-Threat-Rule/agent-threat-rules",
         "https://www.npmjs.com/package/agent-threat-rules",
-        "https://doi.org/10.5281/zenodo.19178002",
+        "https://doi.org/10.5281/zenodo.19476495",
       ],
     },
     {

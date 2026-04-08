@@ -79,7 +79,7 @@ export function Footer({ locale }: { locale: Locale }) {
               {zh ? "研究" : "Research"}
             </div>
             <div className="flex flex-col gap-2">
-              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
+              <a href="https://doi.org/10.5281/zenodo.19476495" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
                 Paper (Zenodo)
               </a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/LIMITATIONS.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
@@ -129,7 +129,7 @@ export function Footer({ locale }: { locale: Locale }) {
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-data text-xs text-mist">
-            <span>ATR v1.0 · {stats.ruleCount} {zh ? "條規則" : "rules"}</span>
+            <span>ATR v1.1.1 · {stats.ruleCount} {zh ? "條規則" : "rules"}</span>
             <span className="text-fog hidden sm:inline">|</span>
             <span>{zh ? "更新於" : "Updated"} {lastUpdated}</span>
             <span className="text-fog hidden sm:inline">|</span>

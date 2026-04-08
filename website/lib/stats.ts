@@ -277,6 +277,30 @@ export function loadSiteStats(): SiteStats {
         type: "open",
         detail: "PR #58 submitted. CI config issue on their end.",
       },
+      {
+        name: "Microsoft AGT",
+        type: "open",
+        detail: "Issue #901. PolicyEvaluator integration discussed with maintainer.",
+        url: "https://github.com/microsoft/agent-governance-toolkit/issues/901",
+      },
+      {
+        name: "Meta LlamaFirewall",
+        type: "open",
+        detail: "Issue #204. RegexScanner expansion with ATR rules.",
+        url: "https://github.com/meta-llama/PurpleLlama/issues/204",
+      },
+      {
+        name: "Portkey Gateway",
+        type: "open",
+        detail: "Issue #1594. ATR guardrail plugin proposal.",
+        url: "https://github.com/Portkey-AI/gateway/issues/1594",
+      },
+      {
+        name: "Sage (Gen Digital)",
+        type: "open",
+        detail: "Issue #30. Agent-layer threat rules integration.",
+        url: "https://github.com/gendigitalinc/sage/issues/30",
+      },
     ],
 
     owaspAgentic: "10/10",

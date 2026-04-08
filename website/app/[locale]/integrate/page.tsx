@@ -310,7 +310,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog">
             {[
               { label: "Cisco AI Defense", detail: locale === "zh" ? "34 條 ATR 規則上游整合" : "34 ATR rules as upstream", highlight: true },
-              { label: locale === "zh" ? "23,000+ 月下載" : "23,000+ monthly downloads", detail: locale === "zh" ? "npm，零行銷" : "npm, zero marketing", highlight: false },
+              { label: locale === "zh" ? `${stats.ruleCount} 條偵測規則` : `${stats.ruleCount} detection rules`, detail: locale === "zh" ? "9 個威脅類別" : "9 threat categories", highlight: false },
               { label: locale === "zh" ? "90,000+ 已掃描" : "90,000+ skills scanned", detail: locale === "zh" ? "ClawHub + OpenClaw + Skills.sh" : "ClawHub + OpenClaw + Skills.sh", highlight: false },
               { label: locale === "zh" ? `${stats.ecosystemIntegrations.length} 個生態系整合` : `${stats.ecosystemIntegrations.length} ecosystem integrations`, detail: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged · ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} under review`, highlight: false },
             ].map((item) => (
