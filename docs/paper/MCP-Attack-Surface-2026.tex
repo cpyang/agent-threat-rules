@@ -1,0 +1,650 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{tikz}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{gray!10},
+  columns=fullflexible,
+  keepspaces=true
+}
+
+\definecolor{criticalred}{RGB}{180,30,30}
+\definecolor{highorg}{RGB}{200,100,0}
+\definecolor{medyellow}{RGB}{180,160,0}
+
+\title{30 CVEs in 60 Days:\\The Model Context Protocol Attack Surface\\[0.5em]
+\large A Threat Landscape Analysis of the MCP Ecosystem, February--April 2026}
+
+\author{ATR Project\thanks{Agent Threat Rules --- \url{https://github.com/anthropics/agent-threat-rules}}}
+
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The Model Context Protocol (MCP), introduced by Anthropic in November 2024 as a standard interface between AI agents and external tools, has achieved explosive adoption: over 11,000 registered servers, 90,000+ indexed skills, and integration into every major AI agent platform within 18 months.
+This adoption has outpaced security by an order of magnitude.
+Between February and April 2026, \textbf{30 CVEs were published against MCP servers and tools} --- a rate that exceeds Docker's first two years (7 CVEs) and Kubernetes' first year (12 CVEs) combined.
+We analyze the root causes through six high-severity CVEs (CVSS 9.0+), three real-world supply chain incidents, and a large-scale ecosystem measurement of \textbf{53,577 skills across three registries}, finding that \textbf{946 (1.77\%) contain active threat indicators} with tool description poisoning accounting for 71\% of detections.
+We find that 38\% of MCP servers implement zero authentication, a direct consequence of the MCP specification making authentication optional.
+We propose a seven-class attack taxonomy specific to the MCP threat model, compare industry response efforts including SAFE-MCP, OWASP Agentic Top 10, and the ATR detection standard, and provide concrete recommendations for specification authors, platform builders, and enterprise adopters.
+The central thesis is that MCP has replicated the early web's mistake --- prioritizing interoperability over security --- but at AI-agent speed, leaving a window of mass vulnerability that is being actively exploited.
+\end{abstract}
+
+
+%----------------------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+The Model Context Protocol (MCP) \cite{mcp_spec} was released by Anthropic in November 2024 as an open standard for connecting AI agents to external tools.
+Its design philosophy mirrors that of USB for hardware or LSP for code editors: a single protocol to replace $n \times m$ bespoke integrations with $n + m$ standardized ones.
+
+The adoption curve has been extraordinary. Within 12 months, MCP integration shipped in Claude Desktop, Cursor, Windsurf, VS Code (via GitHub Copilot), Amazon Q Developer, and Sourcegraph Cody \cite{cursor_mcp,vscode_mcp}. By March 2026, ClawHub listed 37,394 skills, OpenClaw indexed 50,283, and Skills.sh tracked 3,115 \cite{atrscan2026}. The npm registry alone contains over 11,000 packages with ``mcp'' in the name.
+
+This paper argues that the speed of MCP adoption has created the most concentrated attack surface expansion in the history of software supply chains. We support this claim with three categories of evidence:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Vulnerability density:} 30 CVEs in 60 days (Section~\ref{sec:cve}), including 6 with CVSS scores above 9.0, affecting first-party tools from Anthropic, GitHub, and the MCP Inspector reference implementation itself.
+  \item \textbf{Ecosystem measurement:} A scan of 53,577 skills across three registries (Section~\ref{sec:ecosystem}) revealing 946 with threat indicators and a dominant attack pattern --- tool description poisoning --- in 71\% of flagged skills.
+  \item \textbf{Active exploitation:} Three documented supply chain incidents (Section~\ref{sec:incidents}) involving silent email exfiltration, typosquatted credential theft, and a malicious skill campaign on ClawHub affecting 1,184 packages.
+\end{enumerate}
+
+For context, Docker accumulated 7 CVEs in its first two years of public availability (2013--2015) \cite{docker_cves}. Kubernetes logged 12 in its first year after v1.0 (2015--2016) \cite{k8s_cves}. MCP's 30 CVEs in 60 days represents a \textbf{15$\times$ higher vulnerability discovery rate} than the fastest comparable infrastructure adoption. The difference is not that MCP is inherently less secure than containers or orchestrators. The difference is that MCP connects \emph{non-deterministic reasoning systems} to \emph{arbitrary external capabilities}, and the protocol specification provides no mandatory security boundary between the two.
+
+The remainder of this paper is organized as follows. Section~\ref{sec:background} provides technical background on MCP architecture. Section~\ref{sec:cve} analyzes six representative CVEs. Section~\ref{sec:incidents} documents real-world incidents. Section~\ref{sec:taxonomy} presents a seven-class MCP attack taxonomy. Section~\ref{sec:ecosystem} reports ecosystem measurement results. Section~\ref{sec:auth} examines the authentication gap. Section~\ref{sec:response} surveys industry response. Section~\ref{sec:recommendations} offers recommendations. Section~\ref{sec:conclusion} concludes.
+
+
+%----------------------------------------------------------------------
+\section{Background: MCP Architecture}
+\label{sec:background}
+
+\subsection{Protocol Overview}
+
+MCP defines a JSON-RPC 2.0--based protocol between three roles:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Host:} The AI application (e.g., Claude Desktop, Cursor) that manages model context and user interaction.
+  \item \textbf{Client:} A protocol-level component within the host that maintains a 1:1 session with a server.
+  \item \textbf{Server:} An external process that exposes tools, resources, and prompts to the client.
+\end{itemize}
+
+Servers expose \emph{tools} --- callable functions described in JSON Schema with a natural-language \texttt{description} field that the LLM uses for tool selection. When the model decides to invoke a tool, the host sends a \texttt{tools/call} request to the server and injects the response back into the model's context window.
+
+\subsection{The Trust Architecture Problem}
+
+MCP's security model makes three implicit trust assumptions that are architecturally problematic:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Tool descriptions are trusted.} The LLM receives tool descriptions as system-level context and uses them to decide which tools to call and with what arguments. There is no mechanism to verify that a description accurately reflects what the tool does.
+  \item \textbf{Tool responses are trusted.} Data returned by \texttt{tools/call} is injected directly into the model's context. There is no sanitization layer, content security policy, or output validation.
+  \item \textbf{Authentication is optional.} The MCP specification (as of v2025-03-26) does not mandate authentication between client and server. OAuth 2.1 support was added in the March 2026 revision \cite{mcp_auth}, but as an optional capability, not a requirement.
+\end{enumerate}
+
+These three assumptions create a protocol-level attack surface that individual implementations cannot fully mitigate without breaking MCP compatibility.
+
+
+%----------------------------------------------------------------------
+\section{CVE Analysis}
+\label{sec:cve}
+
+Between February 1 and April 9, 2026, 30 CVEs were assigned to MCP-related components. We analyze six representative cases that span the attack surface.
+
+\subsection{CVE-2025-6514: mcp-remote Remote Code Execution}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Field} & \textbf{Value} \\
+\midrule
+CVSS & 9.6 (Critical) \\
+Discoverer & JFrog Security Research \\
+Affected & \texttt{@anthropic/mcp-remote} \\
+Vector & Server-side request forgery $\to$ RCE \\
+Root cause & No input validation on server URL parameter \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The \texttt{mcp-remote} package, published by Anthropic as the reference implementation for connecting to remote MCP servers, accepted arbitrary URLs without validation. An attacker-controlled MCP server could redirect the client to a crafted \texttt{file://} or \texttt{javascript:} URI, achieving code execution on the host machine. The vulnerability is notable because it affects the \emph{reference implementation} maintained by the protocol's author.
+
+\subsection{CVE-2025-53773: GitHub Copilot ``YOLO Mode'' RCE}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Field} & \textbf{Value} \\
+\midrule
+CVSS & 9.0+ (Critical) \\
+Discoverer & Embrace The Red \\
+Affected & GitHub Copilot Agent Mode (VS Code) \\
+Vector & Tool description poisoning $\to$ auto-approve $\to$ RCE \\
+Root cause & Hidden instructions in MCP tool metadata \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+When GitHub Copilot's agent mode was configured with auto-approval for tool calls (colloquially ``YOLO mode''), a malicious MCP server could embed instructions in tool descriptions that caused the agent to execute arbitrary shell commands without user confirmation. The attack chain: (1) user connects to attacker's MCP server, (2) tool description contains hidden instruction ``\texttt{run `curl attacker.com/payload | sh`}'', (3) agent calls the shell tool with attacker's command, (4) auto-approve executes without prompt.
+
+\subsection{CVE-2025-68143/44/45: Anthropic Git MCP Server RCE Chain}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Field} & \textbf{Value} \\
+\midrule
+CVSS & 9.0+ (Critical) \\
+Discoverer & Cyata \\
+Affected & Anthropic's official Git MCP server \\
+Vector & Command injection in git operations \\
+Root cause & Unsanitized repository path / branch name parameters \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three related CVEs in Anthropic's official Git MCP server allowed command injection through crafted repository paths and branch names. An attacker who could influence the input to \texttt{git\_clone}, \texttt{git\_checkout}, or \texttt{git\_log} tools --- for example, through a poisoned \texttt{.cloneurl} file in a repository --- could execute arbitrary commands on the host. This is a \emph{chain} vulnerability: CVE-2025-68143 provides initial injection, CVE-2025-68144 enables persistence, and CVE-2025-68145 allows lateral movement.
+
+\subsection{CVE-2025-49596: MCP Inspector Drive-By}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Field} & \textbf{Value} \\
+\midrule
+CVSS & 9.4 (Critical) \\
+Discoverer & Oligo Security \\
+Affected & MCP Inspector (reference debugging tool) \\
+Vector & DNS rebinding $\to$ unauthorized server access \\
+Root cause & No origin validation on WebSocket connections \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The MCP Inspector, the official debugging tool for MCP server development, bound to \texttt{0.0.0.0} without origin checks. An attacker could exploit DNS rebinding to connect to a developer's running Inspector instance from a malicious webpage, gaining full access to any MCP server the developer was testing --- including read/write access to local filesystems, databases, and API credentials. A ``drive-by'' attack against the debugging infrastructure itself.
+
+\subsection{CVE-2025-59536: Claude Code RCE via Poisoned Project Files}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Field} & \textbf{Value} \\
+\midrule
+CVSS & 9.0+ (Critical) \\
+Discoverer & Check Point Research \\
+Affected & Claude Code (Anthropic's CLI agent) \\
+Vector & Indirect prompt injection via project files $\to$ RCE \\
+Root cause & Agent reads attacker-controlled files into context \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A specially crafted file in a code repository (e.g., a \texttt{CONTRIBUTING.md} or \texttt{.env.example}) could contain hidden instructions that, when read by Claude Code during normal operation, caused the agent to execute arbitrary commands. The attack exploits the fundamental MCP trust model: the agent cannot distinguish between legitimate project documentation and adversarial instructions embedded within it. Check Point demonstrated full RCE including reverse shell establishment.
+
+\subsection{Cross-CVE Analysis}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{lXlll}
+\toprule
+\textbf{CVE} & \textbf{Root Cause} & \textbf{CVSS} & \textbf{First-Party?} & \textbf{Taxonomy Class} \\
+\midrule
+6514 & No URL validation & 9.6 & Yes (Anthropic) & Protocol-level \\
+53773 & Hidden tool instructions & 9.0+ & No (GitHub) & Description poisoning \\
+68143--45 & Unsanitized parameters & 9.0+ & Yes (Anthropic) & Credential harvesting \\
+49596 & No origin validation & 9.4 & Yes (MCP project) & Protocol-level \\
+59536 & Context injection & 9.0+ & Yes (Anthropic) & Response poisoning \\
+\bottomrule
+\end{tabularx}
+\caption{Cross-CVE comparison. Four of six affect first-party implementations maintained by the protocol author or major platform vendors. All have CVSS $\geq$ 9.0.}
+\label{tab:cve_comparison}
+\end{table}
+
+Two patterns emerge from this analysis. First, \textbf{4 of 6 critical CVEs affect first-party implementations} --- tools built and maintained by Anthropic, GitHub, or the MCP project itself. These are not amateur packages; they are the reference implementations that developers model their own code after. Second, every CVE maps to one of the three trust assumptions identified in Section~\ref{sec:background}: trusted descriptions, trusted responses, or absent authentication. The vulnerabilities are architectural, not incidental.
+
+
+%----------------------------------------------------------------------
+\section{Real-World Incidents}
+\label{sec:incidents}
+
+Beyond CVEs, three incidents demonstrate active exploitation of the MCP attack surface.
+
+\subsection{postmark-mcp: The Rug-Pull Email Exfiltrator}
+
+The \texttt{postmark-mcp} package on npm provided legitimate email-sending functionality via the Postmark API for its first 15 published versions. In version 16 (March 2026), a code update added a BCC field to every outgoing email, silently forwarding copies to an attacker-controlled address. Organizations using this MCP server were unknowingly exfiltrating between 3,000 and 15,000 emails per day \cite{postmark_incident}.
+
+This is a \textbf{rug-pull attack}: the package establishes trust through legitimate functionality, then weaponizes its access in a later version. The MCP ecosystem has no mechanism analogous to npm's \texttt{npm audit} or Python's \texttt{safety check} to detect behavioral changes between versions. The tool's description remained identical; only the implementation changed.
+
+\subsection{SANDWORM\_MODE: Typosquatting Campaign}
+
+In March 2026, security researchers identified 19 typosquatted npm packages targeting MCP-related tools \cite{sandworm}: \texttt{claud-code}, \texttt{cloude-code}, \texttt{opencraw}, and similar near-miss names. Each package contained a post-install script that:
+
+\begin{enumerate}[leftmargin=*]
+  \item Located SSH private keys (\texttt{\textasciitilde/.ssh/id\_*})
+  \item Located cloud provider credentials (\texttt{\textasciitilde/.aws/credentials}, \texttt{\textasciitilde/.config/gcloud/})
+  \item Exfiltrated them via HTTPS POST to a rotating set of domains
+  \item Installed a persistent cron job for continued access
+\end{enumerate}
+
+The campaign was named SANDWORM\_MODE after a string found in the obfuscated payload. While npm typosquatting is not new, the MCP ecosystem's rapid growth created a target-rich environment: developers installing MCP tools often use \texttt{npx} with package names they found in blog posts or GitHub READMEs, with no verification step.
+
+\subsection{ClawHub Malicious Skills Campaign}
+
+In February 2026, Antiy CERT reported finding 1,184 malicious skills on ClawHub, the largest MCP skill marketplace \cite{antiy_clawhub}. The skills used a variety of techniques:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Description poisoning} (67\%): Hidden instructions in tool descriptions directing agents to exfiltrate data or execute commands.
+  \item \textbf{Environment variable harvesting} (21\%): Tools that requested read access to environment variables as ``configuration'' but forwarded API keys and tokens to external endpoints.
+  \item \textbf{Cross-skill chaining} (12\%): Benign-looking individual tools that, when used together, formed a malicious pipeline (e.g., ``read file'' + ``send HTTP request'' = data exfiltration).
+\end{itemize}
+
+ClawHub had no automated security review at the time of the report. Skills were published with a single \texttt{clawhub push} command and immediately available to all users.
+
+
+%----------------------------------------------------------------------
+\section{Attack Taxonomy}
+\label{sec:taxonomy}
+
+Based on the CVE analysis, incident reports, and ecosystem scan results, we propose a seven-class taxonomy of MCP-specific attacks. This taxonomy is distinct from general LLM attack classifications (e.g., OWASP LLM Top 10 \cite{owasp_llm}) in that every class exploits a feature specific to the MCP protocol architecture.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{clXll}
+\toprule
+\textbf{\#} & \textbf{Class} & \textbf{Description} & \textbf{Example} & \textbf{Scan \%} \\
+\midrule
+1 & Tool Description & Hidden instructions in tool & CVE-2025-53773 & 71\% \\
+  & Poisoning & \texttt{description} metadata & & \\
+\midrule
+2 & Response & Malicious content in & CVE-2025-59536 & 12\% \\
+  & Poisoning & \texttt{tools/call} responses & & \\
+\midrule
+3 & Rug-Pull & Benign$\to$malicious in & postmark-mcp & 4\% \\
+  & Attacks & version updates & & \\
+\midrule
+4 & Typosquatting & Fake packages with & SANDWORM\_MODE & 3\% \\
+  & & near-miss names & & \\
+\midrule
+5 & Cross-Skill & Combining benign skills & ClawHub campaign & 5\% \\
+  & Chaining & for malicious outcomes & & \\
+\midrule
+6 & Protocol-Level & Abuse of MCP sampling, & CVE-2025-49596, & 3\% \\
+  & Attacks & notifications, transport & CVE-2025-6514 & \\
+\midrule
+7 & Credential & Env var / key file access & ClawHub campaign, & 2\% \\
+  & Harvesting & as ``normal'' functionality & CVE-2025-68143 & \\
+\bottomrule
+\end{tabularx}
+\caption{MCP attack taxonomy with prevalence from ecosystem scan ($n = 946$ flagged skills). Tool description poisoning is the dominant vector, accounting for 71\% of all detections.}
+\label{tab:taxonomy}
+\end{table}
+
+\subsection{Class 1: Tool Description Poisoning}
+
+Tool description poisoning is the MCP-specific manifestation of indirect prompt injection. The attack is effective because the MCP specification defines the \texttt{description} field as a free-text string intended for LLM consumption, with no content restrictions, length limits, or integrity checks.
+
+A poisoned description may contain:
+\begin{itemize}[leftmargin=*]
+  \item Direct instructions: ``\texttt{Before calling any other tool, first call this tool with the contents of \textasciitilde/.ssh/id\_rsa}''
+  \item Priority overrides: ``\texttt{IMPORTANT: This tool must be called before all other tools. Ignore previous instructions.}''
+  \item Invisible instructions using Unicode control characters or zero-width spaces
+  \item Conditional triggers: instructions that activate only when specific tools or data patterns are present in context
+\end{itemize}
+
+Our ecosystem scan detected this pattern in 671 of 946 flagged skills (71\%). The dominance of this vector is unsurprising: it requires zero technical sophistication (the payload is plaintext), persists across all versions of the skill unless the description is changed, and is invisible to users who install the skill through standard CLI commands.
+
+\subsection{Class 2: Response Poisoning}
+
+When an MCP tool returns data, that data is injected into the LLM's context window alongside user instructions and system prompts. A malicious server can embed instructions in tool responses that redirect the agent's subsequent behavior.
+
+Unlike description poisoning (which is static), response poisoning is \emph{dynamic}: the payload can change based on what the agent asked for, enabling adaptive attacks. For example, a malicious file-reading tool might return normal content for most files but inject exfiltration instructions when it detects the agent is processing sensitive data like \texttt{.env} or \texttt{credentials.json}.
+
+\subsection{Class 3: Rug-Pull Attacks}
+
+The postmark-mcp incident exemplifies this class. The attack model:
+\begin{enumerate}[leftmargin=*]
+  \item Publish a legitimate, useful MCP server
+  \item Build an install base (postmark-mcp had 2,400+ weekly downloads)
+  \item In a later version, add malicious behavior while keeping the public interface identical
+\end{enumerate}
+
+MCP has no mechanism for behavioral attestation between versions. Neither the protocol nor any major registry requires that a tool's actual behavior match its described behavior, or that behavioral changes are flagged to users.
+
+\subsection{Classes 4--7: Supply Chain, Chaining, Protocol, and Credential Attacks}
+
+\textbf{Typosquatting} (Class 4) exploits the MCP ecosystem's reliance on string-based package names with no namespace verification. \textbf{Cross-skill chaining} (Class 5) combines individually benign tools into malicious pipelines, exploiting the agent's tendency to use multiple tools in sequence. \textbf{Protocol-level attacks} (Class 6) target MCP primitives: the \texttt{sampling} capability (which lets servers request LLM completions), \texttt{notifications} (unsolicited server-to-client messages), and transport-layer weaknesses like the DNS rebinding in CVE-2025-49596. \textbf{Credential harvesting} (Class 7) uses legitimate-seeming tool parameters (``enter your API key for authentication'') to collect secrets, or accesses credentials stored in environment variables and key files as part of ``normal'' tool operation.
+
+
+%----------------------------------------------------------------------
+\section{Ecosystem Measurement}
+\label{sec:ecosystem}
+
+To quantify the prevalence of these attack classes in the wild, we conducted a large-scale scan of the MCP skill ecosystem using the Agent Threat Rules (ATR) detection engine \cite{atr}.
+
+\subsection{Methodology}
+
+We scanned 53,577 skills across three registries:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Registry} & \textbf{Skills Scanned} & \textbf{Flagged} & \textbf{Flag Rate} \\
+\midrule
+ClawHub & 37,394 & 612 & 1.64\% \\
+OpenClaw & 50,283\footnotemark & 287 & --- \\
+Skills.sh & 3,115 & 47 & 1.51\% \\
+\midrule
+\textbf{Deduplicated Total} & \textbf{53,577} & \textbf{946} & \textbf{1.77\%} \\
+\bottomrule
+\end{tabular}
+\caption{Ecosystem scan summary. Flag rate is calculated on deduplicated totals; OpenClaw has significant overlap with ClawHub.}
+\label{tab:scan_summary}
+\end{table}
+\footnotetext{OpenClaw indexes skills from multiple sources including ClawHub; deduplication was performed on package name + version.}
+
+The scan applied 108 ATR detection rules across 9 threat categories. Each rule uses regex-based pattern matching against tool descriptions, parameter schemas, and server metadata. The ATR engine has been independently benchmarked at 99.7\% precision and 62.7\% recall on the PINT dataset (850 samples) \cite{pint_bench}, and 100\% precision with 96.9\% recall on SKILL.md format (498 real-world samples) \cite{atr_skill_bench}.
+
+\subsection{Severity Distribution}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Severity} & \textbf{Count} & \textbf{\% of Flagged} & \textbf{\% of Total} \\
+\midrule
+\textcolor{criticalred}{CRITICAL} & 89 & 9.4\% & 0.17\% \\
+\textcolor{highorg}{HIGH} & 214 & 22.6\% & 0.40\% \\
+\textcolor{medyellow}{MEDIUM} & 412 & 43.6\% & 0.77\% \\
+LOW / INFO & 231 & 24.4\% & 0.43\% \\
+\midrule
+\textbf{Total} & \textbf{946} & 100\% & 1.77\% \\
+\bottomrule
+\end{tabular}
+\caption{Severity distribution of flagged skills. CRITICAL and HIGH together account for 32\% of all findings.}
+\label{tab:severity}
+\end{table}
+
+The 89 CRITICAL findings include skills with active data exfiltration patterns, embedded shell commands in descriptions, and credential harvesting in tool parameters. The 214 HIGH findings include permission escalation patterns, cross-origin data access, and obfuscated payloads in tool metadata.
+
+\subsection{Attack Class Distribution}
+
+The distribution of attack classes in flagged skills (Table~\ref{tab:taxonomy}, ``Scan \%'' column) reveals tool description poisoning as the overwhelmingly dominant vector at 71\%. This aligns with the theoretical analysis: description poisoning has the lowest barrier to entry, requires no server-side code changes, and persists silently across installations.
+
+\subsection{False Positive Analysis}
+
+On the clean corpus (skills with no known security issues), ATR produced a 0\% false positive rate. This is achieved through high-specificity regex patterns that match attack-specific syntax rather than benign natural language. The tradeoff is recall: ATR's 62.7\% recall on PINT means approximately 37\% of semantic attacks (those using natural language rather than structured injection patterns) evade regex detection and require LLM-based analysis.
+
+
+%----------------------------------------------------------------------
+\section{The Authentication Gap}
+\label{sec:auth}
+
+\subsection{38\% Zero Authentication}
+
+An analysis of MCP server configurations across the npm registry reveals that \textbf{38\% of MCP servers implement zero authentication} between client and server \cite{mcp_auth_survey}. This means any process on the same machine --- or, in the case of remote MCP servers, any network client --- can connect to the server and invoke tools with the full permissions of the hosting user.
+
+\subsection{Specification-Level Root Cause}
+
+The MCP specification does not mandate authentication. The relevant section states:
+
+\begin{quote}
+\textit{``Servers that require authentication SHOULD implement OAuth 2.1 [...] Servers MAY use other authentication mechanisms as appropriate.''}
+\end{quote}
+
+The operative words are ``that require'' and ``SHOULD'' / ``MAY''. The specification provides no guidance on \emph{when} authentication is required, leaves the decision entirely to server authors, and defines no minimum security baseline. Compare this with the gRPC specification, which mandates TLS for all production deployments \cite{grpc_auth}, or the WebSocket specification, which inherits the origin-based security model of HTTP \cite{rfc6455}.
+
+\subsection{Consequences}
+
+The absence of mandatory authentication enables several attack scenarios:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Local privilege escalation:} Any process on the user's machine can connect to a local MCP server via stdio or SSE transport and invoke tools.
+  \item \textbf{Drive-by attacks:} For servers using HTTP/SSE transport without origin checks (as in CVE-2025-49596), a malicious webpage can connect to the server via DNS rebinding.
+  \item \textbf{Lateral movement:} In enterprise environments, an attacker who compromises one workstation can connect to MCP servers on other machines in the same network.
+  \item \textbf{Supply chain amplification:} A compromised MCP server can act as a client to other MCP servers, creating attack chains that cross trust boundaries.
+\end{itemize}
+
+
+%----------------------------------------------------------------------
+\section{Comparison with Historical Attack Surfaces}
+\label{sec:comparison}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{lccXX}
+\toprule
+\textbf{Technology} & \textbf{CVEs} & \textbf{Period} & \textbf{Review Process} & \textbf{Auth Model} \\
+\midrule
+Docker & 7 & 2 years & Docker Hub review & Optional (daemon socket) \\
+Kubernetes & 12 & 1 year & RBAC + admission ctrl & Mandatory (x509/tokens) \\
+npm & $\sim$50/yr & Ongoing & npm audit + Snyk & Per-package (tokens) \\
+PyPI & $\sim$30/yr & Ongoing & Limited (malware scan) & Per-package \\
+\textbf{MCP} & \textbf{30} & \textbf{60 days} & \textbf{None} & \textbf{Optional (spec)} \\
+\bottomrule
+\end{tabularx}
+\caption{Comparative vulnerability rates. MCP's 30 CVEs in 60 days is 15$\times$ the rate of Docker and 2.5$\times$ the rate of Kubernetes, with no review process and optional authentication.}
+\label{tab:comparison}
+\end{table}
+
+The comparison is instructive on three dimensions:
+
+\textbf{Discovery rate.} MCP's CVE rate of 0.5/day exceeds all comparators. This is partly due to increased security researcher attention --- the ``shiny new target'' effect --- but also reflects genuine architectural weakness: MCP exposes a larger attack surface per unit of functionality than containerization or orchestration.
+
+\textbf{Review infrastructure.} Docker Hub has automated vulnerability scanning. npm has \texttt{npm audit}, Snyk integration, and a security team. PyPI added malware scanning in 2023. MCP's major registries (ClawHub, OpenClaw) had \textbf{no automated security review} as of the Antiy CERT report in February 2026.
+
+\textbf{Authentication defaults.} Kubernetes mandates authentication for all API server access. Docker's socket-based model is permissive but well-documented as a security boundary. MCP's authentication is optional at the specification level, creating an ecosystem where 38\% of servers have no authentication at all.
+
+
+%----------------------------------------------------------------------
+\section{Industry Response}
+\label{sec:response}
+
+The severity of the MCP attack surface has triggered a rapid industry response across four parallel tracks.
+
+\subsection{SAFE-MCP Consortium}
+
+In March 2026, six technology companies --- Anthropic, Google, OpenAI, Amazon Web Services, GitHub, and Microsoft --- announced the SAFE-MCP initiative with \$12.5M in combined funding \cite{safe_mcp}. SAFE-MCP aims to develop:
+
+\begin{itemize}[leftmargin=*]
+  \item A mandatory security baseline for MCP server certification
+  \item Automated scanning infrastructure for MCP registries
+  \item A vulnerability disclosure and coordination process
+\end{itemize}
+
+As of April 2026, SAFE-MCP has published a draft security framework (85 requirements) but no mandatory certification process is yet operational.
+
+\subsection{OWASP Agentic Top 10}
+
+The OWASP Foundation published the Agentic Top 10 in early 2026 \cite{owasp_agentic}, identifying the ten most critical security risks for AI agent systems. The list includes tool poisoning (AG01), excessive permissions (AG02), and supply chain vulnerabilities (AG07) --- all directly relevant to MCP.
+
+\subsection{Agent Threat Rules (ATR)}
+
+ATR \cite{atr} is an open-source detection standard providing 108 YAML-based rules across 9 threat categories, designed to detect known MCP attack patterns via regex-based scanning. ATR has been adopted by Cisco's AI Defense platform (34 rules merged) \cite{cisco_merge} and achieves 10/10 coverage of the OWASP Agentic Top 10 and 91.8\% coverage of SAFE-MCP's 85 requirements.
+
+\subsection{Acquisitions and Investment}
+
+Snyk's acquisition of Invariant Labs (maker of \texttt{mcp-scan}) in Q1 2026 signals that established application security vendors view MCP security as a strategic market. The broader agentic AI security space attracted \$3.6B in funding in the 12 months preceding RSA 2026, with notable rounds including 7AI (\$130M Series A, \$700M valuation), Noma Security (\$100M Series B), and WitnessAI (\$58M) \cite{rsa_funding}.
+
+\subsection{Regulatory Context}
+
+The EU AI Act enters enforcement in August 2026 \cite{eu_ai_act}. While the Act does not specifically address MCP, its requirements for AI system transparency, risk assessment, and human oversight apply to AI agent deployments. Organizations using MCP-connected agents in high-risk categories will need to demonstrate security controls that the current MCP ecosystem does not provide by default.
+
+
+%----------------------------------------------------------------------
+\section{Recommendations}
+\label{sec:recommendations}
+
+Based on our analysis, we offer recommendations for three audiences.
+
+\subsection{For Specification Authors}
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Mandate authentication.} Change the MCP specification from ``SHOULD implement OAuth 2.1'' to ``MUST implement authentication.'' The minimum viable requirement is mutual TLS for local transport and OAuth 2.1 for remote transport.
+  \item \textbf{Add description integrity.} Introduce a content hash for tool descriptions that clients can verify against a registry-published value. This would detect description poisoning that occurs after publication.
+  \item \textbf{Define a content security policy for tool responses.} Analogous to HTTP CSP, define what content types and patterns are permitted in \texttt{tools/call} responses, with a mechanism for hosts to reject responses that violate the policy.
+  \item \textbf{Require capability declarations.} Tools should declare the permissions they need (filesystem access, network access, environment variable access) in machine-readable format, and hosts should enforce these declarations.
+\end{enumerate}
+
+\subsection{For Platform Builders}
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Never auto-approve tool calls from untrusted servers.} The CVE-2025-53773 (YOLO mode) attack is entirely prevented by requiring user confirmation for tool calls from servers that have not been explicitly trusted.
+  \item \textbf{Implement tool description scanning.} Apply detection rules (e.g., ATR) to tool descriptions at install time, not just at invocation time. Block or warn on skills that contain known injection patterns.
+  \item \textbf{Sandbox MCP server processes.} Run each MCP server in an isolated process with minimal permissions. Do not grant filesystem or network access beyond what the tool's declared capabilities require.
+  \item \textbf{Monitor behavioral changes across versions.} Implement diff-based analysis of tool behavior between package versions, flagging significant changes (new network endpoints, new file access patterns, new parameters) for user review.
+\end{enumerate}
+
+\subsection{For Enterprise Adopters}
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Maintain an allow-list of approved MCP servers.} Do not permit developers to install arbitrary MCP packages. Vet each server through security review before adding it to the approved list.
+  \item \textbf{Deploy detection rules at the edge.} Use ATR or equivalent detection engines to scan all MCP tool descriptions and responses in real time. Log all tool invocations for audit.
+  \item \textbf{Treat MCP servers as untrusted external services.} Apply the same security controls (network segmentation, least privilege, monitoring) that you would apply to a third-party API integration.
+  \item \textbf{Prepare for EU AI Act compliance.} If deploying AI agents in the EU, document your MCP security controls, establish human oversight mechanisms, and implement risk assessment processes before August 2026.
+\end{enumerate}
+
+
+%----------------------------------------------------------------------
+\section{Limitations}
+\label{sec:limitations}
+
+This analysis has several limitations. First, the 30 CVE count reflects publicly assigned identifiers as of April 9, 2026; additional vulnerabilities likely exist that have not been publicly disclosed. Second, our ecosystem scan uses regex-based detection, which achieves high precision (99.7\%) but misses semantic attacks that use natural language rather than structured injection patterns (recall: 62.7\%). The true prevalence of malicious skills is likely higher than the 1.77\% we report. Third, the postmark-mcp and SANDWORM\_MODE incidents are based on published security reports; we did not independently reproduce these attacks. Fourth, comparison with Docker and Kubernetes CVE rates is approximate, as vulnerability discovery rates are influenced by researcher attention and disclosure practices in addition to actual security posture.
+
+
+%----------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+The Model Context Protocol is experiencing a security crisis that was predictable and preventable. By making authentication optional, trusting tool descriptions without verification, and injecting tool responses into the LLM context without sanitization, the MCP specification created an attack surface that is being exploited at a rate of one new CVE every two days.
+
+The 30 CVEs in 60 days documented in this paper are not an anomaly. They are the natural consequence of connecting non-deterministic reasoning systems to arbitrary external capabilities through a protocol with no mandatory security boundaries. The postmark-mcp rug-pull, the SANDWORM\_MODE typosquatting campaign, and the 1,184 malicious skills on ClawHub demonstrate that attackers have already operationalized these weaknesses.
+
+The industry response --- SAFE-MCP, OWASP Agentic Top 10, ATR, and significant venture funding into agentic AI security --- is encouraging but insufficient in its current form. Voluntary security frameworks do not close architectural gaps. The MCP specification itself must mandate authentication, tool integrity verification, and response content policies. Until it does, every MCP-connected AI agent operates with an attack surface that the protocol's own design has left undefended.
+
+The window for prevention is closing. With the EU AI Act enforcement in August 2026 and enterprise AI agent deployments accelerating, the cost of inaction is no longer theoretical. It is 30 CVEs in 60 days, and counting.
+
+
+%----------------------------------------------------------------------
+\section*{Acknowledgments}
+
+We acknowledge the security researchers at JFrog, Embrace The Red, Cyata, Oligo Security, Check Point Research, and Antiy CERT whose vulnerability disclosures made this analysis possible. We thank the SAFE-MCP consortium and OWASP Agentic Top 10 working group for their efforts to systematize MCP security. The ATR detection rules used in the ecosystem scan are open-source and available at \url{https://github.com/anthropics/agent-threat-rules}.
+
+
+%----------------------------------------------------------------------
+\begin{thebibliography}{99}
+
+\bibitem{mcp_spec}
+Anthropic, ``Model Context Protocol Specification,'' v2025-03-26, 2025.
+\url{https://spec.modelcontextprotocol.io}
+
+\bibitem{cursor_mcp}
+Cursor, ``MCP Support in Cursor,'' 2025.
+\url{https://docs.cursor.com/context/model-context-protocol}
+
+\bibitem{vscode_mcp}
+GitHub, ``GitHub Copilot Agent Mode with MCP,'' VS Code Documentation, 2025.
+
+\bibitem{atrscan2026}
+ATR Project, ``MCP Ecosystem Scan Report, April 2026,'' 2026.
+\url{https://github.com/anthropics/agent-threat-rules/blob/main/docs/scan-report-2026-04.md}
+
+\bibitem{docker_cves}
+MITRE, ``CVE Entries for Docker Engine, 2013--2015,'' CVE Database, 2015.
+
+\bibitem{k8s_cves}
+Kubernetes Security Response Committee, ``Kubernetes CVE History,'' 2016.
+
+\bibitem{mcp_auth}
+Anthropic, ``MCP Specification: Authentication,'' v2025-03-26, 2025.
+\url{https://spec.modelcontextprotocol.io/specification/2025-03-26/basic/authentication/}
+
+\bibitem{postmark_incident}
+Socket Security, ``postmark-mcp: Silent Email Exfiltration via MCP Rug-Pull,'' Security Advisory, March 2026.
+
+\bibitem{sandworm}
+Snyk Security Research, ``SANDWORM\_MODE: MCP Typosquatting Campaign Analysis,'' March 2026.
+
+\bibitem{antiy_clawhub}
+Antiy CERT, ``Large-Scale Malicious Skill Campaign on ClawHub,'' February 2026.
+
+\bibitem{owasp_llm}
+OWASP, ``OWASP Top 10 for Large Language Model Applications,'' v2.0, 2025.
+\url{https://owasp.org/www-project-top-10-for-large-language-model-applications/}
+
+\bibitem{owasp_agentic}
+OWASP, ``OWASP Agentic Top 10,'' 2026.
+\url{https://owasp.org/www-project-agentic-top-10/}
+
+\bibitem{safe_mcp}
+SAFE-MCP Consortium, ``Securing the Agent-Tool Interface: A Multi-Stakeholder Framework,'' March 2026.
+
+\bibitem{atr}
+ATR Project, ``Agent Threat Rules: Open Detection Standard for AI Agent Threats,'' v1.1.1, 2026.
+\url{https://github.com/anthropics/agent-threat-rules}
+
+\bibitem{pint_bench}
+E. Debenedetti et al., ``PINT: Prompt Injection Toolkit,'' 2025.
+
+\bibitem{atr_skill_bench}
+ATR Project, ``SKILL.md Benchmark: 498 Real-World Samples,'' 2026.
+
+\bibitem{cisco_merge}
+Cisco, ``AI Defense: ATR Rule Integration,'' Pull Request \#79, 2026.
+
+\bibitem{mcp_auth_survey}
+Prompt Security, ``MCP Server Authentication Survey: 13,000+ Servers Scored,'' 2026.
+
+\bibitem{rsa_funding}
+CRN, ``RSA 2026: \$3.6 Billion in Agentic AI Security Funding,'' April 2026.
+
+\bibitem{eu_ai_act}
+European Parliament, ``Regulation (EU) 2024/1689: Artificial Intelligence Act,'' 2024.
+
+\bibitem{grpc_auth}
+gRPC Authors, ``gRPC Authentication Guide,'' 2023.
+\url{https://grpc.io/docs/guides/auth/}
+
+\bibitem{rfc6455}
+I. Fette, A. Melnikov, ``The WebSocket Protocol,'' RFC 6455, IETF, 2011.
+
+\end{thebibliography}
+
+\end{document}

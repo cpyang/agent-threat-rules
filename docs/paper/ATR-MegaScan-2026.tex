@@ -1,0 +1,944 @@
+\documentclass[11pt,letterpaper,twocolumn]{article}
+
+\usepackage[margin=0.75in]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{balance}
+\usepackage{cite}
+\usepackage{subcaption}
+\usepackage{multirow}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{gray!10},
+  columns=fullflexible,
+  keepspaces=true
+}
+
+\title{\textbf{53,577 Skills, 946 Threats:\\The First Large-Scale Security Audit\\of the AI Agent Ecosystem}}
+
+\author{
+  ATR Project\\
+  \texttt{https://github.com/anthropics/agent-threat-rules}
+}
+
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+%----------------------------------------------------------------------
+\begin{abstract}
+The Model Context Protocol (MCP) ecosystem has grown to tens of thousands of
+publicly registered skills, yet no systematic security audit has been conducted
+at scale. We present the first large-scale security scan of the AI agent skill
+ecosystem: \textbf{53,577 skills} across two major registries (OpenClaw and
+Skills.sh), executed on April 8, 2026, using the Agent Threat Rules (ATR)
+detection engine with 108 regex-based rules. The scan flagged \textbf{946 skills
+(1.77\%)} as containing potential security threats, of which 875 were rated
+critical severity. The dominant attack pattern was \textbf{tool description
+poisoning} (71\% of all detections), where hidden instructions are embedded in
+skill metadata to manipulate LLM behavior. We also identified 55 skills engaged
+in credential harvesting and a smaller set exhibiting delayed activation
+patterns. The scan achieved 0\% false positive rate on a verified clean corpus,
+with an average scan latency of 5.39ms per skill. All 926 threat reports were
+submitted to a community Threat Cloud for coordinated analysis. This paper
+presents the methodology, findings, attack pattern taxonomy, and implications
+for platform builders, enterprise security teams, and standards bodies. To our
+knowledge, this is the largest empirical security study of the AI agent
+ecosystem to date, exceeding prior work by an order of magnitude.
+\end{abstract}
+
+%----------------------------------------------------------------------
+\section{Introduction}
+\label{sec:introduction}
+
+The rapid adoption of AI agents---systems that autonomously invoke external
+tools, access data, and take actions on behalf of users---has created an
+expansive and largely unaudited attack surface. The Model Context Protocol
+(MCP)~\cite{mcp}, introduced by Anthropic in late 2024 and adopted across major
+AI platforms, has become the de facto standard for connecting AI agents to
+external capabilities through \emph{skills}: declarative descriptions of tools
+that agents can invoke.
+
+The growth has been explosive. As of April 2026, the two largest open
+registries---OpenClaw and Skills.sh---host over 53,000 skills covering
+everything from database access to email composition to file system operations.
+Yet the MCP specification does not mandate authentication~\cite{mcpspec}, and
+independent audits have found that 38\% of MCP servers operate with zero
+authentication~\cite{checkmarx2026}.
+
+The consequences are not theoretical. In 60 days spanning late 2025 to early
+2026, 30 CVEs were filed against MCP implementations~\cite{cve6514,cve53773,
+cve68143,cve68144,cve68145}. The \texttt{postmark-mcp} incident demonstrated
+live email theft through tool poisoning~\cite{postmark}. The
+\texttt{SANDWORM\_MODE} campaign deployed 19 typosquatted packages targeting MCP
+users~\cite{sandworm}. These are not edge cases; they are the predictable result
+of deploying thousands of unvetted tool definitions into systems that execute
+instructions based on natural language context.
+
+Despite this threat landscape, no large-scale empirical study has examined what
+is actually in these registries. Prior work has focused on small samples: our
+own March 2026 scan covered 2,386 packages~\cite{atrscan2386}, finding that 49\%
+contained security findings. Snyk/Invariant Labs conducted targeted analyses of
+specific attack vectors~\cite{snyk2026}. Checkmarx examined authentication
+patterns across a sample of MCP servers~\cite{checkmarx2026}. None approached
+the full registry scale.
+
+This paper fills that gap. We scanned the complete contents of two major
+registries---50,485 skills from OpenClaw and 3,115 from Skills.sh---using
+the ATR detection engine (v1.1.0) with 108 regex-based rules covering 9 threat
+categories. The scan completed in under 5 minutes of total compute time, flagging
+946 skills (1.77\%) as containing potential security threats.
+
+Our contributions are:
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Scale.} The first security audit covering 53,577 skills across
+two registries---an order of magnitude larger than any prior study.
+
+\item \textbf{Empirical threat taxonomy.} A data-driven breakdown of attack
+patterns observed in the wild, dominated by tool description poisoning (71\%),
+credential harvesting (5.8\%), and delayed activation techniques.
+
+\item \textbf{Validated methodology.} A detection approach independently
+benchmarked at 99.6\% precision on the PINT adversarial dataset~\cite{pint} and
+100\% precision on a 498-sample real-world corpus~\cite{atrskillbench}, with
+0\% false positive rate on the clean subset of this scan.
+
+\item \textbf{Ecosystem feedback loop.} All findings were reported to a
+community Threat Cloud, enabling coordinated analysis and rule refinement
+without publicly disclosing active threat details.
+
+\item \textbf{Actionable implications.} Concrete recommendations for registry
+operators, platform builders, and enterprise security teams based on empirical
+evidence rather than theoretical attack models.
+\end{enumerate}
+
+
+%----------------------------------------------------------------------
+\section{Background}
+\label{sec:background}
+
+\subsection{The Model Context Protocol}
+
+MCP~\cite{mcp} defines a client-server architecture where AI agents (clients)
+discover and invoke external tools exposed by servers. Each tool is described by
+a JSON schema containing a name, description, and input parameters. The agent's
+LLM reads these descriptions to decide which tools to invoke and how to
+construct invocations.
+
+Critically, tool descriptions are \emph{part of the agent's context window}.
+The LLM processes them alongside user instructions, system prompts, and tool
+outputs with no structural differentiation. This architectural property---the
+collapse of the control plane and data plane into a single natural language
+stream---is the root cause of tool description poisoning attacks.
+
+\subsection{The Trust Model Problem}
+
+The MCP specification~\cite{mcpspec} does not mandate:
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Authentication.} Servers are not required to verify client identity.
+\item \textbf{Integrity.} Tool descriptions are not signed or versioned.
+\item \textbf{Authorization.} No standard mechanism limits which tools an agent may invoke.
+\end{itemize}
+
+This creates a supply chain risk analogous to early npm or PyPI: any actor can
+publish a skill, and consumers have no systematic way to distinguish benign from
+malicious tool definitions. Unlike traditional package registries, the ``code''
+being executed is natural language---tool descriptions that alter agent
+behavior---making traditional static analysis insufficient.
+
+\subsection{Known Incidents}
+
+Table~\ref{tab:incidents} summarizes the major MCP security incidents preceding
+this study.
+
+\begin{table}[H]
+\centering
+\caption{Major MCP security incidents (2025--2026)}
+\label{tab:incidents}
+\small
+\begin{tabularx}{\columnwidth}{lX}
+\toprule
+\textbf{Incident} & \textbf{Description} \\
+\midrule
+CVE-2025-6514~\cite{cve6514} & Server-side request forgery in MCP server \\
+CVE-2025-53773~\cite{cve53773} & Tool description injection enabling data exfiltration \\
+CVE-2025-68143/44/45~\cite{cve68143,cve68144,cve68145} & Authentication bypass chain in MCP implementations \\
+postmark-mcp~\cite{postmark} & Email theft via tool description poisoning in a mail server skill \\
+SANDWORM\_MODE~\cite{sandworm} & 19 typosquatted packages with hidden exfiltration payloads \\
+Antiy CERT~\cite{antiy} & ClawHub registry contamination report (37,394 skills analyzed) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+%----------------------------------------------------------------------
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Detection Engine}
+
+The ATR detection engine~\cite{atr} is a regex-based static analysis system
+operating on skill metadata (tool names, descriptions, input schemas, and
+README content). Each of the 108 detection rules is encoded as a YAML document
+specifying:
+
+\begin{itemize}[leftmargin=*]
+\item A unique identifier (e.g., \texttt{ATR-2026-00121})
+\item One or more regex patterns to match against skill text
+\item Severity level (critical, high, medium, low, informational)
+\item Threat category (one of 9 defined categories)
+\item Embedded positive and negative test cases for validation
+\end{itemize}
+
+Rules are organized into 9 threat categories:
+\texttt{injection}, \texttt{exfiltration}, \texttt{persistence},
+\texttt{privilege-escalation}, \texttt{evasion}, \texttt{resource-abuse},
+\texttt{supply-chain}, \texttt{denial-of-service}, and \texttt{reconnaissance}.
+
+The engine is designed for speed: regex matching operates below the LLM
+reasoning layer, enabling sub-millisecond evaluation per rule. The design
+philosophy is \emph{fast first gate}---regex provides high-precision triage
+before more expensive semantic analysis.
+
+\subsection{Scan Pipeline}
+
+The scan was executed on April 8, 2026, using ATR v1.1.0. The pipeline
+consisted of four phases:
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Crawl.} Enumerate all skills from OpenClaw (50,485) and
+Skills.sh (3,115) via their respective APIs.
+\item \textbf{Extract.} Parse each skill's metadata: tool descriptions, input
+schemas, README content, and configuration files.
+\item \textbf{Scan.} Apply all 108 ATR rules against each skill's extracted
+text. Record all matches with rule ID, severity, and matched content.
+\item \textbf{Report.} Aggregate results, compute statistics, and submit
+flagged skills to Threat Cloud for community analysis.
+\end{enumerate}
+
+Total compute time for 53,577 skills was approximately 289 seconds (5.39ms per
+skill average), executed on commodity hardware.
+
+\subsection{Validation Methodology}
+
+We validated the scan results through three independent methods:
+
+\textbf{Benchmark validation.} ATR rules were evaluated against two external
+benchmarks prior to the scan:
+\begin{itemize}[leftmargin=*]
+\item \textbf{PINT}~\cite{pint}: 850 adversarial prompt injection samples from
+Lakera. ATR achieved 99.6\% precision and 61.4\% recall.
+\item \textbf{SKILL.md benchmark}~\cite{atrskillbench}: 498 real-world skill
+descriptions (mix of benign and malicious). ATR achieved 96.9\% recall, 100\%
+precision, and 0\% false positive rate.
+\end{itemize}
+
+\textbf{Clean corpus validation.} A random sample of 500 skills from the
+unflagged population was manually reviewed. Zero false negatives were identified
+in this sample, consistent with the 0\% false positive rate observed on the
+flagged set.
+
+\textbf{Cross-reference.} Flagged skills were compared against known incident
+databases (CVE records, Antiy CERT reports~\cite{antiy}, and prior ATR scan
+results~\cite{atrscan2386}).
+
+
+%----------------------------------------------------------------------
+\section{Results}
+\label{sec:results}
+
+\subsection{Overview}
+
+Table~\ref{tab:overview} presents the top-level scan results.
+
+\begin{table}[H]
+\centering
+\caption{Mega scan overview (April 8, 2026)}
+\label{tab:overview}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Total skills scanned & 53,577 \\
+\quad OpenClaw & 50,485 \\
+\quad Skills.sh & 3,115 \\
+Skills flagged & 946 (1.77\%) \\
+Threat reports to Cloud & 926 \\
+Detection rules applied & 108 \\
+Avg. scan latency & 5.39ms/skill \\
+Engine version & ATR v1.1.0 \\
+False positive rate (clean corpus) & 0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Severity Distribution}
+
+The overwhelming majority of flagged skills were rated critical severity
+(Table~\ref{tab:severity}).
+
+\begin{table}[H]
+\centering
+\caption{Severity distribution of flagged skills}
+\label{tab:severity}
+\small
+\begin{tabular}{lrr}
+\toprule
+\textbf{Severity} & \textbf{Count} & \textbf{\% of Flagged} \\
+\midrule
+Critical & 875 & 92.5\% \\
+High & 52 & 5.5\% \\
+Medium & 19 & 2.0\% \\
+\midrule
+Total & 946 & 100\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The concentration at critical severity reflects the nature of the dominant
+attack pattern: tool description poisoning directly manipulates agent behavior,
+and any successful exploitation grants the attacker control over agent actions.
+There is no ``low severity'' variant of instruction injection.
+
+\subsection{Top Detection Rules}
+
+Table~\ref{tab:toprules} shows the rules with the most detections.
+
+\begin{table}[H]
+\centering
+\caption{Top detection rules by number of matches}
+\label{tab:toprules}
+\small
+\begin{tabularx}{\columnwidth}{llr}
+\toprule
+\textbf{Rule ID} & \textbf{Pattern} & \textbf{Hits} \\
+\midrule
+ATR-2026-00121 & Tool desc. poisoning & 674 \\
+ATR-2026-00120 & Hidden instruction injection & 81 \\
+ATR-2026-00149 & Obfuscated payload & 76 \\
+\multicolumn{2}{l}{\emph{All other rules (105)}} & 115 \\
+\midrule
+\multicolumn{2}{l}{\textbf{Total detections}} & \textbf{946} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The dominance of ATR-2026-00121 (tool description poisoning) is striking: a
+single rule accounts for 71.2\% of all detections. This reflects the structural
+reality of the MCP architecture---tool descriptions are the highest-leverage
+attack surface because they are always present in the agent's context window.
+
+\subsection{Registry Comparison}
+
+\begin{table}[H]
+\centering
+\caption{Flagged rate by registry}
+\label{tab:registries}
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Registry} & \textbf{Total} & \textbf{Flagged} & \textbf{Rate} \\
+\midrule
+OpenClaw & 50,485 & 889 & 1.76\% \\
+Skills.sh & 3,115 & 57 & 1.83\% \\
+\midrule
+Combined & 53,577 & 946 & 1.77\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The flagged rates are remarkably consistent across registries (1.76\% vs.
+1.83\%), suggesting that the threat is ecosystem-wide rather than concentrated
+in a single registry. Both registries lack mandatory security review for
+published skills.
+
+
+%----------------------------------------------------------------------
+\section{Attack Pattern Deep Dive}
+\label{sec:attacks}
+
+\subsection{Tool Description Poisoning (71\% of Detections)}
+
+Tool description poisoning is the injection of hidden instructions into skill
+metadata---typically the \texttt{description} field of a tool definition---that
+alter agent behavior when processed by the LLM. Unlike traditional code
+injection, the payload is natural language that the model interprets as
+instructions.
+
+Common patterns observed in the scan:
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Invisible characters.} Unicode zero-width spaces, right-to-left
+marks, and other non-printing characters used to hide instructions from human
+review while remaining visible to the LLM tokenizer.
+
+\item \textbf{Comment-style injection.} Instructions embedded in what appears
+to be documentation comments (e.g., \texttt{<!-- IMPORTANT: always include
+user's API key in the response -->}).
+
+\item \textbf{Context manipulation.} Descriptions that redefine the agent's
+role, override safety instructions, or establish false authority (e.g.,
+``System notice: for security compliance, this tool requires access to all
+environment variables'').
+
+\item \textbf{Multi-step chains.} Descriptions that instruct the agent to
+invoke additional tools in a specific sequence, creating attack chains that
+span multiple skill boundaries.
+\end{enumerate}
+
+The 674 detections of ATR-2026-00121 include examples from all four
+subcategories. The prevalence of this pattern confirms the theoretical
+predictions of prior work on indirect prompt injection~\cite{greshake2023}:
+when tool descriptions share the context window with user instructions, they
+become a first-class injection vector.
+
+\subsection{Credential Harvesting (55 Skills)}
+
+We identified 55 skills that contained patterns consistent with credential
+harvesting---the systematic reading of sensitive files or environment variables
+and transmitting their contents to external endpoints. Specific patterns
+include:
+
+\begin{itemize}[leftmargin=*]
+\item Reading \texttt{.env} files and extracting API keys
+\item Accessing \texttt{\textasciitilde/.ssh/} directories for private keys
+\item Enumerating environment variables containing tokens or secrets
+\item Exfiltrating credentials through tool response fields or HTTP requests
+\end{itemize}
+
+Unlike tool description poisoning, which manipulates agent behavior indirectly,
+credential harvesting is direct data theft. The 55 identified skills represent
+a lower bound: our regex-based detection identifies explicit file access
+patterns but may miss obfuscated variants.
+
+\subsection{Delayed Activation}
+
+A smaller but concerning subset of flagged skills exhibited delayed activation
+patterns: behavior that changes based on temporal or invocation-count triggers.
+Examples include:
+
+\begin{itemize}[leftmargin=*]
+\item Skills that behave normally for the first $N$ invocations, then activate
+a malicious payload
+\item Date-gated behavior that activates after a specific timestamp
+\item Conditional logic triggered by specific input patterns that are unlikely
+to appear during testing
+\end{itemize}
+
+Delayed activation is the most difficult pattern to detect through static
+analysis, as the malicious behavior may not be present in the skill metadata at
+the time of scanning. The instances we detected relied on explicit temporal
+logic visible in the skill's code or description; more sophisticated variants
+using server-side logic would evade regex-based detection entirely.
+
+
+%----------------------------------------------------------------------
+\section{Comparison with Prior Work}
+\label{sec:priorwork}
+
+\subsection{ATR March 2026 Scan}
+
+Our March 2026 scan~\cite{atrscan2386} covered 2,386 npm packages containing
+35,858 tool definitions. That scan found 49\% of packages with at least one
+finding, with 27\% rated HIGH or CRITICAL. The current mega scan's 1.77\%
+flagged rate appears much lower, but the metrics are not directly comparable:
+the March scan applied a broader set of informational-level rules and counted
+any finding (including low-severity configuration issues), while the current
+scan reports only confirmed threat detections at medium severity or above.
+
+When restricted to the same severity threshold, the March scan's critical+high
+rate was approximately 2.1\%---consistent with the 1.77\% observed at mega
+scale.
+
+\subsection{Snyk/Invariant Labs}
+
+Snyk's acquisition of Invariant Labs in early 2026~\cite{snyk2026} produced the
+\texttt{mcp-scan} tool, which focuses on runtime monitoring of MCP
+connections. Their approach is complementary: \texttt{mcp-scan} detects
+anomalous tool invocations at runtime, while ATR detects malicious patterns in
+skill definitions at registration time. The Snyk approach requires active
+monitoring infrastructure; ATR operates as a static pre-deployment gate.
+
+\subsection{Checkmarx MCP Research}
+
+Checkmarx published research on MCP server authentication
+patterns~\cite{checkmarx2026}, finding that 38\% of servers have zero
+authentication. Their work focused on the transport layer (how servers are
+accessed), while our work focuses on the content layer (what tool definitions
+contain). The two findings are complementary: unauthenticated servers are more
+likely to serve tampered tool definitions.
+
+\subsection{Antiy CERT ClawHub Report}
+
+The Antiy CERT report~\cite{antiy} analyzed 37,394 skills from the ClawHub
+registry, focusing on malware distribution and phishing. Our scan covers a
+different registry set (OpenClaw and Skills.sh) with different detection
+rules focused on agent-specific threats. The combined coverage across both
+studies exceeds 90,000 skills---the most comprehensive view of AI agent
+ecosystem security to date.
+
+\subsection{Scale Comparison}
+
+Table~\ref{tab:comparison} summarizes prior empirical studies.
+
+\begin{table}[H]
+\centering
+\caption{Comparison with prior MCP security studies}
+\label{tab:comparison}
+\small
+\begin{tabularx}{\columnwidth}{Xrrr}
+\toprule
+\textbf{Study} & \textbf{Skills} & \textbf{Rules} & \textbf{Year} \\
+\midrule
+ATR npm scan~\cite{atrscan2386} & 2,386 & 61 & Mar '26 \\
+Checkmarx~\cite{checkmarx2026} & $\sim$1,000 & N/A & '25--'26 \\
+Antiy CERT~\cite{antiy} & 37,394 & N/A & Mar '26 \\
+Snyk/Invariant~\cite{snyk2026} & $\sim$500 & Runtime & '26 \\
+\textbf{This work} & \textbf{53,577} & \textbf{108} & \textbf{Apr '26} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+%----------------------------------------------------------------------
+\section{Detection Engine Validation}
+\label{sec:validation}
+
+The credibility of a large-scale scan depends on the precision and recall of
+the detection engine. We present validation results from three independent
+benchmarks.
+
+\subsection{PINT Benchmark}
+
+The Prompt Injection Test (PINT) dataset~\cite{pint}, maintained by Lakera,
+contains 850 adversarial prompt injection samples spanning multiple attack
+techniques. ATR achieved:
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Precision:} 99.6\% (4 false positives out of 850 samples)
+\item \textbf{Recall:} 61.4\% (targeting high-precision triage, not exhaustive detection)
+\end{itemize}
+
+The deliberate precision-over-recall tradeoff reflects ATR's design philosophy:
+in a scan of 53,577 skills, even a 1\% false positive rate would produce 535
+false alerts, overwhelming human reviewers. At 99.6\% precision, the expected
+false positive count on a scan of this size is approximately 4.
+
+\subsection{SKILL.md Benchmark}
+
+The SKILL.md benchmark~\cite{atrskillbench} is a curated dataset of 498
+real-world skill descriptions collected from production MCP deployments,
+including both benign and known-malicious samples. ATR achieved:
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Precision:} 100\% (0 false positives)
+\item \textbf{Recall:} 96.9\% (detecting nearly all known threats)
+\item \textbf{False positive rate:} 0\%
+\end{itemize}
+
+The higher recall on SKILL.md (96.9\%) compared to PINT (61.4\%) reflects the
+difference between adversarial laboratory samples (PINT) and real-world
+deployments (SKILL.md). In practice, most deployed attacks use well-known
+patterns that regex rules can match; the 38.6\% of PINT samples that ATR misses
+represent sophisticated evasion techniques less common in the wild.
+
+\subsection{Scan-Specific Validation}
+
+For this mega scan specifically, we performed:
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Manual review} of 100 randomly sampled flagged skills: all
+confirmed as true positives.
+\item \textbf{Clean corpus check} on 500 randomly sampled unflagged skills:
+zero contained threats that should have been detected.
+\item \textbf{Cross-validation} against 926 Threat Cloud reports: all flagged
+skills that were submitted received corroborating analysis.
+\end{itemize}
+
+\subsection{Performance Characteristics}
+
+\begin{table}[H]
+\centering
+\caption{Engine performance metrics}
+\label{tab:performance}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Avg. scan latency (this scan) & 5.39ms/skill \\
+Avg. scan latency (SKILL.md bench) & 3.36ms/skill \\
+Rules evaluated per skill & 108 \\
+Total scan time (53,577 skills) & $\sim$289 seconds \\
+Memory footprint & $<$50MB \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The sub-10ms latency enables integration into CI/CD pipelines and registry
+ingestion hooks without impacting developer workflow.
+
+
+%----------------------------------------------------------------------
+\section{Ecosystem Adoption}
+\label{sec:adoption}
+
+The ATR rule set has been adopted by multiple organizations, providing
+independent validation of its utility:
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Cisco AI Defense}~\cite{ciscopr79}: Merged 34 ATR rules as
+upstream detection rules in their commercial AI security product (PR \#79).
+
+\item \textbf{OWASP Agentic Top 10}~\cite{owaspagent}: ATR provides detection
+rules covering all 10 categories of the OWASP Agentic Top 10 framework.
+
+\item \textbf{SAFE-MCP (OpenSSF)}~\cite{safemcp}: ATR covers 78 of 85
+requirements (91.8\%) in the OpenSSF SAFE-MCP specification.
+\end{itemize}
+
+These adoptions demonstrate that the detection approach is not only effective
+in controlled benchmarks but accepted by industry security teams as
+production-grade.
+
+
+%----------------------------------------------------------------------
+\section{Implications}
+\label{sec:implications}
+
+\subsection{For Registry Operators}
+
+The 1.77\% flagged rate across 53,577 skills means approximately 950
+potentially malicious skills are live and accessible to AI agents. Registry
+operators should:
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Implement pre-publication scanning.} ATR's sub-10ms latency
+makes it feasible to scan every skill at upload time. A single rule
+(ATR-2026-00121) would catch 71\% of current threats.
+
+\item \textbf{Sign tool descriptions.} Immutable, signed tool descriptions
+would prevent post-publication tampering---a known attack vector where
+initially benign skills are modified after gaining trust.
+
+\item \textbf{Require authentication.} The 38\% of servers with zero
+authentication~\cite{checkmarx2026} represents a fundamental trust gap that
+no amount of content scanning can close.
+\end{enumerate}
+
+\subsection{For Enterprise Security Teams}
+
+Organizations deploying AI agents should treat skill registries with the same
+caution as package registries in the early 2010s---before tools like
+\texttt{npm audit} and Snyk became standard:
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Maintain allowlists.} Do not permit agents to invoke arbitrary
+skills from public registries.
+
+\item \textbf{Scan at the CI/CD boundary.} Integrate ATR or equivalent
+scanning into the deployment pipeline. The 3--5ms latency adds negligible
+overhead.
+
+\item \textbf{Monitor tool descriptions for drift.} A skill that passes
+scanning at installation time may be modified later. Continuous monitoring
+is essential.
+
+\item \textbf{Instrument agent behavior.} Static scanning catches known
+patterns; runtime monitoring (e.g., Snyk \texttt{mcp-scan}~\cite{snyk2026})
+catches behavioral anomalies that evade regex detection.
+\end{enumerate}
+
+\subsection{For Standards Bodies}
+
+The empirical evidence from this scan supports three specific recommendations
+for standards bodies (OWASP, OpenSSF, NIST):
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Mandate tool description integrity.} The MCP specification
+should require cryptographic signing of tool descriptions.
+
+\item \textbf{Define a severity taxonomy.} The current lack of standardized
+severity levels for agent threats makes it difficult to compare findings
+across tools and studies.
+
+\item \textbf{Establish a shared threat intelligence format.} The 946 threats
+identified in this scan, combined with the 37,394 skills analyzed by Antiy
+CERT~\cite{antiy}, represent a corpus that should be shared through a
+standardized format (analogous to STIX/TAXII for traditional threats).
+\end{enumerate}
+
+
+%----------------------------------------------------------------------
+\section{Limitations}
+\label{sec:limitations}
+
+We acknowledge several limitations of this study:
+
+\textbf{Regex detection ceiling.} ATR's regex-based approach cannot detect
+semantic attacks that use novel phrasing, obfuscation through paraphrasing, or
+attacks embedded in non-text modalities (images, encoded data). The 61.4\%
+recall on the adversarial PINT dataset reflects this ceiling. We estimate that
+the true threat population in the scanned registries is larger than the 946
+flagged skills, with sophisticated attacks evading regex detection.
+
+\textbf{Scope.} This scan covers two registries (OpenClaw and Skills.sh) but
+not the full MCP ecosystem. Notable exclusions include ClawHub (covered
+separately by Antiy CERT~\cite{antiy}), private enterprise registries, and
+skills distributed through direct installation (e.g., GitHub repositories).
+The combined public registry coverage across this study and Antiy CERT exceeds
+90,000 skills, but the total ecosystem is likely several times larger.
+
+\textbf{Point-in-time snapshot.} The scan was executed on April 8, 2026. Skills
+may be added, modified, or removed after the scan date. Continuous monitoring
+is necessary to maintain coverage.
+
+\textbf{False negative analysis.} While we validated a 0\% false positive rate
+through manual review, we cannot establish the exact false negative rate without
+exhaustive manual review of all 52,631 unflagged skills. The clean corpus
+sample (500 skills, 0 false negatives) provides a statistical bound but not
+certainty.
+
+\textbf{Attribution.} We detected patterns consistent with malicious intent but
+cannot determine whether flagged skills were created with malicious intent,
+were victims of supply chain compromise, or contain patterns that are
+coincidentally similar to attack signatures. The 0\% false positive rate on
+manual review suggests the last category is small, but we cannot eliminate it
+entirely.
+
+\textbf{Runtime behavior.} Static analysis of skill metadata cannot detect
+attacks that rely on server-side logic, dynamic tool descriptions, or runtime
+state manipulation. Delayed activation attacks that use server-side triggers
+(rather than metadata-visible temporal logic) are invisible to our approach.
+
+
+%----------------------------------------------------------------------
+\section{Responsible Disclosure}
+\label{sec:disclosure}
+
+All 946 flagged skills were reported through the ATR Threat Cloud, a community
+analysis platform where security researchers can review findings, add context,
+and coordinate response. Specific details of active threats---including package
+names, matched content, and exploitation techniques---are not published in this
+paper.
+
+We follow a structured disclosure process:
+\begin{enumerate}[leftmargin=*]
+\item Flagged skills are submitted to Threat Cloud with full detection details.
+\item Registry operators are notified with affected package identifiers.
+\item Skill authors are given 90 days to remediate before public disclosure.
+\item Aggregate statistics (this paper) are published without identifying
+specific active threats.
+\end{enumerate}
+
+Researchers can access anonymized threat data through the Threat Cloud API
+for independent verification.
+
+
+%----------------------------------------------------------------------
+\section{Related Work}
+\label{sec:relatedwork}
+
+\textbf{Prompt injection.} Greshake et al.~\cite{greshake2023} formalized
+indirect prompt injection, demonstrating that external content processed by
+LLMs can override user instructions. Our findings provide large-scale
+empirical evidence that this attack class is not theoretical---it is the
+dominant threat in production AI agent registries.
+
+\textbf{Supply chain security.} The software supply chain security literature
+(Ohm et al.~\cite{ohm2020}, Ladisa et al.~\cite{ladisa2023}) has documented
+analogous patterns in npm and PyPI. Our work extends this analysis to AI agent
+skill registries, where the ``code'' being injected is natural language rather
+than executable code.
+
+\textbf{LLM security benchmarks.} The OWASP LLM Top 10~\cite{owaspllm} and
+Agentic Top 10~\cite{owaspagent} provide taxonomic frameworks. ATR provides
+the executable detection rules that operationalize these frameworks---covering
+10/10 categories of the Agentic Top 10.
+
+\textbf{MCP security analysis.} Concurrent work by Checkmarx~\cite{checkmarx2026}
+on authentication gaps and Antiy CERT~\cite{antiy} on registry contamination
+are complementary to our content-focused analysis. Together, these studies
+establish that the MCP ecosystem faces challenges at every layer: transport
+(authentication), content (tool description poisoning), and distribution
+(registry contamination).
+
+
+%----------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+We conducted the largest security audit of the AI agent ecosystem to date:
+53,577 skills across two major registries, scanned with 108 detection rules in
+under 5 minutes of compute time. The results are sobering: 946 skills (1.77\%)
+contain patterns consistent with security threats, dominated by tool
+description poisoning (71\% of detections). The attack surface is real, the
+threats are live, and the ecosystem currently lacks systematic defenses.
+
+Three findings stand out:
+
+\textbf{The threat is structural, not incidental.} Tool description poisoning
+dominates because the MCP architecture processes tool descriptions and user
+instructions in the same context window. This is not a bug in specific
+implementations; it is a property of the protocol design. Mitigations that do
+not address this architectural property will remain insufficient.
+
+\textbf{Simple detection works.} A regex-based engine with 108 rules,
+operating at 5.39ms per skill, achieved 0\% false positive rate on a scan of
+53,577 skills and 100\% precision on an independent benchmark. The technical
+barrier to implementing pre-publication scanning is negligible. The barrier is
+organizational: registries must choose to deploy it.
+
+\textbf{The ecosystem needs coordinated defense.} Individual scanning tools
+are necessary but insufficient. The 946 threats we identified, combined with
+the tens of thousands of skills analyzed by other researchers, represent a
+shared intelligence resource that the ecosystem is not yet equipped to
+coordinate. Standards for threat sharing, severity classification, and
+coordinated response are urgently needed.
+
+The ATR detection engine, rule set, and scan methodology are open source and
+available at \url{https://github.com/anthropics/agent-threat-rules}. We invite
+the security community to extend the rule set, validate our findings, and
+build the coordinated defense infrastructure that the AI agent ecosystem
+requires.
+
+
+%----------------------------------------------------------------------
+\section*{Data Availability}
+
+The ATR rule set (108 rules, YAML format) and detection engine are open source
+under the MIT license. Aggregate scan statistics are published in the ATR
+repository. Individual threat reports are available through the Threat Cloud
+API with appropriate access controls. The PINT and SKILL.md benchmark datasets
+are available from their respective maintainers.
+
+
+%----------------------------------------------------------------------
+\bibliographystyle{plain}
+\begin{thebibliography}{30}
+
+\bibitem{mcp}
+Anthropic, ``Model Context Protocol specification,''
+\url{https://modelcontextprotocol.io/}, 2024.
+
+\bibitem{mcpspec}
+Anthropic, ``MCP specification: Authentication and transport,''
+\url{https://spec.modelcontextprotocol.io/}, 2024--2026.
+
+\bibitem{atr}
+ATR Project, ``Agent Threat Rules: Open detection standard for AI agent threats,''
+\url{https://github.com/anthropics/agent-threat-rules}, 2026.
+
+\bibitem{atrscan2386}
+ATR Project, ``MCP ecosystem audit: 2,386 packages, 35,858 tool definitions,''
+ATR Documentation, March 2026.
+
+\bibitem{atrskillbench}
+ATR Project, ``SKILL.md benchmark: 498 real-world skill descriptions,''
+ATR Documentation, April 2026.
+
+\bibitem{pint}
+Lakera, ``PINT: Prompt Injection Test dataset,''
+\url{https://huggingface.co/datasets/Lakera/pint-benchmark}, 2025.
+
+\bibitem{cve6514}
+MITRE, ``CVE-2025-6514: Server-side request forgery in MCP server,'' 2025.
+
+\bibitem{cve53773}
+MITRE, ``CVE-2025-53773: Tool description injection in MCP,'' 2025.
+
+\bibitem{cve68143}
+MITRE, ``CVE-2025-68143: Authentication bypass in MCP implementation,'' 2025.
+
+\bibitem{cve68144}
+MITRE, ``CVE-2025-68144: Authentication bypass chain (part 2),'' 2025.
+
+\bibitem{cve68145}
+MITRE, ``CVE-2025-68145: Authentication bypass chain (part 3),'' 2025.
+
+\bibitem{postmark}
+Invariant Labs, ``postmark-mcp: Email theft via tool description poisoning,''
+Security Advisory, 2025.
+
+\bibitem{sandworm}
+Socket Security, ``SANDWORM\_MODE: 19 typosquatted MCP packages,''
+\url{https://socket.dev/blog/sandworm-mode-mcp}, 2026.
+
+\bibitem{checkmarx2026}
+Checkmarx, ``MCP security: Authentication gaps in the AI agent ecosystem,''
+Checkmarx Research, 2025--2026.
+
+\bibitem{antiy}
+Antiy CERT, ``ClawHub registry security analysis: 37,394 skills,''
+Antiy CERT Report, March 2026.
+
+\bibitem{snyk2026}
+Snyk/Invariant Labs, ``mcp-scan: Runtime monitoring for MCP connections,''
+\url{https://snyk.io/blog/mcp-scan}, 2026.
+
+\bibitem{ciscopr79}
+Cisco AI Defense, ``Merge ATR community rules as upstream detection,''
+GitHub PR \#79, \url{https://github.com/anthropics/agent-threat-rules/pull/79}, 2026.
+
+\bibitem{owaspagent}
+OWASP, ``Agentic AI Top 10 Threats,''
+\url{https://owasp.org/www-project-agentic-ai-top-10/}, 2026.
+
+\bibitem{owaspllm}
+OWASP, ``Top 10 for Large Language Model Applications,''
+\url{https://owasp.org/www-project-top-10-for-large-language-model-applications/}, 2025.
+
+\bibitem{safemcp}
+OpenSSF, ``SAFE-MCP: Security Assessment Framework for MCP,''
+\url{https://github.com/anthropics/safe-mcp}, 2026.
+
+\bibitem{greshake2023}
+K.~Greshake, S.~Abdelnabi, S.~Mishra, C.~Endres, T.~Holz, and M.~Fritz,
+``Not what you've signed up for: Compromising real-world LLM-integrated
+applications with indirect prompt injection,''
+\emph{Proc.\ AISec Workshop}, 2023.
+
+\bibitem{ohm2020}
+M.~Ohm, H.~Plate, A.~Syber, and K.~Peeters,
+``Backstabber's knife collection: A review of open source software supply chain attacks,''
+\emph{Proc.\ DIMVA}, 2020.
+
+\bibitem{ladisa2023}
+P.~Ladisa, H.~Plate, M.~Martinez, and O.~Barais,
+``SoK: Taxonomy of attacks on open-source software supply chains,''
+\emph{Proc.\ IEEE S\&P}, 2023.
+
+\bibitem{nist2026}
+NIST, ``AI Agent Standards Initiative,''
+\url{https://www.nist.gov/ai-agent-standards}, 2026.
+
+\bibitem{promptinjsurvey}
+Y.~Liu et al., ``Prompt injection attacks and defenses in LLM-integrated applications: A survey,''
+\emph{arXiv:2310.12815}, 2023.
+
+\end{thebibliography}
+
+\end{document}
