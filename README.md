@@ -14,7 +14,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 [![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
 [![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-96.9%25-brightgreen?style=flat-square)](#evaluation)
 [![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
-[![Status](https://img.shields.io/badge/status-v1.0.0-brightgreen?style=flat-square)](#roadmap)
+[![Status](https://img.shields.io/badge/status-v1.1.1-brightgreen?style=flat-square)](#roadmap)
 
 </div>
 
@@ -336,8 +336,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 - [x] **v0.2** -- MCP server, Layer 2-3 detection, pyATR, Splunk/Elastic converters
 - [x] **v0.3** -- Eval framework, PINT benchmark, CI gate, embedding similarity
 - [x] **v0.4** -- 71 rules, ClawHub 36K scan, SAFE-MCP 91.8%
-- [x] **v1.0** (current) -- 108 rules, 53K mega scan, GitHub Action + SARIF, generic-regex export, Cisco adoption
-- [ ] **v1.1** -- Go engine, ML classifier integration, semantic signatures, community rule submissions
+- [x] **v1.0** -- 108 rules, 53K mega scan, GitHub Action + SARIF, generic-regex export, Cisco adoption
+- [x] **v1.1** (current) -- Threat Cloud flywheel, 5 ecosystem merges, Microsoft AGT + NVIDIA Garak PRs, npm description update
+- [ ] **v1.2** -- Go engine, ML classifier integration, semantic signatures, community rule submissions
 - [ ] **v2.0** -- Multi-engine standard: 2+ engines, 10+ production deployments, schema review by 3+ security teams
 
 ### Strategic direction
