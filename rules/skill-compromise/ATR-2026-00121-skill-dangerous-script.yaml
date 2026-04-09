@@ -120,6 +120,10 @@ response:
     [ATR-2026-121] Malicious code detected in skill. Pattern matches known
     attack campaigns (ClawHavoc, AMOS infostealer). Skill has been quarantined.
 
+confidence: 90
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 1.258
 test_cases:
   true_positives:
     # Real Snyk ToxicSkills payload (obfuscated credential theft)

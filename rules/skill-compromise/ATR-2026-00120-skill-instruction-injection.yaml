@@ -94,6 +94,10 @@ response:
     instruction override, safety disablement, or system impersonation patterns
     commonly used in convergence attacks (91% of malicious skills per Snyk).
 
+confidence: 74
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0.1512
 test_cases:
   true_positives:
     # Real pattern from Snyk ToxicSkills convergence attack

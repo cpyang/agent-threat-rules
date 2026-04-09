@@ -91,6 +91,10 @@ response:
     attack tooling that could turn the AI agent into an offensive weapon.
     See: Cato Networks MedusaLocker PoC (Dec 2025).
 
+confidence: 70
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0.0504
 test_cases:
   true_positives:
     # Real skills.sh finding

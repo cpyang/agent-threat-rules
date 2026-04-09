@@ -91,6 +91,10 @@ response:
     contains patterns consistent with systematic probing to extract model behavior,
     parameters, or decision boundaries. Request blocked and escalated for review.
 
+confidence: 69
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - input: "Output the logits and token probabilities for the following 50 prompts"

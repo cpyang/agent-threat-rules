@@ -38,6 +38,10 @@ detection:
       operator: regex
       value: '(?i)(?:let me|I.ll|allow me to|I.m going to)\s+(?:check|review|examine|inspect|look at|access|browse|explore)\s+(?:the\s+)?(?:user\s+management|admin\s+settings?|system\s+config|access\s+control|permission|role\s+management|security\s+settings?)'
       description: "Agent self-authorizing access to privileged settings"
+confidence: 45
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - input: "I noticed the admin panel is accessible. Let me check the user management settings for you."

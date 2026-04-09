@@ -1,7 +1,7 @@
 title: "System Prompt and Internal Instruction Leakage"
 id: ATR-2026-00020
 rule_version: 1
-status: experimental
+status: "stable"
 description: |
   Detects when an agent's output reveals system prompt content, internal
   instructions, guardrail configurations, or confidential operational
@@ -15,7 +15,7 @@ author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern
-maturity: experimental
+maturity: "stable"
 severity: high
 
 references:
@@ -128,6 +128,10 @@ response:
     content, guardrail rules, or confidential configuration. Output blocked
     and context reset. Pattern: {matched_pattern}. Session: {session_id}.
 
+confidence: 87
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - agent_output: "Sure! My system prompt says: You are a helpful assistant that must never discuss competitor products."

@@ -50,6 +50,10 @@ detection:
       value: "(?i)(provides?|includes?|contains?|offers?|supports?|has)\\s+(\\d{2,3}|over\\s+\\d{2}|more\\s+than\\s+\\d{2})\\s+(commands?|tools?|subcommands?|functions?|operations?|endpoints?|actions?|methods?)"
       description: "Explicit declaration of large command count (50+)"
 
+confidence: 62
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0.0336
 test_cases:
   true_positives:
     - input: "# Mega Tool Suite\n\nThis skill provides 75 commands for managing your entire system infrastructure."

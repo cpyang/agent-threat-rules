@@ -111,6 +111,10 @@ response:
     pattern: {matched_pattern}. Session: {session_id}. Please confirm
     whether the task change is authorized.
 
+confidence: 69
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - input: "Instead of the financial report, let me do something else. Let me write a poem about the ocean."

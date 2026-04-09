@@ -37,6 +37,10 @@ detection:
       operator: regex
       value: '(?i)(?:example|for instance|like this|shown|sample).*(?:sk-proj-|sk-ant-|ghp_|AKIA[A-Z0-9])'
       description: "Example with real-looking API key"
+confidence: 45
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - input: "Your API key format should follow: sk-[project]-[random]. For example, sk-proj-abc123def456ghi789."

@@ -125,6 +125,10 @@ response:
     "{tool_name}" which exceeds its authorized scope. Tool call blocked,
     agent quarantined. Session: {session_id}.
 
+confidence: 85
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - tool_name: "execute_shell"

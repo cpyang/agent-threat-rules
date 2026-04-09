@@ -56,6 +56,10 @@ detection:
       value: "[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff].*[\\u200b\\u200c\\u200d\\u2060\\ufeff]"
       description: "5+ zero-width characters spread through text (steganographic smuggling)"
 
+confidence: 50
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0.0056
 test_cases:
   true_positives:
     - input: "# Skill\n\nNormal\u200b\u200btext\u200b\u200bwith\u200b\u200bhidden\u200b\u200binstructions\u200b\u200bembedded"

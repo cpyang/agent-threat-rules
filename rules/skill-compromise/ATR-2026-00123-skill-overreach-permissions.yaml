@@ -91,6 +91,10 @@ response:
     [ATR-2026-123] Over-privileged skill detected. Skill requests or instructs
     permissions exceeding normal requirements (OWASP AST03).
 
+confidence: 74
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     # OWASP AST03 pattern

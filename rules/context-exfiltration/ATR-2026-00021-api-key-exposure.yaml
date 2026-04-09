@@ -1,7 +1,7 @@
 title: "Credential and Secret Exposure in Agent Output"
 id: ATR-2026-00021
 rule_version: 1
-status: experimental
+status: "stable"
 description: |
   Detects when an AI agent exposes API keys, secret tokens, private keys,
   database connection strings, JWT tokens, or other sensitive credentials
@@ -14,7 +14,7 @@ author: "ATR Community"
 date: "2026/03/08"
 schema_version: "0.1"
 detection_tier: pattern
-maturity: test
+maturity: "stable"
 severity: critical
 
 references:
@@ -123,6 +123,10 @@ response:
     Output blocked and content redacted. Rotate any potentially exposed
     credentials immediately. Pattern: {matched_pattern}. Session: {session_id}.
 
+confidence: 87
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - agent_output: "Here is your API key: sk-abc123def456ghi789jkl012mno345pqr"

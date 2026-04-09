@@ -110,6 +110,10 @@ response:
     cause excessive resource consumption. Pattern: {matched_pattern}.
     Session: {session_id}. Agent throttled pending review.
 
+confidence: 73
+wild_validated: "2026/04/08"
+wild_samples: 53577
+wild_fp_rate: 0
 test_cases:
   true_positives:
     - input: "SELECT * FROM transactions;"

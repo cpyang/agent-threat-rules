@@ -159,6 +159,27 @@ export interface ATRRule {
   detection: ATRDetection;
   response: ATRResponse;
   test_cases?: ATRTestCases;
+  /** Evasion tests documenting known bypass techniques */
+  evasion_tests?: ATREvasionTest[];
+  /** Numeric confidence score (0-100), computed from precision + wild validation + evasion docs */
+  confidence?: number;
+  /** Date of last wild scan validation (YYYY/MM/DD format) */
+  wild_validated?: string;
+  /** Number of real-world samples tested in wild scan */
+  wild_samples?: number;
+  /** False positive rate measured on wild scan data (0.0 - 100.0) */
+  wild_fp_rate?: number;
+  /** Reason for deprecation (required when status is 'deprecated') */
+  deprecated_reason?: string;
+  /** ID of replacement rule (when status is 'deprecated') */
+  replaced_by?: string;
+}
+
+export interface ATREvasionTest {
+  input: string;
+  expected: 'triggered' | 'not_triggered';
+  bypass_technique: string;
+  notes?: string;
 }
 
 /** Event types that the ATR engine can evaluate */
