@@ -22,7 +22,14 @@ export function Nav({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const prefix = `/${locale}`;
   const otherLocale = locale === "en" ? "zh" : "en";
-  const pages = ["rules", "coverage", "integrate", "ecosystem", "research"] as const;
+  const pages = [
+    "rules",
+    "coverage",
+    "integrate",
+    "ecosystem",
+    "research",
+    "quality-standard",
+  ] as const;
 
   return (
     <>
