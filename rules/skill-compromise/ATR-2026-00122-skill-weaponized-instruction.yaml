@@ -18,6 +18,8 @@ maturity: experimental
 severity: high
 
 references:
+  mitre_atlas:
+    - "AML.T0010 - ML Supply Chain Compromise"
   owasp_llm:
     - "LLM06:2025 - Excessive Agency"
   owasp_agentic:
@@ -30,6 +32,9 @@ references:
     - "Cato Networks: MedusaLocker via Claude skill (Dec 2025)"
     - "arXiv 2601.17548: 41-84% attack success"
     - "Axios: Anthropic Claude skills ransomware disclosure"
+
+metadata_provenance:
+  mitre_atlas: auto-generated
 
 tags:
   category: skill-compromise

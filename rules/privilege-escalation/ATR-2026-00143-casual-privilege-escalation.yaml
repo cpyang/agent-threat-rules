@@ -14,10 +14,15 @@ detection_tier: pattern
 maturity: experimental
 severity: high
 references:
+  mitre_atlas:
+    - "AML.T0054 - LLM Jailbreak"
   owasp_llm:
     - "LLM01:2025 - Prompt Injection"
   owasp_agentic:
     - "ASI03 - Excessive Agency"
+metadata_provenance:
+  mitre_atlas: auto-generated
+
 tags:
   category: privilege-escalation
   subcategory: casual-escalation

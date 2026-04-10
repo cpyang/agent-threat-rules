@@ -9,6 +9,18 @@ schema_version: "0.1"
 detection_tier: semantic
 maturity: experimental
 severity: critical
+references:
+  mitre_atlas:
+    - "AML.T0051 - LLM Prompt Injection"
+  owasp_llm:
+    - "LLM01:2025 - Prompt Injection"
+  owasp_agentic:
+    - "ASI01:2026 - Agent Goal Hijack"
+
+metadata_provenance:
+  mitre_atlas: auto-generated
+  owasp_llm: auto-generated
+
 tags:
   category: tool-poisoning
   subcategory: confirmation-bypass-instruction

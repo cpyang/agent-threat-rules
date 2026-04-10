@@ -16,8 +16,13 @@ maturity: test
 severity: critical
 
 references:
+  owasp_llm:
+    - "LLM01:2025 - Prompt Injection"
   mitre_atlas:
     - "AML.T0051"
+
+metadata_provenance:
+  owasp_llm: auto-generated
 
 tags:
   category: prompt-injection

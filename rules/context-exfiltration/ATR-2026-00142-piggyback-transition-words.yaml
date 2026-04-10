@@ -14,10 +14,15 @@ detection_tier: pattern
 maturity: experimental
 severity: critical
 references:
+  mitre_atlas:
+    - "AML.T0057 - LLM Data Leakage"
   owasp_llm:
     - "LLM01:2025 - Prompt Injection"
   owasp_agentic:
     - "ASI08 - Data Leakage"
+metadata_provenance:
+  mitre_atlas: auto-generated
+
 tags:
   category: context-exfiltration
   subcategory: piggyback-transition

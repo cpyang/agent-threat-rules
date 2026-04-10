@@ -13,11 +13,16 @@ detection_tier: pattern
 maturity: experimental
 severity: critical
 references:
+  mitre_atlas:
+    - "AML.T0051 - LLM Prompt Injection"
   owasp_llm:
     - "LLM01:2025 - Prompt Injection"
   owasp_agentic:
     - "ASI03 - Excessive Agency"
     - "ASI06 - Rogue Actions"
+metadata_provenance:
+  mitre_atlas: auto-generated
+
 tags:
   category: agent-manipulation
   subcategory: casual-authority-redirect

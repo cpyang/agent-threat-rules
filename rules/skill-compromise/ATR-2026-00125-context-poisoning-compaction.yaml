@@ -18,6 +18,8 @@ maturity: experimental
 severity: high
 
 references:
+  mitre_atlas:
+    - "AML.T0010 - ML Supply Chain Compromise"
   owasp_llm:
     - "LLM01:2025 - Prompt Injection"
   owasp_agentic:
@@ -27,6 +29,9 @@ references:
   research:
     - "Claude Code context poisoning via CLAUDE.md (2026-03)"
     - "Context window manipulation attacks (arXiv 2601.17548)"
+
+metadata_provenance:
+  mitre_atlas: auto-generated
 
 tags:
   category: skill-compromise

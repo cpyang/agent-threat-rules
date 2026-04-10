@@ -18,6 +18,8 @@ maturity: experimental
 severity: high
 
 references:
+  mitre_atlas:
+    - "AML.T0010 - ML Supply Chain Compromise"
   owasp_llm:
     - "LLM06:2025 - Excessive Agency"
   owasp_agentic:
@@ -30,6 +32,9 @@ references:
     - "Snyk: 280+ leaky skills"
     - "Cato Networks: consent gap vulnerability"
     - "arXiv: autoApprove escalation payload"
+
+metadata_provenance:
+  mitre_atlas: auto-generated
 
 tags:
   category: skill-compromise

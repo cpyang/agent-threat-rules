@@ -16,6 +16,8 @@ maturity: experimental
 severity: critical
 
 references:
+  mitre_atlas:
+    - "AML.T0010 - ML Supply Chain Compromise"
   owasp_llm:
     - "LLM01:2025 - Prompt Injection"
   owasp_agentic:
@@ -24,6 +26,9 @@ references:
     - "AST01:2026 - Malicious Skills"
   research:
     - "ClawHavoc: credential exfiltration via skill instructions (2026-03)"
+
+metadata_provenance:
+  mitre_atlas: auto-generated
 
 tags:
   category: skill-compromise

@@ -18,6 +18,8 @@ maturity: experimental
 severity: critical
 
 references:
+  mitre_atlas:
+    - "AML.T0010 - ML Supply Chain Compromise"
   owasp_llm:
     - "LLM01:2025 - Prompt Injection"
   owasp_agentic:
@@ -29,6 +31,9 @@ references:
     - "Snyk ToxicSkills: 91% convergence rate (Feb 2026)"
     - "arXiv 2601.17548: 85%+ attack success rate"
     - "ClawHavoc campaign: 1,184 malicious skills"
+
+metadata_provenance:
+  mitre_atlas: auto-generated
 
 tags:
   category: skill-compromise

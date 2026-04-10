@@ -19,10 +19,15 @@ maturity: experimental
 severity: medium
 
 references:
+  mitre_atlas:
+    - "AML.T0010 - ML Supply Chain Compromise"
   owasp_agentic:
     - "ASI04:2026 - Agentic Supply Chain Vulnerabilities"
   owasp_ast:
     - "AST04:2026 - Supply Chain Manipulation"
+
+metadata_provenance:
+  mitre_atlas: auto-generated
 
 tags:
   category: skill-compromise

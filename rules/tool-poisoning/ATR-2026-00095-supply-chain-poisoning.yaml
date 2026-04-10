@@ -16,8 +16,13 @@ maturity: test
 severity: critical
 
 references:
+  owasp_llm:
+    - "LLM06:2025 - Excessive Agency"
   mitre_atlas:
     - "AML.T0053"
+
+metadata_provenance:
+  owasp_llm: auto-generated
 
 tags:
   category: tool-poisoning
