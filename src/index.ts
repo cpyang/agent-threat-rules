@@ -88,6 +88,10 @@ export { DefaultAdapter } from './adapters/default-adapter.js';
 export { StdioAdapter } from './adapters/stdio-adapter.js';
 export { HookHandler } from './hook-handler.js';
 export type { HookHandlerConfig } from './hook-handler.js';
+
+// Quality Standard — RFC-001 reference implementation
+export * as quality from './quality/index.js';
+
 export type {
   ATRRule,
   ATRMatch,
