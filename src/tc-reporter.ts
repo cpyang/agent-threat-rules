@@ -98,7 +98,7 @@ export function createTCReporter(config?: TCReporterConfig): ATRReporter & {
       attackSourceIP: clientId,
       attackType: e.category,
       mitreTechnique: e.ruleId,
-      sigmaRuleMatched: e.ruleId,
+      ruleMatched: e.ruleId,
       timestamp: e.timestamp,
       region: 'unknown',
       // Extra fields for richer data (TC ignores unknown fields via Zod passthrough)
