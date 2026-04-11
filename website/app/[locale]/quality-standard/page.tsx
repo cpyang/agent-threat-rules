@@ -7,9 +7,9 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: "Quality Standard (RFC-001) - ATR",
+  title: "Quality Standard (RFC-001 v1.0) - ATR",
   description:
-    "The first AI agent rule standard with provenance tracking. Public formula, open-source validator, wild-validated on 53,577 real skills. MIT licensed.",
+    "The open detection standard for the AI agent era. Six first-principles requirements, four-tier maturity ladder, vendor-neutral validator, wild-validated on 67,597 real agents. MIT licensed. Effective 2026-04-11.",
 };
 
 /* =============================================================
@@ -51,12 +51,12 @@ const MATURITY_LEVELS = [
   },
   {
     label: "Experimental",
-    gate: "3+ conditions · 3 TP + 3 TN · OWASP + MITRE · false positives documented",
+    gate: "3+ conditions · 5 TP + 5 TN · 3+ evasion tests · OWASP + MITRE · false positives documented",
     deploy: "Alert-only",
   },
   {
     label: "Stable",
-    gate: "Wild-validated (1,000+ samples) · FP rate ≤ 0.5% · human-verified provenance · 3+ evasion tests",
+    gate: "Wild-validated (1,000+ samples) · FP rate ≤ 0.5% · human-verified provenance · ≥3 evasion tests",
     deploy: "Block in production",
   },
 ];

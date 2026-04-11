@@ -1,10 +1,67 @@
 # RFC-001: ATR Quality Standard v1.0
+## The Open Detection Standard for the AI Agent Era
 
-**Status:** Proposed
-**Date:** 2026-04-10
-**Author:** ATR maintainers
+**Status:** Ready for Publication
+**Version:** 1.0
+**Effective:** 2026-04-11
+**Authors:** ATR Project Maintainers
 **Target:** Public RFC — any AI agent security scanner can adopt
-**Reference Implementation:** `src/quality/` in this repo
+**Reference Implementation:** `src/quality/` in this repo (MIT License)
+**Companion Paper:** forthcoming
+
+---
+
+## Preamble
+
+Every Fortune 500 will deploy AI agents in production by 2027. Almost none of them have a detection layer today.
+
+The CISOs do not know this yet. We do, because we scanned 67,597 agents across OpenClaw, Claude Code, Cursor, Windsurf, and the Skills.sh registry. We found 10,275 threats. 875 were CRITICAL. Most are still live.
+
+This document is the specification for catching them.
+
+### The landscape as of April 2026
+
+In the last twelve months the agent-security ecosystem formalized three reference frameworks:
+
+- **OWASP Top 10 for Agentic Applications 2026** — peer-reviewed by more than 100 industry experts, researchers, and practitioners, published December 14, 2025. The first taxonomy built specifically for autonomous AI agents that plan, decide, and act across tools and steps.
+- **MITRE ATLAS v5.4.0** (February 2026) — 16 tactics, 84 techniques, 56 sub-techniques, 42 real-world case studies. In October 2025 ATLAS integrated 14 new agent-specific techniques in collaboration with Zenity Labs, including AI Agent Context Poisoning, Memory Manipulation, Thread Injection, and Modify AI Agent Configuration. February 2026 added *Publish Poisoned AI Agent Tool* and *Escape to Host*.
+- **SAFE-MCP** — formally adopted under the Linux Foundation and the OpenID Foundation. 14 tactic categories and 80+ techniques covering MCP-specific attack surface, with contributions from Meta, eBay, Okta, Red Hat, Intel, and American Express.
+
+These three frameworks answer *what* can go wrong with an AI agent. They do not answer *how to detect it*.
+
+In parallel, runtime-vendor solutions landed:
+
+- **Claude Managed Agents** — launched public beta on April 8, 2026, three days before the effective date of this specification. A managed runtime for Claude agents with sandboxing, identity, execution tracing, and persistent memory. Billed at $0.08 per session-hour plus token cost. Customers include Notion, Rakuten, and Asana.
+- **Microsoft Agent Governance Toolkit** — published April 2, 2026 under MIT license. The first toolkit to target all 10 OWASP Agentic risks with deterministic sub-millisecond policy enforcement.
+- **Cisco AI Defense MCP Scanner** — open-sourced 2026. Already ships 34 ATR rules upstream via `skill-scanner/#79` merged.
+- **Invariant Labs mcp-scan** — de facto standard MCP scanner (now a Snyk product).
+
+These runtime offerings are valuable. They are also bounded. Anthropic does not secure OpenAI agents. OpenAI does not secure Anthropic. Neither secures a Cursor installation on a developer's laptop, a self-hosted MCP stack inside an enterprise VPC, or a locally-run LLaMA agent reading customer documents on a contractor's machine. Ninety-five percent of agent workloads in 2026 run outside any single managed runtime. Those workloads have no safety layer.
+
+There is no Sigma for agents. No YARA for prompt injection. No Snort for tool poisoning.
+
+ATR is that layer. This document is its specification.
+
+### What has been tried, and why it is not enough
+
+**The runtime-vendor approach.** Every agent runtime will eventually ship its own guardrails. That is good. It is also structurally insufficient, because an open standard must live *above* any single vendor's runtime. A rule that Anthropic ships inside Claude Managed Agents cannot also run inside Cursor, OpenAI Assistants, or a customer's on-prem deployment, unless the rule itself is expressed in a vendor-neutral format with a vendor-neutral evaluator. That format does not exist today outside ATR.
+
+**The classical-security approach.** CrowdStrike watches processes. Microsoft Defender watches files. Neither can see a prompt injection that tells Claude to exfiltrate a customer database through a legitimately-invoked, properly-signed tool call. The attack happens inside the context window — a place classical security does not look, because classical security was built for a world where control flow and data flow were separable. In AI agents, control flow and data flow collapse into the same channel. Every legitimate instruction and every attack arrives as the same kind of token in the same prompt window. This is not a patch. It is the end of the perimeter-defense era.
+
+**The taxonomy-without-detection approach.** OWASP Top 10, MITRE ATLAS, and SAFE-MCP are excellent taxonomies. A taxonomy tells you a category exists. A taxonomy does not detect anything at runtime. An engineer reading OWASP ASI02 (Prompt Injection) cannot paste the definition into a CI job and get a verdict. A SIEM cannot ingest SAFE-T1102 and start alerting. Taxonomies are nouns; defenders need verbs. The verbs are detection rules, and rules need a quality bar — which is where this document begins.
+
+### First-principles requirements
+
+If there were no existing standards and we had to invent one from first principles, it would need to satisfy six requirements:
+
+1. **Machine-executable.** A rule must run without human interpretation. You paste YAML, you get verdicts. No judgment calls, no "consult the analyst."
+2. **Vendor-neutral.** The standard must not favor any single runtime, model, or cloud. A Fortune 500 running agents on Anthropic, OpenAI, and self-hosted LLaMA should use the same rule set on all three.
+3. **Empirically grounded.** Quality claims must be reproducible on published benchmarks — PINT, MCPTox, or a declared wild-scan corpus. No "trust us."
+4. **Self-correcting.** As attacks evolve, rules must evolve. As rules mis-fire, they must be demoted. The standard must build these feedback loops in, not bolt them on afterward.
+5. **Honest about limits.** Every rule must document its known evasions, false positives, and coverage gaps. A rule that claims 100% precision without evidence is a liability, not an asset.
+6. **Community-extensible.** No single vendor can write enough rules fast enough. The standard must make third-party contributions safe to accept, fast to validate, and traceable in their chain of custody.
+
+This document specifies a standard that meets all six.
 
 ---
 
@@ -243,6 +300,113 @@ Multiple vendors publish their rule metadata in a common format (this RFC).
 Consumers can compare rules across vendors on the same axes. No vendor is
 locked in.
 
+### 6. Threat Ontology Mapping
+
+Every rule at `experimental` or above must map to at least one entry in each of two required taxonomies, plus optionally a third, using the fields below.
+
+| Taxonomy | Version | Field | Required at experimental+ |
+|---|---|---|---|
+| OWASP Top 10 for LLM Applications | 2025 | `references.owasp_llm` | At least one of `owasp_llm` or `owasp_agentic` must be present |
+| OWASP Top 10 for Agentic Applications | 2026 (Dec 14, 2025) | `references.owasp_agentic` | (see above) |
+| MITRE ATLAS | v5.4.0+ (Feb 2026) | `references.mitre_atlas` or `references.mitre_attack` | Required |
+| SAFE-MCP | current | `references.safe_mcp` | Optional but strongly recommended for rules targeting MCP context |
+
+**Why three taxonomies and not one.** Each framework covers a different slice of the same space. OWASP is organized by **impact** (what the attacker achieves, e.g. *Agent Behavior Hijacking*). MITRE ATLAS is organized by **technique** (how the attacker operates, e.g. *AI Agent Context Poisoning*). SAFE-MCP is organized by **protocol surface** (where the attack touches MCP specifically, e.g. *SAFE-T1102 Prompt Manipulation*). A rule that can be described along all three axes is more useful to defenders than a rule describable along only one.
+
+**The detection surface is wider than any single taxonomy.** MITRE ATLAS added 14 agent-specific techniques in late 2025 and *Publish Poisoned AI Agent Tool* in February 2026. ATR rules had been catching the corresponding patterns for months before those taxonomy updates landed. **The taxonomies are how the community describes what has already been happening.** The detection layer must move faster than the taxonomy layer, then feed its findings back upstream.
+
+**A rule that cannot be mapped to any of the three taxonomies is either novel or incorrectly scoped.** If it is novel, the taxonomy committees should hear about it — the RFC recommends that vendors open issues against OWASP / ATLAS / SAFE-MCP when new attack classes are discovered. If it is incorrectly scoped, the rule is likely detecting something that is not actually an agent-specific threat and should be rewritten or rejected. The gate enforces this as a hard blocker at experimental level.
+
+### 7. Multi-Runtime Compatibility
+
+Agent runtimes differ materially in how they expose tool descriptions, user input, agent memory, and inter-agent messages. A rule that fires correctly on Claude Code may be structurally unable to fire on Cursor, and a rule validated on Anthropic's Claude Managed Agents may not apply to OpenAI Assistants because the field shapes are different. The standard must surface these differences explicitly rather than pretend all agents are the same shape.
+
+Every rule at `experimental` or above declares its runtime coverage:
+
+```yaml
+runtimes:
+  compatible:        # runtimes where this rule is known to work
+    - claude-code
+    - cursor
+    - windsurf
+    - anthropic-managed
+  tested_on:         # runtimes where the rule has been wild-validated
+    - claude-code
+    - cursor
+  caveats:           # known differences
+    - runtime: openai-assistants
+      note: "tool_description field is shorter than MCP spec; rule may under-match"
+```
+
+**Normative runtime identifiers** (this list is the canonical registry; new values require an RFC addendum):
+
+| Identifier | Runtime |
+|---|---|
+| `claude-code` | Anthropic Claude Code CLI |
+| `cursor` | Cursor IDE |
+| `windsurf` | Codeium Windsurf |
+| `anthropic-managed` | Claude Managed Agents (April 2026+) |
+| `openai-assistants` | OpenAI Assistants API v2+ |
+| `openai-gpts` | OpenAI custom GPTs |
+| `google-gemini-agents` | Google Gemini Agent Builder |
+| `microsoft-agt` | Microsoft Agent Governance Toolkit |
+| `local-llama` | Self-hosted LLaMA-family agent |
+| `local-mistral` | Self-hosted Mistral-family agent |
+| `self-hosted-mcp` | Any self-hosted MCP server / client combination |
+
+**Cross-runtime confidence multiplier.** When a rule fires on a runtime not listed in `tested_on`, the effective confidence contribution is multiplied by `0.7`. This is a runtime-level analogue of the per-context penalty in §2 and is applied at match time, not stored in the rule.
+
+**Why this is novel.** Sigma rules assume a SIEM; they do not differentiate Splunk from QRadar because the underlying log semantics are shared. YARA rules assume binary files; the platform is irrelevant. Agent detection rules do not have that luxury — MCP tool descriptions in Claude Code and OpenAI Assistants have different maximum lengths, different escaping rules, and different places where user-controlled text can land. A standard that ignores this ships rules that silently fail on half the ecosystem.
+
+### 8. Review Tier Levels
+
+Every rule carries a review tier (`review_tier`) that records how much human and machine scrutiny the rule has received. Tiers are strictly additive — a rule at L3 has passed everything at L0, L1, and L2.
+
+| Tier | Name | Gate |
+|---|---|---|
+| **L0** | Schema Only | YAML/JSON parses, required fields present |
+| **L1** | Self-Test Passed | Rule's own regex matches all its `true_positives` and rejects all its `true_negatives` |
+| **L2** | LLM-Reviewed | An LLM reviewer has judged the rule and stored a verdict (approved, rejected, or flagged) with written reasoning |
+| **L3** | Human-Reviewed | At least one human maintainer has approved the rule against the experimental checklist |
+| **L4** | Wild-Validated | Rule has been executed against ≥1,000 real-world samples with FP rate recorded |
+| **L5** | Community-Confirmed | At least 3 independent reporters have confirmed the rule's detection on distinct traffic |
+
+**Gate mapping:**
+
+- `draft` requires L0 + L1
+- `experimental` requires L0 + L1 + (L2 or L3)
+- `stable` requires L0 + L1 + L3 + L4 + L5
+
+**LLM-assisted review as a first-class citizen.** No existing detection-rule standard — Sigma, YARA, Snort, or OWASP CRS — acknowledges LLM-assisted review as a legitimate quality tier. Those standards were designed before LLMs were capable enough to act as reviewers. ATR is the first standard to incorporate LLM review explicitly into the quality pipeline. The tier is deliberately placed at L2, below L3 human review, to avoid the temptation to over-rely on it. LLM review is fast and scales well; human review is slow and scales badly but catches things the LLM misses. The standard accepts both and requires the combination for stable promotion.
+
+**Self-test at L1 is non-negotiable.** A rule whose own regex cannot match its own declared true positives is broken regardless of how good the surrounding metadata looks. This check is cheap, objective, and catches the most common failure mode of LLM-generated rules (pattern syntax drift). The reference implementation runs self-tests automatically at crystallization time.
+
+### 9. Community Signal Aggregation
+
+A stable standard needs a feedback loop from the world back into the rule set. Traditional detection-rule ecosystems grew these loops organically — Sigma and YARA rely on maintainer review, GitHub issues, and occasional community fire-drills. ATR formalizes the loop so the same infrastructure works across vendors.
+
+**Signal types.** Every rule at experimental or above accepts and aggregates the following community signals:
+
+| Signal | Meaning | Impact on rule |
+|---|---|---|
+| `confirmations` | Independent reporter saw this rule's pattern in the wild | Contributes to L5 promotion |
+| `fp_reports` | Consumer flagged a specific match as a false positive | Contributes to automatic demotion |
+| `sightings_in_wild` | Rule fired on a wild-scan run | Contributes to `wild_samples` count |
+| `cross_runtime_matches` | Rule fired on a runtime not in `tested_on` | Contributes to `runtime_caveats` |
+| `evasion_reports` | Consumer demonstrated a working bypass | Contributes to `evasion_tests` after verification |
+
+**Threshold rules** (reference implementation):
+
+- A rule promoting from experimental to stable requires at least 3 `confirmations` from distinct client IDs.
+- A stable rule with 3+ unresolved `fp_reports` in 30 days is automatically demoted to experimental.
+- A rule with 5+ `evasion_reports` that the maintainer has not addressed is automatically flagged in scan output as "contested".
+
+**Anonymity and provenance.** Community signals must preserve reporter identity at the aggregator level (for rate-limiting, abuse detection, and uniqueness counting) but must not leak reporter identity in published rule metadata. The reference implementation uses hashed client IDs with per-rule salts so the same reporter counts once per rule but cannot be correlated across rules by an observer reading the public feed.
+
+**Why this is novel.** Sigma, YARA, and Snort grew their community signal loops after years of use; they were not specified upfront. This RFC specifies the loop as part of the standard because ATR's crystallization flywheel already produces these signals today and needs a contract with downstream consumers about how to interpret them. Specifying the signal types makes the flywheel auditable by third parties rather than opaque to them.
+
+---
+
 ## Reference Implementation
 
 ATR will ship the reference implementation in this repo:
@@ -333,6 +497,43 @@ rule. ATR's flywheel generates rules at machine speed, so the promotion
 gates need wild validation metrics, not just human review. The levels are
 similar but the gates are different.
 
+## References
+
+**Reference frameworks cited in the Preamble and §6 (Threat Ontology Mapping):**
+
+1. OWASP Gen AI Security Project, *OWASP Top 10 for Agentic Applications 2026*. Published December 14, 2025. <https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/>
+2. OWASP Gen AI Security Project, *OWASP Top 10 for LLM Applications 2025*. <https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/>
+3. MITRE Corporation, *ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems)*. v5.4.0, February 2026. <https://atlas.mitre.org/>
+4. Zenity Labs and MITRE ATLAS, *14 Agent-Specific Techniques Added to ATLAS* (October 2025). Includes AI Agent Context Poisoning, Memory Manipulation, Thread Injection, Modify AI Agent Configuration. <https://zenity.io/blog/current-events/mitre-atlas-ai-security>
+5. MITRE Corporation, *MITRE ATLAS OpenClaw Investigation*. PR-26-00176-1, February 2026. <https://www.mitre.org/sites/default/files/2026-02/PR-26-00176-1-MITRE-ATLAS-OpenClaw-Investigation.pdf>
+6. SAFE-MCP Project (Linux Foundation / OpenID Foundation), *Security Analysis Framework for Evaluation of MCP*. <https://github.com/safe-agentic-framework/safe-mcp>
+
+**Runtime offerings referenced in the Preamble:**
+
+7. Anthropic, *Claude Managed Agents*. Public beta launched April 8, 2026. <https://platform.claude.com/docs/en/managed-agents/overview>
+8. Microsoft, *Introducing the Agent Governance Toolkit: Open-source runtime security for AI agents*. April 2, 2026. <https://opensource.microsoft.com/blog/2026/04/02/introducing-the-agent-governance-toolkit-open-source-runtime-security-for-ai-agents/>
+9. Cisco, *Securing the AI Agent Supply Chain with Cisco's open-source MCP Scanner*. <https://blogs.cisco.com/ai/securing-the-ai-agent-supply-chain-with-ciscos-open-source-mcp-scanner>
+10. Snyk Labs (formerly Invariant Labs), *mcp-scan: Prompt Injection and Tool Poisoning Detection for MCP*. <https://labs.snyk.io/resources/detect-tool-poisoning-mcp-server-security/>
+
+**Benchmarks referenced for empirical grounding (§2 Confidence Score, First-Principles Requirement 3):**
+
+11. Lakera, *Prompt Injection Test (PINT) Benchmark*. <https://github.com/lakeraai/pint-benchmark>
+12. *MCPTox: Tool Poisoning Benchmark for MCP Agents*. 20 LLM agents, 45 real-world MCP servers, 353 authentic tools. o1-mini attack success rate 72.8%.
+
+**Prior-art rule standards (§0.5 First-Principles Requirements, Alternative 3):**
+
+13. SigmaHQ, *Sigma Rules Specification*. Status progression: `experimental` → `test` → `stable` → `deprecated`, ~1 year to stable. <https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html>
+14. YARA Project, *Writing YARA Rules*. Community-vetted, no formal maturity tiers.
+15. Snort / Suricata, *Emerging Threats Rule Sets*. Tier progression: sandbox → registered → approved.
+16. OWASP ModSecurity Core Rule Set (CRS), *Paranoia Levels*. Tiered deployment model with per-rule FP rate tags.
+
+**ATR empirical baselines referenced in this RFC:**
+
+17. ATR Project, *Mega Scan of 53,577 Agent Skills Across OpenClaw, Claude Code, Cursor, Windsurf, Skills.sh*. April 2026. 946 flagged (1.77%), 875 rated CRITICAL.
+18. ATR Project, *Cisco skill-scanner PR #79*. 34 ATR rules merged upstream into Cisco AI Defense. April 2026.
+19. Adversa AI, *Top Agentic AI Security Resources — April 2026*. <https://adversa.ai/blog/top-agentic-ai-security-resources-april-2026/>
+
 ## Changelog
 
-- 2026-04-10: Initial draft
+- **2026-04-11**: v1.0 published. Adds Preamble, First-Principles Requirements, Landscape (§0), Threat Ontology Mapping (§6), Multi-Runtime Compatibility (§7), Review Tier Levels (§8), Community Signal Aggregation (§9), and References. Sets effective date to 2026-04-11.
+- 2026-04-10: Initial draft (v0.9) — Maturity Levels, Confidence Score, Two-Dimensional Compliance Model, Required Metadata, Validation Library, Adoption Path.

@@ -59,12 +59,14 @@ describe("validateRuleMeetsStandard", () => {
       expect(result.issues).toHaveLength(0);
     });
 
-    it("accepts 3 TP + 3 TN (Cisco-merge practice)", () => {
+    it("rejects 3 TP + 3 TN at experimental (RFC-001 v1.0 requires 5/5)", () => {
       const result = validateRuleMeetsStandard(
         rule({ truePositives: 3, trueNegatives: 3 }),
         "experimental",
       );
-      expect(result.passed).toBe(true);
+      expect(result.passed).toBe(false);
+      expect(result.issues.some((i) => i.includes("true_positive"))).toBe(true);
+      expect(result.issues.some((i) => i.includes("true_negative"))).toBe(true);
     });
 
     it("rejects a rule with only 1 condition", () => {
@@ -78,18 +80,18 @@ describe("validateRuleMeetsStandard", () => {
       );
     });
 
-    it("rejects a rule with fewer than 3 TP", () => {
+    it("rejects a rule with fewer than 5 TP (RFC-001 v1.0)", () => {
       const result = validateRuleMeetsStandard(
-        rule({ truePositives: 2 }),
+        rule({ truePositives: 4 }),
         "experimental",
       );
       expect(result.passed).toBe(false);
       expect(result.issues.some((i) => i.includes("true_positive"))).toBe(true);
     });
 
-    it("rejects a rule with fewer than 3 TN", () => {
+    it("rejects a rule with fewer than 5 TN (RFC-001 v1.0)", () => {
       const result = validateRuleMeetsStandard(
-        rule({ trueNegatives: 2 }),
+        rule({ trueNegatives: 4 }),
         "experimental",
       );
       expect(result.passed).toBe(false);
@@ -125,13 +127,22 @@ describe("validateRuleMeetsStandard", () => {
       );
     });
 
-    it("does not block on missing evasion tests (warning only)", () => {
+    it("rejects a rule with fewer than 3 evasion tests (RFC-001 v1.0)", () => {
+      const result = validateRuleMeetsStandard(
+        rule({ evasionTests: 2 }),
+        "experimental",
+      );
+      expect(result.passed).toBe(false);
+      expect(result.issues.some((i) => i.includes("evasion_test"))).toBe(true);
+    });
+
+    it("rejects a rule with zero evasion tests (RFC-001 v1.0)", () => {
       const result = validateRuleMeetsStandard(
         rule({ evasionTests: 0 }),
         "experimental",
       );
-      expect(result.passed).toBe(true);
-      expect(result.warnings.length).toBeGreaterThan(0);
+      expect(result.passed).toBe(false);
+      expect(result.issues.some((i) => i.includes("evasion_test"))).toBe(true);
     });
 
     it("reports multiple issues simultaneously", () => {

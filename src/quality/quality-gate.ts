@@ -20,11 +20,18 @@ import type {
 
 /**
  * Minimum requirements for each maturity level.
- * Thresholds match RFC-001 §3. Adjust here to tune the bar.
  *
- * The experimental gate uses 3/3 (matching Cisco-merge practice) and
- * accepts any provenance (auto-generated OK). The stable gate requires
- * 5/5 with 3 evasion tests AND human-reviewed provenance for MITRE/OWASP.
+ * Thresholds match RFC-001 v1.0 (effective 2026-04-11). The previous draft
+ * (v0.9) weakened the experimental gate to 3/3/0 as a temporary compromise
+ * during the initial bring-up of the crystallization pipeline. RFC-001 v1.0
+ * restores the intended bar: experimental requires 5 TP / 5 TN / 3 evasion
+ * tests, matching the Cisco-merge practice and the §1 maturity spec.
+ *
+ * The experimental gate accepts any provenance (auto-generated OK for LLM
+ * crystallization). The stable gate requires human-reviewed provenance for
+ * MITRE and OWASP references plus wild validation evidence.
+ *
+ * See docs/proposals/001-atr-quality-standard-rfc.md §1 and §3.
  */
 const REQUIREMENTS = {
   draft: {
@@ -39,13 +46,13 @@ const REQUIREMENTS = {
   },
   experimental: {
     minConditions: 3,
-    minTruePositives: 3, // 3/3 matches Cisco-merge practice
-    minTrueNegatives: 3,
-    minEvasionTests: 0, // warning, not blocker
+    minTruePositives: 5, // RFC-001 §1: experimental bar matches Cisco-merge practice
+    minTrueNegatives: 5,
+    minEvasionTests: 3, // hard requirement — honest bypass documentation
     requireOwasp: true,
     requireMitre: true,
     requireFalsePositiveDocs: true,
-    requireHumanReviewedProvenance: false, // auto-generated OK for experimental
+    requireHumanReviewedProvenance: false, // auto-generated metadata OK at experimental
   },
   stable: {
     minConditions: 3,
@@ -58,6 +65,17 @@ const REQUIREMENTS = {
     requireHumanReviewedProvenance: true, // stable demands verified provenance
   },
 } as const;
+
+/**
+ * RFC-001 v1.1 §1.1 — Single-Pattern Rule Exception threshold.
+ *
+ * A rule with fewer than `minConditions` for its target maturity level
+ * is still accepted if it has been validated against at least this many
+ * real-world samples with a measured false-positive rate of exactly 0.
+ * Set to the size of the most recent ATR mega scan as of effective date,
+ * which is the empirical evidence baseline the standard authors used.
+ */
+export const SINGLE_PATTERN_EXCEPTION_MIN_SAMPLES = 50_000;
 
 /** Provenance values that count as "verified" for stable promotion */
 const VERIFIED_PROVENANCE: readonly Provenance[] = [
@@ -87,10 +105,42 @@ export function validateRuleMeetsStandard(
   const issues: string[] = [];
   const warnings: string[] = [];
 
+  // RFC-001 v1.1 §1.1 — Single-Pattern Rule Exception.
+  //
+  // A rule with fewer than the default minimum number of detection conditions
+  // MAY still pass the experimental gate if it has been wild-validated to a
+  // very high standard. Empirically (see ATR-2026-00139, 00146, etc.) some
+  // attack categories — casual social engineering, single-token homoglyph
+  // injection, ChatML system-token spoofing — are best caught by exactly one
+  // narrow regex; padding with additional conditions only adds false-positive
+  // surface without improving recall.
+  //
+  // Eligibility for the exception:
+  //   - wild_samples >= SINGLE_PATTERN_EXCEPTION_MIN_SAMPLES
+  //   - wild_fp_rate === 0 (must be exactly zero, not <= 0.5%)
+  //   - rule still has >= 1 condition (true zero-condition rules are invalid)
+  //
+  // The exception is intentionally narrow: it costs the rule author a hard
+  // empirical claim (wild_fp_rate exactly 0% on >=N samples). Authors who
+  // cannot meet this bar must add more detection conditions OR keep the rule
+  // at maturity `draft` until they can.
+  const meetsSinglePatternException =
+    level === "experimental" &&
+    rule.conditions >= 1 &&
+    rule.wildSamples !== undefined &&
+    rule.wildSamples >= SINGLE_PATTERN_EXCEPTION_MIN_SAMPLES &&
+    rule.wildFpRate === 0;
+
   if (rule.conditions < req.minConditions) {
-    issues.push(
-      `only ${rule.conditions} detection condition(s) (need ${req.minConditions}+)`,
-    );
+    if (meetsSinglePatternException) {
+      warnings.push(
+        `only ${rule.conditions} detection condition(s) — accepted under RFC-001 v1.1 §1.1 single-pattern exception (wild_samples=${rule.wildSamples}, wild_fp_rate=0%)`,
+      );
+    } else {
+      issues.push(
+        `only ${rule.conditions} detection condition(s) (need ${req.minConditions}+, or wild_samples >= ${SINGLE_PATTERN_EXCEPTION_MIN_SAMPLES} with wild_fp_rate = 0% for the single-pattern exception)`,
+      );
+    }
   }
   if (rule.truePositives < req.minTruePositives) {
     issues.push(
