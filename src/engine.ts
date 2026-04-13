@@ -942,6 +942,23 @@ export class ATREngine {
    * Resolve a field value from an agent event.
    */
   private resolveField(fieldName: string, event: AgentEvent): string | undefined {
+    // Skill context field resolution: a SKILL.md IS a tool/skill description,
+    // so tool_description, tool_response, and agent_output resolve to the full
+    // document content. user_input is NOT resolved (causes 90%+ FP because
+    // prompt injection patterns match normal instructional language in skills).
+    // tool_args and tool_name are NOT resolved (semantically incorrect).
+    if (event.scanContext === 'skill' && event.content) {
+      switch (fieldName) {
+        case 'content':
+        case 'tool_description':
+          return event.content;
+        // tool_response and agent_output are NOT resolved — their runtime
+        // patterns (eval/exec, credential leaks) match normal SKILL.md code
+        // examples and cause 90%+ FP. tool_args and tool_name are
+        // semantically wrong for static document scanning.
+      }
+    }
+
     // Check explicit fields first
     if (event.fields?.[fieldName]) {
       return event.fields[fieldName];
