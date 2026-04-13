@@ -50,7 +50,7 @@ describe('SKILL.md Benchmark', () => {
 
   it('latency < 50ms per sample', async () => {
     const report = await runSkillBenchmark();
-    expect(report.avg_latency_ms).toBeLessThan(10);
+    expect(report.avg_latency_ms).toBeLessThan(50);
   }, 30_000);
 
   it('produces detailed report with missed attacks', async () => {

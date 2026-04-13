@@ -59,90 +59,54 @@ describe("validateRuleMeetsStandard", () => {
       expect(result.issues).toHaveLength(0);
     });
 
-    it("rejects 3 TP + 3 TN at experimental (RFC-001 v1.0 requires 5/5)", () => {
+    it("accepts 3 TP + 3 TN at experimental (RFC-001 v1.1 lowered bar)", () => {
       const result = validateRuleMeetsStandard(
-        rule({ truePositives: 3, trueNegatives: 3 }),
+        rule({ truePositives: 3, trueNegatives: 3, evasionTests: 0, hasOwaspRef: false, hasMitreRef: false, hasFalsePositiveDocs: false }),
         "experimental",
       );
-      expect(result.passed).toBe(false);
-      expect(result.issues.some((i) => i.includes("true_positive"))).toBe(true);
-      expect(result.issues.some((i) => i.includes("true_negative"))).toBe(true);
+      expect(result.passed).toBe(true);
     });
 
-    it("rejects a rule with only 1 condition", () => {
+    it("rejects a rule with fewer than 3 TP at experimental", () => {
       const result = validateRuleMeetsStandard(
-        rule({ conditions: 1 }),
-        "experimental",
-      );
-      expect(result.passed).toBe(false);
-      expect(result.issues.some((i) => i.includes("detection condition"))).toBe(
-        true,
-      );
-    });
-
-    it("rejects a rule with fewer than 5 TP (RFC-001 v1.0)", () => {
-      const result = validateRuleMeetsStandard(
-        rule({ truePositives: 4 }),
+        rule({ truePositives: 2, trueNegatives: 3, evasionTests: 0, hasOwaspRef: false, hasMitreRef: false, hasFalsePositiveDocs: false }),
         "experimental",
       );
       expect(result.passed).toBe(false);
       expect(result.issues.some((i) => i.includes("true_positive"))).toBe(true);
     });
 
-    it("rejects a rule with fewer than 5 TN (RFC-001 v1.0)", () => {
+    it("rejects a rule with fewer than 3 TN at experimental", () => {
       const result = validateRuleMeetsStandard(
-        rule({ trueNegatives: 4 }),
+        rule({ truePositives: 3, trueNegatives: 2, evasionTests: 0, hasOwaspRef: false, hasMitreRef: false, hasFalsePositiveDocs: false }),
         "experimental",
       );
       expect(result.passed).toBe(false);
       expect(result.issues.some((i) => i.includes("true_negative"))).toBe(true);
     });
 
-    it("rejects a rule missing OWASP reference", () => {
+    it("accepts a rule with 1 condition at experimental (RFC-001 v1.1)", () => {
       const result = validateRuleMeetsStandard(
-        rule({ hasOwaspRef: false }),
+        rule({ conditions: 1, truePositives: 3, trueNegatives: 3, evasionTests: 0, hasOwaspRef: false, hasMitreRef: false, hasFalsePositiveDocs: false }),
         "experimental",
       );
-      expect(result.passed).toBe(false);
-      expect(result.issues.some((i) => i.includes("OWASP"))).toBe(true);
+      expect(result.passed).toBe(true);
     });
 
-    it("rejects a rule missing MITRE reference", () => {
+    it("accepts experimental without OWASP/MITRE/FP docs (RFC-001 v1.1)", () => {
       const result = validateRuleMeetsStandard(
-        rule({ hasMitreRef: false }),
+        rule({ truePositives: 3, trueNegatives: 3, evasionTests: 0, hasOwaspRef: false, hasMitreRef: false, hasFalsePositiveDocs: false }),
         "experimental",
       );
-      expect(result.passed).toBe(false);
-      expect(result.issues.some((i) => i.includes("MITRE"))).toBe(true);
+      expect(result.passed).toBe(true);
     });
 
-    it("rejects a rule missing false positive docs", () => {
+    it("accepts experimental without evasion tests (RFC-001 v1.1)", () => {
       const result = validateRuleMeetsStandard(
-        rule({ hasFalsePositiveDocs: false }),
+        rule({ truePositives: 3, trueNegatives: 3, evasionTests: 0, hasOwaspRef: false, hasMitreRef: false, hasFalsePositiveDocs: false }),
         "experimental",
       );
-      expect(result.passed).toBe(false);
-      expect(result.issues.some((i) => i.includes("false_positives"))).toBe(
-        true,
-      );
-    });
-
-    it("rejects a rule with fewer than 3 evasion tests (RFC-001 v1.0)", () => {
-      const result = validateRuleMeetsStandard(
-        rule({ evasionTests: 2 }),
-        "experimental",
-      );
-      expect(result.passed).toBe(false);
-      expect(result.issues.some((i) => i.includes("evasion_test"))).toBe(true);
-    });
-
-    it("rejects a rule with zero evasion tests (RFC-001 v1.0)", () => {
-      const result = validateRuleMeetsStandard(
-        rule({ evasionTests: 0 }),
-        "experimental",
-      );
-      expect(result.passed).toBe(false);
-      expect(result.issues.some((i) => i.includes("evasion_test"))).toBe(true);
+      expect(result.passed).toBe(true);
     });
 
     it("reports multiple issues simultaneously", () => {
@@ -156,8 +120,8 @@ describe("validateRuleMeetsStandard", () => {
         "experimental",
       );
       expect(result.passed).toBe(false);
-      // conditions, TP, TN, OWASP = 4 issues
-      expect(result.issues.length).toBeGreaterThanOrEqual(4);
+      // TP < 3, TN < 3 = 2 issues
+      expect(result.issues.length).toBeGreaterThanOrEqual(2);
     });
   });
 
@@ -292,7 +256,7 @@ describe("validateRuleMeetsStandard", () => {
         hasOwaspRef: false,
       });
       const result = validateRuleMeetsStandard(r, "experimental");
-      expect(result.passed).toBe(false); // would fail experimental
+      expect(result.passed).toBe(false); // 1 TP < 3 minimum, would fail experimental
     });
   });
 });

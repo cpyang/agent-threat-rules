@@ -2,8 +2,8 @@
 ## The Open Detection Standard for the AI Agent Era
 
 **Status:** Ready for Publication
-**Version:** 1.0
-**Effective:** 2026-04-11
+**Version:** 1.1
+**Effective:** 2026-04-14
 **Authors:** ATR Project Maintainers
 **Target:** Public RFC — any AI agent security scanner can adopt
 **Reference Implementation:** `src/quality/` in this repo (MIT License)
@@ -116,7 +116,7 @@ Every rule declares exactly one maturity level.
 | Level | Meaning | Promotion gate |
 |-------|---------|----------------|
 | `draft` | Submitted, not yet validated | Valid YAML/JSON, at least 1 TP + 1 TN |
-| `experimental` | CI-validated, limited evidence | 5 TP + 5 TN + 3 evasion tests + OWASP/MITRE mapping + CI pass |
+| `experimental` | CI-validated, limited evidence | 3 TP + 3 TN + CI pass (evasion tests, OWASP/MITRE mapping encouraged, not required) |
 | `stable` | Wild-validated, enterprise-ready | 14+ days in experimental + wild scan ≥1000 samples + FP rate ≤0.5% + confidence ≥80 |
 | `deprecated` | Superseded or no longer relevant | Replacement rule ID documented |
 
@@ -216,20 +216,30 @@ per vendor; the semantics must match):
 - Unique rule ID
 - Human-readable title
 - Severity (`critical` | `high` | `medium` | `low` | `informational`)
-- At least 5 true positives (real attack payloads)
-- At least 5 true negatives (similar-looking legitimate content)
-- At least 3 evasion tests (documented bypass techniques, each marked as
-  expected-not-to-trigger with a description)
-- At least 1 OWASP reference (LLM Top 10 or Agentic Top 10)
-- At least 1 MITRE reference (ATLAS or ATT&CK)
-- At least 1 documented false positive pattern
+- At least 1 detection condition (regex, fingerprint, or behavioral pattern)
+- At least 3 true positives (real attack payloads)
+- At least 3 true negatives (similar-looking legitimate content)
+- Evasion tests encouraged but not required (contributes to confidence score)
+- OWASP reference encouraged but not required (contributes to confidence score)
+- MITRE reference encouraged but not required (contributes to confidence score)
+- False positive documentation encouraged but not required
+
+> **v1.1 note (2026-04-12):** The experimental gate was relaxed from 5/5/3
+> (TP/TN/evasion) to 3/3/0 to lower the contribution barrier. Community
+> velocity matters more than metadata completeness at the experimental tier.
+> The stable tier (§3 below) retains the full requirements as the production bar.
 
 **Additionally required for `stable`:**
 
+- At least 5 true positives and 5 true negatives
+- At least 3 evasion tests with documented bypass techniques
+- At least 1 OWASP reference and 1 MITRE reference
+- At least 1 documented false positive pattern
 - `wild_validated` date
 - `wild_samples` count (≥1000)
 - `wild_fp_rate` (≤0.5%)
 - `confidence` score (≥80)
+- All `metadata_provenance` fields must be `human-reviewed` or `community-contributed`
 
 ### 4. Validation Library
 
@@ -338,21 +348,24 @@ runtimes:
       note: "tool_description field is shorter than MCP spec; rule may under-match"
 ```
 
-**Normative runtime identifiers** (this list is the canonical registry; new values require an RFC addendum):
+**Normative runtime identifiers.** The canonical registry is maintained in `docs/RUNTIMES.md` in this repository. Adding a new runtime requires a PR to `RUNTIMES.md`, not an RFC addendum. The registry format is: lowercase identifier, hyphen-separated, one line per runtime. Initial set:
 
-| Identifier | Runtime |
-|---|---|
-| `claude-code` | Anthropic Claude Code CLI |
-| `cursor` | Cursor IDE |
-| `windsurf` | Codeium Windsurf |
-| `anthropic-managed` | Claude Managed Agents (April 2026+) |
-| `openai-assistants` | OpenAI Assistants API v2+ |
-| `openai-gpts` | OpenAI custom GPTs |
-| `google-gemini-agents` | Google Gemini Agent Builder |
-| `microsoft-agt` | Microsoft Agent Governance Toolkit |
-| `local-llama` | Self-hosted LLaMA-family agent |
-| `local-mistral` | Self-hosted Mistral-family agent |
-| `self-hosted-mcp` | Any self-hosted MCP server / client combination |
+| Identifier | Runtime | Scan target format |
+|---|---|---|
+| `claude-code` | Anthropic Claude Code CLI | SKILL.md, MCP config |
+| `cursor` | Cursor IDE | MCP config |
+| `hermes` | Hermes Agent (Nous Research) | SKILL.md, MCP config (YAML) |
+| `windsurf` | Codeium Windsurf | MCP config |
+| `anthropic-managed` | Claude Managed Agents (April 2026+) | MCP tool descriptions |
+| `openai-assistants` | OpenAI Assistants API v2+ | Tool descriptions |
+| `openai-gpts` | OpenAI custom GPTs | Tool descriptions |
+| `google-gemini-agents` | Google Gemini Agent Builder | Tool descriptions |
+| `google-a2a` | Google Agent-to-Agent Protocol | A2A agent cards |
+| `microsoft-agt` | Microsoft Agent Framework 1.0 | Semantic Kernel plugins |
+| `langgraph` | LangChain LangGraph | Tool definitions |
+| `local-llama` | Self-hosted LLaMA-family agent | Varies |
+| `local-mistral` | Self-hosted Mistral-family agent | Varies |
+| `self-hosted-mcp` | Any self-hosted MCP server / client | MCP tool descriptions |
 
 **Cross-runtime confidence multiplier.** When a rule fires on a runtime not listed in `tested_on`, the effective confidence contribution is multiplied by `0.7`. This is a runtime-level analogue of the per-context penalty in §2 and is applied at match time, not stored in the rule.
 
@@ -533,7 +546,60 @@ similar but the gates are different.
 18. ATR Project, *Cisco skill-scanner PR #79*. 34 ATR rules merged upstream into Cisco AI Defense. April 2026.
 19. Adversa AI, *Top Agentic AI Security Resources — April 2026*. <https://adversa.ai/blog/top-agentic-ai-security-resources-april-2026/>
 
+## Future Work
+
+The following areas are explicitly out of scope for RFC-001 v1.x but are
+recognized as necessary for the standard's evolution. Each is expected to
+become a separate RFC.
+
+### RFC-002: Detection Type Taxonomy
+
+RFC-001 assumes `pattern` detection (regex/string match on text). The agent
+attack surface is expanding to:
+
+- **Behavioral sequences** — an agent that reads `~/.ssh/id_rsa` then makes
+  an HTTP POST is suspicious not because of either action alone, but because
+  of the sequence. Detecting this requires temporal pattern matching across
+  multiple tool calls.
+- **Multimodal attacks** — prompt injection embedded in images, audio, or
+  structured data. Text regex cannot catch these.
+- **Composite rules** — meta-rules that fire when 2+ individual rules match
+  within the same session (e.g. credential access + network exfiltration).
+
+RFC-002 will define a `detection_type` field (`pattern` | `behavioral` |
+`multimodal` | `composite`) and specify how the confidence formula adapts for
+non-pattern rules.
+
+### RFC-003: Collective Defense Protocol
+
+Every scan — whether from a CLI install, a website paste, or a CI/CD action —
+generates threat intelligence. RFC-001 describes individual rule quality but
+does not specify how scanners contribute to and consume from a shared threat
+feed.
+
+RFC-003 will define:
+- Signal submission API (anonymized threat events, skill hashes, FP reports)
+- Signal aggregation and deduplication
+- Feed distribution (public community feed vs private enterprise feed)
+- Privacy guarantees (what data leaves the device, what stays local)
+
+This formalizes the Threat Cloud flywheel as a vendor-neutral protocol any
+scanner can participate in.
+
+### RFC-004: Enterprise Deployment Guidance
+
+Enterprises deploying 20–500 AI agents need:
+- **Unified rule policy** — which rules run in blocking mode, which in alert-only
+- **Compliance reporting** — EU AI Act (August 2026), SOC 2, ISO 27001 mapping
+- **Private rule feeds** — enterprise-specific rules that never reach the public feed
+- **Multi-agent visibility** — which agents are installed, which rules protect them
+- **Role-based access** — security team vs developers vs compliance
+
+RFC-004 will define deployment tiers (Free / Team / Enterprise) and the
+management API surface each tier exposes.
+
 ## Changelog
 
+- **2026-04-14**: v1.1 published. Relaxes experimental gate from 5/5/3 to 3/3/0 (TP/TN/evasion). Adds Hermes Agent, Google A2A, LangGraph to runtime registry. Moves runtime registry to extensible `RUNTIMES.md`. Adds scan target format column. Adds Future Work section (RFC-002 Detection Types, RFC-003 Collective Defense, RFC-004 Enterprise Deployment). Clarifies stable tier retains full 5/5/3 + OWASP/MITRE/FP requirements.
 - **2026-04-11**: v1.0 published. Adds Preamble, First-Principles Requirements, Landscape (§0), Threat Ontology Mapping (§6), Multi-Runtime Compatibility (§7), Review Tier Levels (§8), Community Signal Aggregation (§9), and References. Sets effective date to 2026-04-11.
 - 2026-04-10: Initial draft (v0.9) — Maturity Levels, Confidence Score, Two-Dimensional Compliance Model, Required Metadata, Validation Library, Adoption Path.

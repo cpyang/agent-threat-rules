@@ -21,15 +21,16 @@ import type {
 /**
  * Minimum requirements for each maturity level.
  *
- * Thresholds match RFC-001 v1.0 (effective 2026-04-11). The previous draft
- * (v0.9) weakened the experimental gate to 3/3/0 as a temporary compromise
- * during the initial bring-up of the crystallization pipeline. RFC-001 v1.0
- * restores the intended bar: experimental requires 5 TP / 5 TN / 3 evasion
- * tests, matching the Cisco-merge practice and the §1 maturity spec.
+ * RFC-001 v1.1 (effective 2026-04-12) splits the quality bar:
+ * - experimental: 3/3/0 — low barrier for community contribution. OWASP,
+ *   MITRE, evasion tests, and FP docs are encouraged but NOT required.
+ *   The upgrade pipeline adds these during promotion to stable.
+ * - stable: 5/5/3 — production-quality bar with verified provenance,
+ *   OWASP + MITRE mapping, evasion tests, and wild validation.
  *
- * The experimental gate accepts any provenance (auto-generated OK for LLM
- * crystallization). The stable gate requires human-reviewed provenance for
- * MITRE and OWASP references plus wild validation evidence.
+ * Rationale: VirusTotal doesn't reject "low quality" samples — everything
+ * gets in. Sigma experimental is loose. A strict experimental gate kills
+ * community contribution velocity. Data velocity > data purity at scale.
  *
  * See docs/proposals/001-atr-quality-standard-rfc.md §1 and §3.
  */
@@ -45,14 +46,14 @@ const REQUIREMENTS = {
     requireHumanReviewedProvenance: false,
   },
   experimental: {
-    minConditions: 3,
-    minTruePositives: 5, // RFC-001 §1: experimental bar matches Cisco-merge practice
-    minTrueNegatives: 5,
-    minEvasionTests: 3, // hard requirement — honest bypass documentation
-    requireOwasp: true,
-    requireMitre: true,
-    requireFalsePositiveDocs: true,
-    requireHumanReviewedProvenance: false, // auto-generated metadata OK at experimental
+    minConditions: 1,
+    minTruePositives: 3, // RFC-001 v1.1: lowered for community contribution velocity
+    minTrueNegatives: 3,
+    minEvasionTests: 0, // encouraged but not required — pipeline adds during upgrade
+    requireOwasp: false, // pipeline adds during promotion to stable
+    requireMitre: false, // pipeline adds during promotion to stable
+    requireFalsePositiveDocs: false, // pipeline adds during promotion to stable
+    requireHumanReviewedProvenance: false,
   },
   stable: {
     minConditions: 3,
