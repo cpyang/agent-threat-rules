@@ -36,7 +36,7 @@ references:
 tags:
   category: prompt-injection
   subcategory: cjk-social-engineering
-  scan_target: mcp
+  scan_target: both
   confidence: high
 agent_source:
   type: llm_io

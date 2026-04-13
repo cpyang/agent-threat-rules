@@ -22,7 +22,7 @@ references:
 tags:
   category: privilege-escalation
   subcategory: shell-escape
-  scan_target: mcp
+  scan_target: both
   confidence: high
 agent_source:
   type: tool_call

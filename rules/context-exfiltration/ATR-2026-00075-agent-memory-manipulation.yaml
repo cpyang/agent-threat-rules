@@ -26,7 +26,7 @@ references:
 tags:
   category: context-exfiltration
   subcategory: memory-manipulation
-  scan_target: mcp
+  scan_target: both
   confidence: high
 agent_source:
   type: memory_access

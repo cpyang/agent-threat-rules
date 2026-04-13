@@ -35,7 +35,7 @@ references:
 tags:
   category: context-exfiltration
   subcategory: system-prompt-leak
-  scan_target: mcp
+  scan_target: both
   confidence: high
 
 agent_source:

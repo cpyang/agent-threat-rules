@@ -28,7 +28,7 @@ references:
 tags:
   category: tool-poisoning
   subcategory: unauthorized-access
-  scan_target: mcp
+  scan_target: both
   confidence: high
 agent_source:
   type: tool_call

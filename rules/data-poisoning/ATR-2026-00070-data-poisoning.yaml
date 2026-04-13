@@ -32,7 +32,7 @@ references:
 tags:
   category: data-poisoning
   subcategory: rag-and-knowledge-poisoning
-  scan_target: mcp
+  scan_target: both
   confidence: medium
 agent_source:
   type: context_window

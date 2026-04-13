@@ -28,7 +28,7 @@ references:
 tags:
   category: excessive-autonomy
   subcategory: resource-exhaustion
-  scan_target: mcp
+  scan_target: both
   confidence: medium
 agent_source:
   type: llm_io

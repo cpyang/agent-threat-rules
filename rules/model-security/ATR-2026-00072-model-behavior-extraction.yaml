@@ -25,7 +25,7 @@ references:
 tags:
   category: model-abuse
   subcategory: model-extraction
-  scan_target: mcp
+  scan_target: both
   confidence: medium
 agent_source:
   type: llm_io

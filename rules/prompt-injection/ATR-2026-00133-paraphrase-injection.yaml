@@ -26,7 +26,7 @@ metadata_provenance:
 tags:
   category: prompt-injection
   subcategory: paraphrase
-  scan_target: mcp
+  scan_target: both
   confidence: medium
 agent_source:
   type: llm_io

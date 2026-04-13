@@ -31,7 +31,7 @@ references:
 tags:
   category: prompt-injection
   subcategory: system-prompt-override
-  scan_target: mcp
+  scan_target: both
   confidence: high
 agent_source:
   type: llm_io

@@ -33,7 +33,7 @@ references:
 tags:
   category: prompt-injection
   subcategory: direct
-  scan_target: mcp
+  scan_target: both
   confidence: high
 
 agent_source:

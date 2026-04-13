@@ -26,7 +26,7 @@ references:
 tags:
   category: privilege-escalation
   subcategory: over-permissioned-skill
-  scan_target: mcp
+  scan_target: both
   confidence: medium
 
 agent_source:

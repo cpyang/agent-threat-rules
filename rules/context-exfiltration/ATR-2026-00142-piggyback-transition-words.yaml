@@ -24,7 +24,7 @@ tags:
   category: context-exfiltration
   subcategory: piggyback-transition
   confidence: high
-  scan_target: mcp
+  scan_target: both
 agent_source:
   type: mcp_exchange
   framework:

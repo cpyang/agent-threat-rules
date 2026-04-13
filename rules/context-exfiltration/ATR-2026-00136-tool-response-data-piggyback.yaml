@@ -27,7 +27,7 @@ tags:
   category: context-exfiltration
   subcategory: tool-response-piggyback
   confidence: high
-  scan_target: mcp
+  scan_target: both
 agent_source:
   type: mcp_exchange
   framework:

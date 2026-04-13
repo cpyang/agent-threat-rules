@@ -22,7 +22,7 @@ references:
 tags:
   category: agent-manipulation
   subcategory: approval-fatigue
-  scan_target: mcp
+  scan_target: both
   confidence: medium
 agent_source:
   type: tool_call

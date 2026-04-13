@@ -43,7 +43,7 @@ references:
 tags:
   category: tool-poisoning
   subcategory: mcp-response-injection
-  scan_target: mcp
+  scan_target: both
   confidence: high
 
 agent_source:
