@@ -9,12 +9,12 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 <br />
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
-[![Rules](https://img.shields.io/badge/rules-108-blue?style=flat-square)](#what-atr-detects)
-[![Tests](https://img.shields.io/badge/tests-297_passing-green?style=flat-square)](#ecosystem)
-[![PINT Recall](https://img.shields.io/badge/PINT_recall-62.7%25-green?style=flat-square)](#evaluation)
-[![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-96.9%25-brightgreen?style=flat-square)](#evaluation)
+[![Rules](https://img.shields.io/badge/rules-113-blue?style=flat-square)](#what-atr-detects)
+[![Tests](https://img.shields.io/badge/tests-361_passing-green?style=flat-square)](#ecosystem)
+[![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-100%25-brightgreen?style=flat-square)](#evaluation)
+[![Wild Scan](https://img.shields.io/badge/wild_scan-96%2C096_skills-blue?style=flat-square)](#ecosystem-scan)
 [![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
-[![Status](https://img.shields.io/badge/status-v1.1.1-brightgreen?style=flat-square)](#roadmap)
+[![Status](https://img.shields.io/badge/status-v2.0.0-brightgreen?style=flat-square)](#roadmap)
 
 </div>
 
@@ -45,19 +45,27 @@ ATR maps to **10/10 OWASP Agentic Top 10 categories** ([full mapping](docs/OWASP
 
 > ATR rules are consumed as a standard -- not a product. MIT licensed, auto-updated via npm, zero strings attached.
 
-### Ecosystem scan (90,000+ skills)
+### Ecosystem scan (96,000+ skills)
 
-We scanned the three largest MCP skill registries: ClawHub (37,394), OpenClaw (50,283), and Skills.sh (3,115).
+We scanned every major AI agent skill registry. **We found 751 skills actively distributing malware.**
 
-| Metric | Number |
-|--------|--------|
-| Skills scanned | **90,000+** |
-| ClawHub CRITICAL | 182 |
-| ClawHub HIGH | 1,124 |
-| SKILL.md benchmark | 498 samples, **96.9% recall**, **100% precision**, **0% FP** |
-| Wild scan FP rate | 0.48% on 3,115 real-world Skills.sh files |
+| Source | Scanned | Flagged | Threats |
+|--------|---------|---------|---------|
+| OpenClaw | 56,480 | 1,260 | **751 confirmed malware** |
+| Skills.sh | 3,115 | 40 | -- |
+| Hermes Agent | 123 | 2 | -- |
+| ClawHub | 36,378 | 0 | -- |
+| **Total** | **96,096** | **1,302 (1.35%)** | **1,349 threats** |
 
-Raw data: [mega-scan-report.json](data/mega-scan-report.json) / [ecosystem-report.csv](data/clawhub-scan/ecosystem-report.csv)
+Key finding: at least 3 coordinated threat actors mass-published poisoned skills on OpenClaw, disguised as Solana wallets, Google Workspace tools, and image generators. One actor embedded a base64-encoded reverse shell pointing to C2 IP `91.92.242.30`. Full report: [OpenClaw Malware Campaign](docs/research/openclaw-malware-campaign-2026-04.md)
+
+| Benchmark | Samples | Recall | Precision | FP Rate |
+|-----------|---------|--------|-----------|---------|
+| SKILL.md (498 labeled samples) | 498 | **100%** | **97%** | **0.20%** |
+| PINT (Invariant Labs, adversarial) | 850 | -- | 99.6% | 62.7% |
+| Wild scan (96K real-world) | 96,096 | -- | -- | 1.35% flag rate |
+
+Raw data: [full-scan-v3-2026-04-15.json](data/full-scan-v3-2026-04-15.json)
 
 ```bash
 npm install -g agent-threat-rules
@@ -65,7 +73,7 @@ npm install -g agent-threat-rules
 atr scan skill.md                 # scan a SKILL.md for threats
 atr scan mcp-config.json          # scan MCP events for threats
 atr scan skill.md --sarif         # output SARIF v2.1.0 for GitHub Security tab
-atr convert generic-regex         # export 108 rules as JSON (685 regex patterns)
+atr convert generic-regex         # export 113 rules as JSON (714+ regex patterns)
 atr convert splunk                # export to Splunk SPL
 atr convert elastic               # export to Elasticsearch Query DSL
 atr stats                         # show rule collection stats
@@ -91,19 +99,19 @@ One line. Zero config. SARIF results in your Security tab.
 
 ## What ATR Detects
 
-108 rules across 9 categories, mapped to real CVEs:
+113 rules across 9 categories, mapped to real CVEs:
 
 | Category | What it catches | Rules | Real CVEs |
 |----------|----------------|-------|-----------|
-| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, CJK attacks | 22 | CVE-2025-53773, CVE-2025-32711 |
-| **Tool Poisoning** | Malicious MCP responses, consent bypass, hidden LLM instructions, schema contradictions | 11 | CVE-2025-68143/68144/68145 |
-| **Skill Compromise** | Typosquatting, context poisoning, subcommand overflow, rug pull, supply chain attacks | 20 | CVE-2025-59536, CVE-2026-28363 |
-| **Agent Manipulation** | Cross-agent attacks, goal hijacking, Sybil consensus attacks | 10 | -- |
+| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, CJK attacks, hidden override instructions | 33 | CVE-2025-53773, CVE-2025-32711 |
+| **Skill Compromise** | Typosquatting, context poisoning, subcommand overflow, rug pull, supply chain attacks, credential exfil combos | 23 | CVE-2025-59536, CVE-2026-28363 |
+| **Context Exfiltration** | API key leakage, system prompt theft, credential harvesting, env variable exfiltration | 14 | CVE-2026-24307 |
+| **Tool Poisoning** | Malicious MCP responses, consent bypass, hidden LLM instructions, schema contradictions | 12 | CVE-2025-68143/68144/68145 |
+| **Agent Manipulation** | Cross-agent attacks, goal hijacking, Sybil consensus attacks, scope hijacking | 12 | -- |
+| **Privilege Escalation** | Scope creep, delayed execution bypass, admin function access | 8 | CVE-2026-0628 |
 | **Excessive Autonomy** | Runaway loops, resource exhaustion, unauthorized financial actions | 5 | -- |
-| **Context Exfiltration** | API key leakage, system prompt theft, credential harvesting, env variable exfiltration | 15 | CVE-2026-24307 |
-| **Privilege Escalation** | Scope creep, delayed execution bypass, admin function access | 9 | CVE-2026-0628 |
-| **Model Security** | Behavior extraction, malicious fine-tuning data | 5 | -- |
-| **Data Poisoning** | RAG/knowledge base tampering, memory manipulation | 3 | -- |
+| **Model Security** | Behavior extraction, malicious fine-tuning data | 2 | -- |
+| **Data Poisoning** | RAG/knowledge base tampering, memory manipulation | 1 | -- |
 
 > **Limitations:** Regex catches known patterns, not paraphrased attacks. We publish [evasion tests](LIMITATIONS.md) showing what we can't catch. See [LIMITATIONS.md](LIMITATIONS.md) for honest benchmark numbers including external PINT results.
 
@@ -111,14 +119,15 @@ One line. Zero config. SARIF results in your Security tab.
 
 ## Evaluation
 
-We test ATR with our own tests AND external benchmarks we've never seen before:
+We test ATR with our own tests, external benchmarks, AND real-world wild scanning:
 
 | Benchmark | Source | Samples | Precision | Recall |
 |-----------|--------|---------|-----------|--------|
-| Self-test (own test cases) | Internal | 341 | 100% | 88.5% |
+| **SKILL.md benchmark** | **498 labeled samples** | **498** | **97.0%** | **100%** |
+| **96K wild scan** | **OpenClaw + Skills.sh + Hermes + ClawHub** | **96,096** | **--** | **--** |
 | **PINT (adversarial)** | **Invariant Labs** | **850** | **99.6%** | **62.7%** |
 | **Garak (real-world jailbreaks)** | **NVIDIA** | **666** | -- | **69.7%** |
-| **53K ecosystem scan** | **OpenClaw + Skills.sh** | **53,377** | **99.7%** | -- |
+| Self-test (own test cases) | Internal | 361 | 100% | 88.5% |
 
 ```bash
 npm run eval             # run self-test evaluation
@@ -148,7 +157,7 @@ ATR maps to established AI security frameworks so teams can go from "understand 
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 297 tests passing |
+| [TypeScript engine](src/engine.ts) | Reference engine with 5-tier detection | 361 tests passing |
 | [Eval framework](src/eval/) | Precision/recall/F1, regression gate, PINT benchmark | v1.0.0 |
 | [Python engine (pyATR)](python/) | Local install only (`cd python && pip install -e .`) | 48 tests passing |
 | [GitHub Action](action.yml) | One-line CI scan with SARIF output | **New** |
@@ -239,7 +248,7 @@ Every rule is a YAML file answering: **what** to detect, **how** to detect it, *
 ### Export rules
 
 ```bash
-# For your security platform (108 rules, 685 regex patterns as JSON)
+# For your security platform (113 rules, 714+ regex patterns as JSON)
 atr convert generic-regex --output atr-rules.json
 
 # For SIEM integration
