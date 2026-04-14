@@ -4,6 +4,8 @@ export default defineConfig({
   test: {
     testTimeout: 180_000,
     hookTimeout: 60_000,
+    pool: 'forks',
+    poolOptions: { forks: { execArgv: [] } },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'text-summary', 'json-summary'],
