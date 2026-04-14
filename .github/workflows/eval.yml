@@ -24,6 +24,8 @@ jobs:
 
       - name: Test
         run: npm test
+        env:
+          VITEST_POOL_WORKER_COMMUNICATION_TIMEOUT: 300000
 
       - name: Eval
         run: npm run eval
