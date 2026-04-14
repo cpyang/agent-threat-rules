@@ -25,7 +25,7 @@ tags:
   category: privilege-escalation
   subcategory: rationalized-bypass
   confidence: medium
-  scan_target: both
+  scan_target: mcp
 agent_source:
   type: mcp_exchange
   framework:

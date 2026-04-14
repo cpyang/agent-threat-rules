@@ -28,7 +28,7 @@ references:
 tags:
   category: excessive-autonomy
   subcategory: runaway-loop
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: llm_io

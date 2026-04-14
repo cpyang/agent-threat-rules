@@ -28,7 +28,7 @@ references:
 tags:
   category: tool-poisoning
   subcategory: skill-chain
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 
 agent_source:

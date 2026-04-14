@@ -26,7 +26,7 @@ metadata_provenance:
 tags:
   category: prompt-injection
   subcategory: framing-attack
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: llm_io

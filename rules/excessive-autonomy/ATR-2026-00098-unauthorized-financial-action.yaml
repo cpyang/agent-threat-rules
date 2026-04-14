@@ -33,7 +33,7 @@ references:
 tags:
   category: excessive-autonomy
   subcategory: unauthorized-financial-action
-  scan_target: both
+  scan_target: mcp
   confidence: high
 agent_source:
   type: tool_call

@@ -29,7 +29,7 @@ metadata_provenance:
 tags:
   category: tool-poisoning
   subcategory: silent-action-instruction
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: tool_call

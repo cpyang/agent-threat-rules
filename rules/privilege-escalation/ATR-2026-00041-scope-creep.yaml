@@ -27,7 +27,7 @@ references:
 tags:
   category: privilege-escalation
   subcategory: scope-creep
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: llm_io

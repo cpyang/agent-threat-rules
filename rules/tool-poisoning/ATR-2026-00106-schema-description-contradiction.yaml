@@ -31,7 +31,7 @@ metadata_provenance:
 tags:
   category: tool-poisoning
   subcategory: schema-description-mismatch
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 
 agent_source:

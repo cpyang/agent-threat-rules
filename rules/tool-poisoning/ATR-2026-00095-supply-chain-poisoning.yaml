@@ -22,7 +22,7 @@ metadata_provenance:
 tags:
   category: tool-poisoning
   subcategory: supply-chain-attack
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: mcp_exchange

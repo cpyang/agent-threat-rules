@@ -29,7 +29,7 @@ references:
 tags:
   category: tool-poisoning
   subcategory: hidden-capability
-  scan_target: both
+  scan_target: mcp
   confidence: high
 
 agent_source:

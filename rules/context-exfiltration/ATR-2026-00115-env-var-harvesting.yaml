@@ -23,7 +23,7 @@ references:
 tags:
   category: context-exfiltration
   subcategory: env-var-harvesting
-  scan_target: both
+  scan_target: mcp
   confidence: high
 agent_source:
   type: tool_call

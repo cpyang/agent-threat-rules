@@ -24,7 +24,7 @@ tags:
   category: prompt-injection
   subcategory: fictional-framing
   confidence: medium
-  scan_target: both
+  scan_target: mcp
 agent_source:
   type: mcp_exchange
   framework:

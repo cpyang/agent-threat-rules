@@ -26,7 +26,7 @@ references:
 tags:
   category: tool-poisoning
   subcategory: hidden-llm-instructions
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: tool_call

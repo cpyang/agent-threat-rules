@@ -328,9 +328,6 @@ export class ATREngine {
       // Skip deprecated and draft rules
       if (rule.status === 'deprecated' || rule.status === 'draft') continue;
 
-      // Skill context denylist: skip rules known to cause high FP on SKILL.md content
-      if (isSkillContext && SKILL_CONTEXT_DENYLIST.has(rule.id)) continue;
-
       // Source type filtering: skip rules that don't apply to this event type
       // When scanContext is 'skill', skip source-type filtering — all rules fire
       if (!isSkillContext && eventSourceType && rule.agent_source.type !== eventSourceType) {
@@ -342,11 +339,25 @@ export class ATREngine {
 
       const matchResult = this.evaluateRule(rule, event);
       if (matchResult) {
-        // Skip MCP-only rules in skill context — they cause FP on security skills
-        // that describe attack patterns as examples. Skill context only runs
-        // skill-targeted rules + denylist-filtered rules.
-        if (isSkillContext && rule.tags.scan_target === 'mcp') {
-          continue;
+        // Skill context compound gating: rules not designed for SKILL.md
+        // must match 2+ CONDITIONS (not patterns) to trigger. A single
+        // condition with many patterns fires too easily on long documents.
+        // 2+ condition co-occurrence means the document exhibits multiple
+        // distinct threat signals — strongly indicates a real attack, not
+        // security documentation that happens to describe one attack type.
+        // Rules with scan_target 'skill' or 'both' fire normally.
+        // Compound gate: rules not designed for skill scanning need 30%+
+        // conditions to match. Rules with scan_target 'skill' or 'both'
+        // have verified FP rates and fire normally.
+        if (isSkillContext && rule.tags.scan_target !== 'skill' && rule.tags.scan_target !== 'both') {
+          // Require at least 30% of conditions to match (min 2) — long documents
+          // with many technical terms easily hit 2 conditions; percentage-based
+          // threshold scales with rule complexity.
+          const totalConds: number = Number(rule.detection?.conditions?.length ?? 1);
+          const minRequired = Math.max(2, Math.ceil(totalConds * 0.3));
+          if ((matchResult.matchedConditions?.length ?? 0) < minRequired) {
+            continue;
+          }
         }
         matches.push(matchResult);
         allMatchedPatterns.push(...matchResult.matchedPatterns);
@@ -642,12 +653,18 @@ export class ATREngine {
     if (!rawFieldValue) return false;
     const fieldValue = normalizeUnicode(rawFieldValue);
 
-    // Code block suppression: for rules that commonly false-positive on
-    // documentation content (shell commands, file paths in code examples),
-    // check if the match falls inside a markdown code block.
-    // Prompt injection rules (ATR-001 through ATR-005, ATR-080+) are NOT suppressed
-    // because attackers can hide injections in code blocks too.
-    const suppressInCodeBlocks = this.shouldSuppressInCodeBlocks(ruleId);
+    // Code block suppression: for runtime events, rules that commonly
+    // false-positive on documentation content are suppressed when the match
+    // falls inside a markdown code block.
+    // Code block suppression in skill context:
+    // - scan_target: 'skill' rules → NOT suppressed (their patterns are designed
+    //   for SKILL.md code blocks which ARE executable instructions)
+    // - Other rules → suppressed (their patterns FP on code examples)
+    const isSkillCtx = event.scanContext === 'skill';
+    const isSkillRule = this.rules.find(r => r.id === ruleId)?.tags?.scan_target === 'skill';
+    const suppressInCodeBlocks = (isSkillCtx && !isSkillRule)
+      ? true  // non-skill rules: always suppress code blocks in SKILL.md
+      : (!isSkillCtx && this.shouldSuppressInCodeBlocks(ruleId));
     const codeRanges = suppressInCodeBlocks ? buildCodeBlockRanges(fieldValue) : [];
 
     // Get pre-compiled patterns
@@ -964,21 +981,11 @@ export class ATREngine {
    * Resolve a field value from an agent event.
    */
   private resolveField(fieldName: string, event: AgentEvent): string | undefined {
-    // Skill context field resolution: a SKILL.md IS a tool/skill description,
-    // so tool_description, tool_response, and agent_output resolve to the full
-    // document content. user_input is NOT resolved (causes 90%+ FP because
-    // prompt injection patterns match normal instructional language in skills).
-    // tool_args and tool_name are NOT resolved (semantically incorrect).
+    // Skill context: a SKILL.md is the entire document. ALL fields resolve to
+    // content so every rule can scan it. FP is controlled by requiring 2+
+    // condition matches in skill context (see evaluate()), not by field filtering.
     if (event.scanContext === 'skill' && event.content) {
-      switch (fieldName) {
-        case 'content':
-        case 'tool_description':
-          return event.content;
-        // tool_response and agent_output are NOT resolved — their runtime
-        // patterns (eval/exec, credential leaks) match normal SKILL.md code
-        // examples and cause 90%+ FP. tool_args and tool_name are
-        // semantically wrong for static document scanning.
-      }
+      return event.content;
     }
 
     // Check explicit fields first

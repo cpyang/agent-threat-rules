@@ -31,7 +31,7 @@ references:
 tags:
   category: tool-poisoning
   subcategory: output-injection
-  scan_target: both
+  scan_target: mcp
   confidence: high
 agent_source:
   type: mcp_exchange

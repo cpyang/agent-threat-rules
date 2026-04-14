@@ -22,7 +22,7 @@ metadata_provenance:
 tags:
   category: prompt-injection
   subcategory: monitoring-countermeasure
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: llm_io

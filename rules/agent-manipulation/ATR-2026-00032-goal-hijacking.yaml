@@ -29,7 +29,7 @@ references:
 tags:
   category: agent-manipulation
   subcategory: goal-hijacking
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: llm_io

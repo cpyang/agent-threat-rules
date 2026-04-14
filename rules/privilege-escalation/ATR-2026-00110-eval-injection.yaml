@@ -21,7 +21,7 @@ references:
 tags:
   category: privilege-escalation
   subcategory: eval-injection
-  scan_target: both
+  scan_target: mcp
   confidence: high
 agent_source:
   type: tool_call

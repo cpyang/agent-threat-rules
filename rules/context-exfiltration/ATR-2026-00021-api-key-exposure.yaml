@@ -32,7 +32,7 @@ references:
 tags:
   category: context-exfiltration
   subcategory: credential-exposure
-  scan_target: both
+  scan_target: mcp
   confidence: high
 
 agent_source:

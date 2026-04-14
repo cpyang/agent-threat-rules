@@ -24,7 +24,7 @@ tags:
   category: prompt-injection
   subcategory: authority-claim
   confidence: high
-  scan_target: both
+  scan_target: mcp
 agent_source:
   type: mcp_exchange
   framework:

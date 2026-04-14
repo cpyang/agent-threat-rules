@@ -27,7 +27,7 @@ references:
 tags:
   category: agent-manipulation
   subcategory: consensus-sybil-attack
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: multi_agent_comm

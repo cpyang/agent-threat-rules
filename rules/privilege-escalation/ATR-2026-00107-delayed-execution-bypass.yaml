@@ -25,7 +25,7 @@ references:
 tags:
   category: privilege-escalation
   subcategory: delayed-execution-bypass
-  scan_target: both
+  scan_target: mcp
   confidence: medium
 agent_source:
   type: tool_call
