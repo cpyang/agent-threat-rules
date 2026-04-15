@@ -19,9 +19,13 @@ interface BlacklistEntry {
   skill: string;
   source: string;
   severity: string;
+  primary_rule: string;
+  reason_en: string;
+  reason_zh: string;
   rules: string[];
   threat_actor: string | null;
   confirmed_malware: boolean;
+  link: string;
 }
 
 interface BlacklistData {
@@ -87,8 +91,8 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
   const bl = loadBlacklist();
   const wl = loadWhitelist();
 
-  // Show first 100 entries for performance — full list downloadable
-  const shown = bl.entries.slice(0, 100);
+  // Static export — show all entries (SSG renders once at build time)
+  const shown = bl.entries;
 
   return (
     <div className="pt-20 pb-16 px-5 md:px-6 max-w-[1120px] mx-auto">
@@ -213,11 +217,11 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
         </div>
       </section>
 
-      {/* Blacklist table */}
+      {/* Blacklist — all entries */}
       <Reveal delay={0.4}>
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
           <div className="font-data text-xs text-stone tracking-[2px] uppercase">
-            {zh ? `最新 ${shown.length} 筆（共 ${bl.total_flagged.toLocaleString()}）` : `Latest ${shown.length} of ${bl.total_flagged.toLocaleString()}`}
+            {zh ? `${bl.total_flagged.toLocaleString()} 筆已標記` : `${bl.total_flagged.toLocaleString()} flagged skills`}
           </div>
           <a
             href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/public-blacklist.json"
@@ -225,40 +229,45 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
             rel="noopener noreferrer"
             className="font-data text-xs text-blue hover:underline"
           >
-            {zh ? "下載完整清單 (JSON)" : "Download full list (JSON)"}
+            {zh ? "下載 JSON" : "Download JSON"}
           </a>
         </div>
-        <div className="border border-fog overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-ash border-b border-fog">
-                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2">{zh ? "名稱" : "Skill"}</th>
-                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2 hidden sm:table-cell">{zh ? "來源" : "Source"}</th>
-                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2">{zh ? "嚴重度" : "Severity"}</th>
-                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2 hidden md:table-cell">{zh ? "規則" : "Rules"}</th>
-                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2">{zh ? "惡意" : "Malware"}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {shown.map((entry, i) => (
-                <tr key={i} className="border-b border-fog/50 hover:bg-ash/30">
-                  <td className="font-data text-xs text-ink px-3 py-2 max-w-[200px] truncate">{entry.skill}</td>
-                  <td className="font-data text-xs text-stone px-3 py-2 hidden sm:table-cell">{entry.source}</td>
-                  <td className="px-3 py-2">
-                    <span className={`font-data text-[10px] px-1.5 py-0.5 rounded-sm uppercase ${SEV_COLOR[entry.severity] ?? "text-stone"}`}>
-                      {entry.severity}
-                    </span>
-                  </td>
-                  <td className="font-data text-[11px] text-stone px-3 py-2 hidden md:table-cell">{entry.rules.join(", ")}</td>
-                  <td className="px-3 py-2">
-                    {entry.confirmed_malware
-                      ? <span className="font-data text-[10px] text-critical font-medium">{entry.threat_actor}</span>
-                      : <span className="font-data text-[10px] text-stone">-</span>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="space-y-[2px]">
+          {shown.map((entry, i) => (
+            <div key={i} className="bg-paper border border-fog/50 p-3 md:p-4 hover:bg-ash/30 transition-colors">
+              <div className="flex items-start gap-3">
+                {/* Severity badge */}
+                <span className={`font-data text-[10px] px-1.5 py-0.5 rounded-sm uppercase shrink-0 mt-0.5 ${SEV_COLOR[entry.severity] ?? "text-stone bg-stone/10"}`}>
+                  {entry.severity}
+                </span>
+                <div className="min-w-0 flex-1">
+                  {/* Skill name + link */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {entry.link ? (
+                      <a href={entry.link} target="_blank" rel="noopener noreferrer" className="font-data text-xs font-medium text-ink hover:text-blue truncate max-w-[280px] md:max-w-[400px]">
+                        {entry.skill}
+                      </a>
+                    ) : (
+                      <span className="font-data text-xs font-medium text-ink truncate max-w-[280px] md:max-w-[400px]">{entry.skill}</span>
+                    )}
+                    <span className="font-data text-[10px] text-mist hidden sm:inline">{entry.source}</span>
+                    {entry.confirmed_malware && (
+                      <span className="font-data text-[9px] text-critical bg-critical/10 px-1.5 py-0.5 rounded-sm uppercase font-bold shrink-0">
+                        {zh ? "惡意軟體" : "MALWARE"}
+                      </span>
+                    )}
+                  </div>
+                  {/* Reason */}
+                  <div className="text-xs text-stone mt-1 leading-[1.6]">
+                    {zh ? entry.reason_zh : entry.reason_en}
+                    {entry.primary_rule && (
+                      <span className="text-mist ml-2 hidden sm:inline">({entry.primary_rule})</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </Reveal>
 
