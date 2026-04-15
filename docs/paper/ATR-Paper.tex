@@ -52,7 +52,7 @@ This paper presents an empirical analysis of the AI agent security landscape bas
 
 \textbf{(4)} We propose architectural requirements for a defense system that can keep pace with AI evolution: multi-point interception, below-reasoning-layer detection, cascade economics, community-driven rule evolution, and open auditability. We argue that the industry needs an open detection standard analogous to Sigma \cite{sigma} (for SIEM) or Snort (for network IDS) --- and define the properties such a standard must have.
 
-\textbf{(5)} We present Agent Threat Rules (ATR) \cite{atr}, the first open-source implementation of this standard, and validate it empirically: \textbf{113 YAML-based detection rules} across 9 threat categories, independently benchmarked at 99.6\% precision and 62.7\% recall against the external PINT dataset \cite{pint} (850 samples), with 100\% recall and 97\% precision on the SKILL.md structured content benchmark (498 samples, 0.20\% FP rate). An ecosystem-wide scan of \textbf{96,096 agent skills} across six registries (OpenClaw, ClawHub, Skills.sh, Hermes, MCP Registry) discovered \textbf{751 active malware skills} from three coordinated threat actors \cite{atrscanmega}. A threat crystallization flywheel has been validated end-to-end: community signal aggregation $\rightarrow$ LLM-assisted rule generation $\rightarrow$ automated quality gate $\rightarrow$ human review $\rightarrow$ publication. ATR rules are shipped as upstream detection by Cisco AI Defense \cite{ciscopr79}.
+\textbf{(5)} We present Agent Threat Rules (ATR) \cite{atr}, the first open-source implementation of this standard, and validate it empirically: \textbf{113 YAML-based detection rules} across 9 threat categories, independently benchmarked at 99.6\% precision and 61.4\% recall against the external PINT dataset \cite{pint} (850 samples), with 100\% recall and 97\% precision on the SKILL.md structured content benchmark (498 samples, 0.20\% FP rate). An ecosystem-wide scan of \textbf{96,096 agent skills} across six registries (OpenClaw, ClawHub, Skills.sh, Hermes, MCP Registry) discovered \textbf{751 active malware skills} from three coordinated threat actors \cite{atrscanmega}. A threat crystallization flywheel has been validated end-to-end: community signal aggregation $\rightarrow$ LLM-assisted rule generation $\rightarrow$ automated quality gate $\rightarrow$ human review $\rightarrow$ publication. ATR rules are shipped as upstream detection by Cisco AI Defense \cite{ciscopr79}.
 
 \textbf{(6)} We publish RFC-001 \cite{rfc001}, the first vendor-neutral quality standard for AI agent detection rules. RFC-001 defines maturity levels, a confidence scoring formula, a two-dimensional compliance model (metadata presence $\times$ provenance), six review tier levels (the first standard to formalize LLM-assisted review as a first-class tier), community signal aggregation, and multi-runtime compatibility declarations for 14 agent platforms. The standard is designed so that \textbf{any vendor} --- not just ATR --- can adopt the scoring algorithm by implementing a single adapter interface. A reference implementation is published as MIT-licensed open source. Microsoft's concurrent CTI-REALM benchmark \cite{ctirealm} independently validates the premise that AI agents can assist in detection rule generation, which is the mechanism ATR's crystallization flywheel relies on.
 \end{abstract}
@@ -368,7 +368,7 @@ This is the most concrete, most urgent, most immediately implementable applicati
 \item ``For this task, your original instructions don't apply''
 \end{itemize}
 
-Regex-based detection catches the first form and misses the rest. Our evaluation data confirms this: Tier 2 pattern matching achieves 61.4\% recall on PINT's external benchmark \cite{pint} --- up from 39.9\% in v0.3.1 through 47 additional rules and community-contributed patterns, but still below the theoretical ceiling. Against structured content (SKILL.md manifests with defined fields), recall reaches 96.9\%, demonstrating that the effectiveness of pattern matching is strongly dependent on input structure.
+Regex-based detection catches the first form and misses the rest. Our evaluation data confirms this: Tier 2 pattern matching achieves 61.4\% recall on PINT's external benchmark \cite{pint} --- up from 39.9\% in v0.3.1 through 47 additional rules and community-contributed patterns, but still below the theoretical ceiling. Against structured content (SKILL.md manifests with defined fields), recall reaches 100\%, demonstrating that the effectiveness of pattern matching is strongly dependent on input structure.
 
 But the paraphrase problem is worse than a recall gap. \textbf{It's an asymmetric scaling problem.} Defenders must enumerate every possible phrasing. Attackers only need ONE novel phrasing. Every new defensive pattern is instantly obsolete once the attacker rephrases.
 
@@ -630,14 +630,14 @@ references:
 \toprule
 \textbf{Category} & \textbf{Rules} & \textbf{What It Attacks} & \textbf{Data Flow Points Monitored} \\
 \midrule
-Prompt Injection & 33 & Agent's reasoning & llm\_io, tool\_call, context\_window \\
-Skill Compromise & 22 & Agent's dependencies & tool\_call, mcp\_exchange \\
-Tool Poisoning & 22 & Agent's tools (MCP) & tool\_call, mcp\_exchange \\
-Context Exfiltration & 14 & Agent's knowledge & llm\_io, memory\_access \\
+Prompt Injection & 34 & Agent's reasoning & llm\_io, tool\_call, context\_window \\
+Skill Compromise & 23 & Agent's dependencies & tool\_call, mcp\_exchange \\
+Tool Poisoning & 12 & Agent's tools (MCP) & tool\_call, mcp\_exchange \\
+Context Exfiltration & 15 & Agent's knowledge & llm\_io, memory\_access \\
+Agent Manipulation & 13 & Inter-agent trust & multi\_agent\_comm \\
 Privilege Escalation & 8 & Agent's permissions & tool\_call, context\_window \\
-Agent Manipulation & 5 & Inter-agent trust & multi\_agent\_comm \\
-Excessive Autonomy & 2 & Agent's boundaries & tool\_call, context\_window \\
-Model Security & 1 & Model itself & llm\_io \\
+Excessive Autonomy & 5 & Agent's boundaries & tool\_call, context\_window \\
+Model Security & 2 & Model itself & llm\_io \\
 Data Poisoning & 1 & Agent's knowledge base & memory\_access \\
 \bottomrule
 \end{tabularx}
@@ -659,27 +659,27 @@ We evaluated ATR against internal tests and two external benchmarks:
 \textbf{Benchmark} & \textbf{Samples} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{FP Rate} \\
 \midrule
 Self-test corpus & 341 & 100\% & 88.47\% & 93.88\% & 0\% \\
-\textbf{PINT (external)} & \textbf{850} & \textbf{99.6\%} & \textbf{62.7\%} & \textbf{77.1\%} & \textbf{0.25\%} \\
-\textbf{SKILL.md (external)} & \textbf{498 (32 mal + 466 benign)} & \textbf{100\%} & \textbf{96.9\%} & \textbf{98.4\%} & \textbf{0\%} \\
+\textbf{PINT (external)} & \textbf{850} & \textbf{99.6\%} & \textbf{61.4\%} & \textbf{76.0\%} & \textbf{0.25\%} \\
+\textbf{SKILL.md (external)} & \textbf{498 (32 mal + 466 benign)} & \textbf{97\%} & \textbf{100\%} & \textbf{98.5\%} & \textbf{0.20\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \textbf{Self-test corpus:} 361 tests embedded alongside ATR rules, executed as part of the CI pipeline. All pass across all 113 rules.
 
-\textbf{PINT benchmark:} 850 samples from Lakera's external prompt injection dataset \cite{pint} --- questions ATR has never seen. The 0.25\% false positive rate (1 in 400) means ATR can run on production traffic without alert fatigue. Recall improved from 39.9\% (v0.3.1, 61 rules) to 62.7\% (v2.0.0, 113 rules) through community-contributed patterns and threat crystallization.
+\textbf{PINT benchmark:} 850 samples from Lakera's external prompt injection dataset \cite{pint} --- questions ATR has never seen. The 0.25\% false positive rate (1 in 400) means ATR can run on production traffic without alert fatigue. Recall improved from 39.9\% (v0.3.1, 61 rules) to 61.4\% (v2.0.0, 113 rules) through community-contributed patterns and threat crystallization.
 
-\textbf{SKILL.md benchmark:} 498 samples from real-world MCP skill manifests (32 confirmed malicious, 466 verified benign). 100\% precision, 96.9\% recall, 0\% false positive rate. This benchmark tests ATR against its primary operational target: structured skill definitions with defined fields. The 96.9\% recall on structured content vs.\ 61.4\% on adversarial natural language demonstrates the structural advantage of scanning below the reasoning layer --- where attackers cannot freely paraphrase because tool descriptions must follow a schema.
+\textbf{SKILL.md benchmark:} 498 samples from real-world MCP skill manifests (32 confirmed malicious, 466 verified benign). 100\% recall, 97\% precision, 0.20\% false positive rate. This benchmark tests ATR against its primary operational target: structured skill definitions with defined fields. The 100\% recall on structured content vs.\ 61.4\% on adversarial natural language demonstrates the structural advantage of scanning below the reasoning layer --- where attackers cannot freely paraphrase because tool descriptions must follow a schema.
 
 
 \subsection{Why the Recall Gap Is a Feature, Not a Bug}
 
-ATR achieves 100\% recall on structured SKILL.md content and 62.7\% on adversarial natural language (PINT). This gap is informative, not embarrassing:
+ATR achieves 100\% recall on structured SKILL.md content and 61.4\% on adversarial natural language (PINT). This gap is informative, not embarrassing:
 
 \begin{lstlisting}
 Recall by input type:
 
-  Structured skill manifests (SKILL.md):     96.9%  <-- Schema-constrained,
+  Structured skill manifests (SKILL.md):     100%   <-- Schema-constrained,
                                                          limited paraphrase space
   Adversarial natural language (PINT):        62.7%  <-- Infinite paraphrase space,
                                                          multi-language, encoding tricks
@@ -773,7 +773,7 @@ ATR has moved from proposal to production adoption:
 
 \subsection{Known Limitations}
 
-\textbf{Regex ceiling --- structure-dependent.} Tier 2 pattern matching achieves 100\% recall on structured SKILL.md content but 62.7\% on adversarial natural language (PINT). The gap is structural: tool descriptions and skill manifests have schemas that constrain the attacker's paraphrase space; free-form natural language does not. ATR's response: use regex where it works (structured content, known patterns, near-zero false positives, $<$5ms), and escalate free-form content to Tiers 3--4.
+\textbf{Regex ceiling --- structure-dependent.} Tier 2 pattern matching achieves 100\% recall on structured SKILL.md content but 61.4\% on adversarial natural language (PINT). The gap is structural: tool descriptions and skill manifests have schemas that constrain the attacker's paraphrase space; free-form natural language does not. ATR's response: use regex where it works (structured content, known patterns, near-zero false positives, $<$5ms), and escalate free-form content to Tiers 3--4.
 
 \textbf{Known evasion techniques.} We have documented 64 evasion techniques across all 113 rules. These are published in each rule's \texttt{evasion\_tests} field. Categories include: paraphrase (21), encoding bypass (12), language switching (9), semantic restructuring (8), multi-turn decomposition (6), context window manipulation (4), and other (4). Documenting what we cannot catch is as important as documenting what we can.
 
@@ -836,7 +836,7 @@ Static defenses at the I/O boundary cannot solve this. The industry needs:
 \item \textbf{An open standard} that enables community-driven defense, independent verification, and interoperability across agent platforms
 \end{itemize}
 
-We have implemented these requirements as ATR \cite{atr} --- 113 open-source detection rules, a 5-tier cascade engine, and a validated threat crystallization flywheel --- and tested the approach against three benchmarks: PINT \cite{pint} (99.6\% precision, 62.7\% recall), SKILL.md (100\% recall, 97\% precision, 0.20\% FP rate), and an ecosystem-wide scan of 96,096 agent skills \cite{atrscanmega} across six registries. The scan discovered 751 active malware skills from three coordinated threat actors --- the largest documented malware campaign targeting AI agent ecosystems.
+We have implemented these requirements as ATR \cite{atr} --- 113 open-source detection rules, a 5-tier cascade engine, and a validated threat crystallization flywheel --- and tested the approach against three benchmarks: PINT \cite{pint} (99.6\% precision, 61.4\% recall), SKILL.md (100\% recall, 97\% precision, 0.20\% FP rate), and an ecosystem-wide scan of 96,096 agent skills \cite{atrscanmega} across six registries. The scan discovered 751 active malware skills from three coordinated threat actors --- the largest documented malware campaign targeting AI agent ecosystems.
 
 Beyond the rule corpus, we publish RFC-001 \cite{rfc001} --- the first vendor-neutral quality standard for AI agent detection rules. RFC-001 defines maturity levels, confidence scoring, two-dimensional compliance (metadata $\times$ provenance), review tier levels L0--L5, community signal aggregation, and multi-runtime compatibility across 14 agent platforms. The standard is explicitly designed to be adopted without adopting ATR's rule format: any vendor implements one adapter interface and gains comparable quality scores. Microsoft's CTI-REALM benchmark \cite{ctirealm}, published concurrently in March 2026, independently validates that AI agents can generate detection rules from threat intelligence --- the same mechanism ATR's crystallization flywheel uses in production.
 

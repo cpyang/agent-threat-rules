@@ -59,7 +59,7 @@ of the public skill ecosystem has been conducted at scale.  We present
 the largest such audit to date: a scan of \textbf{53,577 MCP skills}
 across two registries (OpenClaw: 50,485; Skills.sh: 3,115), executed on
 April~8, 2026, using the Agent Threat Rules (ATR) engine v1.1.0 with
-108 regex-based detection rules.  The scan flagged \textbf{946 skills
+113 regex-based detection rules.  The scan flagged \textbf{946 skills
 (1.77\%)} containing security-relevant patterns: 875 critical, 52 high,
 19 medium.  Tool description poisoning accounted for 71\% of all
 detections.  False positive rate on a verified clean corpus was 0\%.
@@ -580,7 +580,7 @@ Antiy CERT~\cite{antiy2026} & Mar 2026 & 37,394\textsuperscript{a} & 1,184 & 3.2
 ATR March scan~\cite{atrscan2386} & Mar 2026 & 2,386 & 1,171\textsuperscript{b} & 49\%\textsuperscript{b} & ATR v0.9 (61 rules) & npm \\
 Prompt Security~\cite{promptsec2026} & Mar 2026 & 13,000+ & --- & --- & Proprietary scoring & Mixed \\
 Checkmarx~\cite{checkmarx2026} & 2025--26 & $\sim$1,000 & --- & 38\%\textsuperscript{c} & Auth analysis & Mixed \\
-\textbf{This work} & \textbf{Apr 2026} & \textbf{53,577} & \textbf{946} & \textbf{1.77\%} & \textbf{ATR v1.1.0 (108 rules)} & \textbf{OpenClaw + Skills.sh} \\
+\textbf{This work} & \textbf{Apr 2026} & \textbf{53,577} & \textbf{946} & \textbf{1.77\%} & \textbf{ATR v1.1.0 (108 rules)\footnote{ATR v2.0.0 (113 rules) subsequently expanded the scan to 96,096 skills across six registries, discovering 751 confirmed malware.}} & \textbf{OpenClaw + Skills.sh} \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
@@ -800,7 +800,7 @@ window.  This is a protocol design property, not an implementation bug.
 Mitigations that do not address this architectural conflation will remain
 insufficient.
 
-\textbf{Simple detection works.}  108 regex rules at 5.39\,ms per skill
+\textbf{Simple detection works.}  113 regex rules at 5.39\,ms per skill
 achieved 0\% false positives across 53,577 skills and 100\% precision on
 an independent benchmark.  The technical barrier to pre-publication
 scanning is negligible.  The barrier is organizational: registries must

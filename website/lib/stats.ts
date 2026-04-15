@@ -217,8 +217,8 @@ export function loadSiteStats(): SiteStats {
     skillAvgLatency: skillScan?.scan_metadata?.avg_latency_ms ?? 5.39,
 
     skillBenchSamples: skillBench?.corpus_size ?? 498,
-    skillBenchRecall: Math.round((skillBench?.overall_recall ?? 0.969) * 1000) / 10,
-    skillBenchPrecision: Math.round((skillBench?.overall_precision ?? 1) * 1000) / 10,
+    skillBenchRecall: Math.round((skillBench?.overall_recall ?? 1.0) * 1000) / 10,
+    skillBenchPrecision: Math.round((skillBench?.overall_precision ?? 0.97) * 1000) / 10,
     skillBenchF1: Math.round((skillBench?.overall_f1 ?? 0.984) * 1000) / 10,
     skillBenchFpRate: Math.round((skillBench?.fp_rate ?? 0) * 1000) / 10,
     skillBenchLatency: Math.round((skillBench?.avg_latency_ms ?? 3.52) * 10) / 10,

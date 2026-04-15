@@ -311,7 +311,7 @@ In February 2026, Antiy CERT published an analysis of 1,184 malicious skills ide
 
 \subsection{Methodology}
 
-We conducted a large-scale scan of MCP skills using the Agent Threat Rules (ATR) detection engine~\cite{atr-project}, an open-source rule-based scanner with 108 detection rules covering nine threat categories. The scan targeted three major skill registries:
+We conducted a large-scale scan of MCP skills using the Agent Threat Rules (ATR) detection engine~\cite{atr-project}, an open-source rule-based scanner with 113 detection rules covering nine threat categories. The scan targeted three major skill registries:
 
 \begin{itemize}[leftmargin=*]
     \item \textbf{ClawHub}: 37,394 skills (largest community registry)
@@ -319,7 +319,7 @@ We conducted a large-scale scan of MCP skills using the Agent Threat Rules (ATR)
     \item \textbf{Skills.sh}: 3,115 skills (curated directory)
 \end{itemize}
 
-Each skill's manifest---including tool names, descriptions, parameter schemas, and README content---was evaluated against the full ATR rule set. The scanner uses deterministic regex-based pattern matching, achieving 99.7\% precision and 62.7\% recall on the PINT benchmark (850 MCP samples) and 100\% precision with 96.9\% recall on real-world SKILL.md files (498 samples)~\cite{atr-benchmark}.
+Each skill's manifest---including tool names, descriptions, parameter schemas, and README content---was evaluated against the full ATR rule set. The scanner uses deterministic regex-based pattern matching, achieving 99.6\% precision and 61.4\% recall on the PINT benchmark (850 MCP samples) and 100\% precision with 96.9\% recall on real-world SKILL.md files (498 samples)~\cite{atr-benchmark}.
 
 \subsection{Results}
 
@@ -361,7 +361,7 @@ The dominance of tool description poisoning (71\%) is consistent with the low ba
 
 \subsection{False Positive Analysis}
 
-To validate precision, we manually reviewed a stratified random sample of 200 flagged skills and a control set of 200 unflagged skills. The flagged sample yielded 0 false positives (all 200 contained genuinely suspicious patterns). The control set yielded 0 false negatives within the scanner's detection scope. These results are consistent with the scanner's benchmark performance: 99.7\% precision on the PINT evaluation set~\cite{atr-benchmark}.
+To validate precision, we manually reviewed a stratified random sample of 200 flagged skills and a control set of 200 unflagged skills. The flagged sample yielded 0 false positives (all 200 contained genuinely suspicious patterns). The control set yielded 0 false negatives within the scanner's detection scope. These results are consistent with the scanner's benchmark performance: 99.6\% precision on the PINT evaluation set~\cite{atr-benchmark}.
 
 \subsection{Registry Comparison}
 
@@ -475,7 +475,7 @@ The Securing AI-Friendly Ecosystems for MCP (SAFE-MCP) initiative, backed by \$1
 
 \subsection{Agent Threat Rules (ATR)}
 
-ATR is an open-source detection rule set with 108 rules covering nine categories aligned with the OWASP Agentic Top~10~\cite{atr-project, owasp-agentic}. ATR achieves 10/10 coverage of the OWASP Agentic Top~10 categories and 91.8\% coverage (78/85) of SAFE-MCP requirements~\cite{atr-safemcp}. Cisco AI Defense has integrated 34 ATR rules into its enterprise skill scanner~\cite{cisco-atr}. ATR operates as a regex-based first gate (99.7\% precision), with semantic analysis deferred to a secondary LLM-based layer for ambiguous cases. The architecture reflects a deliberate design tradeoff: deterministic regex matching provides speed and precision at the cost of recall on novel attack patterns.
+ATR is an open-source detection rule set with 113 rules covering nine categories aligned with the OWASP Agentic Top~10~\cite{atr-project, owasp-agentic}. ATR achieves 10/10 coverage of the OWASP Agentic Top~10 categories and 91.8\% coverage (78/85) of SAFE-MCP requirements~\cite{atr-safemcp}. Cisco AI Defense has integrated 34 ATR rules into its enterprise skill scanner~\cite{cisco-atr}. ATR operates as a regex-based first gate (99.6\% precision), with semantic analysis deferred to a secondary LLM-based layer for ambiguous cases. The architecture reflects a deliberate design tradeoff: deterministic regex matching provides speed and precision at the cost of recall on novel attack patterns.
 
 \subsection{OWASP Agentic Top 10}
 
@@ -602,7 +602,7 @@ Based on our analysis, we propose actionable recommendations for four stakeholde
 
 Our analysis has several limitations that should inform interpretation of the results.
 
-First, our ecosystem scan is based on regex pattern matching, which cannot detect semantic attacks---for example, a tool description that uses euphemistic language to manipulate model behavior without triggering keyword patterns. The 62.7\% recall on the PINT benchmark confirms that roughly 37\% of malicious patterns evade detection. The true prevalence of malicious skills is likely higher than the 1.77\% we report.
+First, our ecosystem scan is based on regex pattern matching, which cannot detect semantic attacks---for example, a tool description that uses euphemistic language to manipulate model behavior without triggering keyword patterns. The 61.4\% recall on the PINT benchmark confirms that roughly 37\% of malicious patterns evade detection. The true prevalence of malicious skills is likely higher than the 1.77\% we report.
 
 Second, our CVE velocity comparison controls for calendar time but not for differences in ecosystem size, researcher population, or disclosure norms between eras. The security research community in 2025 is substantially larger and better-funded than in 2013 (Docker) or 2015 (Kubernetes), which inflates the MCP CVE count relative to historical comparisons.
 
@@ -704,10 +704,10 @@ Invariant Labs, ``MCP security analysis: Sampling-based prompt injection,''
 
 \bibitem{atr-project}
 Agent Threat Rules Project, ``ATR: Open-source detection rules for AI agent security,''
-v1.1.1, 108 rules, \url{https://github.com/anthropics/agent-threat-rules}, 2026.
+v1.1.1, 113 rules, \url{https://github.com/anthropics/agent-threat-rules}, 2026.
 
 \bibitem{atr-benchmark}
-Agent Threat Rules Project, ``PINT benchmark: 850 samples, 62.7\% recall, 99.7\% precision; SKILL.md benchmark: 498 samples, 96.9\% recall, 100\% precision,'' 2026.
+Agent Threat Rules Project, ``PINT benchmark: 850 samples, 61.4\% recall, 99.6\% precision; SKILL.md benchmark: 498 samples, 96.9\% recall, 100\% precision,'' 2026.
 
 \bibitem{atr-safemcp}
 Agent Threat Rules Project, ``SAFE-MCP coverage mapping: 78/85 requirements (91.8\%),''

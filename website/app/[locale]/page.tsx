@@ -74,14 +74,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <HeroGrid />
 
         <div className="relative z-10 max-w-[900px]">
-          {/* Logo mark — geometric A with radar sweep lines */}
+          {/* Logo — full ATR lockup */}
           <HeroEntrance delay={0.5}>
-            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-14 md:h-[72px] mx-auto mb-8 md:mb-10" aria-label="ATR">
-              <path d="M20 0L40 36H30L20 18L10 36H0L20 0Z" fill="#0B0B0F"/>
-              <line x1="6" y1="28" x2="34" y2="28" stroke="#0B0B0F" strokeWidth="1.5"/>
-              <line x1="8" y1="31" x2="32" y2="31" stroke="#0B0B0F" strokeWidth="1.2"/>
-              <line x1="10" y1="34" x2="30" y2="34" stroke="#0B0B0F" strokeWidth="1"/>
-            </svg>
+            <img src="/atr-logo-black.png" alt="ATR" className="h-12 md:h-16 mx-auto mb-8 md:mb-10" />
           </HeroEntrance>
 
           {/* The paradigm shift */}
@@ -93,7 +88,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
           <HeroEntrance delay={1.1}>
             <h1 className="font-display text-[36px] md:text-[clamp(52px,6.5vw,80px)] font-black leading-[1.05] tracking-[-2px] md:tracking-[-3px] text-ink mt-2 md:mt-3">
-              {zh ? "現在我們保護 agent。" : "Now we protect agents."}
+              {zh ? "現在我們保護 AI agent。" : "Now we protect AI agents."}
             </h1>
           </HeroEntrance>
 

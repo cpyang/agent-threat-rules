@@ -236,20 +236,20 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
               <div>
                 <div className="flex items-baseline justify-between mb-1">
                   <span className="font-data text-sm font-semibold">Layer C</span>
-                  <span className="font-data text-sm font-bold text-ink">87.5%</span>
+                  <span className="font-data text-sm font-bold text-ink">100%</span>
                 </div>
                 <div className="text-xs text-stone">
-                  {locale === "zh" ? "混淆/隱藏攻擊 — 7/8 偵測（1 個 rug-pull timebomb 未偵測）" : "Obfuscated attacks — 7/8 detected (1 rug-pull timebomb missed)"}
+                  {locale === "zh" ? "混淆/隱藏攻擊 — 8/8 全部偵測" : "Obfuscated attacks — 8/8 detected"}
                 </div>
-                <div className="mt-1.5 h-1.5 bg-fog"><div className="h-full bg-blue" style={{ width: "87.5%" }} /></div>
+                <div className="mt-1.5 h-1.5 bg-fog"><div className="h-full bg-blue" style={{ width: "100%" }} /></div>
               </div>
               <div>
                 <div className="flex items-baseline justify-between mb-1">
                   <span className="font-data text-sm font-semibold">{locale === "zh" ? "正常樣本" : "Benign"}</span>
-                  <span className="font-data text-sm font-bold text-green">0 FP</span>
+                  <span className="font-data text-sm font-bold text-green">1 FP</span>
                 </div>
                 <div className="text-xs text-stone">
-                  {locale === "zh" ? "466 個正常 SKILL.md — 零誤報" : "466 benign SKILL.md files — zero false positives"}
+                  {locale === "zh" ? "466 個正常 SKILL.md — 1 個誤報（0.20%）" : "466 benign SKILL.md files — 1 false positive (0.20%)"}
                 </div>
                 <div className="mt-1.5 h-1.5 bg-fog"><div className="h-full bg-green" style={{ width: "100%" }} /></div>
               </div>
