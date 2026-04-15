@@ -91,8 +91,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <HeroEntrance delay={1.0}>
             <p className="text-[13px] md:text-base text-mist font-light max-w-[520px] mx-auto mt-5 md:mt-5 leading-[1.8]">
               {zh
-                ? <>AI agent 安全的開放偵測標準。<br className="sm:hidden" />108 條規則。Cisco 已採用。<br className="sm:hidden" />保護 90,000+ 個 skill 的生態系。</>
-                : <>The open detection standard for AI agent security.<br className="sm:hidden" /> 108 rules. Shipped in Cisco.<br className="sm:hidden" /> Protecting 90,000+ skills across the ecosystem.</>}
+                ? <>AI agent 安全的開放偵測標準。<br className="sm:hidden" />{stats.ruleCount} 條規則。已掃描 {stats.megaScanTotal.toLocaleString()} 個 skill。<br className="sm:hidden" />發現 751 個惡意軟體。Cisco 已採用。</>
+                : <>The open detection standard for AI agent security.<br className="sm:hidden" /> {stats.ruleCount} rules. {stats.megaScanTotal.toLocaleString()} skills scanned.<br className="sm:hidden" /> 751 malware discovered. Shipped in Cisco.</>}
             </p>
           </HeroEntrance>
 
@@ -170,6 +170,101 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       <SpeedLines />
+
+      {/* ── Scene 2.5: The Discovery (751 Malware) ── */}
+      <section className="py-12 md:py-[100px] px-5 md:px-6 bg-[#0B0B0F] text-white">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="font-data text-[11px] md:text-xs font-medium text-[#808089] tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
+              {zh ? "2026 年 4 月發現" : "Discovered April 2026"}
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="font-data text-[clamp(48px,10vw,120px)] font-bold text-critical leading-[0.9] mb-3 md:mb-4">
+              751
+            </div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <h2 className="font-display text-[20px] md:text-[clamp(24px,3.5vw,40px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.3] mb-4 md:mb-5 max-w-[700px]">
+              {zh
+                ? <>惡意 AI agent skill。<br />三個協同攻擊者。<br />史上最大的 AI agent 惡意軟體行動。</>
+                : <>malicious AI agent skills.<br />Three coordinated threat actors.<br />The largest AI agent malware campaign ever documented.</>}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[#1A1A24] max-w-[700px]">
+              {[
+                { actor: "hightower6eu", count: 354, desc: zh ? "Solana / Google Workspace 偽裝" : "Solana / Google Workspace disguise" },
+                { actor: "sakaen736jih", count: 212, desc: zh ? "C2 伺服器 91.92.242.30" : "C2 server at 91.92.242.30" },
+                { actor: "52yuanchangxing", count: 137, desc: zh ? "中文開發工具" : "Chinese-language dev tools" },
+              ].map((a, i) => (
+                <Reveal key={a.actor} delay={0.25 + i * 0.05}>
+                  <div className="bg-[#0B0B0F] p-4 md:p-5">
+                    <div className="font-data text-xs text-[#808089] mb-1">{a.actor}</div>
+                    <div className="font-data text-2xl font-bold text-critical">{a.count}</div>
+                    <div className="text-xs text-[#606068] mt-1">{a.desc}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <p className="text-sm text-[#808089] max-w-[560px] mt-5 leading-[1.8]">
+              {zh
+                ? "ATR 在掃描 96,096 個 skill 時發現了這些攻擊者。所有 751 個惡意 skill 已被加入黑名單並通報 NousResearch。這不是理論分析 -- 這是真實偵測。"
+                : "ATR discovered these threat actors while scanning 96,096 skills across six registries. All 751 malicious skills have been blacklisted and reported to NousResearch. This is not theoretical analysis. This is real detection."}
+            </p>
+          </Reveal>
+          <Reveal delay={0.45}>
+            <Link href={`${prefix}/research`} className="font-data text-xs md:text-sm text-blue hover:underline inline-block mt-4">
+              {zh ? "閱讀完整研究報告 →" : "Read the full research report →"}
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Scene 2.7: Where ATR Sits (Ecosystem Positioning) ── */}
+      <section className="py-12 md:py-[100px] px-5 md:px-6">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
+              {zh ? "ATR 在安全生態系中的位置" : "Where ATR Fits"}
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="font-display text-[20px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-1px] leading-[1.35] mb-5 md:mb-6 max-w-[620px]">
+              {zh
+                ? <>框架告訴你威脅存在。<br />ATR 告訴你怎麼偵測。</>
+                : <>Frameworks tell you threats exist.<br />ATR tells you how to detect them.</>}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-fog">
+              {[
+                { name: "OWASP Agentic", role: zh ? "風險分類" : "Risk taxonomy", rel: zh ? "ATR 覆蓋 10/10" : "ATR covers 10/10" },
+                { name: "MITRE ATLAS", role: zh ? "攻擊技術" : "Attack techniques", rel: zh ? "ATR 是偵測規則補充" : "ATR complements with rules" },
+                { name: "RFC-001", role: zh ? "品質標準" : "Quality standard", rel: zh ? "ATR 定義的品質框架" : "Quality framework by ATR" },
+                { name: zh ? "EU AI Act (8月)" : "EU AI Act (Aug)", role: zh ? "法規要求" : "Regulatory mandate", rel: zh ? "ATR 提供稽核軌跡" : "ATR provides audit trail" },
+              ].map((f, i) => (
+                <Reveal key={f.name} delay={0.2 + i * 0.05}>
+                  <div className="bg-paper p-5 md:p-6">
+                    <div className="font-data text-sm font-semibold text-ink">{f.name}</div>
+                    <div className="text-xs text-stone mt-1">{f.role}</div>
+                    <div className="text-xs text-blue mt-2 font-medium">{f.rel}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <p className="text-sm text-graphite max-w-[560px] mt-4 leading-[1.8]">
+              {zh
+                ? "ATR 對 MITRE ATLAS 的關係，就像 Sigma 規則對 ATT&CK 的關係。ATLAS 描述攻擊者怎麼做。ATR 提供偵測規則，讓你在執行時期抓住他們。"
+                : "ATR is to MITRE ATLAS what Sigma rules are to ATT&CK. ATLAS describes how attackers operate. ATR provides the detection rules that catch them at runtime."}
+            </p>
+          </Reveal>
+        </div>
+      </section>
 
       {/* ── Scene 3: The Numbers ── */}
       <section className="py-14 md:py-[120px] px-5 md:px-6 bg-ash">
@@ -337,7 +432,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <div className="bg-paper p-5 md:p-6 flex sm:block items-center justify-between">
                 <div className="font-data text-xs text-stone sm:hidden">{zh ? "skills 已掃描" : "skills scanned"}</div>
                 <div className="font-data text-2xl sm:text-[clamp(24px,4vw,36px)] font-bold text-ink leading-none">
-                  <CountUp target={90000} useComma suffix="+" />
+                  <CountUp target={stats.megaScanTotal} useComma />
                 </div>
                 <div className="font-data text-xs text-stone mt-2 hidden sm:block">{zh ? "skills 已掃描" : "skills scanned"}</div>
               </div>

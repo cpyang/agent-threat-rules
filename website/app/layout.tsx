@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | ATR",
   },
   description:
-    "Open-source detection rules for AI agent security threats. 108 rules, 9 categories, 99.6% precision, 96.9% SKILL.md recall. Shipped in Cisco AI Defense. MIT Licensed.",
+    "Open-source detection standard for AI agent security. 113 rules, 96K skills scanned, 751 malware discovered, RFC-001 quality standard. Shipped in Cisco AI Defense. MIT Licensed.",
   metadataBase: new URL("https://agentthreatrule.org"),
   alternates: {
     canonical: "https://agentthreatrule.org",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ATR - Agent Threat Rules",
     description:
-      "The open detection standard for AI agent security. 108 rules. Shipped in Cisco. Protecting 90,000+ skills.",
+      "The open detection standard for AI agent security. 113 rules. 96K skills scanned. 751 malware discovered. Shipped in Cisco.",
     url: "https://agentthreatrule.org",
     siteName: "ATR - Agent Threat Rules",
     type: "website",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ATR - Agent Threat Rules",
     description:
-      "The open detection standard for AI agent security. 108 rules. Shipped in Cisco. 96.9% SKILL.md recall.",
+      "The open detection standard for AI agent security. 113 rules. 96K skills scanned. 751 malware discovered. Shipped in Cisco.",
     images: ["https://agentthreatrule.org/og-image.png"],
   },
   keywords: [

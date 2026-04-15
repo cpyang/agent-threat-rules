@@ -22,13 +22,18 @@ interface ClawHubStats {
   flaggedCount: number;
 }
 
-// --- Mega Scan (OpenClaw + Skills.sh) ---
+// --- Mega Scan (96K ecosystem scan across 6 registries) ---
 interface MegaScanReport {
   scan_date: string;
-  engine_rules: number;
-  sources: { openclaw: number; skills_sh: number };
-  totals: { scanned: number; flagged: number; flagged_rate: string };
+  engine_version?: string;
+  rules_loaded?: number;
+  sources: Record<string, number>;
+  totals: { scanned: number; flagged: number; flagged_rate?: string };
   severity: { critical: number; high: number; medium: number };
+  malware_campaign?: {
+    confirmed_malware: number;
+    threat_actors: Array<{ name: string; skills: number; malicious_rate: number }>;
+  };
 }
 
 // --- PINT Benchmark ---
@@ -187,15 +192,15 @@ export function loadSiteStats(): SiteStats {
     clawHubHigh: clawhub?.summary?.HIGH ?? 1124,
     clawHubScanDate: clawhub?.scanDate ?? "2026-03-26",
 
-    megaScanTotal: mega?.totals?.scanned ?? 53577,
-    megaScanFlagged: mega?.totals?.flagged ?? 946,
-    megaScanCritical: mega?.severity?.critical ?? 875,
-    megaScanHigh: mega?.severity?.high ?? 52,
+    megaScanTotal: mega?.totals?.scanned ?? 96096,
+    megaScanFlagged: mega?.totals?.flagged ?? 1302,
+    megaScanCritical: mega?.severity?.critical ?? 989,
+    megaScanHigh: mega?.severity?.high ?? 353,
     megaScanSources: {
-      openclaw: mega?.sources?.openclaw ?? 50485,
+      openclaw: mega?.sources?.openclaw ?? 56480,
       skillsSh: mega?.sources?.skills_sh ?? 3115,
     },
-    megaScanDate: mega?.scan_date ?? "2026-04-08",
+    megaScanDate: mega?.scan_date ?? "2026-04-14",
 
     pintSamples: pint?.report?.corpusSize ?? 850,
     pintPrecision: Math.round((pint?.report?.overall?.precision ?? 0.9964) * 1000) / 10, // 99.6%

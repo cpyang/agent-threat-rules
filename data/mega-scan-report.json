@@ -1,78 +1,44 @@
 {
-  "scan_date": "2026-04-08T11:05:55.460Z",
-  "engine_version": "1.1.0",
-  "rules_loaded": 108,
+  "scan_date": "2026-04-14T17:19:02.038Z",
+  "engine_version": "2.0.0",
+  "rules_loaded": 113,
   "sources": {
-    "openclaw": 50485,
-    "skills_sh": 3115
+    "openclaw": 56480,
+    "clawhub": 36498,
+    "skills_sh": 3115,
+    "hermes": 123,
+    "mcp_registry": 4880
   },
   "totals": {
-    "scanned": 53577,
-    "skipped": 23,
-    "clean": 52631,
-    "flagged": 946
+    "scanned": 96096,
+    "skipped": 0,
+    "clean": 94794,
+    "flagged": 1302
   },
-  "flagged_rate": "1.766%",
+  "flagged_rate": "1.355%",
   "severity": {
-    "critical": 875,
-    "high": 52,
-    "medium": 19,
+    "critical": 989,
+    "high": 353,
+    "medium": 7,
     "low": 0,
     "informational": 0
   },
-  "rule_hits": [
-    {
-      "id": "ATR-2026-00121",
-      "count": 674
-    },
-    {
-      "id": "ATR-2026-00120",
-      "count": 81
-    },
-    {
-      "id": "ATR-2026-00149",
-      "count": 76
-    },
-    {
-      "id": "ATR-2026-00135",
-      "count": 55
-    },
-    {
-      "id": "ATR-2026-00124",
-      "count": 41
-    },
-    {
-      "id": "ATR-2026-00122",
-      "count": 27
-    },
-    {
-      "id": "ATR-2026-00127",
-      "count": 18
-    },
-    {
-      "id": "ATR-2026-00126",
-      "count": 12
-    },
-    {
-      "id": "ATR-2026-00128",
-      "count": 9
-    },
-    {
-      "id": "ATR-2026-00129",
-      "count": 3
-    },
-    {
-      "id": "ATR-2026-00134",
-      "count": 2
-    },
-    {
-      "id": "ATR-2026-00151",
-      "count": 1
-    }
-  ],
-  "tc_pushed": {
-    "ok": 926,
-    "fail": 1
+  "malware_campaign": {
+    "confirmed_malware": 751,
+    "threat_actors": [
+      { "name": "hightower6eu", "skills": 354, "malicious_rate": 1.0 },
+      { "name": "sakaen736jih", "skills": 212, "malicious_rate": 0.93 },
+      { "name": "52yuanchangxing", "skills": 137, "malicious_rate": 0.72 }
+    ]
   },
-  "threats_summary": 927
+  "rule_hits": [
+    { "id": "ATR-2026-00121", "count": 686 },
+    { "id": "ATR-2026-00123", "count": 209 },
+    { "id": "ATR-2026-00163", "count": 99 },
+    { "id": "ATR-2026-00120", "count": 89 },
+    { "id": "ATR-2026-00149", "count": 79 },
+    { "id": "ATR-2026-00162", "count": 64 },
+    { "id": "ATR-2026-00135", "count": 57 }
+  ],
+  "tc_blacklist": 554
 }
