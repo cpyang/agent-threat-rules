@@ -6,7 +6,7 @@ import { StatsHydrator } from "@/components/StatsHydrator";
 import { NumberScramble } from "@/components/NumberScramble";
 import { HeroGrid } from "@/components/DotGrid";
 import { Flywheel } from "@/components/Flywheel";
-import { CommunityWall } from "@/components/CommunityWall";
+// CommunityWall moved to /wall page
 import { loadSiteStats } from "@/lib/stats";
 import { loadContributors, getCountryStats } from "@/lib/contributors";
 import { loadAllRules, getCategories } from "@/lib/rules";

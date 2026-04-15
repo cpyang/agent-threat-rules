@@ -42,7 +42,6 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           {/* Main paper */}
           <div className="bg-paper p-5 md:p-6">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "最新" : "LATEST"}</span>
               <span className="font-data text-xs text-mist">April 2026 · 24 pages · 72 references</span>
             </div>
             <div className="font-display text-base font-semibold text-ink mb-1">
@@ -57,7 +56,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
             </p>
             <div className="flex flex-wrap gap-3">
               <a href="https://doi.org/10.5281/zenodo.19476495" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
-              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-Paper-v5.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-Paper.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
               <span className="font-data text-xs text-stone">SSRN: 6457179</span>
             </div>
           </div>
