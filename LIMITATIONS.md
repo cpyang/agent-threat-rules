@@ -1,8 +1,8 @@
 # ATR Limitations
 
-ATR v0.4 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
+ATR v2.0.0 uses regex-based pattern detection (`detection_tier: pattern`, `schema_version: 0.1`). This document is a transparent accounting of what that approach can and cannot do. Read this before deploying ATR in production.
 
-**Current stats:** 108 rules, 297 tests passing. MCP benchmark: 62.7% recall, 99.7% precision (PINT, 850 samples). SKILL.md benchmark: 96.9% recall, 100% precision, 0% FP (498 real-world samples). Plus 64 evasion tests documenting known bypasses.
+**Current stats:** 113 rules, 361 tests passing. MCP benchmark: 62.7% recall, 99.6% precision (PINT, 850 samples). SKILL.md benchmark: 100% recall, 97% precision, 0.20% FP (498 real-world samples). Plus 64 evasion tests documenting known bypasses.
 
 That pass rate sounds impressive. It is not. It means ATR correctly matches the patterns it was written to match. It says nothing about attacks that use different words to express the same intent.
 
@@ -37,7 +37,7 @@ Credential forwarding syntax between agents. Role impersonation phrases ("I am t
 
 ## What Regex CANNOT Detect
 
-This is the section that matters. Every limitation below represents a class of attacks that will bypass ATR v0.4 completely.
+This is the section that matters. Every limitation below represents a class of attacks that will bypass ATR v2.0.0 completely.
 
 ### Paraphrase Attacks
 ATR detects "ignore previous instructions" but does not detect "please set aside the guidance you were given earlier." Any regex rule can be bypassed by semantically equivalent rephrasing that avoids the specific verbs, nouns, and syntactic structures in the pattern. Natural language has effectively unlimited paraphrasing capacity. An attacker who reads the published rules can craft injection text that conveys the same intent without matching any detection layer. This is the single largest gap in regex-based detection.

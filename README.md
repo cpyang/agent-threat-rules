@@ -296,7 +296,7 @@ Want to integrate ATR into your product? Three options:
 ```bash
 # Option 1: Export rules as JSON (recommended for most tools)
 atr convert generic-regex --output atr-rules.json
-# → 108 rules, 685 regex patterns, severity/category metadata
+# → 113 rules, 714+ regex patterns, severity/category metadata
 
 # Option 2: Use the TypeScript engine directly
 npm install agent-threat-rules
@@ -346,15 +346,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 - [x] **v0.3** -- Eval framework, PINT benchmark, CI gate, embedding similarity
 - [x] **v0.4** -- 71 rules, ClawHub 36K scan, SAFE-MCP 91.8%
 - [x] **v1.0** -- 108 rules, 53K mega scan, GitHub Action + SARIF, generic-regex export, Cisco adoption
-- [x] **v1.1** (current) -- Threat Cloud flywheel, 5 ecosystem merges, Microsoft AGT + NVIDIA Garak PRs, npm description update
-- [ ] **v1.2** -- Go engine, ML classifier integration, semantic signatures, community rule submissions
-- [ ] **v2.0** -- Multi-engine standard: 2+ engines, 10+ production deployments, schema review by 3+ security teams
+- [x] **v1.1** -- Threat Cloud flywheel, 5 ecosystem merges, Microsoft AGT + NVIDIA Garak PRs
+- [x] **v2.0.0** (current) -- 113 rules, 96K mega scan, 751 malware discovered, RFC-001, GOVERNANCE.md, website launch
+- [ ] **v2.1** -- Go engine, ML classifier integration, semantic signatures, community rule submissions
+- [ ] **v3.0** -- Multi-engine standard: 2+ engines, 10+ production deployments, schema review by 3+ security teams
 
 ### Strategic direction
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **Phase 0: Core product** | 108 rules, 62.7% recall, OWASP 10/10, 53K scan | **Done** |
+| **Phase 0: Core product** | 113 rules, 62.7% recall, OWASP 10/10, 96K scan | **Done** |
 | **Phase 1: Distribution** | GitHub Action, SARIF, generic-regex export, ecosystem PRs | **Done** |
 | **Phase 2: Adoption** | Cisco merged (34 rules), OWASP PR, 11 ecosystem PRs | **In progress** |
 | **Phase 3: Community flywheel** | Threat Cloud crystallization, auto-generated rules, 10+ contributors | In progress |
@@ -369,7 +370,7 @@ ATR uses "ATR Scanned" (not "ATR Certified") until recall exceeds 80%. We are ho
 ```
 ATR (this repo)                        Your Product / Integration
 ┌─────────────────────────┐            ┌──────────────────────────┐
-│ 108 Rules (YAML)        │   match    │ Block / Allow / Alert     │
+│ 113 Rules (YAML)        │   match    │ Block / Allow / Alert     │
 │ Engine (TS + Py)        │ ────────→  │ SIEM (Splunk / Elastic)  │
 │ CLI / MCP / GitHub Act. │   results  │ CI/CD (SARIF → Security) │
 │ SARIF / Generic Regex   │            │ Runtime Proxy (MCP)      │

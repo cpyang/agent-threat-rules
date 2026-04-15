@@ -76,7 +76,7 @@ for match in matches:
 | ATR provides (detection) | You build (protection) |
 |---|---|
 | Rule format (YAML schema) | Response policy (what to do on match) |
-| Rule library (108 rules) | Notification channels (Slack, email, etc.) |
+| Rule library (113 rules) | Notification channels (Slack, email, etc.) |
 | Evaluation engine (TS + Python) | Dashboard / monitoring UI |
 | Match results with confidence scores | Baseline learning / false positive tuning |
 | Session tracking (basic) | User/role-based policy |
@@ -109,7 +109,7 @@ Agent Process                    ATR Sidecar
 ┌──────────────┐                ┌──────────────┐
 │ Receives     │   event JSON   │ ATR Engine   │
 │ user input   │ ──────────→    │ evaluates    │
-│              │                │ 108 rules    │
+│              │                │ 113 rules    │
 │ Calls tools  │   match JSON   │              │
 │              │ ←──────────    │ returns      │
 │ Your logic   │                │ matches      │

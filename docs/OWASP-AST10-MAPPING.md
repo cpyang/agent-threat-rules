@@ -1,7 +1,7 @@
 # ATR → OWASP Agentic Skills Top 10 (AST10) Mapping
 
 Last updated: 2026-03-29
-ATR version: v1.0.0+ (108 rules, including 20 skill-specific rules)
+ATR version: v2.0.0 (113 rules, including 20 skill-specific rules)
 OWASP framework: Agentic Skills Top 10 (AST10), March 2026
 
 ## Background

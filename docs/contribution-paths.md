@@ -34,7 +34,7 @@ jobs:
       - uses: Agent-Threat-Rule/agent-threat-rules@v1
 ```
 
-That's it. Every PR gets scanned against 108 detection rules.
+That's it. Every PR gets scanned against 113 detection rules.
 
 ### CLI
 
@@ -51,7 +51,7 @@ atr scan ./skills/
 atr scan ./skills/ --report-to-cloud
 ```
 
-**What you get:** Free security scanning, 108 rules, 9 threat categories.
+**What you get:** Free security scanning, 113 rules, 9 threat categories.
 
 **What the network gets:** If you opt into `--report-to-cloud`, your anonymized detection data (rule ID + severity + content hash, zero raw content) helps crystallize new rules that protect everyone.
 
@@ -118,7 +118,7 @@ if result.outcome == "deny":
     # Block the request
 ```
 
-**What you get:** Real-time threat detection in your agent pipeline. 108 rules maintained by the community. Zero maintenance cost.
+**What you get:** Real-time threat detection in your agent pipeline. 113 rules maintained by the community. Zero maintenance cost.
 
 **What the network gets:** Your scanner becomes an endpoint. Attacks seen by your users (anonymized) help generate rules that protect Cisco, Microsoft, and every other endpoint.
 
@@ -169,7 +169,7 @@ atr scan my-config.json --format sarif --output results.sarif
 
 Upload to GitHub Code Scanning for security alerts in your PR review.
 
-**What you get:** 108 detection rules in your platform's format. Auto-updated via npm or git. Cisco-proven integration path.
+**What you get:** 113 detection rules in your platform's format. Auto-updated via npm or git. Cisco-proven integration path.
 
 **What the network gets:** Your platform's users become endpoints. A threat first seen by a Garak probe protects a Microsoft AGT deployment. A pattern caught by your SIEM triggers a rule that shields individual developers.
 
