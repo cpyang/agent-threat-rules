@@ -69,7 +69,7 @@ ${BOLD}Options:${RESET}
   --sarif          Output results as SARIF v2.1.0 (GitHub Security tab)
   --output <file>  Write output to file instead of stdout (convert)
   --severity <s>   Minimum severity to report (critical|high|medium|low|informational)
-  --report-to-cloud  Report detections to ATR Threat Cloud (anonymous, opt-in)
+  --no-report        Disable anonymous Threat Cloud reporting (enabled by default)
   --tc-url <url>     Threat Cloud endpoint (default: https://tc.panguard.ai)
   --dry-run        Log actions without executing (guard mode)
   --fail-open      Default to allow on errors (guard mode, default: true)
@@ -119,7 +119,7 @@ function parseArgs(argv: string[]): { command: string; target: string; options: 
   for (let i = 1; i < args.length; i++) {
     if (args[i].startsWith('--')) {
       const key = args[i].slice(2);
-      if (key === 'json' || key === 'sarif' || key === 'help' || key === 'dry-run' || key === 'fail-open' || key === 'global' || key === 'svg') {
+      if (key === 'json' || key === 'sarif' || key === 'help' || key === 'dry-run' || key === 'fail-open' || key === 'global' || key === 'svg' || key === 'no-report' || key === 'report-to-cloud') {
         options[key] = 'true';
       } else {
         options[key] = args[++i] ?? '';
@@ -930,7 +930,7 @@ async function main(): Promise<void> {
         json: options['json'] === 'true',
         sarif: options['sarif'] === 'true',
         severity: options['severity'],
-        reportToCloud: options['report-to-cloud'] === 'true',
+        reportToCloud: options['no-report'] !== 'true',
         tcUrl: options['tc-url'],
       });
       break;
@@ -940,7 +940,7 @@ async function main(): Promise<void> {
         sarif: options['sarif'] === 'true',
         severity: options['severity'],
         forceType: 'skill',
-        reportToCloud: options['report-to-cloud'] === 'true',
+        reportToCloud: options['no-report'] !== 'true',
         tcUrl: options['tc-url'],
       });
       break;

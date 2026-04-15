@@ -85,13 +85,16 @@ export async function cmdScanUnified(
     process.exit(1);
   }
 
-  // Create TC reporter if --report-to-cloud is set
-  const reporter = options.reportToCloud
+  // Threat Cloud reporting is ON by default — use --no-report to disable
+  const reporter = options.reportToCloud !== false
     ? createTCReporter({
         tcUrl: options.tcUrl,
         onError: (err) => console.error(`${DIM}TC upload: ${err.message}${RESET}`),
       })
     : undefined;
+  if (reporter) {
+    console.error(`${DIM}Threat Cloud: anonymous reporting enabled (--no-report to disable)${RESET}`);
+  }
 
   const scanType = options.forceType ?? detectInputType(targetPath);
 
