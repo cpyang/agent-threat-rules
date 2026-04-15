@@ -178,25 +178,22 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
             </p>
           </Reveal>
           <Reveal delay={0.2}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {wl.entries.slice(0, 20).map((entry) => (
-                <div key={entry.skill} className="bg-white border border-green/20 rounded-sm p-3 flex items-start gap-3">
-                  <div className="shrink-0 mt-0.5">
-                    <div className="w-6 h-6 rounded-full bg-green/15 flex items-center justify-center">
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                        <path d="M6.5 11.5L3 8l1-1 2.5 2.5L12 4l1 1-6.5 6.5z" fill="#16A34A"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="min-w-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {wl.entries.slice(0, 21).map((entry) => (
+                <div key={entry.skill} className="bg-white border border-green/20 rounded-sm p-3 md:p-4">
+                  <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="font-data text-xs font-medium text-ink truncate">{entry.skill}</div>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="font-data text-[10px] text-stone">{entry.downloads.toLocaleString()} {zh ? "下載" : "downloads"}</span>
-                      <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-green bg-green/10 px-1.5 py-0.5 rounded-sm uppercase tracking-wider">
-                        ATR {zh ? "認證" : "VERIFIED"}
-                      </span>
-                    </div>
+                    <span className="font-data text-[10px] text-stone shrink-0">{entry.downloads.toLocaleString()} {zh ? "下載" : "dl"}</span>
                   </div>
+                  {/* ATR Official Badge */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/atr-badge-clean.svg"
+                    alt="ATR Scanned - No Issues"
+                    width={170}
+                    height={20}
+                    className="block"
+                  />
                 </div>
               ))}
             </div>
