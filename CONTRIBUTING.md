@@ -60,46 +60,55 @@ You do not have to write YAML by hand to make ATR better.
 
 #### D. Scan and Report (~2 minutes)
 
-Run the ATR scanner against your own MCP skills or any public skill.
-Every scan generates structured findings that feed back into the
-community threat database.
+Run ATR against your MCP skills or any public skill. Findings go to
+Threat Cloud for aggregation (anonymized, opt-in via `--report-to-cloud`).
 
 ```bash
-npx agent-threat-rules scan skill.md      # Scan your installed MCP skills
-npx agent-threat-rules scan events.json   # Scan any MCP event log
+npx agent-threat-rules scan .                       # Scan current directory
+npx agent-threat-rules scan skill.md                # Scan a single SKILL.md
+npx agent-threat-rules scan events.json             # Scan MCP event log
+npx agent-threat-rules scan . --report-to-cloud     # Scan + report to TC
 ```
 
-Scan results are submitted to [Threat Cloud](https://tc.panguard.ai),
-a community-operated threat intelligence platform for ATR.
-Aggregated findings help identify new attack patterns and improve
-existing rules. Your scan data is anonymized before aggregation.
+When TC aggregates enough signals for a new attack pattern, it
+crystallizes a draft rule, opens a PR to this repo, and a human
+reviewer merges it. Your scan data becomes part of the global defense.
 
-#### E. Vote on Threat Intelligence (~1 minute)
+#### E. Add ATR to Your CI (~5 minutes)
 
-Threat Cloud surfaces potential threats discovered by community scans.
-Security researchers can review and vote on whether a flagged pattern
-is a genuine threat or a false positive.
+Add one file to your repo. Every PR gets scanned automatically.
 
-Community consensus directly improves ATR rule quality:
-- Confirmed threats become new rule candidates
-- Confirmed false positives refine existing rules
-- Disputed findings get escalated for expert review
+```yaml
+# .github/workflows/atr-scan.yml
+name: ATR Security Scan
+on: [pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx agent-threat-rules scan . --sarif > results.sarif
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+```
 
-Visit [tc.panguard.ai](https://tc.panguard.ai) to participate.
+Results appear in GitHub's Security tab as code scanning alerts.
 
 #### F. Contribute via LLM-Assisted Rule Generation
 
-Use AI tools to discover new attack patterns and draft ATR rules.
-The ATR MCP server lets any AI agent read, test, and propose new rules:
+Use AI tools to draft ATR rules. The ATR MCP server lets any AI
+agent read, test, and propose new rules:
 
 ```bash
 npx agent-threat-rules mcp   # Start the ATR MCP server
 ```
 
-With the MCP server running, your AI coding assistant can:
-- Analyze attack patterns and draft YAML rules
-- Run validation and tests against the ATR schema
-- Identify coverage gaps in existing rules
+Example prompt for your AI assistant:
+> "Read the ATR rules in rules/prompt-injection/. Find a prompt injection
+> technique not yet covered. Draft a new rule following the ATR schema at
+> spec/atr-schema.yaml. Include 3 true positives and 3 true negatives.
+> Validate with `atr validate` and test with `atr test`."
 
 Submit LLM-assisted rules via PR. Mark them with `author: your-name (LLM-assisted)`
 so reviewers know to pay extra attention to regex quality and edge cases.
@@ -133,24 +142,33 @@ Source code: [src/cli.ts](./src/cli.ts).
 
 Before submitting, verify:
 
+**Required (experimental tier, per RFC-001 v1.1):**
+
 - [ ] Follows ATR schema (`spec/atr-schema.yaml`)
-- [ ] Has `schema_version: "0.1"`
-- [ ] Has `detection_tier: pattern` (or appropriate tier)
-- [ ] Has `maturity: experimental` (maintainers promote to `test`/`stable`)
+- [ ] Has `maturity: experimental`
 - [ ] Has `author` field with your name or handle
-- [ ] Has OWASP LLM Top 10 or OWASP Agentic Top 10 mapping
-- [ ] Has MITRE ATLAS mapping (if applicable)
-- [ ] At least 5 true positive test cases
-- [ ] At least 5 true negative test cases (include adversarial near-misses)
-- [ ] At least 3 evasion tests with `bypass_technique` and honest
-      `expected: not_triggered` where the pattern cannot catch the bypass
-- [ ] `false_positives` section lists known edge cases
-      (every rule has them -- if you cannot think of any, think harder)
+- [ ] At least 3 true positive test cases (real attack payloads)
+- [ ] At least 3 true negative test cases (similar-looking legitimate content)
 - [ ] `description` explains what IS detected AND what IS NOT
-- [ ] `severity` justified per calibration in `how-to-write-a-rule.md`
-- [ ] Regex patterns tested for catastrophic backtracking (ReDoS)
 - [ ] `npx agent-threat-rules validate` passes
 - [ ] `npx agent-threat-rules test` passes
+
+**Encouraged (improves confidence score, helps promotion to stable):**
+
+- [ ] OWASP Agentic Top 10 or OWASP LLM Top 10 mapping
+- [ ] MITRE ATLAS mapping
+- [ ] Evasion tests with `bypass_technique` and honest `expected: not_triggered`
+- [ ] `false_positives` section listing known edge cases
+- [ ] Regex patterns tested for catastrophic backtracking (ReDoS)
+
+**Required for stable promotion (maintainers handle this):**
+
+- [ ] 5+ true positives, 5+ true negatives, 3+ evasion tests
+- [ ] OWASP + MITRE mapping with `human-reviewed` provenance
+- [ ] Wild-validated on 1,000+ samples with FP rate ≤ 0.5%
+- [ ] 14+ days at experimental, confidence score ≥ 80
+
+See [RFC-001](docs/proposals/001-atr-quality-standard-rfc.md) for full details.
 
 ---
 

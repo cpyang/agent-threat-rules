@@ -1,0 +1,96 @@
+name: 'ATR Security Scan'
+description: 'Scan AI agent skills and MCP tool descriptions for security threats using ATR detection rules'
+author: 'ATR Project'
+
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  path:
+    description: 'Path to scan (file or directory)'
+    required: false
+    default: '.'
+  severity:
+    description: 'Minimum severity to report (critical, high, medium, low)'
+    required: false
+    default: 'medium'
+  fail-on-findings:
+    description: 'Fail the action if findings are detected'
+    required: false
+    default: 'false'
+  sarif:
+    description: 'Output SARIF file for GitHub Security tab'
+    required: false
+    default: 'true'
+
+outputs:
+  findings:
+    description: 'Number of findings detected'
+  sarif-file:
+    description: 'Path to SARIF output file'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - name: Run ATR scan
+      id: scan
+      shell: bash
+      env:
+        CI: 'true'
+        ATR_SEVERITY: ${{ inputs.severity }}
+      run: |
+        # Install and run ATR
+        npm install -g agent-threat-rules@latest 2>/dev/null
+
+        echo "::group::ATR Security Scan"
+        echo "Scanning: ${{ inputs.path }}"
+        echo "Minimum severity: ${{ inputs.severity }}"
+
+        # Run scan
+        FINDINGS=0
+        if [ "${{ inputs.sarif }}" = "true" ]; then
+          atr scan "${{ inputs.path }}" --sarif > atr-results.sarif 2>/dev/null || true
+          FINDINGS=$(node -e "
+            const fs = require('fs');
+            try {
+              const sarif = JSON.parse(fs.readFileSync('atr-results.sarif', 'utf-8'));
+              const results = sarif.runs?.[0]?.results ?? [];
+              console.log(results.length);
+            } catch { console.log(0); }
+          ")
+          echo "sarif-file=atr-results.sarif" >> "$GITHUB_OUTPUT"
+        else
+          FINDINGS=$(atr scan "${{ inputs.path }}" --json 2>/dev/null | node -e "
+            let d=''; process.stdin.on('data',c=>d+=c); process.stdin.on('end',()=>{
+              try { console.log(JSON.parse(d).matches?.length ?? 0); } catch { console.log(0); }
+            });
+          ")
+        fi
+
+        echo "findings=${FINDINGS}" >> "$GITHUB_OUTPUT"
+        echo "::endgroup::"
+
+        if [ "$FINDINGS" -gt 0 ]; then
+          echo "::warning::ATR found ${FINDINGS} security finding(s)"
+        else
+          echo "ATR scan passed - no threats detected"
+        fi
+
+        # Fail if configured
+        if [ "${{ inputs.fail-on-findings }}" = "true" ] && [ "$FINDINGS" -gt 0 ]; then
+          echo "::error::ATR found ${FINDINGS} finding(s). Set fail-on-findings: false to warn instead of fail."
+          exit 1
+        fi
+
+    - name: Upload SARIF to GitHub Security
+      if: inputs.sarif == 'true' && hashFiles('atr-results.sarif') != ''
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: atr-results.sarif
+      continue-on-error: true
