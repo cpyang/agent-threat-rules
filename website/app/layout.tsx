@@ -101,7 +101,7 @@ const jsonLd = {
       "@type": "SoftwareSourceCode",
       name: "agent-threat-rules",
       description:
-        "Open-source detection rules for AI agent security threats. 108 rules, 9 categories. Regex-based, sub-millisecond, zero dependencies.",
+        "Open-source detection standard for AI agent security. 113 rules, 96K skills scanned, 751 malware discovered. Sub-millisecond, zero dependencies.",
       codeRepository: "https://github.com/Agent-Threat-Rule/agent-threat-rules",
       programmingLanguage: ["YAML", "TypeScript"],
       license: "https://opensource.org/licenses/MIT",

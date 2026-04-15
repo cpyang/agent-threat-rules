@@ -168,9 +168,9 @@ function Cell({ v }: { v: "yes" | "no" | "partial" }) {
 
 const EVIDENCE = [
   { stat: "34", label: "ATR rules merged into Cisco AI Defense" },
-  { stat: "53,577", label: "Real MCP skills scanned for wild validation" },
+  { stat: "96,096", label: "Real agent skills scanned across 6 registries" },
   { stat: "99.6%", label: "Precision on PINT adversarial benchmark" },
-  { stat: "96.9%", label: "Recall on SKILL.md corpus, 0% false positives" },
+  { stat: "100%", label: "Recall on SKILL.md corpus, 0.20% FP rate" },
 ];
 
 const EXAMPLE_RULE = {

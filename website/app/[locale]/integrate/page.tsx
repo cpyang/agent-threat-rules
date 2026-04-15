@@ -49,7 +49,7 @@ if result.outcome == "deny":
     title: "Raw YAML (any language)",
     cmd: "git submodule add https://github.com/Agent-Threat-Rule/agent-threat-rules.git",
     code: `# Point your scanner at rules/ directory
-# Each .yaml file follows ATR schema v1.0
+# Each .yaml file follows ATR schema v2.0
 # Parse with any YAML library
 # Schema: spec/atr-schema.yaml
 
@@ -196,7 +196,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
-                  <div className="font-display text-sm font-semibold mb-1">ATR Schema v1.0 ({locale === "zh" ? "目前版本" : "current"})</div>
+                  <div className="font-display text-sm font-semibold mb-1">ATR Schema v2.0 ({locale === "zh" ? "目前版本" : "current"})</div>
                   <p className="text-sm text-stone leading-[1.6]">
                     {locale === "zh"
                       ? "已發布且穩定。所有新增欄位皆為選填。現有欄位不會在主版本升級前被移除或重新命名。"
@@ -311,7 +311,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
             {[
               { label: "Cisco AI Defense", detail: locale === "zh" ? "34 條 ATR 規則上游整合" : "34 ATR rules as upstream", highlight: true },
               { label: locale === "zh" ? `${stats.ruleCount} 條偵測規則` : `${stats.ruleCount} detection rules`, detail: locale === "zh" ? "9 個威脅類別" : "9 threat categories", highlight: false },
-              { label: locale === "zh" ? "90,000+ 已掃描" : "90,000+ skills scanned", detail: locale === "zh" ? "ClawHub + OpenClaw + Skills.sh" : "ClawHub + OpenClaw + Skills.sh", highlight: false },
+              { label: locale === "zh" ? `${stats.megaScanTotal.toLocaleString()} 已掃描` : `${stats.megaScanTotal.toLocaleString()} skills scanned`, detail: locale === "zh" ? "6 個 registry · 751 惡意軟體" : "6 registries · 751 malware", highlight: false },
               { label: locale === "zh" ? `${stats.ecosystemIntegrations.length} 個生態系整合` : `${stats.ecosystemIntegrations.length} ecosystem integrations`, detail: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged · ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} under review`, highlight: false },
             ].map((item) => (
               <div key={item.label} className="bg-paper p-5">
