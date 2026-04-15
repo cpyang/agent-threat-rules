@@ -1,3 +1,4 @@
+/* ATR Homepage — 8-scene narrative per DESIGN.md */
 import { HeroEntrance } from "@/components/HeroEntrance";
 import { CountUp } from "@/components/CountUp";
 import { SpeedLines } from "@/components/SpeedLines";
