@@ -33,6 +33,21 @@ interface BlacklistData {
   entries: BlacklistEntry[];
 }
 
+interface WhitelistEntry {
+  skill: string;
+  source: string;
+  downloads: number;
+  risk_score: number;
+  verified: boolean;
+}
+
+interface WhitelistData {
+  generated: string;
+  total_verified: number;
+  criteria: string;
+  entries: WhitelistEntry[];
+}
+
 function loadBlacklist(): BlacklistData {
   try {
     const raw = readFileSync(join(process.cwd(), "..", "data", "public-blacklist.json"), "utf-8");
@@ -49,6 +64,15 @@ function loadBlacklist(): BlacklistData {
   }
 }
 
+function loadWhitelist(): WhitelistData {
+  try {
+    const raw = readFileSync(join(process.cwd(), "..", "data", "public-whitelist.json"), "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return { generated: "N/A", total_verified: 0, criteria: "", entries: [] };
+  }
+}
+
 const SEV_COLOR: Record<string, string> = {
   critical: "text-critical bg-critical/10",
   high: "text-high bg-high/10",
@@ -61,6 +85,7 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
   const zh = locale === "zh";
   const stats = loadSiteStats();
   const bl = loadBlacklist();
+  const wl = loadWhitelist();
 
   // Show first 100 entries for performance — full list downloadable
   const shown = bl.entries.slice(0, 100);
@@ -128,6 +153,68 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
           </div>
         </div>
       </Reveal>
+
+      {/* ── Whitelist: ATR Verified ── */}
+      <section className="py-10 md:py-14 px-5 md:px-6 bg-[#F0FAF0] border-y border-green/20 -mx-5 md:-mx-6">
+        <div className="max-w-[1120px] mx-auto">
+          <Reveal>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="font-data text-xs font-medium text-green tracking-[2px] uppercase">
+                {zh ? "ATR 認證白名單" : "ATR Verified Whitelist"}
+              </div>
+              <span className="inline-flex items-center gap-1 bg-green/15 text-green text-[10px] font-bold px-2 py-0.5 rounded-sm tracking-wide uppercase">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" className="shrink-0">
+                  <path d="M6.5 11.5L3 8l1-1 2.5 2.5L12 4l1 1-6.5 6.5z" fill="currentColor"/>
+                </svg>
+                {zh ? "已驗證" : "VERIFIED"}
+              </span>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="text-sm text-graphite mb-6 max-w-[480px] leading-[1.8]">
+              {zh
+                ? <>這些 skill 通過 ATR {stats.ruleCount} 條規則掃描，<br className="sm:hidden" />零 CRITICAL / HIGH 發現。<br />安全使用。</>
+                : <>These skills passed ATR&apos;s {stats.ruleCount}-rule scan<br className="sm:hidden" /> with zero CRITICAL / HIGH findings.<br />Safe to use.</>}
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {wl.entries.slice(0, 20).map((entry) => (
+                <div key={entry.skill} className="bg-white border border-green/20 rounded-sm p-3 flex items-start gap-3">
+                  <div className="shrink-0 mt-0.5">
+                    <div className="w-6 h-6 rounded-full bg-green/15 flex items-center justify-center">
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                        <path d="M6.5 11.5L3 8l1-1 2.5 2.5L12 4l1 1-6.5 6.5z" fill="#16A34A"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-data text-xs font-medium text-ink truncate">{entry.skill}</div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="font-data text-[10px] text-stone">{entry.downloads.toLocaleString()} {zh ? "下載" : "downloads"}</span>
+                      <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-green bg-green/10 px-1.5 py-0.5 rounded-sm uppercase tracking-wider">
+                        ATR {zh ? "認證" : "VERIFIED"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+          {wl.entries.length > 20 && (
+            <Reveal delay={0.3}>
+              <a
+                href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/public-whitelist.json"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-data text-xs text-green hover:underline inline-block mt-4"
+              >
+                {zh ? `查看全部 ${wl.total_verified} 個已認證 skill →` : `View all ${wl.total_verified} verified skills →`}
+              </a>
+            </Reveal>
+          )}
+        </div>
+      </section>
 
       {/* Blacklist table */}
       <Reveal delay={0.4}>
