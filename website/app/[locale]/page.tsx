@@ -6,6 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { StatsHydrator } from "@/components/StatsHydrator";
 import { NumberScramble } from "@/components/NumberScramble";
 import { Flywheel } from "@/components/Flywheel";
+import { HeroGrid } from "@/components/DotGrid";
 import { loadSiteStats } from "@/lib/stats";
 import { loadAllRules, getCategories } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
@@ -68,26 +69,46 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       <StatsHydrator />
 
-      {/* ── Scene 1: The Shift (Hero) — per DESIGN.md §9 ── */}
-      <section className="bg-paper min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6">
-        <div className="max-w-[900px]">
-          {/* The paradigm shift — one statement, full viewport weight */}
-          {/* Nav already has the ATR mark — hero is pure statement */}
-          <HeroEntrance delay={0.6}>
+      {/* ── Scene 1: The Shift (Hero) ── */}
+      <section className="bg-paper min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6 relative overflow-hidden">
+        <HeroGrid />
+
+        <div className="relative z-10 max-w-[900px]">
+          {/* Logo mark — geometric A with radar sweep lines */}
+          <HeroEntrance delay={0.5}>
+            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-14 md:h-[72px] mx-auto mb-8 md:mb-10" aria-label="ATR">
+              <path d="M20 0L40 36H30L20 18L10 36H0L20 0Z" fill="#0B0B0F"/>
+              <line x1="6" y1="28" x2="34" y2="28" stroke="#0B0B0F" strokeWidth="1.5"/>
+              <line x1="8" y1="31" x2="32" y2="31" stroke="#0B0B0F" strokeWidth="1.2"/>
+              <line x1="10" y1="34" x2="30" y2="34" stroke="#0B0B0F" strokeWidth="1"/>
+            </svg>
+          </HeroEntrance>
+
+          {/* The paradigm shift */}
+          <HeroEntrance delay={0.8}>
             <p className="font-display text-[28px] md:text-[clamp(40px,5.5vw,72px)] font-black leading-[1.1] tracking-[-1.5px] md:tracking-[-3px] text-stone">
               {zh ? "我們曾經保護人。" : "We used to protect people."}
             </p>
           </HeroEntrance>
 
-          <HeroEntrance delay={0.9}>
+          <HeroEntrance delay={1.1}>
             <h1 className="font-display text-[36px] md:text-[clamp(52px,6.5vw,80px)] font-black leading-[1.05] tracking-[-2px] md:tracking-[-3px] text-ink mt-2 md:mt-3">
               {zh ? "現在我們保護 agent。" : "Now we protect agents."}
             </h1>
           </HeroEntrance>
 
+          {/* Subtitle — one line explaining what ATR is */}
+          <HeroEntrance delay={1.3}>
+            <p className="text-base md:text-lg text-stone font-light mt-5 md:mt-6 max-w-[520px] mx-auto leading-relaxed">
+              {zh
+                ? "社群驅動的開源 AI agent 資安偵測標準。"
+                : "The open-source, community-driven detection standard for AI agent security."}
+            </p>
+          </HeroEntrance>
+
           {/* Three monospace stats */}
-          <HeroEntrance delay={1.2}>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-10 md:mt-14 font-data text-sm md:text-base tracking-wide">
+          <HeroEntrance delay={1.5}>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 md:mt-10 font-data text-sm md:text-base tracking-wide">
               <span><span className="font-data font-bold text-ink">{stats.ruleCount}</span> <span className="text-stone">{zh ? "條規則" : "rules"}</span></span>
               <span className="text-fog">·</span>
               <span><span className="font-data font-bold text-ink">{stats.categoryCount}</span> <span className="text-stone">{zh ? "個類別" : "categories"}</span></span>
@@ -97,8 +118,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </HeroEntrance>
 
           {/* Two CTA buttons */}
-          <HeroEntrance delay={1.5}>
-            <div className="flex gap-3 justify-center flex-wrap mt-8 md:mt-10">
+          <HeroEntrance delay={1.7}>
+            <div className="flex gap-3 justify-center flex-wrap mt-7 md:mt-8">
               <Link
                 href={`${prefix}/integrate`}
                 className="bg-blue text-white px-8 md:px-10 py-3.5 md:py-4 rounded-[2px] text-sm font-semibold hover:bg-blue-hover transition-colors"
@@ -111,6 +132,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               >
                 {zh ? "瀏覽規則" : "Explore Rules"}
               </Link>
+            </div>
+          </HeroEntrance>
+
+          {/* Trust bar — proof points that build credibility */}
+          <HeroEntrance delay={1.9}>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-8 md:mt-10 font-data text-[11px] md:text-xs text-stone tracking-wide">
+              <span>Cisco AI Defense</span>
+              <span className="text-fog">·</span>
+              <span>OWASP 10/10</span>
+              <span className="text-fog">·</span>
+              <span>MITRE ATLAS</span>
+              <span className="text-fog">·</span>
+              <span>{stats.megaScanTotal.toLocaleString()} {zh ? "skills 已掃描" : "skills scanned"}</span>
+              <span className="text-fog">·</span>
+              <span>MIT License</span>
             </div>
           </HeroEntrance>
         </div>
