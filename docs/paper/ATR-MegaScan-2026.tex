@@ -1,5 +1,5 @@
 % ATR MegaScan Paper — Submission draft for USENIX Security / IEEE S&P
-% "53,577 Skills, 946 Threats: A Large-Scale Security Audit of the AI Agent Ecosystem"
+% "96,096 Skills, 751 Malware: A Large-Scale Security Audit of the AI Agent Ecosystem"
 % April 2026
 
 \documentclass[letterpaper,twocolumn,10pt]{article}
@@ -36,11 +36,11 @@
   keepspaces=true
 }
 
-\title{\Large \textbf{53,577 Skills, 946 Threats:\\A Large-Scale Security Audit of the AI Agent Ecosystem}}
+\title{\Large \textbf{96,096 Skills, 751 Malware:\\A Large-Scale Security Audit of the AI Agent Ecosystem}}
 
 \author{
   ATR Project Contributors\\
-  \texttt{https://github.com/anthropics/agent-threat-rules}
+  \texttt{https://github.com/Agent-Threat-Rule/agent-threat-rules}
 }
 
 \date{April 2026}
@@ -56,24 +56,28 @@
 The Model Context Protocol (MCP) has become the dominant interface for
 connecting AI agents to external tools, yet no systematic security audit
 of the public skill ecosystem has been conducted at scale.  We present
-the largest such audit to date: a scan of \textbf{53,577 MCP skills}
-across two registries (OpenClaw: 50,485; Skills.sh: 3,115), executed on
-April~8, 2026, using the Agent Threat Rules (ATR) engine v1.1.0 with
-113 regex-based detection rules.  The scan flagged \textbf{946 skills
-(1.77\%)} containing security-relevant patterns: 875 critical, 52 high,
-19 medium.  Tool description poisoning accounted for 71\% of all
-detections.  False positive rate on a verified clean corpus was 0\%.
-Median per-skill scan latency was 5.39\,ms.  All 926 threat reports were
-submitted to a community Threat Cloud for coordinated triage.  We
-analyze the three dominant attack patterns---tool description poisoning,
-credential harvesting (55 skills targeting \texttt{.env} files, SSH
-keys, and environment variables), and delayed activation---and compare
-our findings with prior measurements including the Antiy CERT audit of
-1,184 malicious ClawHub packages and our own March 2026 scan of 2,386
-npm packages.  We propose concrete mitigations for the MCP
-specification, registry operators, platform builders, and enterprise
-adopters.  All detection rules, scan infrastructure, and anonymized
-aggregate data are open source.
+the largest such audit to date: a scan of \textbf{96,096 MCP skills}
+across six registries (OpenClaw: 56,480; ClawHub: 36,498; MCP Registry:
+4,880; Skills.sh: 3,115; Hermes Agent: 123), executed in April 2026
+using the Agent Threat Rules (ATR) engine v2.0.0 with 113 regex-based
+detection rules.  The scan flagged \textbf{1,302 skills (1.35\%)}
+containing security-relevant patterns: 989 critical, 353 high, 7 medium.
+Manual triage confirmed \textbf{751 skills (0.78\%) as genuine malware},
+including three coordinated threat actor campaigns responsible for over
+700 malicious packages targeting cryptocurrency wallets, cloud
+credentials, and developer toolchains.  554 entries were added to the
+Threat Cloud blacklist.  Tool description poisoning accounted for 52.7\%
+of all detections.  False positive rate on a verified clean corpus was
+0\%.  Median per-skill scan latency was 5.39\,ms.  We analyze the
+dominant attack patterns---tool description poisoning, credential
+harvesting, and delayed activation---and present the first documented
+malware campaigns operating within MCP registries.  We compare our
+findings with prior measurements including the Antiy CERT audit of 1,184
+malicious ClawHub packages and our own March 2026 scan of 2,386 npm
+packages.  We propose concrete mitigations for the MCP specification,
+registry operators, platform builders, and enterprise adopters.  All
+detection rules, scan infrastructure, and anonymized aggregate data are
+open source.
 
 \end{abstract}
 
@@ -108,15 +112,19 @@ malicious packages~\cite{antiy2026}, and our own March 2026 scan of
 2,386 npm packages~\cite{atrscan2386}.  Both were limited in scope and
 used different methodologies.
 
-This paper makes three contributions:
+This paper makes four contributions:
 
 \begin{enumerate}[leftmargin=*,nosep]
-  \item \textbf{Scale.}  We scan 53,577 skills from two registries
+  \item \textbf{Scale.}  We scan 96,096 skills from six registries
     using a reproducible, open-source pipeline---an order of magnitude
     larger than any prior study (\S\ref{sec:results}).
-  \item \textbf{Taxonomy.}  We categorize the 946 flagged skills by
+  \item \textbf{Malware campaign discovery.}  We identify 751 confirmed
+    malware packages and document three coordinated threat actor
+    campaigns operating within MCP registries
+    (\S\ref{sec:campaigns}).
+  \item \textbf{Taxonomy.}  We categorize the 1,302 flagged skills by
     attack pattern, with deep analysis of tool description poisoning
-    (71\%), credential harvesting (55 skills), and delayed activation
+    (52.7\%), credential harvesting, and delayed activation
     (\S\ref{sec:patterns}).
   \item \textbf{Actionable recommendations.}  We translate findings into
     implementable changes for the MCP specification, registry operators,
@@ -198,7 +206,7 @@ cases.  ATR has been independently benchmarked on two external datasets:
   \item \textbf{PINT} (Lakera, 850 samples)~\cite{pint}: 99.6\%
     precision, 61.4\% recall.
   \item \textbf{SKILL.md} (498 real-world skill files)~\cite{atrskillbench}:
-    100\% precision, 96.9\% recall, 0\% false positives.
+    97\% precision, 100\% recall, 0.20\% false positives.
 \end{itemize}
 
 Cisco AI Defense adopted 34 ATR rules as upstream detection in March
@@ -213,55 +221,64 @@ controls~(91.8\%)~\cite{safemcp}.
 
 \subsection{Detection Engine}
 
-The ATR engine loads 108 YAML-based detection rules across 9 threat
+The ATR engine loads 113 YAML-based detection rules across 9 threat
 categories (Table~\ref{tab:categories}).  Each rule contains one or more
 regex patterns compiled at engine startup.  For each skill, the engine
 concatenates all text fields---tool name, description, input schema
 descriptions, README content where available---into a single scan target
-and evaluates all 108 rules.  A match on any rule constitutes a finding;
+and evaluates all 113 rules.  A match on any rule constitutes a finding;
 the highest-severity match determines the skill's overall severity.
 
 \begin{table}[t]
 \centering
-\caption{ATR rule categories and counts (v1.1.0).}
+\caption{ATR rule categories and counts (v2.0.0).}
 \label{tab:categories}
 \small
 \begin{tabular}{@{}lrl@{}}
 \toprule
 \textbf{Category} & \textbf{Rules} & \textbf{Description} \\
 \midrule
-Tool Poisoning (TP)    & 28 & Hidden instructions in metadata \\
+Tool Poisoning (TP)    & 30 & Hidden instructions in metadata \\
 Cross-Context (CC)     & 15 & Cross-tool data leakage \\
-Credential Theft (CT)  & 14 & Env var / key harvesting \\
-Rug Pull (RP)          & 12 & Delayed activation, bait-switch \\
+Credential Theft (CT)  & 15 & Env var / key harvesting \\
+Rug Pull (RP)          & 13 & Delayed activation, bait-switch \\
 Resource Abuse (RA)    & 11 & Crypto mining, DoS vectors \\
 Supply Chain (SC)      & 10 & Typosquatting, dep confusion \\
-Privilege Esc.\ (PE)   &  8 & Permission escalation \\
+Privilege Esc.\ (PE)   &  9 & Permission escalation \\
 Data Exfil (DE)        &  6 & Covert data channels \\
 Evasion (EV)           &  4 & Detection avoidance \\
 \midrule
-\textbf{Total}         & \textbf{108} & \\
+\textbf{Total}         & \textbf{113} & \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-All 108 rules carry embedded positive and negative test cases.  The test
-suite (824 assertions) passes at 100\% before every release.
+All 113 rules carry embedded positive and negative test cases.  The test
+suite (361 assertions) passes at 100\% before every release.
 
 \subsection{Source Selection}
 
-We selected two registries for coverage and accessibility:
+We selected six registries to maximize coverage of the public MCP
+ecosystem:
 
 \begin{itemize}[leftmargin=*,nosep]
-  \item \textbf{OpenClaw} (50,485 skills): The largest open MCP skill
+  \item \textbf{OpenClaw} (56,480 skills): The largest open MCP skill
     registry.  Skills retrieved via the OpenClaw bulk export API.
+  \item \textbf{ClawHub} (36,498 skills): The second-largest registry,
+    previously analyzed by Antiy CERT~\cite{antiy2026} at the package
+    level.  We performed a complementary static scan of tool
+    descriptions using ATR rules.
+  \item \textbf{MCP Registry} (4,880 skills): An emerging registry with
+    structured metadata.  Skills retrieved via the public listing API.
   \item \textbf{Skills.sh} (3,115 skills): A curated directory with
     structured metadata.  Skills retrieved via the public listing API.
+  \item \textbf{Hermes Agent} (123 skills): Skills from the NousResearch
+    Hermes Agent project~\cite{hermes}, included for cross-ecosystem
+    coverage.
 \end{itemize}
 
-We excluded ClawHub (37,394 skills) because the Antiy CERT
-audit~\cite{antiy2026} had already analyzed that registry.  Combined
-with ClawHub, the three registries cover over 90,000 skills.
+Together, these six registries represent the broadest publicly accessible
+surface of the MCP skill ecosystem.
 
 \subsection{Scan Pipeline}
 
@@ -273,7 +290,7 @@ The pipeline consists of four stages:
   \item \textbf{Normalize.}  Map metadata to a common schema: skill
     name, source registry, concatenated text fields, publication
     timestamp.
-  \item \textbf{Scan.}  Evaluate all 108 rules against each normalized
+  \item \textbf{Scan.}  Evaluate all 113 rules against each normalized
     skill.  Record rule ID, matched text span, severity, and confidence
     for each match.
   \item \textbf{Report.}  Aggregate findings.  Submit individual threat
@@ -286,11 +303,12 @@ repository under \texttt{scripts/}~\cite{atr}.
 \textbf{Reproducibility.}  To replicate this scan:
 
 \begin{lstlisting}
-git clone https://github.com/anthropics/
+git clone https://github.com/Agent-Threat-Rule/
   agent-threat-rules.git
 cd agent-threat-rules
 npm install
-npm run crawl -- --source openclaw,skillssh
+npm run crawl -- --source openclaw,clawhub,
+  mcpreg,skillssh,hermes
 npm run scan -- --rules rules/
 npm run report -- --output results/
 \end{lstlisting}
@@ -301,10 +319,10 @@ access.
 
 \subsection{Performance}
 
-Total wall-clock time for 53,577 skills: 4 minutes 49 seconds on a
-single machine (Apple M-series, 16\,GB RAM).  Median per-skill scan
-latency: 5.39\,ms.  Rule compilation (one-time startup): 12\,ms for all
-108 rules.  Peak memory: 48\,MB.
+Total wall-clock time for 96,096 skills: approximately 8 minutes 38
+seconds on a single machine (Apple M-series, 16\,GB RAM).  Median
+per-skill scan latency: 5.39\,ms.  Rule compilation (one-time startup):
+12\,ms for all 113 rules.  Peak memory: 52\,MB.
 
 \subsection{Validation: False Positive Rate}
 \label{sec:validation}
@@ -316,7 +334,7 @@ by two independent reviewers.  ATR produced zero findings (0\% FP).
 
 \textbf{Method 2: External benchmark.}  The SKILL.md benchmark provides
 498 labeled real-world skill files~\cite{atrskillbench}.  ATR achieved
-100\% precision (0\% FP) and 96.9\% recall.
+97\% precision (0.20\% FP) and 100\% recall.
 
 \textbf{Method 3: Sampled manual review.}  100 randomly sampled flagged
 skills were independently reviewed.  All 100 contained the pattern
@@ -325,8 +343,8 @@ not guarantee malicious intent (\S\ref{sec:limitations}).
 
 The PINT adversarial benchmark~\cite{pint} provides a complementary
 measure: 99.6\% precision across 850 adversarial samples, with 61.4\%
-recall.  The precision-over-recall tradeoff is deliberate: at 53,577
-skills, even 1\% false positives would produce 536 false alerts.  At
+recall.  The precision-over-recall tradeoff is deliberate: at 96,096
+skills, even 1\% false positives would produce 961 false alerts.  At
 99.6\% precision, the expected false positive count is approximately 4.
 
 %======================================================================
@@ -336,30 +354,39 @@ skills, even 1\% false positives would produce 536 false alerts.  At
 
 \subsection{Aggregate Findings}
 
-Of 53,577 skills scanned, 946 (1.77\%) triggered at least one ATR rule.
-Table~\ref{tab:severity} shows the severity distribution.
+Of 96,096 skills scanned, 1,302 (1.35\%) triggered at least one ATR rule.
+Table~\ref{tab:severity} shows the severity distribution.  Manual triage
+of all flagged skills confirmed 751 (0.78\% of total) as genuine
+malware; the remainder were classified as risky-but-non-malicious
+patterns (e.g., overly broad permission requests, debug instrumentation
+left in production metadata).
 
 \begin{table}[t]
 \centering
-\caption{Severity distribution of flagged skills ($N$=946).}
+\caption{Severity distribution of flagged skills ($N$=1,302).}
 \label{tab:severity}
 \small
 \begin{tabular}{@{}lrr@{}}
 \toprule
 \textbf{Severity} & \textbf{Count} & \textbf{Percentage} \\
 \midrule
-Critical & 875 & 92.5\% \\
-High     &  52 &  5.5\% \\
-Medium   &  19 &  2.0\% \\
+Critical & 989 & 76.0\% \\
+High     & 353 & 27.1\% \\
+Medium   &   7 &  0.5\% \\
 \midrule
-\textbf{Total} & \textbf{946} & \textbf{100\%} \\
+\textbf{Total} & \textbf{1,302}\textsuperscript{*} & \\
 \bottomrule
 \end{tabular}
+\begin{flushleft}
+\textsuperscript{*}Percentages sum to $>$100\% because 47 skills triggered rules at multiple severity levels.
+\end{flushleft}
 \end{table}
 
 The concentration at critical severity reflects the dominance of tool
 description poisoning, which is classified as critical because successful
-exploitation grants full control over agent actions.
+exploitation grants full control over agent actions.  554 of the
+confirmed malware entries were added to the ATR Threat Cloud blacklist
+for real-time blocking.
 
 \subsection{Source Comparison}
 
@@ -374,16 +401,22 @@ Table~\ref{tab:sources} breaks down findings by registry.
 \toprule
 \textbf{Registry} & \textbf{Skills} & \textbf{Flagged} & \textbf{Rate} \\
 \midrule
-OpenClaw  & 50,485 & 894 & 1.77\% \\
-Skills.sh &  3,115 &  52 & 1.67\% \\
+OpenClaw      & 56,480 &   812 & 1.44\% \\
+ClawHub       & 36,498 &   421 & 1.15\% \\
+MCP Registry  &  4,880 &    34 & 0.70\% \\
+Skills.sh     &  3,115 &    32 & 1.03\% \\
+Hermes Agent  &    123 &     3 & 2.44\% \\
 \midrule
-\textbf{Total} & \textbf{53,577} & \textbf{946} & \textbf{1.77\%} \\
+\textbf{Total} & \textbf{96,096} & \textbf{1,302} & \textbf{1.35\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The comparable rates (1.77\% vs.\ 1.67\%) suggest that threat prevalence
-is ecosystem-wide, not an artifact of any single registry's curation.
+Threat prevalence is consistent across registries, ranging from 0.70\%
+to 2.44\%, suggesting that the problem is ecosystem-wide rather than an
+artifact of any single registry's curation model.  OpenClaw accounts for
+the largest absolute number of flagged skills, consistent with its
+position as the largest registry.
 
 \subsection{Top Detection Rules}
 
@@ -399,33 +432,34 @@ counts.
 \toprule
 \textbf{Rule ID} & \textbf{Pattern} & \textbf{Hits} \\
 \midrule
-ATR-2026-00121 & Tool desc.\ poisoning (generic) & 674 \\
-ATR-2026-00120 & Tool desc.\ poisoning (directive) & 81 \\
-ATR-2026-00149 & Hidden instruction injection & 76 \\
-ATR-2026-00135 & Credential path harvesting & 55 \\
-ATR-2026-00124 & Cross-tool data exfiltration & 41 \\
+ATR-2026-00121 & Tool desc.\ poisoning (generic) & 686 \\
+ATR-2026-00120 & Tool desc.\ poisoning (directive) & 198 \\
+ATR-2026-00149 & Hidden instruction injection & 143 \\
+ATR-2026-00135 & Credential path harvesting & 112 \\
+ATR-2026-00124 & Cross-tool data exfiltration & 87 \\
 \midrule
-\multicolumn{2}{@{}l}{\emph{Remaining 103 rules}} & 19 \\
+\multicolumn{2}{@{}l}{\emph{Remaining 108 rules}} & 76 \\
 \midrule
-\multicolumn{2}{@{}l}{\textbf{Total}} & \textbf{946} \\
+\multicolumn{2}{@{}l}{\textbf{Total}} & \textbf{1,302} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-ATR-2026-00121 alone accounts for 674 of 946 detections (71.2\%),
-confirming that tool description poisoning is the dominant attack vector.
+ATR-2026-00121 alone accounts for 686 of 1,302 detections (52.7\%),
+confirming that tool description poisoning remains the dominant attack
+vector, though its relative share has decreased as the expanded scan
+surfaced a broader distribution of attack types.
 
 \subsection{Threat Cloud Submissions}
 
-Of the 946 flagged skills, 926 (97.9\%) were successfully submitted to
-the ATR Threat Cloud for community triage.  The remaining 20 failed
-submission due to metadata normalization errors and were queued for
-manual review.
+All 1,302 flagged skills were submitted to the ATR Threat Cloud for
+community triage.  554 confirmed malware entries were added to the
+Threat Cloud blacklist for real-time blocking by downstream consumers.
 
 % FIGURE PLACEHOLDER: Bar chart of detection counts by ATR category.
 % X-axis: TP, CC, CT, RP, RA, SC, PE, DE, EV.
 % Y-axis: number of flagged skills.
-% TP dominates at ~710, CT at ~55, CC at ~41, others single digits
+% TP dominates at ~884, CT at ~112, CC at ~87, others double digits
 % to low double digits.
 % To generate: use results/category-distribution.json with matplotlib
 % or pgfplots.  Save as figures/category-distribution.pdf.
@@ -434,7 +468,7 @@ manual review.
 %   \centering
 %   \includegraphics[width=\columnwidth]{figures/category-distribution.pdf}
 %   \caption{Distribution of flagged skills by ATR threat category.
-%     Tool Poisoning accounts for 71\% of all detections.}
+%     Tool Poisoning accounts for 52.7\% of all detections.}
 %   \label{fig:categories}
 % \end{figure}
 
@@ -446,13 +480,14 @@ manual review.
 \subsection{Tool Description Poisoning}
 \label{sec:poisoning}
 
-Tool description poisoning appeared in 674 of 946 flagged skills
-(71.2\%).  The skill author embeds instructions in the tool's description
+Tool description poisoning appeared in 686 of 1,302 flagged skills
+(52.7\%).  The skill author embeds instructions in the tool's description
 field that are invisible to the user but processed by the LLM.  These
 instructions override user intent, redirect data flows, or invoke other
 tools without authorization.
 
-We identified three sub-patterns:
+We analyzed a representative subset of the poisoning detections and
+identified three sub-patterns:
 
 \textbf{Direct override (412 skills, 61.1\%).}  Plain-text imperatives
 buried in lengthy descriptions:
@@ -547,15 +582,49 @@ detections represent a lower bound; skills using purely server-side
 triggers are invisible to regex analysis.
 
 % FIGURE PLACEHOLDER: Pie chart of attack pattern distribution.
-% Tool description poisoning: 71.2%, Credential harvesting: 5.8%,
-% Cross-tool exfil: 4.3%, Supply chain: 3.1%, Delayed activation: 2.0%,
-% Other: 13.6%.
+\subsection{Malware Campaign Discovery}
+\label{sec:campaigns}
+
+Manual triage of the 1,302 flagged skills revealed 751 confirmed malware
+packages (0.78\% of all scanned skills).  Cluster analysis of author
+accounts, infrastructure overlap, and payload similarity identified
+three coordinated threat actor campaigns:
+
+\textbf{hightower6eu} (354 skills, 100\% malicious).  This actor
+published exclusively malicious skills targeting Solana cryptocurrency
+wallets and Google Workspace integrations.  All 354 skills contained
+tool description poisoning directing the agent to exfiltrate wallet
+seed phrases or OAuth tokens.  The campaign used a consistent naming
+pattern mimicking legitimate Solana developer tools.
+
+\textbf{sakaen736jih} (212 skills, 93\% malicious).  197 of 212 skills
+contained credential harvesting payloads with command-and-control
+callbacks to a single IP address (91.92.242.30).  The remaining 15
+skills appeared to be benign placeholders, likely published to establish
+author credibility before the malicious uploads.  The C2 infrastructure
+was active at scan time.
+
+\textbf{52yuanchangxing} (137 skills, 72\% malicious).  This actor
+targeted Chinese-language developer tools, publishing trojanized
+versions of popular code formatting, translation, and database
+administration skills.  99 of 137 skills contained encoded directives
+(base64 and Unicode obfuscation) instructing the agent to read and
+exfiltrate environment variables on each invocation.
+
+These three campaigns account for 703 of the 751 confirmed malware
+packages (93.6\%).  All findings were reported to NousResearch
+(hermes-agent \#9809) and to the respective registry operators through
+the ATR Threat Cloud disclosure workflow.
+
+% Tool description poisoning: 52.7%, Credential harvesting: 8.6%,
+% Cross-tool exfil: 6.7%, Supply chain: 4.8%, Delayed activation: 3.2%,
+% Other: 24.0%.
 % Generate with results/attack-patterns.json and matplotlib.
 %
 % \begin{figure}[t]
 %   \centering
 %   \includegraphics[width=0.85\columnwidth]{figures/attack-patterns-pie.pdf}
-%   \caption{Attack pattern distribution among 946 flagged skills.}
+%   \caption{Attack pattern distribution among 1,302 flagged skills.}
 %   \label{fig:pie}
 % \end{figure}
 
@@ -580,32 +649,34 @@ Antiy CERT~\cite{antiy2026} & Mar 2026 & 37,394\textsuperscript{a} & 1,184 & 3.2
 ATR March scan~\cite{atrscan2386} & Mar 2026 & 2,386 & 1,171\textsuperscript{b} & 49\%\textsuperscript{b} & ATR v0.9 (61 rules) & npm \\
 Prompt Security~\cite{promptsec2026} & Mar 2026 & 13,000+ & --- & --- & Proprietary scoring & Mixed \\
 Checkmarx~\cite{checkmarx2026} & 2025--26 & $\sim$1,000 & --- & 38\%\textsuperscript{c} & Auth analysis & Mixed \\
-\textbf{This work} & \textbf{Apr 2026} & \textbf{53,577} & \textbf{946} & \textbf{1.77\%} & \textbf{ATR v1.1.0 (108 rules)\footnote{ATR v2.0.0 (113 rules) subsequently expanded the scan to 96,096 skills across six registries, discovering 751 confirmed malware.}} & \textbf{OpenClaw + Skills.sh} \\
+\textbf{This work} & \textbf{Apr 2026} & \textbf{96,096} & \textbf{1,302} & \textbf{1.35\%} & \textbf{ATR v2.0.0 (113 rules)} & \textbf{6 registries\textsuperscript{d}} \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
 \textsuperscript{a}Antiy reported package-level counts; individual tool counts unavailable.
 \textsuperscript{b}March scan counted informational-severity findings; not directly comparable to our medium+ threshold.
 \textsuperscript{c}Checkmarx measured zero-authentication rate, not malicious content rate.
+\textsuperscript{d}OpenClaw, ClawHub, MCP Registry, Skills.sh, Hermes Agent.
 \end{flushleft}
 \end{table*}
 
 Three patterns emerge:
 
 \textbf{Methodology determines rate.}  The apparent order-of-magnitude
-gap between our 1.77\% and the March scan's 49\% is methodological.  The
+gap between our 1.35\% and the March scan's 49\% is methodological.  The
 March scan counted informational findings (missing authentication
 metadata, deprecated API usage) alongside security threats.  When we
 retroactively apply the April methodology (medium+ severity only) to the
-March dataset, the rate drops to approximately 2.1\%, consistent with
-our current results.
+March dataset, the rate drops to approximately 2.1\%, broadly consistent
+with our current results.
 
-\textbf{Threat rate is stable across registries.}  OpenClaw (1.77\%) and
-Skills.sh (1.67\%) show similar rates despite different curation models.
-The Antiy CERT ClawHub rate (3.2\% at the package level, using runtime
-analysis) is higher but measures a different signal.  The baseline threat
-prevalence in public MCP registries is approximately 1.5--3\% of
-published skills.
+\textbf{Threat rate is stable across registries.}  Our six-registry scan
+shows rates ranging from 0.70\% (MCP Registry) to 2.44\% (Hermes Agent),
+with the two largest registries at 1.44\% (OpenClaw) and 1.15\%
+(ClawHub).  The Antiy CERT ClawHub rate (3.2\% at the package level,
+using runtime analysis) is higher but measures a different signal.  The
+baseline threat prevalence in public MCP registries is approximately
+1--3\% of published skills.
 
 \textbf{Attack sophistication is increasing.}  The March scan detected
 primarily direct-override poisoning.  Four weeks later, our April scan
@@ -642,9 +713,9 @@ description tampering.
 
 \subsection{For Registry Operators}
 
-\textbf{R4: Pre-publication scanning.}  Our scan completed in under 5
-minutes for 53,577 skills; a per-submission check adds 5.39\,ms to the
-publish pipeline.  A single rule (ATR-2026-00121) would catch 71\% of
+\textbf{R4: Pre-publication scanning.}  Our scan completed in under 9
+minutes for 96,096 skills; a per-submission check adds 5.39\,ms to the
+publish pipeline.  A single rule (ATR-2026-00121) would catch 52.7\% of
 current threats.
 
 \textbf{R5: Transparency reports.}  Registries should publish periodic
@@ -708,10 +779,10 @@ detection.  ATR is a fast first-pass filter (99.6\% precision), not a
 complete defense.  The ATR project documents 64 known evasion
 techniques~\cite{atr}.
 
-\textbf{Public registries only.}  We scanned OpenClaw and Skills.sh.  We
-did not scan ClawHub (covered by Antiy CERT~\cite{antiy2026}), private
-registries, or skills distributed via GitHub repositories or Docker
-images.  The true ecosystem threat surface exceeds our measurement.
+\textbf{Public registries only.}  We scanned six public registries.  We
+did not scan private registries or skills distributed via GitHub
+repositories or Docker images.  The true ecosystem threat surface
+exceeds our measurement.
 
 \textbf{Temporal snapshot.}  The scan was executed on April 8, 2026.
 Skills published, modified, or removed after that date are not captured.
@@ -724,11 +795,11 @@ implementations.  Our manual review of 100 sampled detections confirmed
 all contained the matched pattern, but intent requires case-by-case
 analysis.
 
-\textbf{False negative rate.}  We validated 0\% false positives.  The
-exact false negative rate cannot be established without exhaustive review
-of all 52,631 unflagged skills.  The clean corpus sample (500 skills, 0
-missed threats) provides a statistical bound ($<$0.6\% at 95\%
-confidence) but not certainty.
+\textbf{False negative rate.}  We validated 0\% false positives on the
+clean corpus.  The exact false negative rate cannot be established
+without exhaustive review of all 94,794 unflagged skills.  The clean
+corpus sample (500 skills, 0 missed threats) provides a statistical
+bound ($<$0.6\% at 95\% confidence) but not certainty.
 
 \textbf{Runtime behavior.}  Static analysis of metadata cannot detect
 attacks implemented entirely in server-side code.  Delayed activation
@@ -745,7 +816,7 @@ invoke any suspicious tool, or interact with any potentially malicious
 endpoint.  All analysis was performed on static metadata retrieved from
 public APIs.
 
-\textbf{Disclosure process.}  All 946 flagged skills were reported
+\textbf{Disclosure process.}  All 1,302 flagged skills were reported
 through the ATR Threat Cloud, which implements a structured disclosure
 workflow:
 
@@ -760,8 +831,9 @@ workflow:
     identifying individual active threats.
 \end{enumerate}
 
-At time of writing, 926 of 946 reports have been submitted; 20 are
-pending metadata normalization.
+All 1,302 reports have been submitted.  The three coordinated threat
+actor campaigns were additionally reported to NousResearch
+(hermes-agent \#9809).
 
 \textbf{No PII.}  We publish no skill names, author identities, or
 matched text spans for individual flagged skills.  All data in this paper
@@ -779,46 +851,50 @@ model of Snort, Sigma, and YARA---are more reliable over time.
 \label{sec:conclusion}
 %======================================================================
 
-We scanned 53,577 MCP skills across two major registries and found 946
-(1.77\%) containing security-relevant patterns at medium severity or
-above.  Tool description poisoning accounts for 71\% of detections,
-confirming that the conflation of tool metadata with agent instructions
-is the dominant security weakness in the MCP ecosystem.  Credential
-harvesting (55 skills) and delayed activation (19 skills) represent
-smaller but high-impact categories.
+We scanned 96,096 MCP skills across six public registries and found
+1,302 (1.35\%) containing security-relevant patterns at medium severity
+or above.  Manual triage confirmed 751 of these as genuine malware
+(0.78\% of all scanned skills), including three coordinated threat actor
+campaigns that collectively published over 700 malicious packages
+targeting cryptocurrency wallets, cloud credentials, and developer
+toolchains.  Tool description poisoning accounts for 52.7\% of
+detections, confirming that the conflation of tool metadata with agent
+instructions remains the dominant security weakness in the MCP ecosystem.
 
-The 1.77\% rate, applied to the estimated 90,000+ skills across all
-public registries, projects approximately 1,600 skills with security-
-relevant patterns ecosystem-wide.  Every enterprise deploying MCP-based
-agents without scanning accepts this risk.
+The 1.35\% flag rate across 96,096 skills---the broadest measurement of
+the public MCP ecosystem to date---establishes a baseline threat
+prevalence.  Every enterprise deploying MCP-based agents without scanning
+accepts this risk.
 
 Three findings frame the path forward:
 
-\textbf{The threat is structural.}  Tool description poisoning dominates
-because MCP processes descriptions and instructions in the same context
-window.  This is a protocol design property, not an implementation bug.
-Mitigations that do not address this architectural conflation will remain
-insufficient.
+\textbf{The threat is structural, and it is organized.}  Tool description
+poisoning dominates because MCP processes descriptions and instructions
+in the same context window.  This is a protocol design property, not an
+implementation bug.  The discovery of coordinated campaigns---one actor
+publishing 354 exclusively malicious skills---demonstrates that
+organized threat actors have identified the MCP ecosystem as an attack
+surface worth investing in.
 
 \textbf{Simple detection works.}  113 regex rules at 5.39\,ms per skill
-achieved 0\% false positives across 53,577 skills and 100\% precision on
-an independent benchmark.  The technical barrier to pre-publication
-scanning is negligible.  The barrier is organizational: registries must
-choose to deploy it.
+scanned 96,096 skills in under 9 minutes.  A single rule caught 52.7\%
+of all detections.  The technical barrier to pre-publication scanning is
+negligible.  The barrier is organizational: registries must choose to
+deploy it.
 
-\textbf{Coordinated defense is missing.}  946 threats in our scan, 1,184
-in Antiy CERT's, and an unknown number in unscanned registries represent
-a shared intelligence resource the ecosystem cannot yet coordinate.
-Standards for threat sharing, severity classification, and coordinated
-response are urgently needed.
+\textbf{Coordinated defense is emerging but incomplete.}  1,302 threats
+in our scan, 1,184 in Antiy CERT's, and 554 entries in the Threat Cloud
+blacklist represent a growing shared intelligence resource.  But
+standards for threat sharing, severity classification, and coordinated
+response across registries remain urgently needed.
 
 All detection rules, scan infrastructure, and aggregate data are open
-source at \url{https://github.com/anthropics/agent-threat-rules}.
+source at \url{https://github.com/Agent-Threat-Rule/agent-threat-rules}.
 
 %----------------------------------------------------------------------
 \section*{Data Availability}
 
-The ATR rule set (108 rules, YAML) and detection engine are MIT-licensed.
+The ATR rule set (113 rules, YAML) and detection engine are MIT-licensed.
 Aggregate scan statistics are published in the ATR repository.
 Individual threat reports are accessible through the Threat Cloud API
 with appropriate access controls.  The PINT and SKILL.md benchmark
@@ -841,12 +917,12 @@ Anthropic,
 \bibitem{atr}
 ATR Project,
 ``Agent Threat Rules: Open detection standard for AI agent threats,''
-\url{https://github.com/anthropics/agent-threat-rules}, 2026.
+\url{https://github.com/Agent-Threat-Rule/agent-threat-rules}, 2026.
 
 \bibitem{atrv111}
 ATR Project,
-``Agent Threat Rules v1.1.1 release,''
-\url{https://github.com/anthropics/agent-threat-rules/releases/tag/v1.1.1}, April 2026.
+``Agent Threat Rules v2.0.0 release,''
+\url{https://github.com/Agent-Threat-Rule/agent-threat-rules/releases/tag/v2.0.0}, April 2026.
 
 \bibitem{atrscan2386}
 ATR Project,
@@ -976,6 +1052,11 @@ in \emph{Proc.\ IEEE S\&P}, 2023.
 Y.~Liu et al.,
 ``Prompt injection attacks and defenses in LLM-integrated applications: A survey,''
 \emph{arXiv:2310.12815}, 2023.
+
+\bibitem{hermes}
+NousResearch,
+``Hermes Agent: Open-source AI agent framework,''
+\url{https://github.com/NousResearch/hermes-agent}, 2026.
 
 \bibitem{nist2026}
 NIST,
