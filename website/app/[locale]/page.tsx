@@ -85,18 +85,18 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </HeroEntrance>
 
           <HeroEntrance delay={0.8}>
-            <p className="font-display text-[20px] md:text-[clamp(24px,3.5vw,44px)] font-bold leading-[1.2] tracking-[-1px] md:tracking-[-2px] text-stone mt-2 md:mt-3">
+            <p className="font-display text-[20px] md:text-[clamp(24px,3.5vw,44px)] font-bold leading-[1.25] tracking-[-1px] md:tracking-[-2px] text-stone mt-2 md:mt-3">
               {zh
-                ? <>我們掃了 {stats.megaScanTotal.toLocaleString()} 個。發現 <span className="text-critical">751 個惡意軟體</span>。</>
-                : <>We scanned {stats.megaScanTotal.toLocaleString()}. Found <span className="text-critical">751 malware</span>.</>}
+                ? <>我們掃了 {stats.megaScanTotal.toLocaleString()} 個。<br className="sm:hidden" />發現 <span className="text-critical">751 個惡意軟體</span>。</>
+                : <>We scanned {stats.megaScanTotal.toLocaleString()}.<br className="sm:hidden" /> Found <span className="text-critical">751 malware</span>.</>}
             </p>
           </HeroEntrance>
 
           <HeroEntrance delay={1.0}>
-            <p className="text-[13px] md:text-base text-mist font-light max-w-[560px] mx-auto mt-5 leading-[1.8]">
+            <p className="text-[13px] md:text-base text-mist font-light max-w-[480px] mx-auto mt-5 leading-[1.9]">
               {zh
-                ? <>ATR 是 AI agent 的病毒碼 — 像防毒軟體掃描惡意程式，ATR 掃描惡意的 AI 工具。開源標準。{stats.ruleCount} 條規則。Cisco 已在生產環境使用。</>
-                : <>ATR is antivirus signatures for AI agents. Open source. {stats.ruleCount} rules. Already shipped in Cisco AI Defense.</>}
+                ? <>ATR 是 AI agent 的病毒碼。<br className="sm:hidden" />像防毒軟體掃描惡意程式，<br className="sm:hidden" />ATR 掃描惡意的 AI 工具。<br /><br className="sm:hidden" />開源標準。{stats.ruleCount} 條規則。<br className="sm:hidden" />Cisco 已在生產環境使用。</>
+                : <>ATR is antivirus signatures for AI agents.<br className="sm:hidden" /> Open source. {stats.ruleCount} rules.<br className="sm:hidden" /> Shipped in Cisco AI Defense.</>}
             </p>
           </HeroEntrance>
 
@@ -106,14 +106,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <div className="flex items-center gap-2 px-3 py-2 border-b border-[#2A2A35] bg-[#0F0F14]">
                 <span className="font-data text-xs text-[#808089]">{zh ? "一行指令。即時結果。" : "One command. Instant results."}</span>
               </div>
-              <div className="p-3 md:p-4 font-data text-xs md:text-sm leading-[1.8]">
-                <div className="text-[#808089]">$</div>
-                <div className="text-[#E0E0E8]">npx agent-threat-rules scan ./my-project</div>
-                <div className="text-[#6B6B76] mt-2"># {zh ? "輸出" : "output"}</div>
-                <div className="text-green">  3 SKILL.md {zh ? "已掃描" : "scanned"}</div>
-                <div className="text-green">  12 MCP {zh ? "工具描述已檢查" : "tool descriptions checked"}</div>
-                <div className="text-critical">  1 CRITICAL: ATR-2026-00121 {zh ? "工具描述中的憑證竊取" : "credential theft in tool description"}</div>
-                <div className="text-[#808089] mt-1">{zh ? "完成，耗時 47ms。" : "Done in 47ms."}</div>
+              <div className="p-3 md:p-4 font-data text-[11px] md:text-sm leading-[1.8]">
+                <div className="text-[#808089]">$ <span className="text-[#E0E0E8]">npx agent-threat-rules scan .</span></div>
+                <div className="text-[#6B6B76] mt-2"># {zh ? "結果" : "results"}</div>
+                <div className="text-green">{zh ? "  3 個 SKILL.md 已掃描" : "  3 SKILL.md scanned"}</div>
+                <div className="text-green">{zh ? "  12 個工具描述已檢查" : "  12 tool descriptions checked"}</div>
+                <div className="text-critical mt-1">{zh ? "  1 CRITICAL: 工具描述中的憑證竊取" : "  1 CRITICAL: credential theft"}</div>
+                <div className="text-critical">{zh ? "    ATR-2026-00121" : "    rule ATR-2026-00121"}</div>
+                <div className="text-[#808089] mt-2">{zh ? "47ms 完成。" : "Done in 47ms."}</div>
               </div>
             </div>
           </HeroEntrance>
@@ -186,8 +186,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.3}>
             <p className="text-sm md:text-lg font-light leading-[1.8] text-graphite max-w-[580px]">
               {zh
-                ? (<>一個惡意的工具描述就能讓你的 AI 助手 <strong className="font-semibold text-critical">偷走 SSH key</strong>、<strong className="font-semibold text-critical">洩漏 API token</strong>、<strong className="font-semibold text-critical">執行後門程式</strong>。<br /><br className="md:hidden" />你看不到它發生，因為攻擊藏在 AI 處理的文字裡。<br className="md:hidden" />ATR 在它們造成傷害之前抓到它們。</>)
-                : (<>A single poisoned tool description can make your AI assistant <strong className="font-semibold text-critical">steal SSH keys</strong>, <strong className="font-semibold text-critical">leak API tokens</strong>, and <strong className="font-semibold text-critical">run backdoors</strong>.<br /><br className="md:hidden" />You won&apos;t see it happen. The attack hides in text the AI processes.<br className="md:hidden" /> ATR catches them before they cause damage.</>)}
+                ? (<>一個惡意的工具描述，<br className="sm:hidden" />就能讓你的 AI 助手<br className="sm:hidden" /> <strong className="font-semibold text-critical">偷走 SSH key</strong>、<br className="sm:hidden" /><strong className="font-semibold text-critical">洩漏 API token</strong>、<br className="sm:hidden" /><strong className="font-semibold text-critical">執行後門程式</strong>。<br /><br />你看不到它發生。<br className="sm:hidden" />攻擊藏在 AI 處理的文字裡。<br /><br className="sm:hidden" />ATR 在造成傷害之前抓到它們。</>)
+                : (<>A single poisoned tool description<br className="sm:hidden" /> can make your AI assistant<br className="sm:hidden" /> <strong className="font-semibold text-critical">steal SSH keys</strong>,<br className="sm:hidden" /> <strong className="font-semibold text-critical">leak API tokens</strong>,<br className="sm:hidden" /> and <strong className="font-semibold text-critical">run backdoors</strong>.<br /><br />You won&apos;t see it happen.<br className="sm:hidden" /> The attack hides in text the AI processes.<br /><br className="sm:hidden" /> ATR catches them before damage is done.</>)}
             </p>
           </Reveal>
         </div>
@@ -233,10 +233,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.4}>
-            <p className="text-sm text-[#808089] max-w-[560px] mt-5 leading-[1.8]">
+            <p className="text-sm text-[#808089] max-w-[480px] mt-5 leading-[1.9]">
               {zh
-                ? "ATR 在掃描 96,096 個 skill 時發現了這些攻擊者。所有 751 個惡意 skill 已被加入黑名單並通報 NousResearch。這不是理論分析 -- 這是真實偵測。"
-                : "ATR discovered these threat actors while scanning 96,096 skills across six registries. All 751 malicious skills have been blacklisted and reported to NousResearch. This is not theoretical analysis. This is real detection."}
+                ? <>ATR 掃描六個 registry 共 96,096 個 skill 時，<br className="sm:hidden" />發現了這些攻擊者。<br /><br className="sm:hidden" />751 個惡意 skill 全數加入黑名單，<br className="sm:hidden" />並已通報 NousResearch。<br /><br className="sm:hidden" />這不是理論分析。這是真實偵測。</>
+                : <>ATR found these threat actors<br className="sm:hidden" /> while scanning 96,096 skills<br className="sm:hidden" /> across six registries.<br /><br className="sm:hidden" />All 751 blacklisted and reported.<br className="sm:hidden" /> Not theoretical. Real detection.</>}
             </p>
           </Reveal>
           <Reveal delay={0.45}>
@@ -281,10 +281,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.4}>
-            <p className="text-sm text-graphite max-w-[560px] mt-4 leading-[1.8]">
+            <p className="text-sm text-graphite max-w-[480px] mt-4 leading-[1.9]">
               {zh
-                ? "ATR 對 MITRE ATLAS 的關係，就像 Sigma 規則對 ATT&CK 的關係。ATLAS 描述攻擊者怎麼做。ATR 提供偵測規則，讓你在執行時期抓住他們。"
-                : "ATR is to MITRE ATLAS what Sigma rules are to ATT&CK. ATLAS describes how attackers operate. ATR provides the detection rules that catch them at runtime."}
+                ? <>ATR 對 MITRE ATLAS 的關係，<br className="sm:hidden" />就像 Sigma 規則對 ATT&CK 的關係。<br /><br className="sm:hidden" />ATLAS 描述攻擊者怎麼做。<br className="sm:hidden" />ATR 提供偵測規則，在執行時抓住他們。</>
+                : <>ATR is to MITRE ATLAS<br className="sm:hidden" /> what Sigma rules are to ATT&CK.<br /><br className="sm:hidden" />ATLAS describes how attackers operate.<br className="sm:hidden" /> ATR catches them at runtime.</>}
             </p>
           </Reveal>
         </div>
