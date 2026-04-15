@@ -83,13 +83,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
           {/* The paradigm shift — one statement, full viewport weight */}
           <HeroEntrance delay={0.9}>
-            <p className="font-display text-[24px] md:text-[clamp(36px,5vw,72px)] font-black leading-[1.1] tracking-[-1.5px] md:tracking-[-3px] text-stone">
+            <p className="font-display text-[28px] md:text-[clamp(40px,5.5vw,72px)] font-black leading-[1.1] tracking-[-1.5px] md:tracking-[-3px] text-stone">
               {zh ? "我們曾經保護人。" : "We used to protect people."}
             </p>
           </HeroEntrance>
 
           <HeroEntrance delay={1.2}>
-            <h1 className="font-display text-[32px] md:text-[clamp(44px,6vw,80px)] font-black leading-[1.05] tracking-[-2px] md:tracking-[-3px] text-ink mt-2 md:mt-3">
+            <h1 className="font-display text-[36px] md:text-[clamp(52px,6.5vw,80px)] font-black leading-[1.05] tracking-[-2px] md:tracking-[-3px] text-ink mt-2 md:mt-3">
               {zh ? "現在我們保護 agent。" : "Now we protect agents."}
             </h1>
           </HeroEntrance>
