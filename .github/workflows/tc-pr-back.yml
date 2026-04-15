@@ -68,7 +68,7 @@ jobs:
 
           BRANCH="tc-rules-$(date +%Y%m%d-%H%M)"
           git config user.name "ATR Threat Cloud"
-          git config user.email "tc@panguard.ai"
+          git config user.email "bot@agentthreatrule.org"
           git checkout -b "$BRANCH"
           git add rules/ data/.tc-last-sync
           git commit -m "feat: pull ${NEW_RULES} crystallized rules from Threat Cloud
