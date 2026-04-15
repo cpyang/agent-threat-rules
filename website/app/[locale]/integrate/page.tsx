@@ -110,6 +110,54 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
         </p>
       </Reveal>
 
+      {/* Integration tiers — choose your level */}
+      <Reveal>
+        <div className="mb-12">
+          <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-4">
+            {locale === "zh" ? "選擇你的整合程度" : "Choose Your Integration Level"}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog">
+            {[
+              {
+                level: "L1",
+                title: locale === "zh" ? "掃描" : "Scan",
+                who: locale === "zh" ? "個人開發者" : "Individual developers",
+                how: locale === "zh" ? "一行指令或 GitHub Action" : "One command or GitHub Action",
+                what: locale === "zh" ? "即時知道你的 AI 工具有沒有被下毒" : "Know if your AI tools are poisoned",
+                update: locale === "zh" ? "每次 npx 自動拉最新規則" : "npx pulls latest rules automatically",
+              },
+              {
+                level: "L2",
+                title: locale === "zh" ? "嵌入" : "Embed",
+                who: locale === "zh" ? "平台方（IDE、agent 框架）" : "Platforms (IDEs, agent frameworks)",
+                how: locale === "zh" ? "npm install + 呼叫 ATR engine" : "npm install + call ATR engine",
+                what: locale === "zh" ? "你的用戶自動受到 113 條規則保護" : "Your users protected by 113 rules automatically",
+                update: locale === "zh" ? "npm update 或 lockfile + CI" : "npm update or lockfile + CI",
+              },
+              {
+                level: "L3",
+                title: locale === "zh" ? "雙向" : "Bidirectional",
+                who: locale === "zh" ? "安全平台、企業 SOC" : "Security platforms, enterprise SOC",
+                how: locale === "zh" ? "嵌入 + 上報威脅到 Threat Cloud" : "Embed + report threats to Threat Cloud",
+                what: locale === "zh" ? "你的端點變成全球感測器，你也收到全球情報" : "Your endpoints become global sensors, you receive global intel",
+                update: locale === "zh" ? "TC 即時推送 + npm update" : "TC real-time push + npm update",
+              },
+            ].map((tier) => (
+              <div key={tier.level} className="bg-paper p-5 md:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-data text-xs font-bold text-blue bg-blue/10 px-2 py-0.5 rounded-sm">{tier.level}</span>
+                  <span className="font-display text-sm font-semibold text-ink">{tier.title}</span>
+                </div>
+                <div className="text-xs text-blue font-medium mb-2">{tier.who}</div>
+                <div className="text-xs text-stone leading-[1.7] mb-2">{tier.how}</div>
+                <div className="text-xs text-ink font-medium leading-[1.7] mb-2">{tier.what}</div>
+                <div className="font-data text-[10px] text-mist mt-2 pt-2 border-t border-fog">{locale === "zh" ? "更新方式" : "Updates"}: {tier.update}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
       {/* Quick Start — Try it in 30 seconds */}
       <Reveal>
         <div className="border-2 border-ink mb-12">
@@ -319,6 +367,80 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 <p className="text-xs text-stone mt-1">{item.detail}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Threat Reporting API — upstream contribution */}
+      <Reveal>
+        <div className="mt-12 border border-fog">
+          <div className="px-6 py-4 border-b border-fog bg-[#0B0B0F]">
+            <h2 className="font-display text-lg font-semibold text-white">
+              {locale === "zh" ? "上報威脅 — 讓你的端點成為全球感測器" : "Report Threats — Turn Your Endpoints Into Global Sensors"}
+            </h2>
+          </div>
+          <div className="p-6 space-y-6">
+            <p className="text-sm text-stone leading-[1.8] max-w-[560px]">
+              {locale === "zh"
+                ? "你的掃描器發現了新威脅？上報到 Threat Cloud，ATR 會自動結晶成偵測規則，審核通過後分發給全世界。你發現的威脅，保護所有人。"
+                : "Your scanner found a new threat? Report it to Threat Cloud. ATR crystallizes it into a detection rule, reviews it, and distributes it globally. Your discovery protects everyone."}
+            </p>
+
+            <div className="space-y-4">
+              <div>
+                <div className="font-data text-xs text-stone mb-2">{locale === "zh" ? "方式 1：CLI（最簡單）" : "Method 1: CLI (simplest)"}</div>
+                <div className="font-data text-sm bg-[#0B0B0F] text-[#4ade80] px-4 py-3 rounded-sm overflow-x-auto">
+                  <span className="text-[#808089]">$</span> npx agent-threat-rules scan . --report-to-cloud
+                </div>
+              </div>
+
+              <div>
+                <div className="font-data text-xs text-stone mb-2">{locale === "zh" ? "方式 2：程式庫（平台整合）" : "Method 2: Library (platform integration)"}</div>
+                <div className="font-data text-xs bg-[#0B0B0F] text-[#E0E0E8] px-4 py-3 rounded-sm overflow-x-auto leading-[1.8]">
+                  <div className="text-[#6B6B76]">{"// "}{locale === "zh" ? "你的平台發現威脅時自動上報" : "Auto-report when your platform detects threats"}</div>
+                  <div>{"import { ATREngine, createTCReporter } from 'agent-threat-rules';"}</div>
+                  <div className="mt-1">{"const engine = new ATREngine({"}</div>
+                  <div>{"  reporter: createTCReporter(), "}<span className="text-[#6B6B76]">{"// "}{locale === "zh" ? "匿名，不需 API key" : "anonymous, no API key"}</span></div>
+                  <div>{"});"}</div>
+                  <div className="mt-1 text-[#6B6B76]">{"// "}{locale === "zh" ? "偵測結果自動批次上報 TC" : "detections auto-batched to TC"}</div>
+                </div>
+              </div>
+
+              <div>
+                <div className="font-data text-xs text-stone mb-2">{locale === "zh" ? "方式 3：API（完全自訂）" : "Method 3: API (fully custom)"}</div>
+                <div className="font-data text-xs bg-[#0B0B0F] text-[#E0E0E8] px-4 py-3 rounded-sm overflow-x-auto leading-[1.8]">
+                  <div className="text-[#6B6B76]">{"# "}{locale === "zh" ? "直接呼叫 TC API" : "Direct TC API call"}</div>
+                  <div>{"curl -X POST https://tc.panguard.ai/api/threats \\"}</div>
+                  <div>{"  -H 'Content-Type: application/json' \\"}</div>
+                  <div>{"  -d '{\"ruleId\":\"ATR-2026-00121\",\"severity\":\"critical\","}</div>
+                  <div>{"       \"contentHash\":\"abc123\",\"scanTarget\":\"my-skill\"}"}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-fog">
+              <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-2">
+                {locale === "zh" ? "上報後會發生什麼" : "What happens after reporting"}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs text-stone">
+                <div className="bg-ash p-3 rounded-sm">
+                  <div className="font-data text-ink font-medium mb-1">1. {locale === "zh" ? "聚合" : "Aggregate"}</div>
+                  {locale === "zh" ? "TC 收集多個端點的訊號" : "TC collects signals from endpoints"}
+                </div>
+                <div className="bg-ash p-3 rounded-sm">
+                  <div className="font-data text-ink font-medium mb-1">2. {locale === "zh" ? "結晶" : "Crystallize"}</div>
+                  {locale === "zh" ? "AI 分析模式，產出規則草稿" : "AI analyzes patterns, drafts rules"}
+                </div>
+                <div className="bg-ash p-3 rounded-sm">
+                  <div className="font-data text-ink font-medium mb-1">3. {locale === "zh" ? "審核" : "Review"}</div>
+                  {locale === "zh" ? "人工審核 FP + 攻擊類型分類" : "Human reviews FP + attack classification"}
+                </div>
+                <div className="bg-ash p-3 rounded-sm">
+                  <div className="font-data text-ink font-medium mb-1">4. {locale === "zh" ? "分發" : "Distribute"}</div>
+                  {locale === "zh" ? "合併到 ATR → npm publish → 全球更新" : "Merged to ATR → npm publish → global update"}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </Reveal>
