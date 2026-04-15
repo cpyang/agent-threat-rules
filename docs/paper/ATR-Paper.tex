@@ -40,7 +40,7 @@
 \maketitle
 
 \begin{abstract}
-The deployment of autonomous AI agents --- systems that reason, use tools, maintain memory, and coordinate with other agents --- has created a novel category of security challenge. Unlike traditional software, AI agents are \textbf{non-deterministic systems that process attacks and legitimate instructions through the same channel, in the same language, in the same context space.} The foundational assumption of 40 years of cybersecurity --- that you can separate control flow from data flow --- no longer holds.
+The deployment of autonomous AI agents --- systems that reason, use tools, maintain memory, and coordinate with other agents --- has created a novel category of security challenge. Unlike traditional software, AI agents are \textbf{non-deterministic systems that process attacks and legitimate instructions through the same channel, in the same language, in the same context space.} The foundational assumption of 40 years of cybersecurity --- that you can separate control flow from data flow --- no longer holds. ATR provides for AI agent skills what Sigma provides for SIEM logs and YARA provides for malware files --- an open, community-driven detection rule format that turns threat intelligence into machine-executable defense.
 
 This paper presents an empirical analysis of the AI agent security landscape based on evidence from 30+ CVEs \cite{cve6514,cve53773,cvegit,cve49596,cve59536,postmark,sandworm}, multiple distinct attack classes, 7 published benchmarks \cite{pint,mcptox,asb,aishell,hacka,tensortrust,caibench}, and multiple real-world production incidents in 2025--2026. We make six contributions:
 
@@ -55,12 +55,20 @@ This paper presents an empirical analysis of the AI agent security landscape bas
 \textbf{(5)} We present Agent Threat Rules (ATR) \cite{atr}, the first open-source implementation of this standard, and validate it empirically: \textbf{113 YAML-based detection rules} across 9 threat categories, independently benchmarked at 99.6\% precision and 61.4\% recall against the external PINT dataset \cite{pint} (850 samples), with 100\% recall and 97\% precision on the SKILL.md structured content benchmark (498 samples, 0.20\% FP rate). An ecosystem-wide scan of \textbf{96,096 agent skills} across six registries (OpenClaw, ClawHub, Skills.sh, Hermes, MCP Registry) discovered \textbf{751 active malware skills} from three coordinated threat actors \cite{atrscanmega}. A threat crystallization flywheel has been validated end-to-end: community signal aggregation $\rightarrow$ LLM-assisted rule generation $\rightarrow$ automated quality gate $\rightarrow$ human review $\rightarrow$ publication. ATR rules are shipped as upstream detection by Cisco AI Defense \cite{ciscopr79}.
 
 \textbf{(6)} We publish RFC-001 \cite{rfc001}, the first vendor-neutral quality standard for AI agent detection rules. RFC-001 defines maturity levels, a confidence scoring formula, a two-dimensional compliance model (metadata presence $\times$ provenance), six review tier levels (the first standard to formalize LLM-assisted review as a first-class tier), community signal aggregation, and multi-runtime compatibility declarations for 14 agent platforms. The standard is designed so that \textbf{any vendor} --- not just ATR --- can adopt the scoring algorithm by implementing a single adapter interface. A reference implementation is published as MIT-licensed open source. Microsoft's concurrent CTI-REALM benchmark \cite{ctirealm} independently validates the premise that AI agents can assist in detection rule generation, which is the mechanism ATR's crystallization flywheel relies on.
+
+Taken together, these contributions argue that the AI agent ecosystem requires a new category of security infrastructure---a community-driven detection layer, operating below the LLM reasoning layer, that can evolve as fast as the threats it monitors. This paper defines that category, provides the first open implementation, and charts the research agenda for what comes next.
 \end{abstract}
 
 
 %----------------------------------------------------------------------
 \section{The End of Perimeter Defense}
 \label{sec:perimeter}
+
+\textit{September 2025. A developer installs \texttt{postmark-mcp}, an npm package for sending emails via the Postmark API. Versions 1.0.0 through 1.0.15 work correctly. Version 1.0.16 adds a single BCC line: every email now silently copies to \texttt{phan@giftshop.club}. No CVE is filed. No alert fires. The AI agent is doing exactly what its tool description says---plus one thing it doesn't mention. Weeks pass before anyone notices} \cite{postmark}.
+
+\textit{February 2026. Nineteen typosquatted npm packages---\texttt{claud-code}, \texttt{cloude-code}, \texttt{opencraw}---target developers using Claude Code, Cursor, and VS~Code. Each package reads \texttt{\textasciitilde/.ssh/id\_rsa}, AWS credentials, and API keys, then exfiltrates them to attacker-controlled endpoints. The packages are discovered by Socket.dev---not by any security tool running inside the agents} \cite{sandworm}.
+
+These are not hypothetical scenarios. They are the opening moves of a new attack class that existing security infrastructure was not designed to detect. This paper explains why, presents the evidence at ecosystem scale, and proposes the architectural response.
 
 \subsection{Forty Years of One Assumption}
 
@@ -121,6 +129,46 @@ In 2025--2026, every major AI agent security incident exploited this collapse:
 \end{itemize}
 
 Every one of these attacks entered through a channel that current guardrails don't monitor. The agents were functioning correctly --- following instructions. The instructions came from the wrong source, and the agents had no mechanism to tell the difference.
+
+
+%----------------------------------------------------------------------
+\section{The Evidence: 751 Malware Skills Hiding in Plain Sight}
+\label{sec:evidence}
+
+Before we analyze \textit{why} AI agents are vulnerable, we present evidence that the threat is already here, already at scale, and already undetected by existing tools.
+
+In April 2026, we used 113 pattern-based detection rules to conduct what is, to our knowledge, the largest automated security audit of AI agent skills to date \cite{atrscanmega}: \textbf{96,096 skills} across six registries (OpenClaw, ClawHub, Skills.sh, Hermes Agent, MCP Registry).
+
+\begin{table}[htbp]
+\centering
+\caption{Ecosystem Scan: 96,096 Agent Skills Across Six Registries}
+\label{tab:megascan}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Metric} & \textbf{Count} & \textbf{Percentage} \\
+\midrule
+Skills flagged (any severity) & 1,302 & \textbf{1.35\%} \\
+CRITICAL & 989 & 1.03\% \\
+HIGH & 353 & 0.37\% \\
+MEDIUM & 7 & $<$0.01\% \\
+Clean & 94,794 & 98.65\% \\
+\textbf{Confirmed malware} & \textbf{751} & \textbf{0.78\%} \\
+Threat Cloud blacklist entries & 554 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The scan uncovered the largest documented malware campaign targeting AI agent ecosystems: \textbf{751 active malware skills} distributed by three coordinated threat actors:
+
+\begin{itemize}
+\item \textbf{hightower6eu}: 354 skills (100\% malicious). Disguised as Solana and Google Workspace tools. Command-and-control infrastructure active at time of discovery.
+\item \textbf{sakaen736jih}: 212 skills (93\% malicious). C2 server at \texttt{91.92.242.30}. Mixed with a small number of apparently legitimate tools as cover.
+\item \textbf{52yuanchangxing}: 137 skills (72\% malicious). Chinese-language tools targeting developer workflows.
+\end{itemize}
+
+The dominant attack vector is \textbf{tool description poisoning}: embedding hidden instructions in a skill's metadata that the AI agent processes as trusted input. A single detection rule for credential access via tool descriptions triggered 686 times, accounting for 53\% of all flagged skills. All 751 skills were reported to NousResearch (hermes-agent\#9809) and blacklisted in Threat Cloud (554 entries). Full details are in the companion research report \cite{atrscanmega}.
+
+\textbf{No existing security tool detected these 751 malware skills.} Not npm audit. Not the registry's own review process. Not the AI agents that installed and executed them. The skills passed every check because there was no check designed to look for what they were doing. The rest of this paper explains why---and what a detection architecture that can find them looks like.
 
 
 %----------------------------------------------------------------------
@@ -692,46 +740,13 @@ Proprietary classifiers that claim 98\% detection do not disclose what is in the
 We argue that a transparent detection system with known, addressable gaps provides greater utility as an industry standard than an opaque system with higher reported accuracy but unknown failure modes --- a position supported by the historical precedent of Sigma's adoption over proprietary SIEM classifiers \cite{sigma}.
 
 
-\subsection{Mega Scan: Agent Skill Ecosystem}
+\subsection{Ecosystem Validation}
 
-In April 2026, we used ATR v1.1.1 to conduct a mega scan of the agent skill ecosystem \cite{atrscanmega}. This is, to our knowledge, the largest automated security audit of AI agent skills to date.
+The 96,096-skill ecosystem scan (Section~\ref{sec:evidence}) serves as the primary large-scale validation of ATR's detection capability. Here we report the detection-specific findings.
 
-\textbf{Methodology:} Scanned 96,096 skills across six registries: OpenClaw (56,480 skills), ClawHub (36,498), Skills.sh (3,115), Hermes Agent (123), and MCP Registry (4,880). Each skill was evaluated against all 113 ATR rules. Findings were reported to Threat Cloud for community review and blacklisting.
+\textbf{Detection analysis.} Rule ATR-2026-00121 (credential access via tool description) triggered 686 times, accounting for 53\% of all 1,302 flagged skills. Tool description poisoning --- embedding hidden instructions in a skill's metadata that the AI agent processes as trusted input --- remains the dominant attack vector in the wild.
 
-\textbf{Results:}
-
-\begin{table}[htbp]
-\centering
-\caption{Ecosystem Scan: 96,096 Agent Skills Across Six Registries}
-\label{tab:megascan}
-\begin{tabular}{lrr}
-\toprule
-\textbf{Metric} & \textbf{Count} & \textbf{Percentage} \\
-\midrule
-Skills flagged (any severity) & 1,302 & \textbf{1.35\%} \\
-CRITICAL & 989 & 1.03\% \\
-HIGH & 353 & 0.37\% \\
-MEDIUM & 7 & $<$0.01\% \\
-Clean & 94,794 & 98.65\% \\
-\textbf{Confirmed malware} & \textbf{751} & \textbf{0.78\%} \\
-Threat Cloud blacklist entries & 554 & --- \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Malware campaign discovery.} The scan uncovered the largest documented malware campaign targeting AI agent ecosystems: \textbf{751 active malware skills} distributed by three coordinated threat actors:
-
-\begin{itemize}
-\item \textbf{hightower6eu}: 354 skills (100\% malicious). Disguised as Solana and Google Workspace tools. Command-and-control infrastructure active at time of discovery.
-\item \textbf{sakaen736jih}: 212 skills (93\% malicious). C2 server at \texttt{91.92.242.30}. Mixed with a small number of apparently legitimate tools as cover.
-\item \textbf{52yuanchangxing}: 137 skills (72\% malicious). Chinese-language tools targeting developer workflows.
-\end{itemize}
-
-All 751 skills were reported to NousResearch (hermes-agent\#9809), blacklisted in Threat Cloud (554 entries), and are documented in detail in the companion research report \cite{atrscanmega}.
-
-\textbf{Top detection:} Rule ATR-2026-00121 (credential access via tool description) triggered 686 times, accounting for 53\% of all flagged skills. Tool description poisoning --- embedding hidden instructions in a skill's metadata that the AI agent processes as trusted input --- remains the dominant attack vector.
-
-\textbf{False positive analysis.} Of the 1,302 flagged skills, 751 are confirmed malware. The remaining $\sim$551 flagged skills (0.57\% of all skills) include over-privileged but non-malicious skills and legitimate security tools. The benchmark FP rate (0.20\% on labeled corpus) is consistent with the wild scan FP rate. ATR operates in report-only mode --- flagged skills are not blocked by default, preserving agent automation workflows.
+\textbf{False positive analysis.} Of the 1,302 flagged skills, 751 are confirmed malware. The remaining $\sim$551 flagged skills (0.57\% of all skills) include over-privileged but non-malicious skills and legitimate security tools. The benchmark FP rate (0.20\% on labeled corpus) is consistent with the wild scan FP rate, validating that ATR's precision holds at ecosystem scale. ATR operates in report-only mode --- flagged skills are not blocked by default, preserving agent automation workflows.
 
 
 \subsection{Threat Crystallization: Validated}
@@ -771,19 +786,21 @@ ATR has moved from proposal to production adoption:
 \end{itemize}
 
 
-\subsection{Known Limitations}
+\subsection{Open Research Agenda}
 
-\textbf{Regex ceiling --- structure-dependent.} Tier 2 pattern matching achieves 100\% recall on structured SKILL.md content but 61.4\% on adversarial natural language (PINT). The gap is structural: tool descriptions and skill manifests have schemas that constrain the attacker's paraphrase space; free-form natural language does not. ATR's response: use regex where it works (structured content, known patterns, near-zero false positives, $<$5ms), and escalate free-form content to Tiers 3--4.
+ATR's current limitations are not merely deficiencies to be patched. They delineate the frontier of a new research area---agent behavior detection---and define the questions the field must answer next.
 
-\textbf{Known evasion techniques.} We have documented 64 evasion techniques across all 113 rules. These are published in each rule's \texttt{evasion\_tests} field. Categories include: paraphrase (21), encoding bypass (12), language switching (9), semantic restructuring (8), multi-turn decomposition (6), context window manipulation (4), and other (4). Documenting what we cannot catch is as important as documenting what we can.
+\textbf{1. The structured--unstructured detection boundary.} Tier 2 pattern matching achieves 100\% recall on structured SKILL.md content but 61.4\% on adversarial natural language (PINT). This gap is not an implementation artifact; it is the fundamental boundary between deterministic and semantic detection. Where does pattern matching stop working, and what is the minimal semantic capability needed to close the gap? Can hybrid architectures (constrained grammars + lightweight classifiers) achieve 90\%+ recall without full LLM inference? The answer determines whether scalable agent security is economically viable.
 
-\textbf{LLM judge adversarial robustness.} Tier 4 uses an LLM to judge attacks. An attacker that can simultaneously bypass the protected agent AND the judge model wins. Mitigation: the judge uses a different model with a different prompt than the protected agent.
+\textbf{2. Adversarial evasion taxonomy and automated counter-generation.} We have documented 64 evasion techniques across all 113 rules, published in each rule's \texttt{evasion\_tests} field: paraphrase (21), encoding bypass (12), language switching (9), semantic restructuring (8), multi-turn decomposition (6), context window manipulation (4), and other (4). This taxonomy is the first systematic enumeration of evasion classes specific to agent detection rules. The research question: can evasion discovery be automated---generating novel evasions and counter-rules in an adversarial loop---so that rule evolution outpaces attacker adaptation?
 
-\textbf{Rule supply chain.} ATR rules are YAML text. An attacker who can modify rule files can disable detection. Planned mitigation: Sigstore rule signing (roadmap).
+\textbf{3. Multi-model adversarial robustness.} Tier 4 uses a separate LLM as a security judge. An attacker who can simultaneously bypass the protected agent AND the judge model defeats the cascade. Current mitigation (different model, different prompt) is necessary but not sufficient. The broader question: what are the theoretical limits of using language models to judge language model behavior? This connects to the open problem of AI alignment verification and may require formal methods beyond statistical detection.
 
-\textbf{Training-time attacks.} ATR detects runtime attacks. Model backdoors planted during training are out of scope.
+\textbf{4. Detection rule integrity and provenance.} ATR rules are YAML text. An attacker who can modify rule files can disable detection silently. This is the ``quis custodiet ipsos custodes'' problem for detection infrastructure. Planned mitigation (Sigstore rule signing) addresses file integrity but not the deeper question: how do you establish a chain of trust for detection rules in a decentralized, community-driven ecosystem where anyone can propose rules?
 
-\textbf{Data flow coverage.} ATR currently monitors 6 of the 10 data flow points identified in Section~\ref{sec:attacksurface}. Points 4 (MCP protocol-level), 8 (code/file context), 9 (permission/auth), and 10 (behavioral drift) require deeper integration with agent frameworks and are on the roadmap.
+\textbf{5. The training--runtime detection boundary.} ATR detects runtime attacks. Model backdoors planted during training are architecturally invisible at inference time. This is not merely a scope limitation---it defines two distinct threat classes that require fundamentally different detection approaches. Bridging this gap requires new techniques that connect supply-chain provenance (model cards, training data audits) with runtime behavioral fingerprinting.
+
+\textbf{6. Full data flow interception.} ATR currently monitors 6 of the 10 data flow points identified in Section~\ref{sec:attacksurface}. Points 4 (MCP protocol-level), 8 (code/file context), 9 (permission/auth), and 10 (behavioral drift) require instrumentation that current agent frameworks do not expose. The research challenge is not writing more rules---it is designing agent framework APIs that make these data flows observable without introducing unacceptable latency or breaking the agent's autonomy.
 
 
 %----------------------------------------------------------------------
@@ -820,31 +837,23 @@ The infrastructure exists to attack AI agents at scale. The infrastructure to de
 \section{Conclusion}
 \label{sec:conclusion}
 
-AI agent security is not a model problem. It is an infrastructure problem.
+Agent security is not a model problem. It is an infrastructure problem. The infrastructure is missing. We built the first piece.
 
-The models are getting better at resisting direct injection \cite{grayswan,anthropicrates}. That's progress. But indirect injection --- through tools, memory, inter-agent communication, supply chains, protocols, and behavioral manipulation --- bypasses model-level resistance entirely \cite{minja,invariant,sandworm,cve6514}. These attacks exploit the absence of authorization and integrity infrastructure, not the weakness of any model.
+For forty years, cybersecurity has rested on the assumption that control flow and data flow are separable. AI agents collapse that separation. Every input---user instructions, tool descriptions, tool responses, memory entries, inter-agent messages---enters the same context window and is processed by the same language model with no structural differentiation. Two of three foundational security pillars (authorization and integrity) are entirely absent. This is not a flaw in any particular model. It is a missing layer of infrastructure that the industry has not yet built.
 
-The attack surface is growing superlinearly as agents gain capabilities \cite{kim2026}. Defense measures decay in 3--6 months \cite{anthropicrates,checkmarx}. Offense is outpacing defense in the AI scaling race \cite{aisafety}. The MCP ecosystem is growing orders of magnitude faster than its security surface \cite{gartner,checkmarx}.
+The evidence is not theoretical. We scanned 96,096 agent skills across six registries and found 751 active malware skills from three coordinated threat actors (Section~\ref{sec:evidence})---the largest documented malware campaign targeting AI agent ecosystems. No existing security tool detected them. Not because the tools failed, but because no tool was designed to look at the layer where these attacks operate.
 
-Static defenses at the I/O boundary cannot solve this. The industry needs:
+The implication is clear: the industry's current approach---guardrails at the I/O boundary, model-level injection resistance, manual approval dialogs---defends 1 of 10 attack surfaces with moderate effectiveness while 7 of 10 have zero automated defense. Model improvement helps for direct injection but makes agents \textit{more} susceptible to tool-layer attacks, because better reasoning means better compliance with injected instructions hidden in trusted channels. Static defenses decay in 3--6 months. The attack surface grows superlinearly with capability. Offense is outpacing defense.
 
-\begin{itemize}
-\item \textbf{Multi-point defense} across all 10 agent data flow points, not just user input
-\item \textbf{Below-reasoning-layer detection} that cannot be manipulated by the attacks it's detecting
-\item \textbf{Cascade architecture} that makes full-coverage detection economically viable
-\item \textbf{Evolutionary capability} that keeps pace with attack evolution
-\item \textbf{An open standard} that enables community-driven defense, independent verification, and interoperability across agent platforms
-\end{itemize}
+What is needed is not better guardrails. It is a new detection layer---one that operates below the reasoning layer where attacks and legitimate instructions are indistinguishable, that cascades from cheap deterministic checks to expensive semantic analysis, that evolves through community-driven threat intelligence, and that is open enough to be independently verified and vendor-neutral enough to become shared infrastructure.
 
-We have implemented these requirements as ATR \cite{atr} --- 113 open-source detection rules, a 5-tier cascade engine, and a validated threat crystallization flywheel --- and tested the approach against three benchmarks: PINT \cite{pint} (99.6\% precision, 61.4\% recall), SKILL.md (100\% recall, 97\% precision, 0.20\% FP rate), and an ecosystem-wide scan of 96,096 agent skills \cite{atrscanmega} across six registries. The scan discovered 751 active malware skills from three coordinated threat actors --- the largest documented malware campaign targeting AI agent ecosystems.
+We have implemented this as ATR \cite{atr}: 113 open-source YAML detection rules, a 5-tier cascade engine, a validated threat crystallization flywheel, and RFC-001 \cite{rfc001}---the first vendor-neutral quality standard for AI agent detection rules. The approach is empirically validated: 99.6\% precision on external adversarial benchmarks \cite{pint}, 100\% recall on structured skill content, and production adoption by Cisco AI Defense \cite{ciscopr79}. Microsoft's concurrent CTI-REALM benchmark \cite{ctirealm} independently validates that AI agents can generate detection rules from threat intelligence---the mechanism ATR's crystallization flywheel relies on.
 
-Beyond the rule corpus, we publish RFC-001 \cite{rfc001} --- the first vendor-neutral quality standard for AI agent detection rules. RFC-001 defines maturity levels, confidence scoring, two-dimensional compliance (metadata $\times$ provenance), review tier levels L0--L5, community signal aggregation, and multi-runtime compatibility across 14 agent platforms. The standard is explicitly designed to be adopted without adopting ATR's rule format: any vendor implements one adapter interface and gains comparable quality scores. Microsoft's CTI-REALM benchmark \cite{ctirealm}, published concurrently in March 2026, independently validates that AI agents can generate detection rules from threat intelligence --- the same mechanism ATR's crystallization flywheel uses in production.
+But ATR is one implementation. The contribution that matters is the argument: AI agents need a detection layer that is analogous to what Sigma provides for SIEM, what YARA provides for malware, and what Snort provides for network traffic---an open, community-driven, externally benchmarked standard that any vendor can adopt and any researcher can build on. Whether that standard is called ATR or something else is secondary. The properties are what matter. The industry must build this infrastructure, and it must build it in the open, before the next generation of autonomous agents---with payment capabilities, physical-world access, and inter-organizational trust chains---makes the cost of inaction catastrophic.
 
-ATR is no longer just a proposal. Cisco AI Defense ships 34 ATR rules in production \cite{ciscopr79}. OWASP accepted ATR attack examples into the Agentic Top 10 working group. The EU AI Act enters full enforcement in August 2026 \cite{euaiact} --- enterprises deploying autonomous agents will need detection controls that map to regulatory frameworks. ATR's rules map to all 10 OWASP Agentic categories, 100 of 113 rules map to MITRE ATLAS techniques, and RFC-001's maturity model provides the audit trail regulators require.
+The collapse of trust is happening now. Every incident in this paper is from the last twelve months. The research agenda we define (Section~\ref{sec:atr}) charts six open problems that will shape agent security for the next decade. The 751 malware skills we found are still being cleaned up. The infrastructure to attack AI agents at scale already exists. The infrastructure to defend them is being built.
 
-The Snyk acquisition of Invariant Labs \cite{snykinvariant} --- creators of the leading MCP scanning tool --- validates the market but makes the case for an open standard more urgent: when the leading open-source scanner becomes proprietary, the community needs a standard that cannot be acquired away. ATR's permanent MIT license commitment, published in GOVERNANCE.md, ensures this.
-
-The collapse of trust is happening now. Every CVE, every incident, every benchmark result in this paper is from the last 12 months. The 751 malware skills we discovered are still being cleaned up. The MCP SDK downloads 97 million times per month. The EU AI Act takes effect in four months. ATR is one answer --- and it is being adopted. The industry needs many more.
+ATR is open-source (MIT License, permanent commitment). All rules, engine code, RFC-001 reference implementation, evaluation data, and benchmark results are publicly available at \url{https://github.com/Agent-Threat-Rule/agent-threat-rules} \cite{atr}.
 
 ATR is open-source (MIT License, permanent commitment). All rules, engine code, RFC-001 reference implementation, evaluation data, and benchmark results are publicly available at \url{https://github.com/Agent-Threat-Rule/agent-threat-rules} for independent verification and reproduction \cite{atr}.
 

@@ -42,7 +42,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           {/* Main paper */}
           <div className="bg-paper p-5 md:p-6">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-data text-xs text-mist">April 2026 · 24 pages · 72 references</span>
+              <span className="font-data text-xs text-mist">April 2026 · 25 pages · 67 references</span>
             </div>
             <div className="font-display text-base font-semibold text-ink mb-1">
               {locale === "zh"
@@ -55,7 +55,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                 : `${stats.ruleCount} detection rules, RFC-001 quality standard, 96K ecosystem scan, 751 malware discovered, Cisco adoption. The complete ATR thesis with six research contributions.`}
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href="https://doi.org/10.5281/zenodo.19476495" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
+              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-Paper.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
               <span className="font-data text-xs text-stone">SSRN: 6457179</span>
             </div>
@@ -97,7 +97,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                 : "The largest AI agent security scan to date. 96,096 skills across 6 registries, 1,302 flagged, 751 confirmed malware. Three coordinated threat actors. Credential access via tool descriptions accounts for 53% of detections."}
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href="https://doi.org/10.5281/zenodo.19476481" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
+              <a href="https://doi.org/10.5281/zenodo.19476480" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-MegaScan-2026.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                 : "Empirical analysis of the MCP attack surface. 30 CVEs in 60 days, 38% zero authentication, 7-class attack taxonomy, 53K ecosystem scan. 15x faster than Docker's first two years."}
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href="https://doi.org/10.5281/zenodo.19476483" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
+              <a href="https://doi.org/10.5281/zenodo.19476482" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/MCP-Attack-Surface-2026.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
             </div>
           </div>
