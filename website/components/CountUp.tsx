@@ -68,11 +68,6 @@ export function CountUp({
       return;
     }
 
-    // Reset to 0 for animation start (only in browser, not SSR)
-    if (!animated.current) {
-      setDisplay(`${prefix}0${suffix}`);
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !animated.current) {
@@ -115,7 +110,7 @@ export function CountUp({
           observer.disconnect();
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 }
     );
 
     observer.observe(el);
