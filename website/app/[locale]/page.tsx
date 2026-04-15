@@ -71,63 +71,87 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       <StatsHydrator />
 
-      {/* ── Scene 1: The Shift (Hero) ── */}
+      {/* ── Scene 1: Hero — 3 seconds to understand ── */}
       <section className="bg-paper min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6 relative overflow-hidden">
         <HeroGrid />
 
-        <div className="relative z-10 max-w-[800px]">
+        <div className="relative z-10 max-w-[840px]">
           <HeroEntrance delay={0.5}>
-            <p className="font-display text-[24px] md:text-[clamp(36px,5.5vw,72px)] font-bold md:font-black leading-[1.15] tracking-[-1.5px] md:tracking-[-3px] text-stone">
-              {zh ? "我們過去保護人。" : "We used to protect people."}
-            </p>
-          </HeroEntrance>
-
-          <HeroEntrance delay={0.8}>
-            <h1 className="font-display text-[28px] md:text-[clamp(36px,5.5vw,72px)] font-black leading-[1.15] tracking-[-1.5px] md:tracking-[-3px] text-ink mt-1">
-              {zh ? "現在我們保護 Agent。" : "Now we protect agents."}
+            <h1 className="font-display text-[24px] md:text-[clamp(32px,5vw,64px)] font-black leading-[1.15] tracking-[-1.5px] md:tracking-[-3px] text-ink">
+              {zh
+                ? <>你的 AI 工具可能被下了毒。</>
+                : <>Your AI agent&apos;s tools<br className="hidden md:block" /> can be poisoned.</>}
             </h1>
           </HeroEntrance>
 
-          <HeroEntrance delay={1.0}>
-            <p className="text-[13px] md:text-base text-mist font-light max-w-[520px] mx-auto mt-5 md:mt-5 leading-[1.8]">
+          <HeroEntrance delay={0.8}>
+            <p className="font-display text-[20px] md:text-[clamp(24px,3.5vw,44px)] font-bold leading-[1.2] tracking-[-1px] md:tracking-[-2px] text-stone mt-2 md:mt-3">
               {zh
-                ? <>AI agent 安全的開放偵測標準。<br className="sm:hidden" />{stats.ruleCount} 條規則。已掃描 {stats.megaScanTotal.toLocaleString()} 個 skill。<br className="sm:hidden" />發現 751 個惡意軟體。Cisco 已採用。</>
-                : <>The open detection standard for AI agent security.<br className="sm:hidden" /> {stats.ruleCount} rules. {stats.megaScanTotal.toLocaleString()} skills scanned.<br className="sm:hidden" /> 751 malware discovered. Shipped in Cisco.</>}
+                ? <>我們掃了 {stats.megaScanTotal.toLocaleString()} 個。發現 <span className="text-critical">751 個惡意軟體</span>。</>
+                : <>We scanned {stats.megaScanTotal.toLocaleString()}. Found <span className="text-critical">751 malware</span>.</>}
             </p>
           </HeroEntrance>
 
-          <HeroEntrance delay={1.2}>
+          <HeroEntrance delay={1.0}>
+            <p className="text-[13px] md:text-base text-mist font-light max-w-[560px] mx-auto mt-5 leading-[1.8]">
+              {zh
+                ? <>ATR 是 AI agent 的病毒碼 — 像防毒軟體掃描惡意程式，ATR 掃描惡意的 AI 工具。開源標準。{stats.ruleCount} 條規則。Cisco 已在生產環境使用。</>
+                : <>ATR is antivirus signatures for AI agents. Open source. {stats.ruleCount} rules. Already shipped in Cisco AI Defense.</>}
+            </p>
+          </HeroEntrance>
+
+          {/* Try it now */}
+          <HeroEntrance delay={1.15}>
+            <div className="mt-7 md:mt-8 bg-[#0B0B0F] border border-[#2A2A35] rounded-sm overflow-hidden max-w-[520px] mx-auto text-left">
+              <div className="flex items-center gap-2 px-3 py-2 border-b border-[#2A2A35] bg-[#0F0F14]">
+                <span className="font-data text-xs text-[#808089]">{zh ? "一行指令。即時結果。" : "One command. Instant results."}</span>
+              </div>
+              <div className="p-3 md:p-4 font-data text-xs md:text-sm leading-[1.8]">
+                <div className="text-[#808089]">$</div>
+                <div className="text-[#E0E0E8]">npx agent-threat-rules scan ./my-project</div>
+                <div className="text-[#6B6B76] mt-2"># {zh ? "輸出" : "output"}</div>
+                <div className="text-green">  3 SKILL.md {zh ? "已掃描" : "scanned"}</div>
+                <div className="text-green">  12 MCP {zh ? "工具描述已檢查" : "tool descriptions checked"}</div>
+                <div className="text-critical">  1 CRITICAL: ATR-2026-00121 {zh ? "工具描述中的憑證竊取" : "credential theft in tool description"}</div>
+                <div className="text-[#808089] mt-1">{zh ? "完成，耗時 47ms。" : "Done in 47ms."}</div>
+              </div>
+            </div>
+          </HeroEntrance>
+
+          <HeroEntrance delay={1.3}>
             <div className="flex gap-3 justify-center flex-wrap mt-7 md:mt-8">
               <Link
                 href={`${prefix}/integrate`}
                 className="bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-sm text-sm font-semibold hover:bg-blue-hover transition-colors"
               >
-                {zh ? "整合 ATR" : "Integrate ATR"}
+                {zh ? "立即掃描" : "Scan Now"}
               </Link>
               <Link
-                href={`${prefix}/rules`}
+                href={`${prefix}/research`}
                 className="text-ink px-6 md:px-8 py-3 md:py-3.5 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-sm"
               >
-                {zh ? "瀏覽規則" : "Explore Rules"}
+                {zh ? "閱讀研究報告" : "Read the Report"}
               </Link>
             </div>
           </HeroEntrance>
 
           {/* Credibility bar */}
-          <HeroEntrance delay={1.4}>
+          <HeroEntrance delay={1.5}>
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-8 md:mt-10 font-data text-[11px] md:text-xs text-stone tracking-wide">
               <span>Cisco AI Defense</span>
               <span className="text-fog">·</span>
-              <span>{stats.ruleCount} {zh ? "規則" : "rules"}</span>
-              <span className="text-fog">·</span>
               <span>OWASP 10/10</span>
+              <span className="text-fog">·</span>
+              <span>MITRE ATLAS</span>
+              <span className="text-fog">·</span>
+              <span>{stats.ruleCount} {zh ? "規則" : "rules"}</span>
               <span className="text-fog hidden sm:inline">·</span>
               <span className="hidden sm:inline">MIT</span>
             </div>
           </HeroEntrance>
         </div>
 
-        <HeroEntrance delay={1.5} className="absolute bottom-6 md:bottom-8 z-10">
+        <HeroEntrance delay={1.6} className="absolute bottom-6 md:bottom-8 z-10">
           <div className="flex flex-col items-center gap-2">
             <span className="font-data text-xs text-stone tracking-[3px] uppercase">scroll</span>
             <div className="w-px h-5 md:h-6 bg-fog relative overflow-hidden">
@@ -155,15 +179,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.2}>
             <h2 className="font-display text-[20px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-1px] leading-[1.35] mb-3 md:mb-4 max-w-[620px]">
               {zh
-                ? <>每個 AI agent 都在呼叫外部工具。<br />整個生態系需要一個共享的偵測標準。</>
-                : <>Every AI agent calls external tools.<br /> The ecosystem needs a shared detection standard.</>}
+                ? <>你的 Claude Code、Cursor、Windsurf<br />裝的每一個 MCP server 都是攻擊面。</>
+                : <>Every MCP server your Claude Code,<br /> Cursor, or Windsurf installs is an attack surface.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.3}>
             <p className="text-sm md:text-lg font-light leading-[1.8] text-graphite max-w-[580px]">
               {zh
-                ? (<>攻擊者誘騙 AI agent <strong className="font-semibold text-critical">洩漏憑證</strong>、<strong className="font-semibold text-critical">執行惡意指令</strong>、<strong className="font-semibold text-critical">無視安全邊界</strong>。<br /><br className="md:hidden" />沒有共享規則，每個平台獨自面對同樣的威脅。<br className="md:hidden" />ATR 讓整個生態系共享防禦。</>)
-                : (<>Attackers trick AI agents into <strong className="font-semibold text-critical">leaking credentials</strong>, <strong className="font-semibold text-critical">running malicious commands</strong>, and <strong className="font-semibold text-critical">bypassing safety boundaries</strong>.<br /><br className="md:hidden" />Without shared rules, every platform fights the same threats alone.<br className="md:hidden" /> ATR gives the entire ecosystem a shared defense.</>)}
+                ? (<>一個惡意的工具描述就能讓你的 AI 助手 <strong className="font-semibold text-critical">偷走 SSH key</strong>、<strong className="font-semibold text-critical">洩漏 API token</strong>、<strong className="font-semibold text-critical">執行後門程式</strong>。<br /><br className="md:hidden" />你看不到它發生，因為攻擊藏在 AI 處理的文字裡。<br className="md:hidden" />ATR 在它們造成傷害之前抓到它們。</>)
+                : (<>A single poisoned tool description can make your AI assistant <strong className="font-semibold text-critical">steal SSH keys</strong>, <strong className="font-semibold text-critical">leak API tokens</strong>, and <strong className="font-semibold text-critical">run backdoors</strong>.<br /><br className="md:hidden" />You won&apos;t see it happen. The attack hides in text the AI processes.<br className="md:hidden" /> ATR catches them before they cause damage.</>)}
             </p>
           </Reveal>
         </div>
