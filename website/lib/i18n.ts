@@ -9,6 +9,7 @@ export const messages: Record<Locale, Record<string, string>> = {
   en: {
     // Nav
     "nav.rules": "Rules",
+    "nav.threats": "Threat Feed",
     "nav.coverage": "Coverage",
     "nav.integrate": "Integrate",
     "nav.contribute": "Contribute",
@@ -192,14 +193,15 @@ export const messages: Record<Locale, Record<string, string>> = {
   },
   zh: {
     // Nav
-    "nav.rules": "Rules",
-    "nav.coverage": "Coverage",
-    "nav.integrate": "Integrate",
-    "nav.contribute": "Contribute",
-    "nav.wall": "Wall",
-    "nav.ecosystem": "Ecosystem",
-    "nav.research": "Research",
-    "nav.quality-standard": "Quality",
+    "nav.rules": "\u898F\u5247",
+    "nav.threats": "\u5A01\u8105\u60C5\u5831",
+    "nav.coverage": "\u8986\u84CB\u7387",
+    "nav.integrate": "\u6574\u5408",
+    "nav.contribute": "\u8CA2\u737B",
+    "nav.wall": "\u8CA2\u737B\u7246",
+    "nav.ecosystem": "\u751F\u614B\u7CFB",
+    "nav.research": "\u7814\u7A76",
+    "nav.quality-standard": "\u54C1\u8CEA\u6A19\u6E96",
     "nav.cta": "\u5C07 ATR \u52A0\u5165\u4F60\u7684\u5E73\u53F0",
 
     // Hero
