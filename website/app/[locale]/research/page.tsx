@@ -86,7 +86,6 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           {/* Mega scan paper */}
           <div className="bg-paper p-5 md:p-6">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-data text-xs bg-blue/10 text-blue px-2 py-0.5 rounded-sm">v1</span>
               <span className="font-data text-xs text-mist">April 2026 · 7 pages · 32 references</span>
             </div>
             <div className="font-display text-base font-semibold text-ink mb-1">
