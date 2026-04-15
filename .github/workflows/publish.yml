@@ -68,9 +68,9 @@ jobs:
           "
           git config user.name "ATR Release Bot"
           git config user.email "release@atr-framework.org"
-          git pull --rebase origin main
           git add package.json
           git commit -m "release: v$NEW"
+          git pull --rebase origin main
           git tag "v$NEW"
           git push origin main
           git push origin "v$NEW"
