@@ -30,10 +30,10 @@
 
   <!-- Stats bar -->
   <text x="80" y="400" font-family="ui-monospace, monospace" font-size="16" fill="#6B6B76" letter-spacing="2">
-    <tspan>108 RULES</tspan>
+    <tspan>113 RULES</tspan>
+    <tspan dx="30">96K SCANNED</tspan>
+    <tspan dx="30">751 MALWARE</tspan>
     <tspan dx="30">CISCO SHIPPED</tspan>
-    <tspan dx="30">99.7% PRECISION</tspan>
-    <tspan dx="30">96.9% SKILL.md RECALL</tspan>
   </text>
 
   <!-- Bottom bar -->

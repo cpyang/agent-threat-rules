@@ -7,9 +7,9 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: "Quality Standard (RFC-001 v1.0) - ATR",
+  title: "Quality Standard (RFC-001 v1.1) - ATR",
   description:
-    "The open detection standard for the AI agent era. Six first-principles requirements, four-tier maturity ladder, vendor-neutral validator, wild-validated on 67,597 real agents. MIT licensed. Effective 2026-04-11.",
+    "The open detection standard for the AI agent era. Six first-principles requirements, four-tier maturity ladder, vendor-neutral validator, wild-validated on 96,096 real agents. MIT licensed. Effective 2026-04-14.",
 };
 
 /* =============================================================
@@ -51,7 +51,7 @@ const MATURITY_LEVELS = [
   },
   {
     label: "Experimental",
-    gate: "3+ conditions · 5 TP + 5 TN · 3+ evasion tests · OWASP + MITRE · false positives documented",
+    gate: "3+ TP + 3+ TN · CI pass · OWASP + MITRE mapping encouraged (not required) · evasion tests encouraged (not required)",
     deploy: "Alert-only",
   },
   {

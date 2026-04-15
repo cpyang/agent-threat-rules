@@ -42,8 +42,8 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           {/* Main paper */}
           <div className="bg-paper p-5 md:p-6">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-data text-xs bg-blue/10 text-blue px-2 py-0.5 rounded-sm">v4</span>
-              <span className="font-data text-xs text-mist">April 2026 · 23 pages · 65 references</span>
+              <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "最新" : "LATEST"}</span>
+              <span className="font-data text-xs text-mist">April 2026 · 24 pages · 72 references</span>
             </div>
             <div className="font-display text-base font-semibold text-ink mb-1">
               {locale === "zh"
@@ -52,29 +52,51 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
             </div>
             <p className="text-sm text-stone mb-3">
               {locale === "zh"
-                ? "108 條偵測規則、雙 benchmark（PINT 99.6% precision + SKILL.md 96.9% recall）、53K mega scan、Cisco 採用。ATR 標準的完整論述。"
-                : "108 detection rules, dual benchmarks (PINT 99.6% precision + SKILL.md 96.9% recall), 53K mega scan, Cisco adoption. The complete ATR thesis."}
+                ? `${stats.ruleCount} 條偵測規則、RFC-001 品質標準、96K 生態系掃描、751 惡意軟體發現、Cisco 採用。ATR 標準的完整論述，含六項研究貢獻。`
+                : `${stats.ruleCount} detection rules, RFC-001 quality standard, 96K ecosystem scan, 751 malware discovered, Cisco adoption. The complete ATR thesis with six research contributions.`}
             </p>
             <div className="flex flex-wrap gap-3">
               <a href="https://doi.org/10.5281/zenodo.19476495" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
-              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-Paper-v4.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/paper/ATR-Paper-v5.pdf" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">PDF (GitHub)</a>
               <span className="font-data text-xs text-stone">SSRN: 6457179</span>
+            </div>
+          </div>
+
+          {/* Malware campaign research report */}
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "新" : "NEW"}</span>
+              <span className="font-data text-xs text-mist">April 2026</span>
+            </div>
+            <div className="font-display text-base font-semibold text-ink mb-1">
+              {locale === "zh"
+                ? "751 個惡意 AI Agent Skill：史上最大規模的 AI Agent 惡意軟體行動"
+                : "751 Malicious AI Agent Skills: The Largest AI Agent Malware Campaign Ever Documented"}
+            </div>
+            <p className="text-sm text-stone mb-3">
+              {locale === "zh"
+                ? "掃描 96,096 個 skill 時發現三個協同攻擊者（hightower6eu 354、sakaen736jih 212、52yuanchangxing 137）。已通報 NousResearch 並全數加入黑名單。"
+                : "Discovered while scanning 96,096 skills across six registries. Three coordinated threat actors (hightower6eu 354, sakaen736jih 212, 52yuanchangxing 137). Reported to NousResearch and blacklisted."}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/research/openclaw-malware-campaign-2026-04.md" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">{locale === "zh" ? "完整報告 (EN)" : "Full Report (EN)"}</a>
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/docs/research/openclaw-malware-campaign-2026-04-zh.md" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">{locale === "zh" ? "完整報告 (ZH)" : "Full Report (ZH)"}</a>
             </div>
           </div>
 
           {/* Mega scan paper */}
           <div className="bg-paper p-5 md:p-6">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-data text-xs bg-critical/10 text-critical px-2 py-0.5 rounded-sm">{locale === "zh" ? "新" : "NEW"}</span>
+              <span className="font-data text-xs bg-blue/10 text-blue px-2 py-0.5 rounded-sm">v1</span>
               <span className="font-data text-xs text-mist">April 2026 · 7 pages · 32 references</span>
             </div>
             <div className="font-display text-base font-semibold text-ink mb-1">
-              53,577 Skills, 946 Threats: The First Large-Scale Security Audit of the AI Agent Ecosystem
+              96,096 Skills, 751 Malware: A Large-Scale Security Audit of the AI Agent Ecosystem
             </div>
             <p className="text-sm text-stone mb-3">
               {locale === "zh"
-                ? "史上最大規模 AI agent 安全掃描。53,577 個 skill、946 個威脅、875 嚴重、0% 誤報。工具描述下毒佔偵測的 71%。"
-                : "The largest AI agent security scan to date. 53,577 skills, 946 threats, 875 critical, 0% false positive. Tool description poisoning accounts for 71% of detections."}
+                ? "史上最大規模 AI agent 安全掃描。96,096 個 skill、1,302 個有風險、751 個確認惡意軟體。三個協同攻擊者。工具描述下毒佔偵測的 53%。"
+                : "The largest AI agent security scan to date. 96,096 skills across 6 registries, 1,302 flagged, 751 confirmed malware. Three coordinated threat actors. Credential access via tool descriptions accounts for 53% of detections."}
             </p>
             <div className="flex flex-wrap gap-3">
               <a href="https://doi.org/10.5281/zenodo.19476481" target="_blank" rel="noopener noreferrer" className="font-data text-xs text-blue hover:underline">Zenodo (DOI)</a>
@@ -246,7 +268,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       <Reveal delay={0.1}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog mb-8">
           <div className="bg-paper p-6">
-            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">Mega Scan (OpenClaw + Skills.sh)</div>
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">{locale === "zh" ? "生態系掃描（6 個 Registry）" : "Ecosystem Scan (6 Registries)"}</div>
             <div className="font-data text-3xl font-bold text-ink mb-1"><CountUp target={stats.megaScanTotal} useComma liveKey="megaScanTotal" /></div>
             <div className="text-sm text-stone mb-3">{locale === "zh" ? "個 skill 已掃描" : "skills scanned"}</div>
             <div className="grid grid-cols-3 gap-3 text-center">
