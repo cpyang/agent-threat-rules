@@ -24,9 +24,12 @@ export function Nav({ locale }: { locale: Locale }) {
   const otherLocale = locale === "en" ? "zh" : "en";
   const pages = [
     "rules",
+    "threats",
     "coverage",
-    "contribute",
+    "integrate",
+    "ecosystem",
     "research",
+    "quality-standard",
   ] as const;
 
   return (
