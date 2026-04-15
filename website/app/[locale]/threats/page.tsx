@@ -1,0 +1,191 @@
+import { Reveal } from "@/components/Reveal";
+import { loadSiteStats } from "@/lib/stats";
+import { locales, type Locale } from "@/lib/i18n";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import type { Metadata } from "next";
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export const metadata: Metadata = {
+  title: "Threat Feed - ATR",
+  description:
+    "Public blacklist of flagged AI agent skills. 1,302 flagged, 751 confirmed malware. Updated from ATR ecosystem scans and Threat Cloud reports.",
+};
+
+interface BlacklistEntry {
+  skill: string;
+  source: string;
+  severity: string;
+  rules: string[];
+  threat_actor: string | null;
+  confirmed_malware: boolean;
+}
+
+interface BlacklistData {
+  generated: string;
+  total_flagged: number;
+  confirmed_malware: number;
+  severity: { critical: number; high: number; medium: number };
+  threat_actors: string[];
+  entries: BlacklistEntry[];
+}
+
+function loadBlacklist(): BlacklistData {
+  try {
+    const raw = readFileSync(join(process.cwd(), "..", "data", "public-blacklist.json"), "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return {
+      generated: "N/A",
+      total_flagged: 0,
+      confirmed_malware: 0,
+      severity: { critical: 0, high: 0, medium: 0 },
+      threat_actors: [],
+      entries: [],
+    };
+  }
+}
+
+const SEV_COLOR: Record<string, string> = {
+  critical: "text-critical bg-critical/10",
+  high: "text-high bg-high/10",
+  medium: "text-stone bg-stone/10",
+};
+
+export default async function ThreatsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: raw } = await params;
+  const locale = (locales.includes(raw as Locale) ? raw : "en") as Locale;
+  const zh = locale === "zh";
+  const stats = loadSiteStats();
+  const bl = loadBlacklist();
+
+  // Show first 100 entries for performance — full list downloadable
+  const shown = bl.entries.slice(0, 100);
+
+  return (
+    <div className="pt-20 pb-16 px-5 md:px-6 max-w-[1120px] mx-auto">
+      <Reveal>
+        <div className="font-data text-xs font-medium text-stone tracking-[3px] uppercase mb-3">
+          {zh ? "公開威脅情報" : "Public Threat Feed"}
+        </div>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <h1 className="font-display text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-2px] mb-2">
+          {zh ? "AI Agent 黑名單" : "AI Agent Blacklist"}
+        </h1>
+      </Reveal>
+      <Reveal delay={0.2}>
+        <p className="text-base text-stone font-light mb-8 max-w-[560px] leading-[1.8]">
+          {zh
+            ? <>ATR 掃描 {stats.megaScanTotal.toLocaleString()} 個 skill 後，<br className="sm:hidden" />標記了 {bl.total_flagged.toLocaleString()} 個有風險的 skill。<br />其中 {bl.confirmed_malware} 個確認為惡意軟體。<br /><br className="sm:hidden" />這份清單完全公開。任何人都可以查詢。</>
+            : <>After scanning {stats.megaScanTotal.toLocaleString()} skills,<br className="sm:hidden" /> ATR flagged {bl.total_flagged.toLocaleString()} with risks.<br />{bl.confirmed_malware} confirmed as malware.<br /><br className="sm:hidden" />This list is fully public. Anyone can check.</>}
+        </p>
+      </Reveal>
+
+      {/* Summary cards */}
+      <Reveal delay={0.3}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog mb-8">
+          <div className="bg-paper p-4 md:p-5">
+            <div className="font-data text-2xl md:text-3xl font-bold text-critical">{bl.total_flagged.toLocaleString()}</div>
+            <div className="font-data text-xs text-stone mt-1">{zh ? "已標記" : "flagged"}</div>
+          </div>
+          <div className="bg-paper p-4 md:p-5">
+            <div className="font-data text-2xl md:text-3xl font-bold text-critical">{bl.confirmed_malware}</div>
+            <div className="font-data text-xs text-stone mt-1">{zh ? "確認惡意軟體" : "confirmed malware"}</div>
+          </div>
+          <div className="bg-paper p-4 md:p-5">
+            <div className="font-data text-2xl md:text-3xl font-bold text-ink">{bl.severity.critical}</div>
+            <div className="font-data text-xs text-stone mt-1">CRITICAL</div>
+          </div>
+          <div className="bg-paper p-4 md:p-5">
+            <div className="font-data text-2xl md:text-3xl font-bold text-ink">{bl.severity.high}</div>
+            <div className="font-data text-xs text-stone mt-1">HIGH</div>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Threat actors */}
+      <Reveal delay={0.35}>
+        <div className="mb-8">
+          <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
+            {zh ? "已知威脅行為者" : "Known Threat Actors"}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-fog">
+            {[
+              { name: "hightower6eu", count: 354, desc: zh ? "Solana / Google Workspace 偽裝" : "Solana / Google Workspace disguise" },
+              { name: "sakaen736jih", count: 212, desc: zh ? "C2: 91.92.242.30" : "C2: 91.92.242.30" },
+              { name: "52yuanchangxing", count: 137, desc: zh ? "中文開發工具" : "Chinese-language dev tools" },
+            ].map((a) => (
+              <div key={a.name} className="bg-paper p-4 md:p-5">
+                <div className="font-data text-xs text-critical font-medium">{a.name}</div>
+                <div className="font-data text-xl font-bold text-ink mt-1">{a.count} {zh ? "個 skill" : "skills"}</div>
+                <div className="text-xs text-stone mt-1">{a.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Blacklist table */}
+      <Reveal delay={0.4}>
+        <div className="mb-4 flex items-center justify-between">
+          <div className="font-data text-xs text-stone tracking-[2px] uppercase">
+            {zh ? `最新 ${shown.length} 筆（共 ${bl.total_flagged.toLocaleString()}）` : `Latest ${shown.length} of ${bl.total_flagged.toLocaleString()}`}
+          </div>
+          <a
+            href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/public-blacklist.json"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-data text-xs text-blue hover:underline"
+          >
+            {zh ? "下載完整清單 (JSON)" : "Download full list (JSON)"}
+          </a>
+        </div>
+        <div className="border border-fog overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="bg-ash border-b border-fog">
+                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2">{zh ? "名稱" : "Skill"}</th>
+                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2 hidden sm:table-cell">{zh ? "來源" : "Source"}</th>
+                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2">{zh ? "嚴重度" : "Severity"}</th>
+                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2 hidden md:table-cell">{zh ? "規則" : "Rules"}</th>
+                <th className="font-data text-[11px] text-stone tracking-[1px] uppercase px-3 py-2">{zh ? "惡意" : "Malware"}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {shown.map((entry, i) => (
+                <tr key={i} className="border-b border-fog/50 hover:bg-ash/30">
+                  <td className="font-data text-xs text-ink px-3 py-2 max-w-[200px] truncate">{entry.skill}</td>
+                  <td className="font-data text-xs text-stone px-3 py-2 hidden sm:table-cell">{entry.source}</td>
+                  <td className="px-3 py-2">
+                    <span className={`font-data text-[10px] px-1.5 py-0.5 rounded-sm uppercase ${SEV_COLOR[entry.severity] ?? "text-stone"}`}>
+                      {entry.severity}
+                    </span>
+                  </td>
+                  <td className="font-data text-[11px] text-stone px-3 py-2 hidden md:table-cell">{entry.rules.join(", ")}</td>
+                  <td className="px-3 py-2">
+                    {entry.confirmed_malware
+                      ? <span className="font-data text-[10px] text-critical font-medium">{entry.threat_actor}</span>
+                      : <span className="font-data text-[10px] text-stone">-</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Reveal>
+
+      {/* Footer note */}
+      <Reveal delay={0.5}>
+        <p className="text-xs text-mist mt-6 leading-[1.8] max-w-[480px]">
+          {zh
+            ? <>此清單由 ATR 生態系掃描自動產生，<br className="sm:hidden" />並與 Threat Cloud 同步。<br />被標記不代表一定是惡意 — <br className="sm:hidden" />請查看具體規則判斷風險。<br />回報誤報：GitHub Issue。</>
+            : <>This list is generated from ATR ecosystem scans<br className="sm:hidden" /> and synced with Threat Cloud.<br />Being flagged does not guarantee malice — <br className="sm:hidden" />check the specific rules for risk assessment.<br />Report false positives via GitHub Issues.</>}
+        </p>
+      </Reveal>
+    </div>
+  );
+}
