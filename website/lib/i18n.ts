@@ -17,7 +17,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "nav.ecosystem": "Ecosystem",
     "nav.research": "Research",
     "nav.quality-standard": "Quality",
-    "nav.cta": "Add ATR to Your Platform",
+    "nav.cta": "Integrate",
 
     // Hero
     "hero.past": "We used to protect people.",
@@ -202,7 +202,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "nav.ecosystem": "\u751F\u614B\u7CFB",
     "nav.research": "\u7814\u7A76",
     "nav.quality-standard": "\u54C1\u8CEA\u6A19\u6E96",
-    "nav.cta": "\u5C07 ATR \u52A0\u5165\u4F60\u7684\u5E73\u53F0",
+    "nav.cta": "\u6574\u5408",
 
     // Hero
     "hero.past": "\u6211\u5011\u904E\u53BB\u4FDD\u8B77\u4EBA\u3002",
