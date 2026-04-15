@@ -35,6 +35,8 @@ In parallel, runtime-vendor solutions landed:
 - **Microsoft Agent Governance Toolkit** — published April 2, 2026 under MIT license. The first toolkit to target all 10 OWASP Agentic risks with deterministic sub-millisecond policy enforcement.
 - **Cisco AI Defense MCP Scanner** — open-sourced 2026. Already ships 34 ATR rules upstream via `skill-scanner/#79` merged.
 - **Invariant Labs mcp-scan** — de facto standard MCP scanner (now a Snyk product).
+- **Adversa AI SecureClaw** — won "Most Innovative Agentic AI Security" at RSA Conference 2026 Global InfoSec Awards (March 2026). Open-source, OWASP-aligned agent security platform.
+- **Zenity** — showcased open-source AI agent security tools at RSA Conference 2026. Collaborated with MITRE ATLAS on 14 agent-specific techniques added in October 2025.
 
 These runtime offerings are valuable. They are also bounded. Anthropic does not secure OpenAI agents. OpenAI does not secure Anthropic. Neither secures a Cursor installation on a developer's laptop, a self-hosted MCP stack inside an enterprise VPC, or a locally-run LLaMA agent reading customer documents on a contractor's machine. Ninety-five percent of agent workloads in 2026 run outside any single managed runtime. Those workloads have no safety layer.
 
@@ -527,24 +529,27 @@ similar but the gates are different.
 8. Microsoft, *Introducing the Agent Governance Toolkit: Open-source runtime security for AI agents*. April 2, 2026. <https://opensource.microsoft.com/blog/2026/04/02/introducing-the-agent-governance-toolkit-open-source-runtime-security-for-ai-agents/>
 9. Cisco, *Securing the AI Agent Supply Chain with Cisco's open-source MCP Scanner*. <https://blogs.cisco.com/ai/securing-the-ai-agent-supply-chain-with-ciscos-open-source-mcp-scanner>
 10. Snyk Labs (formerly Invariant Labs), *mcp-scan: Prompt Injection and Tool Poisoning Detection for MCP*. <https://labs.snyk.io/resources/detect-tool-poisoning-mcp-server-security/>
+11. Adversa AI, *SecureClaw: Open-Source OWASP-Aligned Agent Security Platform*. RSA Conference 2026 Global InfoSec Awards winner. <https://www.prnewswire.com/news-releases/adversa-ai-wins-most-innovative-agentic-ai-security-platform-at-global-infosec-awards-during-rsa-conference-2026-302730963.html>
+12. Zenity, *Open-Source AI Agent Security Tools*. Showcased at RSA Conference 2026. <https://www.tipranks.com/news/private-companies/zenity-showcases-open-source-ai-agent-security-tools-at-rsa-conference>
+13. OWASP GenAI Security Project, *AI Security Solutions Landscape for Agentic AI Q2 2026*. <https://genai.owasp.org/resource/ai-security-solutions-landscape-for-agentic-ai-q2-2026/>
 
 **Benchmarks referenced for empirical grounding (§2 Confidence Score, First-Principles Requirement 3):**
 
-11. Lakera, *Prompt Injection Test (PINT) Benchmark*. <https://github.com/lakeraai/pint-benchmark>
-12. *MCPTox: Tool Poisoning Benchmark for MCP Agents*. 20 LLM agents, 45 real-world MCP servers, 353 authentic tools. o1-mini attack success rate 72.8%.
+14. Lakera, *Prompt Injection Test (PINT) Benchmark*. <https://github.com/lakeraai/pint-benchmark>
+15. *MCPTox: Tool Poisoning Benchmark for MCP Agents*. 20 LLM agents, 45 real-world MCP servers, 353 authentic tools. o1-mini attack success rate 72.8%.
 
 **Prior-art rule standards (§0.5 First-Principles Requirements, Alternative 3):**
 
-13. SigmaHQ, *Sigma Rules Specification*. Status progression: `experimental` → `test` → `stable` → `deprecated`, ~1 year to stable. <https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html>
-14. YARA Project, *Writing YARA Rules*. Community-vetted, no formal maturity tiers.
-15. Snort / Suricata, *Emerging Threats Rule Sets*. Tier progression: sandbox → registered → approved.
-16. OWASP ModSecurity Core Rule Set (CRS), *Paranoia Levels*. Tiered deployment model with per-rule FP rate tags.
+16. SigmaHQ, *Sigma Rules Specification*. Status progression: `experimental` → `test` → `stable` → `deprecated`, ~1 year to stable. <https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html>
+17. YARA Project, *Writing YARA Rules*. Community-vetted, no formal maturity tiers.
+18. Snort / Suricata, *Emerging Threats Rule Sets*. Tier progression: sandbox → registered → approved.
+19. OWASP ModSecurity Core Rule Set (CRS), *Paranoia Levels*. Tiered deployment model with per-rule FP rate tags.
 
 **ATR empirical baselines referenced in this RFC:**
 
-17. ATR Project, *Mega Scan of 53,577 Agent Skills Across OpenClaw, Claude Code, Cursor, Windsurf, Skills.sh*. April 2026. 946 flagged (1.77%), 875 rated CRITICAL.
-18. ATR Project, *Cisco skill-scanner PR #79*. 34 ATR rules merged upstream into Cisco AI Defense. April 2026.
-19. Adversa AI, *Top Agentic AI Security Resources — April 2026*. <https://adversa.ai/blog/top-agentic-ai-security-resources-april-2026/>
+20. ATR Project, *96,096 Agent Skills Scanned Across OpenClaw, Claude Code, Cursor, Hermes, Skills.sh, MCP Registry*. April 2026. 1,302 flagged (1.35%), 751 confirmed malware.
+21. ATR Project, *Cisco skill-scanner PR #79*. 34 ATR rules merged upstream into Cisco AI Defense. April 2026.
+22. Adversa AI, *Top Agentic AI Security Resources — April 2026*. <https://adversa.ai/blog/top-agentic-ai-security-resources-april-2026/>
 
 ## Future Work
 
@@ -600,6 +605,7 @@ management API surface each tier exposes.
 
 ## Changelog
 
+- **2026-04-15**: v1.1.1 — Updates Preamble with RSA 2026 entrants (Adversa AI SecureClaw, Zenity). Adds OWASP Q2 2026 AI Security Solutions Landscape reference. Updates wild scan numbers to 96K (was 53K). Renumbers references.
 - **2026-04-14**: v1.1 published. Relaxes experimental gate from 5/5/3 to 3/3/0 (TP/TN/evasion). Adds Hermes Agent, Google A2A, LangGraph to runtime registry. Moves runtime registry to extensible `RUNTIMES.md`. Adds scan target format column. Adds Future Work section (RFC-002 Detection Types, RFC-003 Collective Defense, RFC-004 Enterprise Deployment). Clarifies stable tier retains full 5/5/3 + OWASP/MITRE/FP requirements.
 - **2026-04-11**: v1.0 published. Adds Preamble, First-Principles Requirements, Landscape (§0), Threat Ontology Mapping (§6), Multi-Runtime Compatibility (§7), Review Tier Levels (§8), Community Signal Aggregation (§9), and References. Sets effective date to 2026-04-11.
 - 2026-04-10: Initial draft (v0.9) — Maturity Levels, Confidence Score, Two-Dimensional Compliance Model, Required Metadata, Validation Library, Adoption Path.

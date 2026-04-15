@@ -2,6 +2,68 @@
 
 All notable changes to ATR will be documented in this file.
 
+## [2.0.0] - 2026-04-15
+
+### BREAKING
+
+- **Compound detection gate**: MCP rules now require 30%+ conditions to match in skill context. This prevents over-triggering when MCP-specific patterns appear in legitimate SKILL.md documentation.
+- **Code block suppression**: Skill rules no longer suppress matches inside code blocks (they are instructions, not documentation examples).
+- **All fields resolve to content in skill context**: `tool_description`, `tool_args`, `user_input` all map to the full skill content for static analysis.
+
+### Added
+
+- **26 new rules** (87 to 113 total, 9 categories):
+  - ATR-2026-00149: Compound exfiltration (12 patterns: SSH archive, wallet, browser, DNS, IMDS)
+  - ATR-2026-00158/159/160: TC-crystallized rules (first rules generated end-to-end by Threat Cloud)
+  - ATR-2026-00161: Cross-tool shadowing via IMPORTANT tag (from Invariant Labs PoC)
+  - ATR-2026-00162: Credential exfil combo
+  - ATR-2026-00163: Hidden override instructions
+  - ATR-2026-00164: Scope hijack
+  - Plus 19 more across prompt-injection, tool-poisoning, and data-exfiltration categories
+- **RFC-001 v1.1** (ATR Quality Standard):
+  - Two-Dimensional Compliance Model (metadata presence + provenance)
+  - L0-L5 Review Tier Levels (first standard to include LLM-assisted review as formal tier)
+  - Community Signal Aggregation (confirmations, FP reports, evasion reports)
+  - Multi-Runtime Compatibility (14 runtimes: Claude Code, Cursor, Hermes, OpenAI Assistants, Google A2A, etc.)
+  - Relaxed experimental gate (3/3/0) for community velocity; stable tier retains full 5/5/3
+  - Future Work: RFC-002 (Detection Types), RFC-003 (Collective Defense), RFC-004 (Enterprise)
+- **GOVERNANCE.md v1.1**:
+  - Permanent MIT license commitment (never BSL/SSPL)
+  - MITRE ATLAS positioning: ATR = detection rules complement to ATLAS (like Sigma to ATT&CK)
+  - ATR Numbering Authority specification
+  - Technical Advisory Group roadmap
+- **96,096 real-world skills scanned** (OpenClaw 56K + Skills.sh 3K + Hermes 123 + ClawHub 36K + MCP Registry 5K)
+  - **751 malware skills discovered** (hightower6eu 354, sakaen736jih 212, 52yuanchangxing 137)
+  - Research report: `docs/research/openclaw-malware-campaign-2026-04.md`
+  - NousResearch notified (hermes-agent#9809)
+- **Threat Cloud blacklist**: 554 entries uploaded from wild scan
+- **4 export formats**: SARIF v2.1.0, Splunk SPL, Elasticsearch DSL, generic regex (714 portable patterns)
+- **Exponential backoff for npm registry crawl** (fixes Daily Ecosystem Scan rate limiting)
+
+### Changed
+
+- Engine: compound gate for context-aware matching
+- Confidence formula: cross-context penalty (0.7x) for rules firing outside their tested runtime
+- SKILL.md denylist reduced from 22 to 10 rules (re-enabled low-FP rules for better coverage)
+
+### Metrics
+
+- 113 rules (7 stable, 85 experimental, 21 draft)
+- 361 tests passing
+- SKILL.md benchmark (498 corpus): 100% recall, 97% precision, 0.20% FP rate
+- MCP benchmark (PINT 850): 62.7% recall, 99.6% precision
+- Wild scan (96K): 1.35% flag rate, 751 confirmed malware
+- OWASP Agentic Top 10: 10/10 coverage
+- MITRE ATLAS: 100/113 rules mapped
+- SAFE-MCP: 91.8% technique coverage
+- Avg scan latency: 14ms per file
+
+### Ecosystem
+
+- **Cisco AI Defense**: 34 ATR rules shipped in production (PR #79 merged)
+- **OWASP**: Attack examples contributed (PR #814 merged)
+- **NousResearch**: Malware campaign reported (hermes-agent#9809)
+
 ## [1.0.0] - 2026-04-06
 
 ### BREAKING
