@@ -1,6 +1,39 @@
 # ATR Governance
 
-Version 1.0 · Effective 2026-04-12
+Version 1.1 · Effective 2026-04-15
+
+## Position in the AI Security Ecosystem
+
+ATR provides **executable detection rules** for AI agent threats. It
+complements, rather than replaces, existing frameworks:
+
+- **MITRE ATLAS** maps adversarial tactics and techniques against AI
+  systems. ATR provides the detection rules that operationalize those
+  tactics into scannable patterns. ATR is to ATLAS what Sigma rules are
+  to ATT&CK.
+- **OWASP Agentic Top 10** categorizes risk. ATR provides the rules that
+  detect those risks in real agent artifacts (SKILL.md, MCP tool
+  descriptions, agent configs).
+- **NIST AI RMF** defines risk management processes. ATR rules are one
+  concrete implementation of detection controls within that framework.
+
+ATR is not a taxonomy, a risk framework, or a governance standard. It is
+a **rule corpus** — the executable layer that makes those frameworks
+actionable at scan time.
+
+## License Commitment
+
+ATR is licensed under the **MIT License**. This is a permanent,
+irrevocable commitment. ATR will never adopt BSL, SSPL, or any other
+source-available license that restricts use, modification, or
+distribution. The entire rule corpus, engine, and tooling will remain
+MIT-licensed indefinitely.
+
+This commitment exists because ATR's value as a standard depends on
+unrestricted adoption. A detection standard that restricts who can use
+it is not a standard — it is a product. Cisco, NVIDIA, Microsoft, and
+every individual developer must be able to embed ATR rules without
+license concerns.
 
 ## ATR Numbering Authority
 
@@ -59,7 +92,7 @@ source has no standing.
 ## Quality Standard
 
 All rules in the official ATR corpus must meet the quality bar defined
-in [RFC-001 v1.0](docs/proposals/001-atr-quality-standard-rfc.md).
+in [RFC-001 v1.1](docs/proposals/001-atr-quality-standard-rfc.md).
 
 The quality gate is enforced by:
 
@@ -91,7 +124,7 @@ Open a PR with a rule YAML file under `rules/<category>/`. Use
 
 - Schema validation (`atr validate`)
 - All embedded test cases (`atr test`)
-- RFC-001 v1.0 quality gate (`validateRuleMeetsStandard`)
+- RFC-001 v1.1 quality gate (`validateRuleMeetsStandard`)
 - SKILL.md benchmark regression check (precision/recall must not drop)
 
 ### 3. Review
@@ -134,7 +167,7 @@ Merged rules are automatically:
 | Decision | Who decides | Governance document |
 |----------|-------------|---------------------|
 | Assign rule ID | Numbering Authority (maintainer) | This document |
-| Approve/reject rule | Maintainer + CI quality gate | RFC-001 v1.0 |
+| Approve/reject rule | Maintainer + CI quality gate | RFC-001 v1.1 |
 | Change RFC-001 | Maintainer + public comment period | RFC amendment PR |
 | Deprecate a rule | Maintainer | PR with `status: deprecated` |
 | Add a new category | Maintainer | PR updating `tags.category` enum |

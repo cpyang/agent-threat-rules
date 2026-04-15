@@ -85,8 +85,8 @@ function sleep(ms: number): Promise<void> {
 async function fetchWithRetry(
   url: string,
   options: RequestInit = {},
-  retries = 3,
-  delayMs = 2000
+  retries = 5,
+  delayMs = 3000
 ): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
@@ -98,16 +98,23 @@ async function fetchWithRetry(
         },
       });
       if (resp.status === 429) {
-        const retryAfter = parseInt(resp.headers.get('retry-after') ?? '5', 10);
+        const retryAfter = parseInt(resp.headers.get('retry-after') ?? '10', 10);
         console.error(`    Rate limited, waiting ${retryAfter}s...`);
         await sleep(retryAfter * 1000);
+        continue;
+      }
+      if (resp.status >= 500) {
+        const backoff = delayMs * Math.pow(2, i);
+        console.error(`    Server error ${resp.status}, retry ${i + 1}/${retries} in ${backoff}ms...`);
+        await sleep(backoff);
         continue;
       }
       return resp;
     } catch (err) {
       if (i === retries - 1) throw err;
-      console.error(`    Retry ${i + 1}/${retries}: ${err instanceof Error ? err.message : String(err)}`);
-      await sleep(delayMs * (i + 1));
+      const backoff = delayMs * Math.pow(2, i);
+      console.error(`    Retry ${i + 1}/${retries}: ${err instanceof Error ? err.message : String(err)}, waiting ${backoff}ms`);
+      await sleep(backoff);
     }
   }
   throw new Error(`Failed after ${retries} retries: ${url}`);
@@ -232,7 +239,7 @@ async function crawlNpm(npmLimit: number = 10000): Promise<MCPEntry[]> {
         }
 
         console.log(`    [npm] q="${q}" from=${from} entries=${entries.length}/${data.total}`);
-        await sleep(300);
+        await sleep(500);
       } catch (err) {
         console.error(`    npm crawl error: ${err instanceof Error ? err.message : String(err)}`);
         hasMore = false;
