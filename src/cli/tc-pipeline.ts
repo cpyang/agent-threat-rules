@@ -58,8 +58,7 @@ export async function cmdTCSync(options: Record<string, string | undefined>): Pr
     for (const f of readdirSync(catDir).filter(f => f.endsWith('.yaml'))) {
       const content = readFileSync(join(catDir, f), 'utf-8');
       const id = content.match(/^id:\s*(\S+)/m)?.[1] ?? f;
-      const num = parseInt(id.match(/(\d{5})$/)?.[1] ?? '0');
-      rules.push({ ruleId: id, ruleContent: content, source: num >= 137 ? 'atr-community' : 'atr' });
+      rules.push({ ruleId: id, ruleContent: content, source: 'atr' });
     }
   }
 
@@ -75,7 +74,7 @@ export async function cmdTCSync(options: Record<string, string | undefined>): Pr
     process.exit(1);
   }
 
-  const resp = await fetch(`${cfg.tcUrl}/api/rules`, {
+  const resp = await fetch(`${cfg.tcUrl}/api/rules/sync`, {
     method: 'POST',
     headers: authHeaders(cfg.adminKey),
     body: JSON.stringify({ rules }),
