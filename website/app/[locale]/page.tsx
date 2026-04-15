@@ -471,17 +471,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
 
-          {/* Community + Ecosystem Wall */}
-          <Reveal delay={0.5}>
-            <div className="mt-10 md:mt-12">
-              <CommunityWall
-                contributors={contributors}
-                countries={countries}
-                integrations={stats.ecosystemIntegrations}
-                locale={locale}
-              />
-            </div>
-          </Reveal>
+          {/* Community Wall — moved to /wall page, not on homepage */}
         </div>
       </section>
 
