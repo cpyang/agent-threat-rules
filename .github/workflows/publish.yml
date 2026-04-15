@@ -181,12 +181,15 @@ jobs:
       - name: Sync rules to Threat Cloud
         env:
           TC_URL: ${{ vars.TC_URL || 'https://tc.panguard.ai' }}
+          TC_ADMIN_API_KEY: ${{ secrets.TC_ADMIN_API_KEY }}
         run: |
           TOTAL=$(find rules -name "*.yaml" | wc -l | tr -d ' ')
           echo "Syncing $TOTAL rules to TC via /api/rules/sync..."
           node -e "
             const fs = require('fs');
             const path = require('path');
+            const adminKey = process.env.TC_ADMIN_API_KEY || '';
+            if (!adminKey) { console.warn('WARNING: TC_ADMIN_API_KEY not set, sync will fail'); }
             const rules = [];
             for (const cat of fs.readdirSync('rules')) {
               const catDir = path.join('rules', cat);
@@ -198,9 +201,11 @@ jobs:
               }
             }
             console.log('Prepared ' + rules.length + ' rules for sync');
-            fetch('${TC_URL}/api/rules/sync', {
+            const headers = { 'Content-Type': 'application/json' };
+            if (adminKey) headers['Authorization'] = 'Bearer ' + adminKey;
+            fetch(process.env.TC_URL + '/api/rules/sync', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers,
               body: JSON.stringify({ rules }),
             }).then(r => r.json()).then(d => console.log('TC sync:', JSON.stringify(d)))
               .catch(e => console.error('TC sync failed:', e.message));
