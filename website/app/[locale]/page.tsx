@@ -71,9 +71,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {/* ── Scene 1: The Shift (Hero) — per DESIGN.md §9 ── */}
       <section className="bg-paper min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6">
         <div className="max-w-[900px]">
-          {/* Logo mark */}
+          {/* Logo mark only — geometric A with speed lines, no wordmark */}
           <HeroEntrance delay={0.6}>
-            <img src="/atr-logo-black.png" alt="ATR" className="h-16 md:h-20 mx-auto mb-10 md:mb-14 opacity-90" />
+            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-16 md:h-20 mx-auto mb-10 md:mb-14" aria-label="ATR">
+              <path d="M20 0L40 36H30L20 18L10 36H0L20 0Z" fill="#0B0B0F"/>
+              <line x1="6" y1="28" x2="34" y2="28" stroke="#0B0B0F" strokeWidth="1.5"/>
+              <line x1="8" y1="31" x2="32" y2="31" stroke="#0B0B0F" strokeWidth="1.2"/>
+              <line x1="10" y1="34" x2="30" y2="34" stroke="#0B0B0F" strokeWidth="1"/>
+            </svg>
           </HeroEntrance>
 
           {/* The paradigm shift — one statement, full viewport weight */}
