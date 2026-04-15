@@ -20,6 +20,7 @@ export function HeroGrid() {
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    const isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
     let animId: number;
     let mouseX = -9999;
@@ -48,11 +49,12 @@ export function HeroGrid() {
       const h = canvas!.clientHeight;
       ctx!.clearRect(0, 0, w, h);
 
-      const t = prefersReduced ? 0 : time * 0.0003;
-      const drift = prefersReduced ? 0 : Math.sin(t) * 8;
+      const noAnim = prefersReduced || isMobile;
+      const t = noAnim ? 0 : time * 0.0003;
+      const drift = noAnim ? 0 : Math.sin(t) * 8;
 
       // Sweep line — a vertical line that slowly moves across
-      const sweepX = prefersReduced
+      const sweepX = noAnim
         ? -100
         : ((time * 0.04) % (w + 200)) - 100;
 
@@ -124,7 +126,11 @@ export function HeroGrid() {
       }
 
       ctx!.globalAlpha = 1;
-      animId = requestAnimationFrame(draw);
+
+      // Mobile: draw once (static grid), no animation loop
+      if (!isMobile) {
+        animId = requestAnimationFrame(draw);
+      }
     }
 
     function onMouseMove(e: MouseEvent) {

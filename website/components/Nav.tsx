@@ -97,7 +97,7 @@ export function Nav({ locale }: { locale: Locale }) {
       {menuOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div className="absolute inset-0 bg-ink/10" onClick={() => setMenuOpen(false)} />
-          <div className="absolute top-16 right-0 w-64 bg-paper border-l border-fog shadow-lg p-6 flex flex-col gap-4">
+          <div className="absolute top-16 right-0 w-72 bg-paper border-l border-fog shadow-lg p-6 flex flex-col gap-4">
             {pages.map((page) => (
               <Link
                 key={page}

@@ -410,7 +410,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 <div className="font-data text-xs text-stone mb-2">{locale === "zh" ? "方式 3：API（完全自訂）" : "Method 3: API (fully custom)"}</div>
                 <div className="font-data text-xs bg-[#0B0B0F] text-[#E0E0E8] px-4 py-3 rounded-sm overflow-x-auto leading-[1.8]">
                   <div className="text-[#6B6B76]">{"# "}{locale === "zh" ? "直接呼叫 TC API" : "Direct TC API call"}</div>
-                  <div>{"curl -X POST https://tc.panguard.ai/api/threats \\"}</div>
+                  <div>{"curl -X POST https://tc.agentthreatrule.org/api/threats \\"}</div>
                   <div>{"  -H 'Content-Type: application/json' \\"}</div>
                   <div>{"  -d '{\"ruleId\":\"ATR-2026-00121\",\"severity\":\"critical\","}</div>
                   <div>{"       \"contentHash\":\"abc123\",\"scanTarget\":\"my-skill\"}"}</div>

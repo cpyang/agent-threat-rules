@@ -262,16 +262,19 @@ export function loadSiteStats(): SiteStats {
         name: "Awesome LLM Security",
         type: "open",
         detail: "PR #117 submitted to curated security tools list.",
+        url: "https://github.com/corca-ai/awesome-llm-security/pull/117",
       },
       {
         name: "Awesome MCP Security",
         type: "open",
         detail: "PR #87 submitted to MCP security resource list.",
+        url: "https://github.com/nicobailon/awesome-mcp-security/pull/87",
       },
       {
         name: "OpenClaw Registry",
         type: "open",
         detail: "PR #58172 submitted. Fixed and waiting review.",
+        url: "https://github.com/nicobailon/safe-mcp/pull/58172",
       },
       {
         name: "Awesome LLM agent Security",
