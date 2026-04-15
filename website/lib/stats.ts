@@ -290,8 +290,8 @@ export function loadSiteStats(): SiteStats {
       },
       {
         name: "Microsoft AGT",
-        type: "open",
-        detail: "PR #908 submitted. 15 ATR rules mapped to PolicyEvaluator. Maintainer engaged.",
+        type: "merged",
+        detail: "PR #908 merged. 15 ATR rules as PolicyDocument + full sync script. 554 additions.",
         url: "https://github.com/microsoft/agent-governance-toolkit/pull/908",
       },
       {
