@@ -94,7 +94,7 @@ const jsonLd = {
       sameAs: [
         "https://github.com/Agent-Threat-Rule/agent-threat-rules",
         "https://www.npmjs.com/package/agent-threat-rules",
-        "https://doi.org/10.5281/zenodo.19476495",
+        "https://doi.org/10.5281/zenodo.19178002",
       ],
     },
     {
@@ -125,6 +125,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col antialiased">

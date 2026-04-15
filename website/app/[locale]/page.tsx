@@ -160,8 +160,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.1}>
             <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-4 md:mb-5 leading-[1.8]">
               {zh
-                ? <>skills 已掃描<br className="sm:hidden" /> — 史上最大規模的 AI agent 安全掃描</>
-                : <>skills scanned<br className="sm:hidden" /> — the largest AI agent security scan ever conducted</>}
+                ? "skills 已掃描 — 史上最大規模的 AI agent 安全掃描"
+                : "skills scanned — the largest AI agent security scan ever conducted"}
             </div>
           </Reveal>
           <Reveal delay={0.15}>
@@ -194,8 +194,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.3}>
             <p className="text-sm md:text-base text-graphite max-w-[520px] mt-5 leading-[1.8]">
               {zh
-                ? <>ATR 掃描 ClawHub、OpenClaw、<br className="sm:hidden" />Skills.sh 等六個 registry，<br className="sm:hidden" />共 96,096 個 skill 時<br className="sm:hidden" />發現了這些攻擊者。<br /><br className="sm:hidden" />751 個惡意 skill 全數加入黑名單，<br className="sm:hidden" />並已通報 NousResearch。</>
-                : <>ATR found these threat actors<br className="sm:hidden" /> scanning 96,096 skills across six registries<br className="sm:hidden" /> — ClawHub, OpenClaw, Skills.sh,<br className="sm:hidden" /> and three others.<br /><br className="sm:hidden" />All 751 blacklisted<br className="sm:hidden" /> and reported to NousResearch.</>}
+                ? "ATR 掃描 ClawHub、OpenClaw、Skills.sh 等六個 registry，共 96,096 個 skill 時發現了這些攻擊者。751 個惡意 skill 全數加入黑名單，並已通報 NousResearch。"
+                : "ATR found these threat actors scanning 96,096 skills across six registries — ClawHub, OpenClaw, Skills.sh, and three others. All 751 blacklisted and reported to NousResearch."}
             </p>
           </Reveal>
           <Reveal delay={0.35}>
@@ -304,8 +304,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.2}>
             <p className="text-sm md:text-base text-graphite max-w-[560px] mt-3 md:mt-4 leading-[1.7]">
               {zh
-                ? <>他們的工程師提了 PR。<br className="sm:hidden" />我們審查完，3 天合併。<br className="sm:hidden" />1,272 行新增。<br /><br className="sm:hidden" />然後他們專門建了 CLI<br className="sm:hidden" /> 來消費 ATR 規則。</>
-                : <>Their engineer submitted a PR.<br className="sm:hidden" /> We reviewed it. Merged in 3 days.<br className="sm:hidden" /> 1,272 additions.<br /><br className="sm:hidden" />Then they built a CLI<br className="sm:hidden" /> specifically to consume ATR rules.</>}
+                ? "他們的工程師提了 PR，我們審查完 3 天合併，1,272 行新增。然後他們專門建了 CLI 來消費 ATR 規則。"
+                : "Their engineer submitted a PR. We reviewed it. Merged in 3 days. 1,272 additions. Then they built a CLI specifically to consume ATR rules."}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -365,8 +365,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.2}>
             <p className="text-sm text-graphite max-w-[520px] mt-5 leading-[1.8]">
               {zh
-                ? <>框架告訴你威脅存在。<br className="sm:hidden" />ATR 告訴你怎麼偵測。<br /><br className="sm:hidden" />ATR 對 MITRE ATLAS 的關係，<br className="sm:hidden" />就像 Sigma 規則對 ATT&CK 的關係。</>
-                : <>Frameworks tell you threats exist.<br className="sm:hidden" /> ATR tells you how to detect them.<br /><br className="sm:hidden" />ATR is to MITRE ATLAS<br className="sm:hidden" /> what Sigma rules are to ATT&CK.</>}
+                ? "框架告訴你威脅存在，ATR 告訴你怎麼偵測。ATR 對 MITRE ATLAS 的關係，就像 Sigma 規則對 ATT&CK 的關係。"
+                : "Frameworks tell you threats exist. ATR tells you how to detect them. ATR is to MITRE ATLAS what Sigma rules are to ATT&CK."}
             </p>
           </Reveal>
           <Reveal delay={0.25}>
@@ -377,24 +377,33 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
-      {/* ── Scene 7: The Network (Flywheel + Crystallization) ── */}
+      {/* ── Scene 7: Threat Crystallization ── */}
       <section className="py-14 md:py-[120px] px-5 md:px-6">
         <div className="max-w-[1120px] mx-auto">
           <Reveal>
             <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
-              {zh ? "未來" : "THE FUTURE"}
+              {zh ? "威脅結晶化" : "THREAT CRYSTALLIZATION"}
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="font-display text-[20px] md:text-[clamp(24px,3.5vw,48px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.35] max-w-[700px] mb-3">
-              {zh ? <>ATR 規則不需要手寫。</> : <>ATR rules don&apos;t have to be written by hand.</>}
+              {zh
+                ? <>每一次攻擊，都讓所有人更安全。</>
+                : <>Every attack makes everyone safer.</>}
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="text-sm md:text-base text-graphite font-light max-w-[560px] mb-6 md:mb-8 leading-[1.8]">
+            <p className="text-sm md:text-base text-graphite font-light max-w-[600px] mb-4 leading-[1.8]">
               {zh
-                ? <>Threat Cloud 分析新攻擊模式，<br className="sm:hidden" />自動結晶偵測規則 YAML，<br className="sm:hidden" />社群審查後合併。<br /><br className="sm:hidden" />從發現到全球防護，不到 48 小時。<br className="sm:hidden" />沒有其他偵測標準<br className="sm:hidden" />有自動化規則生成。</>
-                : <>Threat Cloud analyzes new attack patterns,<br className="sm:hidden" /> crystallizes detection rule YAML,<br className="sm:hidden" /> community reviews and merges.<br /><br className="sm:hidden" />Discovery to global protection<br className="sm:hidden" /> in under 48 hours.<br className="sm:hidden" /> No other detection standard<br className="sm:hidden" /> has automated rule generation.</>}
+                ? <>Threat Cloud 的運作原理就像免疫系統。LLM 語義分析（適應性免疫）抓到新型攻擊後，把偵測邏輯「結晶」成 regex 規則（先天免疫）——從每次 500ms 的推理成本，變成 5ms 的 pattern match。926 份威脅報告產生了 42 條結晶規則，4.5% 的結晶率代表剩下的 95.5% 已被現有規則覆蓋。</>
+                : <>Threat Cloud works like an immune system. When the LLM semantic layer (adaptive immunity) catches a novel attack, it crystallizes the detection logic into a regex rule (innate immunity) &mdash; turning a $0.001 / 500ms inference into a $0 / 5ms pattern match. 926 threat reports produced 42 crystallized rules. The 4.5% crystallization rate means 95.5% of threats are already covered by existing rules.</>}
+            </p>
+          </Reveal>
+          <Reveal delay={0.18}>
+            <p className="text-sm text-stone font-light max-w-[600px] mb-6 md:mb-8 leading-[1.8]">
+              {zh
+                ? <>這個飛輪已經在運轉。96,096 次掃描發現 751 個惡意 skill，觸發結晶流程，新規則再回頭掃描——一個不斷自我強化的循環。</>
+                : <>The flywheel is already turning. The 96,096-skill scan discovered 751 malware, triggered crystallization, and new rules re-scanned the ecosystem &mdash; a self-reinforcing loop.</>}
             </p>
           </Reveal>
 
@@ -402,33 +411,29 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <Flywheel locale={locale} />
           </Reveal>
 
-          {/* Real case — light bg */}
+          {/* Validated flywheel data */}
           <Reveal delay={0.25}>
-            <div className="mt-8 md:mt-10 border border-fog p-4 md:p-5 max-w-[620px]">
-              <div className="font-data text-[10px] text-stone tracking-[2px] uppercase mb-3">
-                {zh ? "真實案例 — 飛輪運轉記錄" : "Real case — flywheel in action"}
-              </div>
-              <div className="space-y-2 font-data text-xs leading-[1.7]">
-                <div className="flex gap-3">
-                  <span className="text-mist shrink-0">T+0h</span>
-                  <span className="text-ink">{zh ? "新攻擊模式觸發 TC 結晶（隱藏優先指令）" : "New attack pattern triggers TC crystallization (hidden priority instructions)"}</span>
+            <div className="mt-8 md:mt-10 grid grid-cols-2 sm:grid-cols-4 gap-px bg-fog max-w-[620px]">
+              {[
+                { num: "926", label: zh ? "威脅報告" : "threat reports" },
+                { num: "42", label: zh ? "結晶規則" : "crystallized rules" },
+                { num: "4.5%", label: zh ? "結晶率" : "crystallization rate" },
+                { num: "<48h", label: zh ? "偵測到部署" : "detect to deploy" },
+              ].map((item) => (
+                <div key={item.label} className="bg-paper p-4 md:p-5 text-center">
+                  <div className="font-data text-xl md:text-2xl font-bold text-ink">{item.num}</div>
+                  <div className="text-xs text-stone mt-1">{item.label}</div>
                 </div>
-                <div className="flex gap-3">
-                  <span className="text-mist shrink-0">T+12h</span>
-                  <span className="text-ink">{zh ? "自動 PR 開啟，通過 CI + 品質閘門" : "Auto-PR opened, passed CI + quality gate"}</span>
-                </div>
-                <div className="flex gap-3">
-                  <span className="text-mist shrink-0">T+24h</span>
-                  <span className="text-ink">{zh ? "再結晶 2 條相關規則" : "2 more related rules crystallized"}</span>
-                </div>
-                <div className="flex gap-3">
-                  <span className="text-mist shrink-0">T+48h</span>
-                  <span className="text-green">{zh ? "人工審查 → 合併 → 全球端點更新" : "Human review → merged → global endpoint update"}</span>
-                </div>
-              </div>
-              <div className="text-[10px] text-mist mt-3">
-                {zh ? "從發現到全球防護：48 小時。" : "Discovery to global protection: 48 hours."}
-              </div>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="mt-4 flex items-center gap-2 max-w-[620px]">
+              <div className="h-px flex-1 bg-fog" />
+              <span className="font-data text-[10px] text-mist tracking-[1px]">
+                {zh ? "更多端點 = 更多資料 = 更強規則" : "More endpoints = more data = stronger rules"}
+              </span>
+              <div className="h-px flex-1 bg-fog" />
             </div>
           </Reveal>
         </div>
@@ -466,8 +471,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.2}>
             <p className="text-sm md:text-base text-stone font-light max-w-[480px] mx-auto mb-7 md:mb-8 mt-6 md:mt-8 leading-[1.8]">
               {zh
-                ? <>TypeScript、Python、Raw YAML、<br className="sm:hidden" />SIEM 轉換器。四種整合路徑。</>
-                : <>TypeScript, Python, Raw YAML,<br className="sm:hidden" /> SIEM converters. Four integration paths.</>}
+                ? "TypeScript、Python、Raw YAML、SIEM 轉換器——四種整合路徑。"
+                : "TypeScript, Python, Raw YAML, SIEM converters. Four integration paths."}
             </p>
           </Reveal>
           <Reveal delay={0.3}>

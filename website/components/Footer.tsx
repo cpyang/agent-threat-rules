@@ -23,13 +23,13 @@ export function Footer({ locale }: { locale: Locale }) {
             </div>
             <div className="flex flex-col gap-2">
               <Link href={`${prefix}/rules`} className="text-sm text-stone hover:text-ink transition-colors">
-                Rules
+                {zh ? "規則庫" : "Rules"}
               </Link>
               <Link href={`${prefix}/coverage`} className="text-sm text-stone hover:text-ink transition-colors">
-                Coverage
+                {zh ? "覆蓋範圍" : "Coverage"}
               </Link>
               <Link href={`${prefix}/research`} className="text-sm text-stone hover:text-ink transition-colors">
-                Research
+                {zh ? "研究" : "Research"}
               </Link>
             </div>
           </div>
@@ -41,7 +41,7 @@ export function Footer({ locale }: { locale: Locale }) {
             </div>
             <div className="flex flex-col gap-2">
               <Link href={`${prefix}/integrate`} className="text-sm text-stone hover:text-ink transition-colors">
-                Integrate
+                {zh ? "整合" : "Integrate"}
               </Link>
               <a href="https://www.npmjs.com/package/agent-threat-rules" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
                 npm
@@ -59,7 +59,7 @@ export function Footer({ locale }: { locale: Locale }) {
             </div>
             <div className="flex flex-col gap-2">
               <Link href={`${prefix}/contribute`} className="text-sm text-stone hover:text-ink transition-colors">
-                Contribute
+                {zh ? "參與貢獻" : "Contribute"}
               </Link>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/GOVERNANCE.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
                 Governance
@@ -79,7 +79,7 @@ export function Footer({ locale }: { locale: Locale }) {
               {zh ? "研究" : "Research"}
             </div>
             <div className="flex flex-col gap-2">
-              <a href="https://doi.org/10.5281/zenodo.19476495" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
+              <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
                 Paper (Zenodo)
               </a>
               <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/LIMITATIONS.md" target="_blank" rel="noopener noreferrer" className="text-sm text-stone hover:text-ink transition-colors">
