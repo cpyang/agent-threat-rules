@@ -68,88 +68,56 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       <StatsHydrator />
 
-      {/* ── Scene 1: The Shift (Hero) ── */}
-      <section className="bg-paper min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6 relative">
-        <div className="relative z-10 max-w-[900px]">
-          <HeroEntrance delay={0.5}>
-            <p className="font-display text-[20px] md:text-[clamp(28px,4vw,52px)] font-black leading-[1.15] tracking-[-1px] md:tracking-[-2px] text-stone">
+      {/* ── Scene 1: The Shift (Hero) — per DESIGN.md §9 ── */}
+      <section className="bg-paper min-h-screen flex flex-col items-center justify-center text-center px-5 md:px-6">
+        <div className="max-w-[900px]">
+          {/* Logo mark */}
+          <HeroEntrance delay={0.6}>
+            <img src="/atr-logo-black.png" alt="ATR" className="h-16 md:h-20 mx-auto mb-10 md:mb-14 opacity-90" />
+          </HeroEntrance>
+
+          {/* The paradigm shift — one statement, full viewport weight */}
+          <HeroEntrance delay={0.9}>
+            <p className="font-display text-[24px] md:text-[clamp(36px,5vw,72px)] font-black leading-[1.1] tracking-[-1.5px] md:tracking-[-3px] text-stone">
               {zh ? "我們曾經保護人。" : "We used to protect people."}
             </p>
           </HeroEntrance>
 
-          <HeroEntrance delay={0.8}>
-            <h1 className="font-display text-[28px] md:text-[clamp(36px,6vw,80px)] font-black leading-[1.05] tracking-[-2px] md:tracking-[-3px] text-ink mt-1 md:mt-2">
+          <HeroEntrance delay={1.2}>
+            <h1 className="font-display text-[32px] md:text-[clamp(44px,6vw,80px)] font-black leading-[1.05] tracking-[-2px] md:tracking-[-3px] text-ink mt-2 md:mt-3">
               {zh ? "現在我們保護 agent。" : "Now we protect agents."}
             </h1>
           </HeroEntrance>
 
-          <HeroEntrance delay={1.0}>
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-7 md:mt-9 font-data text-sm md:text-base text-ink tracking-wide">
-              <span><span className="font-data font-bold">{stats.ruleCount}</span> <span className="text-stone">{zh ? "條規則" : "rules"}</span></span>
+          {/* Three monospace stats */}
+          <HeroEntrance delay={1.5}>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-10 md:mt-14 font-data text-sm md:text-base tracking-wide">
+              <span><span className="font-bold text-ink">{stats.ruleCount}</span> <span className="text-stone">{zh ? "條規則" : "rules"}</span></span>
               <span className="text-fog">·</span>
-              <span><span className="font-data font-bold">{stats.categoryCount}</span> <span className="text-stone">{zh ? "個類別" : "categories"}</span></span>
+              <span><span className="font-bold text-ink">{stats.categoryCount}</span> <span className="text-stone">{zh ? "個類別" : "categories"}</span></span>
               <span className="text-fog">·</span>
-              <span><span className="font-data font-bold">{stats.pintPrecision}%</span> <span className="text-stone">{zh ? "精準度" : "precision"}</span></span>
+              <span><span className="font-bold text-ink">{stats.pintPrecision}%</span> <span className="text-stone">{zh ? "精準度" : "precision"}</span></span>
             </div>
           </HeroEntrance>
 
-          {/* Terminal block — light bg per DESIGN.md */}
-          <HeroEntrance delay={1.15}>
-            <div className="mt-7 md:mt-8 bg-ash border border-fog rounded-[2px] overflow-hidden max-w-[520px] mx-auto text-left">
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-fog">
-                <span className="font-data text-xs text-mist">{zh ? "一行指令。即時結果。" : "One command. Instant results."}</span>
-              </div>
-              <div className="p-3 md:p-4 font-data text-[11px] md:text-sm leading-[1.8]">
-                <div className="text-stone">$ <span className="text-ink">npx agent-threat-rules scan .</span></div>
-                <div className="text-mist mt-2"># {zh ? "結果" : "results"}</div>
-                <div className="text-green">{zh ? "  3 個 SKILL.md 已掃描" : "  3 SKILL.md scanned"}</div>
-                <div className="text-green">{zh ? "  12 個工具描述已檢查" : "  12 tool descriptions checked"}</div>
-                <div className="text-critical mt-1">{zh ? "  1 CRITICAL: 工具描述中的憑證竊取" : "  1 CRITICAL: credential theft"}</div>
-                <div className="text-critical">{zh ? "    ATR-2026-00121" : "    rule ATR-2026-00121"}</div>
-                <div className="text-stone mt-2">{zh ? "47ms 完成。" : "Done in 47ms."}</div>
-              </div>
-            </div>
-          </HeroEntrance>
-
-          <HeroEntrance delay={1.3}>
-            <div className="flex gap-3 justify-center flex-wrap mt-7 md:mt-8">
+          {/* Two CTA buttons */}
+          <HeroEntrance delay={1.8}>
+            <div className="flex gap-3 justify-center flex-wrap mt-8 md:mt-10">
               <Link
                 href={`${prefix}/integrate`}
-                className="bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-[2px] text-sm font-semibold hover:bg-blue-hover transition-colors"
+                className="bg-blue text-white px-8 md:px-10 py-3.5 md:py-4 rounded-[2px] text-sm font-semibold hover:bg-blue-hover transition-colors"
               >
                 {zh ? "開始整合" : "Integrate ATR"}
               </Link>
               <Link
                 href={`${prefix}/rules`}
-                className="text-ink px-6 md:px-8 py-3 md:py-3.5 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-[2px]"
+                className="text-ink px-8 md:px-10 py-3.5 md:py-4 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-[2px]"
               >
                 {zh ? "瀏覽規則" : "Explore Rules"}
               </Link>
             </div>
           </HeroEntrance>
-
-          {/* Credibility bar */}
-          <HeroEntrance delay={1.5}>
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-8 md:mt-10 font-data text-[11px] md:text-xs text-stone tracking-wide">
-              <span>Cisco AI Defense</span>
-              <span className="text-fog">·</span>
-              <span>OWASP 10/10</span>
-              <span className="text-fog">·</span>
-              <span>MITRE ATLAS</span>
-              <span className="text-fog">·</span>
-              <span>MIT License</span>
-            </div>
-          </HeroEntrance>
         </div>
-
-        <HeroEntrance delay={1.6} className="absolute bottom-6 md:bottom-8 z-10">
-          <div className="flex flex-col items-center gap-2">
-            <span className="font-data text-xs text-stone tracking-[3px] uppercase">scroll</span>
-            <div className="w-px h-5 md:h-6 bg-fog relative overflow-hidden">
-              <div className="absolute left-0 w-px h-5 md:h-6 bg-stone" style={{ animation: "scrollDown 1.8s ease-in-out infinite" }} />
-            </div>
-          </div>
-        </HeroEntrance>
       </section>
 
       <SpeedLines />
@@ -441,38 +409,51 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       <SpeedLines />
 
-      {/* ── Scene 8: The CTA ── */}
+      {/* ── Scene 8: Integrate — per DESIGN.md §9 ── */}
       <section className="py-14 md:py-[120px] px-5 md:px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto text-center">
           <Reveal>
-            <h2 className="font-display text-[24px] md:text-[clamp(28px,4vw,56px)] font-black tracking-[-1.5px] md:tracking-[-2px] mb-5 md:mb-6 text-ink">
+            <h2 className="font-display text-[24px] md:text-[clamp(28px,4vw,56px)] font-black tracking-[-1.5px] md:tracking-[-2px] mb-6 md:mb-8 text-ink">
               {zh ? "開始整合 ATR。" : "Integrate ATR."}
             </h2>
           </Reveal>
+
+          {/* Terminal demo — moved here from hero */}
           <Reveal delay={0.1}>
-            <div className="font-data text-sm bg-paper text-ink px-6 py-4 border border-fog inline-block rounded-[2px]">
-              <span className="text-stone">$</span>{" "}
-              <span className="font-bold">npm install agent-threat-rules</span>
+            <div className="bg-paper border border-fog rounded-[2px] overflow-hidden max-w-[520px] mx-auto text-left">
+              <div className="flex items-center gap-2 px-3 py-2 border-b border-fog">
+                <span className="font-data text-xs text-mist">{zh ? "一行指令。即時結果。" : "One command. Instant results."}</span>
+              </div>
+              <div className="p-3 md:p-4 font-data text-[11px] md:text-sm leading-[1.8]">
+                <div className="text-stone">$ <span className="text-ink">npx agent-threat-rules scan .</span></div>
+                <div className="text-mist mt-2"># {zh ? "結果" : "results"}</div>
+                <div className="text-green">{zh ? "  3 個 SKILL.md 已掃描" : "  3 SKILL.md scanned"}</div>
+                <div className="text-green">{zh ? "  12 個工具描述已檢查" : "  12 tool descriptions checked"}</div>
+                <div className="text-critical mt-1">{zh ? "  1 CRITICAL: 工具描述中的憑證竊取" : "  1 CRITICAL: credential theft"}</div>
+                <div className="text-critical">{zh ? "    ATR-2026-00121" : "    rule ATR-2026-00121"}</div>
+                <div className="text-stone mt-2">{zh ? "47ms 完成。" : "Done in 47ms."}</div>
+              </div>
             </div>
           </Reveal>
+
           <Reveal delay={0.2}>
-            <p className="text-sm md:text-base text-stone font-light max-w-[480px] mx-auto mb-7 md:mb-8 mt-5 md:mt-6 leading-[1.8]">
+            <p className="text-sm md:text-base text-stone font-light max-w-[480px] mx-auto mb-7 md:mb-8 mt-6 md:mt-8 leading-[1.8]">
               {zh
-                ? <>TypeScript、Python、Raw YAML、SIEM 轉換器。四種整合路徑。</>
-                : <>TypeScript, Python, Raw YAML, SIEM converters. Four integration paths.</>}
+                ? <>TypeScript、Python、Raw YAML、<br className="sm:hidden" />SIEM 轉換器。四種整合路徑。</>
+                : <>TypeScript, Python, Raw YAML,<br className="sm:hidden" /> SIEM converters. Four integration paths.</>}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
             <div className="flex gap-3 justify-center flex-wrap">
               <Link
                 href={`${prefix}/integrate`}
-                className="bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-[2px] text-sm font-semibold hover:bg-blue-hover transition-colors"
+                className="bg-blue text-white px-8 md:px-10 py-3.5 md:py-4 rounded-[2px] text-sm font-semibold hover:bg-blue-hover transition-colors"
               >
                 {zh ? "整合指南" : "Integration Guide"}
               </Link>
               <Link
                 href={`${prefix}/threats`}
-                className="text-ink px-6 md:px-8 py-3 md:py-3.5 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-[2px]"
+                className="text-ink px-8 md:px-10 py-3.5 md:py-4 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-[2px]"
               >
                 {zh ? "查看威脅清單" : "View Threat Feed"}
               </Link>
