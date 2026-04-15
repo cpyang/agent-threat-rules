@@ -145,8 +145,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <span>MITRE ATLAS</span>
               <span className="text-fog">·</span>
               <span>{stats.ruleCount} {zh ? "規則" : "rules"}</span>
-              <span className="text-fog hidden sm:inline">·</span>
-              <span className="hidden sm:inline">MIT</span>
+              <span className="text-fog">·</span>
+              <span>MIT</span>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-3 font-data text-[10px] text-mist tracking-wide">
+              <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules" target="_blank" rel="noopener noreferrer" className="hover:text-stone transition-colors">GitHub {zh ? "星標" : "stars"}: 93</a>
+              <span className="text-fog">·</span>
+              <span>npm: 1.2K {zh ? "月下載" : "/mo"}</span>
+              <span className="text-fog">·</span>
+              <span>{stats.ecosystemIntegrations.filter(e => e.type === "merged").length} {zh ? "個生態系採用" : "ecosystem adoptions"}</span>
             </div>
           </HeroEntrance>
         </div>
@@ -475,47 +482,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
-      {/* ── Scene 6: The Standards ── */}
-      <section className="py-12 md:py-[100px] px-5 md:px-6 bg-ash">
-        <div className="max-w-[1120px] mx-auto">
-          <Reveal>
-            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-3 md:mb-4">
-              {zh ? "標準覆蓋" : "Standards Coverage"}
-            </div>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-px bg-paper">
-              {[
-                { name: "OWASP Agentic Top 10", score: "10/10", detail: zh ? "完整覆蓋" : "Full coverage" },
-                { name: "SAFE-MCP (OpenSSF)", score: "91.8%", detail: "78/85" },
-                { name: zh ? "SKILL.md 偵測" : "SKILL.md Detection", score: `${stats.skillBenchRecall}%`, detail: zh ? `${stats.skillBenchSamples} 真實樣本 · 0% FP` : `${stats.skillBenchSamples} samples · 0% FP` },
-                { name: "OWASP Skills Top 10", score: "7/10", detail: zh ? "3 項為流程層級" : "3 process-level" },
-                { name: "PINT Benchmark", score: `${stats.pintF1}`, detail: `F1 / ${stats.pintSamples} samples` },
-              ].map((std, i) => (
-                <Reveal key={std.name} delay={i * 0.05}>
-                  <div className="bg-ash py-6 sm:py-8 md:py-10 px-5 md:px-5 sm:text-center flex sm:block items-center justify-between">
-                    <div className="font-data text-xs text-stone tracking-[1.5px] md:tracking-[2px] uppercase sm:mb-2 md:mb-3">{std.name}</div>
-                    <div className="font-data text-2xl sm:text-[clamp(22px,3vw,40px)] font-bold text-ink">{std.score}</div>
-                    <div className="text-xs text-stone sm:mt-1 hidden sm:block">{std.detail}</div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <div className="mt-5 md:mt-6 flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
-              <Link href={`${prefix}/coverage`} className="font-data text-xs md:text-sm text-blue hover:underline">
-                {zh ? "查看完整覆蓋對應表 →" : "Full coverage mapping →"}
-              </Link>
-              <Link href={`${prefix}/research`} className="font-data text-xs md:text-sm text-stone hover:text-ink transition-colors">
-                {zh ? "ATR 無法偵測什麼？我們公開說明 →" : "What can\u0027t ATR detect? We publish our limitations →"}
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <SpeedLines />
+      {/* Standards section removed — merged into "Where ATR Fits" (Scene 2.7) */}
+      {/* Coverage data available on /coverage page */}
 
       {/* ── Scene 7: The Network ── */}
       <section className="py-14 md:py-[120px] px-5 md:px-6">
@@ -533,13 +501,43 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <Reveal delay={0.15}>
             <p className="text-sm md:text-base text-stone font-light max-w-[560px] mb-6 md:mb-8 leading-[1.8]">
               {zh
-                ? <>你的掃描結果回饋到 Threat Cloud。<br className="md:hidden" />AI 分析新威脅，自動結晶偵測規則，社群審查後合併。<br /><br className="md:hidden" />你用的規則越多，整個生態系越安全。<br className="md:hidden" />這不是工具，是網絡效應。</>
-                : <>Your scan results feed back into the Threat Cloud. AI analyzes new threats, crystallizes detection rules, and the community reviews them.<br /><br className="md:hidden" />The more you use ATR, the safer the entire ecosystem becomes.<br className="md:hidden" /> This is not a tool. It is a network effect.</>}
+                ? <>你的掃描結果回饋到 Threat Cloud。<br className="sm:hidden" />AI 分析新威脅，自動結晶偵測規則，<br className="sm:hidden" />社群審查後合併。<br /><br />你用的規則越多，整個生態系越安全。<br className="sm:hidden" />這不是工具，是網絡效應。</>
+                : <>Your scan results feed back into Threat Cloud.<br className="sm:hidden" /> AI analyzes new threats, crystallizes rules,<br className="sm:hidden" /> community reviews and merges them.<br /><br />The more you use ATR,<br className="sm:hidden" /> the safer the entire ecosystem becomes.<br className="sm:hidden" /> This is not a tool. It is a network effect.</>}
             </p>
           </Reveal>
 
           <Reveal delay={0.2}>
             <Flywheel locale={locale} />
+          </Reveal>
+
+          {/* Real flywheel case */}
+          <Reveal delay={0.25}>
+            <div className="mt-8 md:mt-10 bg-[#0B0B0F] border border-[#2A2A35] rounded-sm p-4 md:p-5 max-w-[620px]">
+              <div className="font-data text-[10px] text-[#808089] tracking-[2px] uppercase mb-3">
+                {zh ? "真實案例 — 飛輪運轉記錄" : "Real case — flywheel in action"}
+              </div>
+              <div className="space-y-2 font-data text-xs leading-[1.7]">
+                <div className="flex gap-3">
+                  <span className="text-[#808089] shrink-0">Apr 9</span>
+                  <span className="text-[#E0E0E8]">{zh ? "TC 結晶 ATR-2026-00158（隱藏優先指令）" : "TC crystallized ATR-2026-00158 (hidden priority instructions)"}</span>
+                </div>
+                <div className="flex gap-3">
+                  <span className="text-[#808089] shrink-0">Apr 10</span>
+                  <span className="text-[#E0E0E8]">{zh ? "自動 PR 開啟，通過 CI + 品質閘門" : "Auto-PR opened, passed CI + quality gate"}</span>
+                </div>
+                <div className="flex gap-3">
+                  <span className="text-[#808089] shrink-0">Apr 10</span>
+                  <span className="text-[#E0E0E8]">{zh ? "再結晶 2 條規則（ATR-00159, 00160）" : "2 more rules crystallized (ATR-00159, 00160)"}</span>
+                </div>
+                <div className="flex gap-3">
+                  <span className="text-[#808089] shrink-0">Apr 11</span>
+                  <span className="text-green">{zh ? "人工審查 → 合併升級為 ATR-00161" : "Human review → merged as upgraded ATR-00161"}</span>
+                </div>
+              </div>
+              <div className="text-[10px] text-[#606068] mt-3">
+                {zh ? "從發現到全球防護：48 小時。" : "Discovery to global protection: 48 hours."}
+              </div>
+            </div>
           </Reveal>
 
           <Reveal delay={0.3}>
@@ -594,60 +592,36 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 href={`${prefix}/integrate`}
                 className="bg-blue text-white px-6 md:px-8 py-3 md:py-3.5 rounded-sm text-sm font-semibold hover:bg-blue-hover transition-colors"
               >
-                {zh ? "整合指南" : "Integration Guide"}
+                {zh ? "開始整合" : "Start Integrating"}
               </Link>
               <Link
-                href={`${prefix}/rules`}
+                href={`${prefix}/threats`}
                 className="text-ink px-6 md:px-8 py-3 md:py-3.5 text-sm font-medium border border-fog hover:border-stone transition-colors rounded-sm"
               >
-                {zh ? "瀏覽所有規則" : "Explore All Rules"}
+                {zh ? "查看公開威脅清單" : "View Threat Feed"}
               </Link>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── Scene 9: Build With Us ── */}
-      <section className="py-12 md:py-[100px] px-5 md:px-6">
-        <div className="max-w-[1120px] mx-auto">
-          <Reveal>
-            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-2">
-              {zh ? "一起打造" : "Build With Us"}
+          <Reveal delay={0.4}>
+            <div className="mt-6 md:mt-8 pt-6 border-t border-fog/50 max-w-[480px] mx-auto">
+              <p className="text-xs text-stone text-center mb-3 leading-[1.7]">
+                {zh
+                  ? <>部署 20+ AI agent 的企業團隊？<br className="sm:hidden" />我們提供私有規則、合規報告、<br className="sm:hidden" />SIEM 整合和 SLA 支援。</>
+                  : <>Enterprise teams deploying 20+ AI agents?<br className="sm:hidden" /> Private rules, compliance reports,<br className="sm:hidden" /> SIEM integration, and SLA support.</>}
+              </p>
+              <div className="text-center">
+                <a
+                  href="mailto:enterprise@agentthreatrule.org"
+                  className="font-data text-xs text-blue hover:underline"
+                >
+                  {zh ? "聯繫企業方案 →" : "Contact for Enterprise →"}
+                </a>
+              </div>
             </div>
           </Reveal>
-          <Reveal delay={0.1}>
-            <h2 className="font-display text-[18px] md:text-[clamp(22px,3vw,32px)] font-extrabold tracking-[-0.5px] md:tracking-[-1px] leading-[1.45] mb-5 md:mb-6 max-w-[540px]">
-              {zh
-                ? <>ATR 是社群驅動的開放標準。<br />你的每一個貢獻<br className="sm:hidden" />都在保護整個生態系。</>
-                : <>ATR is community-driven.<br /> Every contribution protects<br className="sm:hidden" /> the entire ecosystem.</>}
-            </h2>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-fog">
-              {[
-                { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=evasion-report.md", en: "Report an Evasion", zh: "回報繞過方法", desc: zh ? "最有影響力的貢獻" : "Most impactful contribution", time: "15 min" },
-                { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new?template=false-positive.md", en: "Report a False Positive", zh: "回報誤判", desc: zh ? "幫助維持精準度" : "Helps maintain precision", time: "20 min" },
-                { href: `${prefix}/contribute`, en: "Submit a Rule", zh: "提交新規則", desc: zh ? "YAML 格式，有教學" : "YAML, full guide", time: "1-2 hr", internal: true },
-                { href: "https://github.com/Agent-Threat-Rule/agent-threat-rules", en: "Star on GitHub", zh: "GitHub Star", desc: zh ? "幫助更多人發現" : "Help others discover ATR", time: "10 sec" },
-              ].map((item) => {
-                const inner = (
-                  <div className="bg-paper p-5 h-full flex flex-col hover:bg-ash/50 transition-colors">
-                    <div className="font-display text-sm font-semibold text-ink mb-1.5">{zh ? item.zh : item.en}</div>
-                    <p className="text-sm text-stone flex-1">{item.desc}</p>
-                    <div className="font-data text-xs text-mist mt-3">{item.time}</div>
-                  </div>
-                );
-                return item.internal ? (
-                  <Link key={item.en} href={item.href}>{inner}</Link>
-                ) : (
-                  <a key={item.en} href={item.href} target="_blank" rel="noopener noreferrer">{inner}</a>
-                );
-              })}
-            </div>
-          </Reveal>
-
         </div>
       </section>
+      {/* Build With Us section moved to /contribute page */}
     </>
   );
 }
