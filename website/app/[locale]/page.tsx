@@ -135,6 +135,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-8 md:mt-10 font-data text-[11px] md:text-xs text-stone tracking-wide">
               <span>Cisco AI Defense</span>
               <span className="text-fog">·</span>
+              <span>Microsoft AGT</span>
+              <span className="text-fog">·</span>
               <span>OWASP 10/10</span>
               <span className="text-fog">·</span>
               <span>MITRE ATLAS</span>
