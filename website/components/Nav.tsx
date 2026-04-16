@@ -30,6 +30,7 @@ export function Nav({ locale }: { locale: Locale }) {
     "ecosystem",
     "research",
     "about",
+    "changelog",
     "quality-standard",
   ] as const;
 

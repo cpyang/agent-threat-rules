@@ -229,6 +229,73 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
         ))}
       </div>
 
+      {/* GitHub Action Adopters */}
+      <Reveal>
+        <div className="mt-12 border border-fog">
+          <div className="px-6 py-4 border-b border-fog bg-ash">
+            <h2 className="font-display text-lg font-semibold">
+              {locale === "zh" ? "GitHub Action 採用者" : "GitHub Action Adopters"}
+            </h2>
+          </div>
+          <div className="p-6 space-y-5">
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? <>把 ATR 掛進任何 GitHub repo 的 CI。結果寫入 SARIF，出現在 GitHub Security 分頁——跟 CodeQL / dependabot 同一個位置。</>
+                : <>Wire ATR into any GitHub repo&apos;s CI. Results write to SARIF and surface in the repo&apos;s GitHub Security tab — same place as CodeQL and dependabot.</>}
+            </p>
+            <div>
+              <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-2">
+                {locale === "zh" ? "最小工作流" : "Minimal Workflow"}
+              </div>
+              <pre className="font-data text-xs md:text-sm text-graphite bg-ash border border-fog p-4 overflow-x-auto leading-[1.7]">
+{`# .github/workflows/atr-scan.yml
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write   # for SARIF upload
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Agent-Threat-Rule/agent-threat-rules@main
+        with:
+          severity: medium
+          fail-on-finding: true`}
+              </pre>
+            </div>
+            <div>
+              <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-3">
+                {locale === "zh" ? "公開採用" : "Public Adopters"}
+              </div>
+              <p className="text-sm text-graphite leading-[1.7]">
+                {locale === "zh" ? (
+                  <>目前尚無公開採用紀錄。如果你在 repo 使用 ATR Action，請透過{" "}
+                    <a
+                      href="https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue hover:underline"
+                    >GitHub issue</a>{" "}告訴我們，我們會列在這裡。</>
+                ) : (
+                  <>No public adopters tracked yet. If your repo uses the ATR Action, let us know via a{" "}
+                    <a
+                      href="https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue hover:underline"
+                    >GitHub issue</a>{" "}and we&apos;ll list it here.</>
+                )}
+              </p>
+              <p className="text-xs text-mist mt-2 leading-[1.7]">
+                {locale === "zh"
+                  ? "採用形式不只 GitHub Action——Cisco AI Defense (PR #79) 以 rule-packs CLI 方式整合，Microsoft AGT (PR #908) 以 PolicyDocument 方式整合。這兩筆算「上游採用」，不屬於 Action 使用統計。"
+                  : "Adoption forms vary — Cisco AI Defense (PR #79) integrates via a rule-packs CLI; Microsoft AGT (PR #908) integrates as PolicyDocument. These count as upstream adoption, separate from Action usage."}
+              </p>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       {/* Schema Stability & Upstream Guarantee */}
       <Reveal>
         <div className="mt-12 border border-fog">
