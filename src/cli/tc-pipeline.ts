@@ -109,11 +109,17 @@ export async function cmdTCPull(options: Record<string, string | undefined>): Pr
     ?? (existsSync(SYNC_FILE) ? readFileSync(SYNC_FILE, 'utf-8').trim() : '');
   const sinceParam = since || new Date(Date.now() - 7 * 86400000).toISOString();
 
+  if (!cfg.adminKey) {
+    console.error(`  ${RED}Error: TC admin key required. Set TC_ADMIN_API_KEY or --tc-key${RESET}`);
+    process.exit(1);
+  }
+
   const resp = await fetch(`${cfg.tcUrl}/api/atr-rules?since=${encodeURIComponent(sinceParam)}`, {
+    headers: authHeaders(cfg.adminKey),
     signal: AbortSignal.timeout(15_000),
   });
-  const raw = await resp.json() as { ok: boolean; data: Array<{ ruleId: string; ruleContent: string; source: string }> };
-  if (!raw.ok) { console.error(`  ${RED}TC API error${RESET}`); process.exit(1); }
+  const raw = await resp.json() as { ok: boolean; error?: string; data: Array<{ ruleId: string; ruleContent: string; source: string }> };
+  if (!raw.ok) { console.error(`  ${RED}TC API error: ${raw.error ?? resp.status}${RESET}`); process.exit(1); }
 
   // Find existing rule IDs in repo
   const existingIds = new Set<string>();
