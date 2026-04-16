@@ -1,9 +1,11 @@
 import { Reveal } from "@/components/Reveal";
 import { loadSiteStats } from "@/lib/stats";
 import { locales, type Locale } from "@/lib/i18n";
+import { listActors } from "@/lib/actors";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -15,26 +17,12 @@ export const metadata: Metadata = {
     "Public blacklist of flagged AI agent skills. 1,302 flagged, 751 confirmed malware. Updated from ATR ecosystem scans and Threat Cloud reports.",
 };
 
-interface BlacklistEntry {
-  skill: string;
-  source: string;
-  severity: string;
-  primary_rule: string;
-  reason_en: string;
-  reason_zh: string;
-  rules: string[];
-  threat_actor: string | null;
-  confirmed_malware: boolean;
-  link: string;
-}
-
 interface BlacklistData {
   generated: string;
   total_flagged: number;
   confirmed_malware: number;
   severity: { critical: number; high: number; medium: number };
   threat_actors: string[];
-  entries: BlacklistEntry[];
 }
 
 interface WhitelistEntry {
@@ -55,7 +43,14 @@ interface WhitelistData {
 function loadBlacklist(): BlacklistData {
   try {
     const raw = readFileSync(join(process.cwd(), "..", "data", "public-blacklist.json"), "utf-8");
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    return {
+      generated: parsed.generated,
+      total_flagged: parsed.total_flagged,
+      confirmed_malware: parsed.confirmed_malware,
+      severity: parsed.severity,
+      threat_actors: parsed.threat_actors,
+    };
   } catch {
     return {
       generated: "N/A",
@@ -63,7 +58,6 @@ function loadBlacklist(): BlacklistData {
       confirmed_malware: 0,
       severity: { critical: 0, high: 0, medium: 0 },
       threat_actors: [],
-      entries: [],
     };
   }
 }
@@ -77,22 +71,15 @@ function loadWhitelist(): WhitelistData {
   }
 }
 
-const SEV_COLOR: Record<string, string> = {
-  critical: "text-critical bg-critical/10",
-  high: "text-high bg-high/10",
-  medium: "text-stone bg-stone/10",
-};
-
 export default async function ThreatsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
   const locale = (locales.includes(raw as Locale) ? raw : "en") as Locale;
   const zh = locale === "zh";
+  const prefix = `/${locale}`;
   const stats = loadSiteStats();
   const bl = loadBlacklist();
   const wl = loadWhitelist();
-
-  // Static export — show all entries (SSG renders once at build time)
-  const shown = bl.entries;
+  const actors = listActors();
 
   return (
     <div className="pt-20 pb-16 px-5 md:px-6 max-w-[1120px] mx-auto">
@@ -136,23 +123,47 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
         </div>
       </Reveal>
 
-      {/* Threat actors */}
+      {/* Threat actors — clickable profile cards */}
       <Reveal delay={0.35}>
-        <div className="mb-8">
-          <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
-            {zh ? "已知威脅行為者" : "Known Threat Actors"}
+        <div className="mb-10 md:mb-12">
+          <div className="flex items-baseline justify-between flex-wrap gap-2 mb-4 md:mb-5">
+            <div className="font-data text-xs text-stone tracking-[2px] uppercase">
+              {zh ? "已知威脅行為者" : "Known Threat Actors"}
+            </div>
+            <span className="font-data text-[11px] text-mist">
+              {zh ? "點擊查看完整檔案" : "Click for full profile"}
+            </span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-fog">
-            {[
-              { name: "hightower6eu", count: 354, desc: zh ? "Solana / Google Workspace 偽裝" : "Solana / Google Workspace disguise" },
-              { name: "sakaen736jih", count: 212, desc: zh ? "C2: 91.92.242.30" : "C2: 91.92.242.30" },
-              { name: "52yuanchangxing", count: 137, desc: zh ? "中文開發工具" : "Chinese-language dev tools" },
-            ].map((a) => (
-              <div key={a.name} className="bg-paper p-4 md:p-5">
-                <div className="font-data text-xs text-critical font-medium">{a.name}</div>
-                <div className="font-data text-xl font-bold text-ink mt-1">{a.count} {zh ? "個 skill" : "skills"}</div>
-                <div className="text-xs text-stone mt-1">{a.desc}</div>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-fog">
+            {actors.map((a) => (
+              <Link
+                key={a.slug}
+                href={`${prefix}/threats/${a.slug}`}
+                className="group bg-paper p-6 md:p-8 hover:bg-ash/50 transition-colors"
+              >
+                <div className="flex items-baseline justify-between gap-2 flex-wrap">
+                  <div className="font-data text-sm text-critical font-semibold break-all">
+                    {a.name}
+                  </div>
+                  <span className="font-data text-[10px] text-critical bg-critical/10 px-2 py-0.5 rounded-[2px] uppercase tracking-wide">
+                    {zh ? "活躍中" : "Active"}
+                  </span>
+                </div>
+                <div className="font-data text-[clamp(28px,4vw,40px)] font-bold text-ink mt-3 leading-none">
+                  {a.skillsMalicious}
+                </div>
+                <div className="font-data text-xs text-stone mt-2">
+                  {zh
+                    ? `個惡意 skill (${a.malRatio})`
+                    : `malicious skills (${a.malRatio})`}
+                </div>
+                <p className="text-sm text-graphite mt-4 leading-[1.7] line-clamp-3">
+                  {zh ? a.summary.zh : a.summary.en}
+                </p>
+                <div className="font-data text-xs text-blue mt-4 group-hover:underline">
+                  {zh ? "查看完整檔案 →" : "View full profile →"}
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -217,57 +228,42 @@ export default async function ThreatsPage({ params }: { params: Promise<{ locale
         </div>
       </section>
 
-      {/* Blacklist — all entries */}
+      {/* Full blacklist — JSON download card */}
       <Reveal delay={0.4}>
-        <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
-          <div className="font-data text-xs text-stone tracking-[2px] uppercase">
-            {zh ? `${bl.total_flagged.toLocaleString()} 筆已標記` : `${bl.total_flagged.toLocaleString()} flagged skills`}
+        <div className="mb-4">
+          <div className="font-data text-xs text-stone tracking-[2px] uppercase mb-3">
+            {zh ? "完整黑名單" : "Full Blacklist"}
           </div>
-          <a
-            href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/public-blacklist.json"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-data text-xs text-blue hover:underline"
-          >
-            {zh ? "下載 JSON" : "Download JSON"}
-          </a>
-        </div>
-        <div className="space-y-[2px]">
-          {shown.map((entry, i) => (
-            <div key={i} className="bg-paper border border-fog/50 p-3 md:p-4 hover:bg-ash/30 transition-colors">
-              <div className="flex items-start gap-3">
-                {/* Severity badge */}
-                <span className={`font-data text-[10px] px-1.5 py-0.5 rounded-sm uppercase shrink-0 mt-0.5 ${SEV_COLOR[entry.severity] ?? "text-stone bg-stone/10"}`}>
-                  {entry.severity}
-                </span>
-                <div className="min-w-0 flex-1">
-                  {/* Skill name + link */}
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {entry.link ? (
-                      <a href={entry.link} target="_blank" rel="noopener noreferrer" className="font-data text-xs font-medium text-ink hover:text-blue truncate max-w-[280px] md:max-w-[400px]">
-                        {entry.skill}
-                      </a>
-                    ) : (
-                      <span className="font-data text-xs font-medium text-ink truncate max-w-[280px] md:max-w-[400px]">{entry.skill}</span>
-                    )}
-                    <span className="font-data text-[10px] text-mist hidden sm:inline">{entry.source}</span>
-                    {entry.confirmed_malware && (
-                      <span className="font-data text-[9px] text-critical bg-critical/10 px-1.5 py-0.5 rounded-sm uppercase font-bold shrink-0">
-                        {zh ? "惡意軟體" : "MALWARE"}
-                      </span>
-                    )}
-                  </div>
-                  {/* Reason */}
-                  <div className="text-xs text-stone mt-1 leading-[1.6]">
-                    {zh ? entry.reason_zh : entry.reason_en}
-                    {entry.primary_rule && (
-                      <span className="text-mist ml-2 hidden sm:inline">({entry.primary_rule})</span>
-                    )}
-                  </div>
-                </div>
+          <div className="bg-paper border border-fog p-5 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div className="font-data text-2xl md:text-3xl font-bold text-ink leading-none">
+                {bl.total_flagged.toLocaleString()}
               </div>
+              <p className="text-sm text-graphite mt-2 leading-[1.7]">
+                {zh
+                  ? "所有被標記的 skill 都在公開的 blacklist.json。任何 CI、registry 或 agent framework 都可以直接拉取。"
+                  : "Every flagged skill lives in the public blacklist.json. Any CI, registry, or agent framework can pull it directly."}
+              </p>
             </div>
-          ))}
+            <div className="flex flex-col gap-2 md:shrink-0">
+              <a
+                href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/data/public-blacklist.json"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-ink text-paper font-data text-xs px-5 py-2.5 rounded-[2px] hover:bg-graphite transition-colors text-center whitespace-nowrap"
+              >
+                {zh ? "查看完整 blacklist.json →" : "View full blacklist.json →"}
+              </a>
+              <a
+                href="https://raw.githubusercontent.com/Agent-Threat-Rule/agent-threat-rules/main/data/public-blacklist.json"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-data text-xs text-blue hover:underline text-center"
+              >
+                {zh ? "下載 raw JSON" : "Download raw JSON"}
+              </a>
+            </div>
+          </div>
         </div>
       </Reveal>
 
