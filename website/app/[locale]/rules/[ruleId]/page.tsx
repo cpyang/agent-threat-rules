@@ -1,4 +1,4 @@
-import { loadAllRules, findRuleById, getRelatedRules } from "@/lib/rules";
+import { loadAllRules, findRuleById, getRelatedRules, loadRuleDetail } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -72,6 +72,7 @@ export default async function RuleDetailPage({
 
   if (!rule) notFound();
 
+  const detail = loadRuleDetail(ruleId);
   const related = getRelatedRules(rules, rule);
   const categoryDisplay = rule.category.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   const severityClass = SEVERITY_COLORS[rule.severity] ?? "bg-ash text-stone";
@@ -236,15 +237,230 @@ export default async function RuleDetailPage({
           </div>
         )}
 
-        {/* Source link */}
-        <div className="mb-10">
+        {/* Validation stats — wild scan results */}
+        {detail?.wildSamples !== undefined && (
+          <div className="mb-8">
+            <h2 className="font-display text-sm font-semibold text-ink mb-3">
+              {zh ? "實地驗證" : "Wild Validation"}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-fog">
+              {detail.wildValidated && (
+                <div className="bg-paper p-4">
+                  <div className="font-data text-xs text-stone mb-1">
+                    {zh ? "驗證日期" : "Validated"}
+                  </div>
+                  <div className="font-data text-sm text-ink">
+                    {detail.wildValidated.replace(/\//g, "-")}
+                  </div>
+                </div>
+              )}
+              <div className="bg-paper p-4">
+                <div className="font-data text-xs text-stone mb-1">
+                  {zh ? "樣本數" : "Samples"}
+                </div>
+                <div className="font-data text-sm text-ink">
+                  {detail.wildSamples.toLocaleString()}
+                </div>
+              </div>
+              {detail.wildFpRate !== undefined && (
+                <div className="bg-paper p-4">
+                  <div className="font-data text-xs text-stone mb-1">
+                    {zh ? "誤報率" : "False Positive Rate"}
+                  </div>
+                  <div className="font-data text-sm text-ink">{detail.wildFpRate}%</div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Detection conditions */}
+        {detail && detail.detectionConditions.length > 0 && (
+          <div className="mb-8">
+            <div className="flex items-baseline justify-between gap-2 flex-wrap mb-3">
+              <h2 className="font-display text-sm font-semibold text-ink">
+                {zh ? "偵測條件" : "Detection Conditions"}
+              </h2>
+              {detail.detectionCombinator && (
+                <span className="font-data text-[10px] text-mist uppercase tracking-wide">
+                  {zh ? "組合方式" : "Combinator"}: {detail.detectionCombinator}
+                </span>
+              )}
+            </div>
+            <ol className="space-y-2">
+              {detail.detectionConditions.map((c, i) => (
+                <li key={i} className="bg-paper border border-fog p-3 md:p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="font-data text-[11px] text-mist shrink-0 mt-0.5">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      {c.description && (
+                        <div className="text-sm text-ink leading-[1.6] mb-1.5">{c.description}</div>
+                      )}
+                      <div className="font-data text-[10px] md:text-[11px] text-stone flex flex-wrap gap-x-3 gap-y-1">
+                        {c.field && <span>{zh ? "欄位" : "field"}: {c.field}</span>}
+                        {c.operator && <span>{zh ? "運算子" : "op"}: {c.operator}</span>}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {/* Attack examples — test cases that trigger the rule */}
+        {detail && detail.truePositives.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-display text-sm font-semibold text-ink mb-3">
+              {zh ? "攻擊範例（規則會觸發）" : "Attack Examples (Rule Triggers)"}
+            </h2>
+            <ol className="space-y-3">
+              {detail.truePositives.map((tc, i) => (
+                <li key={i} className="bg-critical/[0.03] border-l-2 border-critical p-3 md:p-4">
+                  {tc.matched_condition && (
+                    <div className="font-data text-[10px] text-critical uppercase tracking-wide mb-2">
+                      {zh ? "觸發條件" : "Matches"}: {tc.matched_condition}
+                    </div>
+                  )}
+                  <pre className="font-data text-xs text-graphite whitespace-pre-wrap break-all leading-[1.7]">
+                    {tc.input}
+                  </pre>
+                </li>
+              ))}
+            </ol>
+            <p className="text-xs text-mist mt-3 leading-[1.7]">
+              {zh
+                ? "以上為真實攻擊 payload 脫敏版本。用於 regression testing。"
+                : "Real-world attack payloads (sanitized). Used for regression testing."}
+            </p>
+          </div>
+        )}
+
+        {/* Negative examples — should NOT trigger */}
+        {detail && detail.trueNegatives.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-display text-sm font-semibold text-ink mb-3">
+              {zh ? "正常樣本（規則不會觸發）" : "Benign Examples (Rule Doesn't Trigger)"}
+            </h2>
+            <ol className="space-y-3">
+              {detail.trueNegatives.map((tc, i) => (
+                <li key={i} className="bg-green/[0.05] border-l-2 border-green p-3 md:p-4">
+                  {tc.description && (
+                    <div className="font-data text-[10px] text-green uppercase tracking-wide mb-2">
+                      {tc.description}
+                    </div>
+                  )}
+                  <pre className="font-data text-xs text-graphite whitespace-pre-wrap break-all leading-[1.7]">
+                    {tc.input}
+                  </pre>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {/* False positives — documented known-FP contexts */}
+        {detail && detail.falsePositives.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-display text-sm font-semibold text-ink mb-3">
+              {zh ? "已知誤報情境" : "Known False Positive Contexts"}
+            </h2>
+            <ul className="space-y-2">
+              {detail.falsePositives.map((fp, i) => (
+                <li key={i} className="text-sm text-graphite leading-[1.7] flex items-start gap-2">
+                  <span className="text-fog shrink-0 mt-1">▸</span>
+                  <span>{fp}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Evasion techniques — documented bypasses */}
+        {detail && detail.evasionTests.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-display text-sm font-semibold text-ink mb-3">
+              {zh ? "已記錄的規避手法" : "Documented Evasion Techniques"}
+            </h2>
+            <ol className="space-y-3">
+              {detail.evasionTests.map((ev, i) => (
+                <li key={i} className="bg-high/[0.05] border-l-2 border-high p-3 md:p-4">
+                  {ev.bypass_technique && (
+                    <div className="font-data text-[10px] text-high uppercase tracking-wide mb-2">
+                      {zh ? "手法" : "Technique"}: {ev.bypass_technique.replace(/_/g, " ")}
+                    </div>
+                  )}
+                  <pre className="font-data text-xs text-graphite whitespace-pre-wrap break-all leading-[1.7] mb-2">
+                    {ev.input}
+                  </pre>
+                  {ev.notes && (
+                    <div className="text-xs text-stone leading-[1.7]">{ev.notes}</div>
+                  )}
+                </li>
+              ))}
+            </ol>
+            <p className="text-xs text-mist mt-3 leading-[1.7]">
+              {zh
+                ? "這些是公開記錄的繞過手法。誠實揭露限制，而不是假裝不存在。"
+                : "Publicly documented bypasses. We disclose known limitations rather than pretend they don't exist."}
+            </p>
+          </div>
+        )}
+
+        {/* Full YAML preview */}
+        {detail && (
+          <div className="mb-8">
+            <div className="flex items-baseline justify-between gap-2 flex-wrap mb-3">
+              <h2 className="font-display text-sm font-semibold text-ink">
+                {zh ? "完整 YAML 定義" : "Full YAML Definition"}
+              </h2>
+              <a
+                href={`https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/${rule.filePath}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-data text-xs text-blue hover:underline"
+              >
+                {zh ? "在 GitHub 編輯 →" : "Edit on GitHub →"}
+              </a>
+            </div>
+            <pre className="bg-ash border border-fog p-4 md:p-5 font-data text-[11px] md:text-xs text-graphite leading-[1.7] overflow-x-auto max-h-[480px] overflow-y-auto">
+              {detail.rawYaml}
+            </pre>
+          </div>
+        )}
+
+        {/* Revision history */}
+        <div className="mb-10 border-t border-fog pt-6">
+          <h2 className="font-display text-sm font-semibold text-ink mb-3">
+            {zh ? "修訂歷史" : "Revision History"}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-fog">
+            {rule.date && (
+              <div className="bg-paper p-4">
+                <div className="font-data text-xs text-stone mb-1">
+                  {zh ? "建立於" : "Created"}
+                </div>
+                <div className="font-data text-sm text-ink">{rule.date.replace(/\//g, "-")}</div>
+              </div>
+            )}
+            {detail?.lastModified && (
+              <div className="bg-paper p-4">
+                <div className="font-data text-xs text-stone mb-1">
+                  {zh ? "最後修改" : "Last modified"}
+                </div>
+                <div className="font-data text-sm text-ink">{detail.lastModified}</div>
+              </div>
+            )}
+          </div>
           <a
-            href={`https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/${rule.filePath}`}
+            href={`https://github.com/Agent-Threat-Rule/agent-threat-rules/commits/main/${rule.filePath}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-data text-xs text-blue hover:underline"
+            className="font-data text-xs text-blue hover:underline inline-block mt-3"
           >
-            {zh ? "在 GitHub 上查看完整 YAML →" : "View full YAML on GitHub →"}
+            {zh ? "在 GitHub 查看完整 commit 歷史 →" : "View full commit history on GitHub →"}
           </a>
         </div>
 

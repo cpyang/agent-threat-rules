@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { join, extname, relative } from "node:path";
 import yaml from "js-yaml";
 
@@ -119,4 +120,191 @@ export function getCategories(rules: RuleSummary[]): { name: string; count: numb
   return Array.from(map.entries())
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
+}
+
+export interface DetectionCondition {
+  field?: string;
+  operator?: string;
+  description?: string;
+  value?: string;
+}
+
+export interface TestCase {
+  input: string;
+  expected?: string;
+  description?: string;
+  matched_condition?: string;
+}
+
+export interface EvasionTest {
+  input: string;
+  expected?: string;
+  bypass_technique?: string;
+  notes?: string;
+}
+
+function normalizeTestCase<T extends { input?: unknown }>(
+  tc: T,
+): Omit<T, "input"> & { input: string } {
+  const { input, ...rest } = tc;
+  if (typeof input === "string") {
+    return { ...(rest as Omit<T, "input">), input };
+  }
+  if (input === undefined || input === null) {
+    return { ...(rest as Omit<T, "input">), input: "" };
+  }
+  try {
+    return {
+      ...(rest as Omit<T, "input">),
+      input: yaml.dump(input, { lineWidth: 100 }).trimEnd(),
+    };
+  } catch {
+    return { ...(rest as Omit<T, "input">), input: String(input) };
+  }
+}
+
+export interface RuleDetail extends RuleSummary {
+  rawYaml: string;
+  detectionConditions: DetectionCondition[];
+  detectionCombinator?: string;
+  falsePositives: string[];
+  truePositives: TestCase[];
+  trueNegatives: TestCase[];
+  evasionTests: EvasionTest[];
+  wildValidated?: string;
+  wildSamples?: number;
+  wildFpRate?: number;
+  messageTemplate?: string;
+  lastModified?: string;
+}
+
+interface RawRuleDetail {
+  id?: string;
+  title?: string;
+  severity?: string;
+  description?: string;
+  author?: string;
+  date?: string;
+  status?: string;
+  detection_tier?: string;
+  tags?: {
+    category?: string;
+    subcategory?: string;
+    scan_target?: string;
+    confidence?: string;
+  };
+  references?: {
+    cve?: string[];
+    owasp_agentic?: string[];
+    owasp_llm?: string[];
+    mitre_atlas?: string[];
+  };
+  response?: {
+    actions?: string[];
+    message_template?: string;
+  };
+  detection?: {
+    conditions?: DetectionCondition[];
+    condition?: string;
+    false_positives?: string[];
+  };
+  test_cases?: {
+    true_positives?: Array<Record<string, unknown>>;
+    true_negatives?: Array<Record<string, unknown>>;
+  };
+  evasion_tests?: Array<Record<string, unknown>>;
+  wild_validated?: string;
+  wild_samples?: number;
+  wild_fp_rate?: number;
+}
+
+function gitLastModified(filePath: string): string | undefined {
+  try {
+    const repoRoot = join(process.cwd(), "..");
+    const iso = execSync(`git log -1 --format=%cs -- "${filePath}"`, {
+      cwd: repoRoot,
+      encoding: "utf-8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+    return iso || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function findRuleFilePath(id: string): string | undefined {
+  const rulesDir = join(process.cwd(), "..", "rules");
+  function walk(dir: string): string | undefined {
+    for (const entry of readdirSync(dir)) {
+      const full = join(dir, entry);
+      const st = statSync(full);
+      if (st.isDirectory()) {
+        const found = walk(full);
+        if (found) return found;
+      } else if (
+        st.isFile() &&
+        (extname(entry) === ".yaml" || extname(entry) === ".yml") &&
+        entry.includes(id)
+      ) {
+        return full;
+      }
+    }
+    return undefined;
+  }
+  return walk(rulesDir);
+}
+
+export function loadRuleDetail(id: string): RuleDetail | undefined {
+  const filePath = findRuleFilePath(id);
+  if (!filePath) return undefined;
+  const rawYaml = readFileSync(filePath, "utf-8");
+  let parsed: RawRuleDetail;
+  try {
+    parsed = yaml.load(rawYaml, { schema: yaml.CORE_SCHEMA }) as RawRuleDetail;
+  } catch {
+    return undefined;
+  }
+  if (!parsed?.id || !parsed?.title) return undefined;
+
+  const repoRoot = join(process.cwd(), "..");
+  const relFile = relative(repoRoot, filePath);
+
+  return {
+    id: parsed.id,
+    title: parsed.title,
+    severity: parsed.severity ?? "medium",
+    category: parsed.tags?.category ?? "unknown",
+    subcategory: parsed.tags?.subcategory,
+    description: parsed.description ?? "",
+    scanTarget: parsed.tags?.scan_target,
+    cves: parsed.references?.cve ?? [],
+    owaspAgentic: parsed.references?.owasp_agentic ?? [],
+    owaspLlm: parsed.references?.owasp_llm ?? [],
+    mitreAtlas: parsed.references?.mitre_atlas ?? [],
+    author: parsed.author ?? "ATR Community",
+    date: parsed.date ?? "",
+    filePath: relFile,
+    status: parsed.status,
+    responseActions: parsed.response?.actions,
+    detectionTier: parsed.detection_tier,
+    confidence: parsed.tags?.confidence,
+    rawYaml,
+    detectionConditions: parsed.detection?.conditions ?? [],
+    detectionCombinator: parsed.detection?.condition,
+    falsePositives: parsed.detection?.false_positives ?? [],
+    truePositives: (parsed.test_cases?.true_positives ?? []).map((tc) =>
+      normalizeTestCase(tc as { input?: unknown }),
+    ) as TestCase[],
+    trueNegatives: (parsed.test_cases?.true_negatives ?? []).map((tc) =>
+      normalizeTestCase(tc as { input?: unknown }),
+    ) as TestCase[],
+    evasionTests: (parsed.evasion_tests ?? []).map((tc) =>
+      normalizeTestCase(tc as { input?: unknown }),
+    ) as EvasionTest[],
+    wildValidated: parsed.wild_validated,
+    wildSamples: parsed.wild_samples,
+    wildFpRate: parsed.wild_fp_rate,
+    messageTemplate: parsed.response?.message_template,
+    lastModified: gitLastModified(relFile),
+  };
 }
