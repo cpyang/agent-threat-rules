@@ -42,7 +42,7 @@ export function Nav({ locale }: { locale: Locale }) {
             : "bg-transparent border-b border-transparent"
         }`}
       >
-        <Link href={prefix} className="flex items-center">
+        <Link href={prefix} className="flex items-center py-2.5 -my-2.5">
           <img
             src="/atr-logo-black.png"
             alt="ATR"
@@ -70,7 +70,7 @@ export function Nav({ locale }: { locale: Locale }) {
         <div className="flex items-center gap-3">
           <Link
             href={`/${otherLocale}${pathname.replace(/^\/(en|zh)/, "")}`}
-            className="font-data text-xs text-stone hover:text-ink transition-colors tracking-wide"
+            className="font-data text-xs text-stone hover:text-ink transition-colors tracking-wide inline-flex items-center justify-center min-w-[44px] min-h-[44px] -mx-2"
             aria-label={otherLocale === "zh" ? "Switch to Chinese" : "Switch to English"}
           >
             {otherLocale === "zh" ? "ZH" : "EN"}
@@ -84,7 +84,7 @@ export function Nav({ locale }: { locale: Locale }) {
           {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="md:hidden flex flex-col gap-1.5 p-2 min-w-[44px] min-h-[44px] items-center justify-center -mr-2"
             aria-label="Toggle menu"
           >
             <span className={`block w-5 h-px bg-ink transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[3.5px]" : ""}`} />

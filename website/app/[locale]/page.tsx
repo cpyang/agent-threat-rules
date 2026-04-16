@@ -521,12 +521,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
           </Reveal>
           <Reveal delay={0.3}>
-            <div className="mt-4 flex items-center gap-2 max-w-[620px]">
-              <div className="h-px flex-1 bg-fog" />
-              <span className="font-data text-[10px] text-mist tracking-[1px]">
+            <div className="mt-4 max-w-[620px] md:flex md:items-center md:gap-2">
+              <div className="h-px flex-1 bg-fog hidden md:block" />
+              <span className="font-data text-[10px] text-mist tracking-[1px] block text-center">
                 {zh ? "更多端點 = 更多資料 = 更強規則" : "More endpoints = more data = stronger rules"}
               </span>
-              <div className="h-px flex-1 bg-fog" />
+              <div className="h-px flex-1 bg-fog hidden md:block" />
             </div>
           </Reveal>
         </div>

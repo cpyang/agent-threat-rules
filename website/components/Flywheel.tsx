@@ -167,12 +167,12 @@ export function Flywheel({ locale = "en" }: { locale?: string }) {
       </AnimatePresence>
 
       {/* Loop annotation */}
-      <div className="mt-4 flex items-center gap-2">
-        <div className="h-px flex-1 bg-fog" />
-        <span className="font-data text-xs text-mist tracking-[1px] uppercase shrink-0">
+      <div className="mt-4 md:flex md:items-center md:gap-2">
+        <div className="h-px flex-1 bg-fog hidden md:block" />
+        <span className="font-data text-[10px] md:text-xs text-mist tracking-[1px] uppercase block text-center">
           {zh ? "更多端點 = 更多資料 = 更強規則" : "More endpoints = more data = stronger rules"}
         </span>
-        <div className="h-px flex-1 bg-fog" />
+        <div className="h-px flex-1 bg-fog hidden md:block" />
       </div>
     </div>
   );
