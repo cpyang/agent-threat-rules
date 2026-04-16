@@ -210,6 +210,79 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       <SpeedLines />
 
+      {/* ── Scene 2.5: Adopted By ── */}
+      <section className="py-14 md:py-[100px] px-5 md:px-6">
+        <div className="max-w-[1120px] mx-auto text-center">
+          <Reveal>
+            <div className="font-data text-[11px] md:text-xs font-medium text-stone tracking-[1.5px] md:tracking-[3px] uppercase mb-8 md:mb-10">
+              {zh ? "已被採用" : "Adopted by"}
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog max-w-[900px] mx-auto">
+              <div className="bg-paper p-8 md:p-10 text-center">
+                <h3 className="font-display text-[24px] md:text-[clamp(28px,3.5vw,40px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.1] text-ink">
+                  Cisco AI Defense
+                </h3>
+                <p className="text-sm text-graphite mt-4 leading-[1.7]">
+                  {zh ? (
+                    <>34 條規則合併 · 1,272 行新增 ·{" "}
+                      <span className="whitespace-nowrap">
+                        <code className="font-data text-xs bg-ash px-1.5 py-0.5 rounded-[2px] mx-0.5">--rule-packs</code> CLI
+                      </span>
+                    </>
+                  ) : (
+                    <>34 rules merged · 1,272 lines ·{" "}
+                      <span className="whitespace-nowrap">
+                        <code className="font-data text-xs bg-ash px-1.5 py-0.5 rounded-[2px]">--rule-packs</code> CLI
+                      </span>
+                    </>
+                  )}
+                </p>
+                <a
+                  href="https://github.com/cisco-ai-defense/skill-scanner/pull/79"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-data text-xs text-blue hover:underline inline-block mt-3"
+                >
+                  {zh ? "查看 PR #79 →" : "View PR #79 →"}
+                </a>
+              </div>
+              <div className="bg-paper p-8 md:p-10 text-center">
+                <h3 className="font-display text-[24px] md:text-[clamp(28px,3.5vw,40px)] font-extrabold tracking-[-1px] md:tracking-[-2px] leading-[1.1] text-ink">
+                  Microsoft AGT
+                </h3>
+                <p className="text-sm text-graphite mt-4 leading-[1.7]">
+                  {zh ? "15 條規則以 PolicyDocument 格式合併 · 554 行新增" : "15 rules as PolicyDocument · 554 additions"}
+                </p>
+                <a
+                  href="https://github.com/microsoft/agent-governance-toolkit/pull/908"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-data text-xs text-blue hover:underline inline-block mt-3"
+                >
+                  {zh ? "查看 PR #908 →" : "View PR #908 →"}
+                </a>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.25}>
+            <p className="font-data text-xs text-mist mt-8 md:mt-10">
+              {zh ? "NVIDIA Garak 整合審查中（" : "NVIDIA Garak integration under review ("}
+              <a
+                href="https://github.com/NVIDIA/garak/pull/1676"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue hover:underline"
+              >
+                PR #1676
+              </a>
+              {zh ? "）" : ")"}
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── Scene 3: The Numbers ── */}
       <section className="py-14 md:py-[120px] px-5 md:px-6 bg-ash">
         <div className="max-w-[1120px] mx-auto">
