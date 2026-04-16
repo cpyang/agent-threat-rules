@@ -107,17 +107,14 @@ export function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        {/* Badges */}
+        {/* License + static description */}
         <div className="border-t border-fog pt-6 pb-4 flex flex-wrap items-center gap-3">
-          <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.shields.io/github/stars/Agent-Threat-Rule/agent-threat-rules?style=flat&color=E8E8E5&labelColor=FAFAF8&logo=github&logoColor=0B0B0F" alt="GitHub stars" className="h-5" />
-          </a>
-          <a href="https://www.npmjs.com/package/agent-threat-rules" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.shields.io/npm/dm/agent-threat-rules?style=flat&color=E8E8E5&labelColor=FAFAF8&logo=npm&logoColor=0B0B0F&label=npm" alt="npm downloads" className="h-5" />
-          </a>
           <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
             <img src="https://img.shields.io/badge/license-MIT-E8E8E5?style=flat&labelColor=FAFAF8" alt="MIT License" className="h-5" />
           </a>
+          <span className="font-data text-xs text-stone">
+            {zh ? "MIT 授權 · npm 可安裝 · 開源" : "MIT Licensed · Available on npm · Open Source"}
+          </span>
         </div>
 
         {/* Bottom bar */}
@@ -132,8 +129,6 @@ export function Footer({ locale }: { locale: Locale }) {
             <span>ATR v2.0.0 · {stats.ruleCount} {zh ? "條規則" : "rules"}</span>
             <span className="text-fog hidden sm:inline">|</span>
             <span>{zh ? "更新於" : "Updated"} {lastUpdated}</span>
-            <span className="text-fog hidden sm:inline">|</span>
-            <span>MIT License</span>
           </div>
         </div>
       </div>
