@@ -35,7 +35,6 @@ export async function generateMetadata({
   if (!rule) return { title: "Rule Not Found" };
 
   const categoryDisplay = categoryDisplayName(rule.category);
-  const zh = locale === "zh";
 
   return {
     title: `${rule.id}: ${rule.title}`,

@@ -253,26 +253,6 @@ export default async function ActorPage({
               </ul>
             </div>
           ))}
-          {actor.cves.length > 0 && (
-            <div>
-              <div className="font-data text-[11px] text-stone tracking-[2px] uppercase mb-2">
-                CVE
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {actor.cves.map((cve) => (
-                  <a
-                    key={cve}
-                    href={`https://nvd.nist.gov/vuln/detail/${cve}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-data text-xs md:text-sm bg-paper border border-fog hover:border-stone px-3 py-1.5 rounded-[2px] text-blue transition-colors"
-                  >
-                    {cve}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </Section>
 

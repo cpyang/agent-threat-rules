@@ -251,44 +251,70 @@ interface RawRuleDetail {
   wild_fp_rate?: number;
 }
 
-function gitLastModified(filePath: string): string | undefined {
-  try {
-    const repoRoot = join(process.cwd(), "..");
-    const iso = execSync(`git log -1 --format=%cs -- "${filePath}"`, {
-      cwd: repoRoot,
-      encoding: "utf-8",
-      stdio: ["ignore", "pipe", "ignore"],
-    }).trim();
-    return iso || undefined;
-  } catch {
-    return undefined;
-  }
-}
+/**
+ * Build-time caches, populated once per worker and reused across all rule
+ * detail page renders. SSG otherwise walks the rules tree O(N) times for N
+ * rules, and spawns one `git log` subprocess per rule per locale.
+ */
+let rulePathCache: Map<string, string> | null = null;
+let lastModifiedCache: Map<string, string> | null = null;
 
-function findRuleFilePath(id: string): string | undefined {
-  const rulesDir = join(process.cwd(), "..", "rules");
-  function walk(dir: string): string | undefined {
+function getRulePathMap(): Map<string, string> {
+  if (rulePathCache) return rulePathCache;
+  const map = new Map<string, string>();
+  const repoRoot = join(process.cwd(), "..");
+  const rulesDir = join(repoRoot, "rules");
+
+  function walk(dir: string): void {
     for (const entry of readdirSync(dir)) {
       const full = join(dir, entry);
       const st = statSync(full);
       if (st.isDirectory()) {
-        const found = walk(full);
-        if (found) return found;
+        walk(full);
       } else if (
         st.isFile() &&
-        (extname(entry) === ".yaml" || extname(entry) === ".yml") &&
-        entry.includes(id)
+        (extname(entry) === ".yaml" || extname(entry) === ".yml")
       ) {
-        return full;
+        const match = entry.match(/^(ATR-\d{4}-\d{5})/);
+        if (match) map.set(match[1], full);
       }
     }
-    return undefined;
   }
-  return walk(rulesDir);
+
+  try {
+    walk(rulesDir);
+  } catch {
+    // Leave map empty; detail pages will fall back gracefully.
+  }
+  rulePathCache = map;
+  return map;
+}
+
+function getLastModifiedMap(): Map<string, string> {
+  if (lastModifiedCache) return lastModifiedCache;
+  const map = new Map<string, string>();
+  const repoRoot = join(process.cwd(), "..");
+  const pathMap = getRulePathMap();
+
+  for (const [id, fullPath] of pathMap.entries()) {
+    try {
+      const relPath = relative(repoRoot, fullPath);
+      const iso = execSync(`git log -1 --format=%cs -- "${relPath}"`, {
+        cwd: repoRoot,
+        encoding: "utf-8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }).trim();
+      if (iso) map.set(id, iso);
+    } catch {
+      // Skip — file may be untracked or git unavailable.
+    }
+  }
+  lastModifiedCache = map;
+  return map;
 }
 
 export function loadRuleDetail(id: string): RuleDetail | undefined {
-  const filePath = findRuleFilePath(id);
+  const filePath = getRulePathMap().get(id);
   if (!filePath) return undefined;
   const rawYaml = readFileSync(filePath, "utf-8");
   let parsed: RawRuleDetail;
@@ -338,6 +364,6 @@ export function loadRuleDetail(id: string): RuleDetail | undefined {
     wildSamples: parsed.wild_samples,
     wildFpRate: parsed.wild_fp_rate,
     messageTemplate: parsed.response?.message_template,
-    lastModified: gitLastModified(relFile),
+    lastModified: getLastModifiedMap().get(parsed.id),
   };
 }

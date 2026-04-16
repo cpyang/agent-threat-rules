@@ -31,7 +31,6 @@ export interface ThreatActor {
   atrRules: string[];
   atlas: { id: string; name: string }[];
   owasp: { framework: string; items: string[] }[];
-  cves: string[];
   registries: { name: string; count: number }[];
   timeline: { date: string; event: Bilingual }[];
   reports: {
@@ -43,12 +42,55 @@ export interface ThreatActor {
   summary: Bilingual;
 }
 
+/**
+ * Canonical campaign timeline from docs/research/openclaw-malware-campaign-2026-04.md.
+ * All three actors were discovered in the same scan; individual per-actor dates beyond
+ * this are not sourced and should not be invented.
+ */
+const SHARED_CAMPAIGN_TIMELINE: ThreatActor["timeline"] = [
+  {
+    date: "2026-04-10",
+    event: {
+      en: "Initial scan of OpenClaw registry initiated.",
+      zh: "開始掃描 OpenClaw registry。",
+    },
+  },
+  {
+    date: "2026-04-11",
+    event: {
+      en: "First detection of coordinated malicious publishers.",
+      zh: "首次偵測到協同發布的惡意行為者。",
+    },
+  },
+  {
+    date: "2026-04-12",
+    event: {
+      en: "Full scan of 96,096 skills completed across five sources.",
+      zh: "完成跨五個來源、共 96,096 個 skill 的完整掃描。",
+    },
+  },
+  {
+    date: "2026-04-13",
+    event: {
+      en: "Analysis and actor profiling completed.",
+      zh: "完成分析與行為者檔案建立。",
+    },
+  },
+  {
+    date: "2026-04-14",
+    event: {
+      en: "Research report published; NousResearch notified via issue #9809.",
+      zh: "研究報告發布；透過 issue #9809 通報 NousResearch。",
+    },
+  },
+];
+
 export const ACTORS: ThreatActor[] = [
   {
     slug: "hightower6eu",
     name: "hightower6eu",
     aliases: [],
-    firstSeen: "2026-04-10",
+    firstSeen: "2026-04-11",
     lastActivity: "2026-04-14",
     status: "active",
     motive: {
@@ -105,31 +147,8 @@ export const ACTORS: ThreatActor[] = [
         items: ["AST01 — Malicious Skills", "AST02 — Supply Chain Compromise"],
       },
     ],
-    cves: ["CVE-2026-25253"],
     registries: [{ name: "OpenClaw", count: 354 }],
-    timeline: [
-      {
-        date: "2026-04-10",
-        event: {
-          en: "First detection in ATR large-scale ecosystem scan.",
-          zh: "ATR 大規模生態系掃描首次偵測。",
-        },
-      },
-      {
-        date: "2026-04-12",
-        event: {
-          en: "Full 96,096-skill scan completed; coordinated publishing pattern confirmed.",
-          zh: "完成 96,096 skill 掃描，確認協同發布模式。",
-        },
-      },
-      {
-        date: "2026-04-14",
-        event: {
-          en: "Research report published; NousResearch notified via issue #9809.",
-          zh: "研究報告發布；透過 issue #9809 通報 NousResearch。",
-        },
-      },
-    ],
+    timeline: SHARED_CAMPAIGN_TIMELINE,
     reports: [
       {
         platform: "NousResearch/hermes-agent",
@@ -147,7 +166,7 @@ export const ACTORS: ThreatActor[] = [
     slug: "sakaen736jih",
     name: "sakaen736jih",
     aliases: [],
-    firstSeen: "2026-04-10",
+    firstSeen: "2026-04-11",
     lastActivity: "2026-04-14",
     status: "active",
     motive: {
@@ -198,31 +217,8 @@ export const ACTORS: ThreatActor[] = [
         items: ["AST01 — Malicious Skills", "AST02 — Supply Chain Compromise"],
       },
     ],
-    cves: ["CVE-2026-25253"],
     registries: [{ name: "OpenClaw", count: 212 }],
-    timeline: [
-      {
-        date: "2026-04-10",
-        event: {
-          en: "First detection in ATR large-scale ecosystem scan.",
-          zh: "ATR 大規模生態系掃描首次偵測。",
-        },
-      },
-      {
-        date: "2026-04-11",
-        event: {
-          en: "Base64 payload decoded in isolated environment; C2 infrastructure mapped.",
-          zh: "於隔離環境解碼 base64 payload；完成 C2 基礎設施測繪。",
-        },
-      },
-      {
-        date: "2026-04-14",
-        event: {
-          en: "Research report published; NousResearch notified via issue #9809.",
-          zh: "研究報告發布；透過 issue #9809 通報 NousResearch。",
-        },
-      },
-    ],
+    timeline: SHARED_CAMPAIGN_TIMELINE,
     reports: [
       {
         platform: "NousResearch/hermes-agent",
@@ -240,7 +236,7 @@ export const ACTORS: ThreatActor[] = [
     slug: "52yuanchangxing",
     name: "52yuanchangxing",
     aliases: [],
-    firstSeen: "2026-04-10",
+    firstSeen: "2026-04-11",
     lastActivity: "2026-04-14",
     status: "active",
     motive: {
@@ -285,31 +281,8 @@ export const ACTORS: ThreatActor[] = [
         items: ["AST01 — Malicious Skills", "AST02 — Supply Chain Compromise"],
       },
     ],
-    cves: ["CVE-2026-25253"],
     registries: [{ name: "OpenClaw", count: 137 }],
-    timeline: [
-      {
-        date: "2026-04-10",
-        event: {
-          en: "First detection in ATR large-scale ecosystem scan.",
-          zh: "ATR 大規模生態系掃描首次偵測。",
-        },
-      },
-      {
-        date: "2026-04-13",
-        event: {
-          en: "Actor profile confirmed; mixed-content publishing strategy noted.",
-          zh: "確認行為者檔案；記錄混合內容發布策略。",
-        },
-      },
-      {
-        date: "2026-04-14",
-        event: {
-          en: "Research report published; NousResearch notified via issue #9809.",
-          zh: "研究報告發布；透過 issue #9809 通報 NousResearch。",
-        },
-      },
-    ],
+    timeline: SHARED_CAMPAIGN_TIMELINE,
     reports: [
       {
         platform: "NousResearch/hermes-agent",
