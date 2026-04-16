@@ -57,7 +57,7 @@ rules/
   prompt-injection/
   tool-poisoning/
   agent-manipulation/
-  ... (9 categories)`,
+  ... (8 categories)`,
     doc: "https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/ATR-FRAMEWORK-SPEC.md",
   },
   {
@@ -192,8 +192,8 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
             </div>
             <p className="text-xs text-mist mt-4">
               {locale === "zh"
-                ? `${stats.ruleCount} 條規則 · 9 個威脅類別 · < 5ms 延遲 · 零依賴 · MIT 授權`
-                : `${stats.ruleCount} rules · 9 threat categories · < 5ms latency · zero dependencies · MIT license`}
+                ? `${stats.ruleCount} 條規則 · ${stats.categoryCount} 個威脅類別 · < 5ms 延遲 · 零依賴 · MIT 授權`
+                : `${stats.ruleCount} rules · ${stats.categoryCount} threat categories · < 5ms latency · zero dependencies · MIT license`}
             </p>
           </div>
         </div>
@@ -292,7 +292,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-fog">
               {[
-                { label: locale === "zh" ? "覆蓋範圍" : "Coverage", atr: locale === "zh" ? `${stats.ruleCount} 條規則，${stats.cveCount} 個 CVE 對應，9 個威脅類別` : `${stats.ruleCount} rules, ${stats.cveCount} CVEs mapped, 9 threat categories`, own: locale === "zh" ? "需要自行建立規則庫" : "You build your own rule set" },
+                { label: locale === "zh" ? "覆蓋範圍" : "Coverage", atr: locale === "zh" ? `${stats.ruleCount} 條規則，${stats.cveCount} 個 CVE 對應，${stats.categoryCount} 個威脅類別` : `${stats.ruleCount} rules, ${stats.cveCount} CVEs mapped, ${stats.categoryCount} threat categories`, own: locale === "zh" ? "需要自行建立規則庫" : "You build your own rule set" },
                 { label: locale === "zh" ? "新攻擊反應" : "New attack response", atr: locale === "zh" ? "Threat Cloud 結晶，目標數小時內產出規則" : "Threat Cloud crystallization, targeting hours", own: locale === "zh" ? "取決於你團隊的頻寬" : "Depends on your team's bandwidth" },
                 { label: locale === "zh" ? "繞過測試" : "Evasion testing", atr: locale === "zh" ? "64 種已記錄的繞過技術，每個 PR 都測試" : "64 documented evasion techniques, tested on every PR", own: locale === "zh" ? "需要額外投入時間建立" : "Requires dedicated effort to build" },
                 { label: locale === "zh" ? "OWASP / MITRE 對應" : "OWASP / MITRE mapping", atr: locale === "zh" ? "內建。Agentic 10/10 + 每條規則對應 MITRE ATLAS" : "Pre-built. 10/10 Agentic + MITRE ATLAS per rule", own: locale === "zh" ? "數小時的手動對應工作" : "Hours of manual mapping work" },
@@ -358,7 +358,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog">
             {[
               { label: "Cisco AI Defense", detail: locale === "zh" ? "34 條 ATR 規則上游整合" : "34 ATR rules as upstream", highlight: true },
-              { label: locale === "zh" ? `${stats.ruleCount} 條偵測規則` : `${stats.ruleCount} detection rules`, detail: locale === "zh" ? "9 個威脅類別" : "9 threat categories", highlight: false },
+              { label: locale === "zh" ? `${stats.ruleCount} 條偵測規則` : `${stats.ruleCount} detection rules`, detail: locale === "zh" ? `${stats.categoryCount} 個威脅類別` : `${stats.categoryCount} threat categories`, highlight: false },
               { label: locale === "zh" ? `${stats.megaScanTotal.toLocaleString()} 已掃描` : `${stats.megaScanTotal.toLocaleString()} skills scanned`, detail: locale === "zh" ? "6 個 registry · 751 惡意軟體" : "6 registries · 751 malware", highlight: false },
               { label: locale === "zh" ? `${stats.ecosystemIntegrations.length} 個生態系整合` : `${stats.ecosystemIntegrations.length} ecosystem integrations`, detail: `${stats.ecosystemIntegrations.filter(e => e.type === "merged").length} merged · ${stats.ecosystemIntegrations.filter(e => e.type === "open").length} under review`, highlight: false },
             ].map((item) => (

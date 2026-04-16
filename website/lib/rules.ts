@@ -3,6 +3,39 @@ import { execSync } from "node:child_process";
 import { join, extname, relative } from "node:path";
 import yaml from "js-yaml";
 
+/**
+ * Display-layer category aliases. Merges thin categories into parent groups
+ * without modifying the canonical rule YAML on disk.
+ *
+ * model-abuse (1 rule) + data-poisoning (2 rules) → model-level-attacks (3)
+ * All attacks here target the LLM or its training data directly.
+ */
+const CATEGORY_ALIASES: Record<string, string> = {
+  "data-poisoning": "model-level-attacks",
+  "model-abuse": "model-level-attacks",
+};
+
+function aliasCategory(category: string): string {
+  return CATEGORY_ALIASES[category] ?? category;
+}
+
+/**
+ * Override map for category slugs that don't capitalize cleanly via
+ * `slug.split("-").map(cap).join(" ")`. Keeps display names consistent across
+ * the homepage category grid and rule detail pages.
+ */
+const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
+  "model-level-attacks": "Model-Level Attacks",
+};
+
+export function categoryDisplayName(category: string): string {
+  if (CATEGORY_DISPLAY_NAMES[category]) return CATEGORY_DISPLAY_NAMES[category];
+  return category
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 export interface RuleSummary {
   id: string;
   title: string;
@@ -71,7 +104,7 @@ function loadRulesRecursive(dir: string, rootDir: string): RuleSummary[] {
           id: raw.id,
           title: raw.title,
           severity: raw.severity ?? "medium",
-          category: raw.tags?.category ?? "unknown",
+          category: aliasCategory(raw.tags?.category ?? "unknown"),
           subcategory: raw.tags?.subcategory,
           description: raw.description ?? "",
           scanTarget: raw.tags?.scan_target,
@@ -273,7 +306,7 @@ export function loadRuleDetail(id: string): RuleDetail | undefined {
     id: parsed.id,
     title: parsed.title,
     severity: parsed.severity ?? "medium",
-    category: parsed.tags?.category ?? "unknown",
+    category: aliasCategory(parsed.tags?.category ?? "unknown"),
     subcategory: parsed.tags?.subcategory,
     description: parsed.description ?? "",
     scanTarget: parsed.tags?.scan_target,

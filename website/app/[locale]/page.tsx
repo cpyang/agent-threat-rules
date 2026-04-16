@@ -8,7 +8,7 @@ import { NumberScramble } from "@/components/NumberScramble";
 import { Flywheel } from "@/components/Flywheel";
 import { HeroGrid } from "@/components/DotGrid";
 import { loadSiteStats } from "@/lib/stats";
-import { loadAllRules, getCategories } from "@/lib/rules";
+import { loadAllRules, getCategories, categoryDisplayName } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-const CATEGORY_DESC: Record<string, { en: string; zh: string }> = {
+const CATEGORY_DESC: Record<string, { en: string; zh: string; displayName?: string }> = {
   "prompt-injection": {
     en: "Hijacking agent behavior through crafted inputs",
     zh: "透過精心構造的輸入劫持 agent 行為",
@@ -45,13 +45,10 @@ const CATEGORY_DESC: Record<string, { en: string; zh: string }> = {
     en: "Agents exceeding intended operational boundaries",
     zh: "Agent 超越預期的操作邊界",
   },
-  "model-security": {
-    en: "Direct attacks on the underlying language model",
-    zh: "對底層語言模型的直接攻擊",
-  },
-  "data-poisoning": {
-    en: "Corrupting training data or knowledge sources",
-    zh: "污染訓練資料或知識來源",
+  "model-level-attacks": {
+    displayName: "Model-Level Attacks",
+    en: "Attacks on the LLM itself — behavior extraction, adversarial fine-tuning, poisoned training data",
+    zh: "針對 LLM 模型本身的攻擊——行為提取、對抗式 fine-tuning、污染訓練資料",
   },
 };
 
@@ -335,7 +332,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-fog">
               {categories.map((cat) => {
                 const desc = CATEGORY_DESC[cat.name];
-                const displayName = cat.name.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+                const displayName = desc?.displayName ?? categoryDisplayName(cat.name);
                 return (
                   <div key={cat.name} className="bg-paper p-5 md:p-6 hover:bg-ash/50 transition-colors">
                     <div className="font-display text-sm font-semibold text-ink">{displayName}</div>
@@ -420,7 +417,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog mt-10 md:mt-12">
               {[
                 { num: "34", label: zh ? "條規則已合併" : "rules merged", sub: "Cisco AI Defense" },
-                { num: String(stats.ruleCount), label: zh ? "條偵測規則" : "detection rules", sub: zh ? "跨 9 個類別" : "across 9 categories" },
+                { num: String(stats.ruleCount), label: zh ? "條偵測規則" : "detection rules", sub: zh ? `跨 ${stats.categoryCount} 個類別` : `across ${stats.categoryCount} categories` },
                 { num: stats.megaScanTotal.toLocaleString(), label: zh ? "skills 已掃描" : "skills scanned", sub: zh ? "跨多個 registry" : "across registries" },
                 { num: `${mergedCount}/${stats.ecosystemIntegrations.length}`, label: zh ? "生態系 PR" : "ecosystem PRs", sub: zh ? "已合併" : "merged" },
               ].map((item) => (

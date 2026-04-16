@@ -1,4 +1,4 @@
-import { loadAllRules, findRuleById, getRelatedRules, loadRuleDetail } from "@/lib/rules";
+import { loadAllRules, findRuleById, getRelatedRules, loadRuleDetail, categoryDisplayName } from "@/lib/rules";
 import { locales, type Locale } from "@/lib/i18n";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -34,7 +34,7 @@ export async function generateMetadata({
 
   if (!rule) return { title: "Rule Not Found" };
 
-  const categoryDisplay = rule.category.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  const categoryDisplay = categoryDisplayName(rule.category);
   const zh = locale === "zh";
 
   return {
@@ -74,7 +74,7 @@ export default async function RuleDetailPage({
 
   const detail = loadRuleDetail(ruleId);
   const related = getRelatedRules(rules, rule);
-  const categoryDisplay = rule.category.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  const categoryDisplay = categoryDisplayName(rule.category);
   const severityClass = SEVERITY_COLORS[rule.severity] ?? "bg-ash text-stone";
 
   const jsonLd = {
