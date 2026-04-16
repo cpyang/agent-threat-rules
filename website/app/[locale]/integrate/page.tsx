@@ -32,7 +32,7 @@ if (matches.length > 0) {
   },
   {
     title: "Python (pyATR)",
-    cmd: "pip install git+https://github.com/Agent-Threat-Rule/agent-threat-rules.git#subdirectory=python",
+    cmd: "pip install pyatr",
     code: `from pyatr import ATREngine
 
 engine = ATREngine()
