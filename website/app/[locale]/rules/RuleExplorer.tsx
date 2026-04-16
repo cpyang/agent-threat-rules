@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import type { RuleSummary } from "@/lib/rules";
+import { categoryDisplayName } from "@/lib/categories";
 import { t, type Locale } from "@/lib/i18n";
 
 const SEVERITY_ORDER: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3, informational: 4 };
@@ -79,7 +80,7 @@ export function RuleExplorer({ rules, categories, locale }: Props) {
           <option value="">{t(locale, "rules.all_categories")}</option>
           {categories.map((c) => (
             <option key={c.name} value={c.name}>
-              {c.name} ({c.count})
+              {categoryDisplayName(c.name, locale)} ({c.count})
             </option>
           ))}
         </select>
@@ -100,7 +101,7 @@ export function RuleExplorer({ rules, categories, locale }: Props) {
       {/* Stats bar */}
       <div className="font-data text-xs text-stone mb-4 tracking-wide">
         {t(locale, "rules.showing", { filtered: String(filtered.length), total: String(rules.length) })}
-        {selectedCategory && <span className="ml-2">| category: {selectedCategory}</span>}
+        {selectedCategory && <span className="ml-2">| {locale === "zh" ? "類別" : "category"}: {categoryDisplayName(selectedCategory, locale)}</span>}
         {selectedSeverity && <span className="ml-2">| severity: {selectedSeverity}</span>}
         {search && <span className="ml-2">| search: &quot;{search}&quot;</span>}
         {(selectedCategory || selectedSeverity || search) && (
@@ -144,7 +145,7 @@ export function RuleExplorer({ rules, categories, locale }: Props) {
               >
                 <div className="px-4 py-3 font-data text-sm text-blue">{rule.id}</div>
                 <div className="px-4 py-3 text-sm text-ink">{rule.title}</div>
-                <div className="px-4 py-3 font-data text-xs text-stone">{rule.category}</div>
+                <div className="px-4 py-3 font-data text-xs text-stone">{categoryDisplayName(rule.category, locale)}</div>
                 <div className="px-4 py-3">
                   <span className={`font-data text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-sm ${SEVERITY_COLORS[rule.severity] ?? "bg-stone/10 text-stone"}`}>
                     {rule.severity}

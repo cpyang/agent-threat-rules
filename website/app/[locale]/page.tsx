@@ -16,7 +16,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-const CATEGORY_DESC: Record<string, { en: string; zh: string; displayName?: string }> = {
+const CATEGORY_DESC: Record<string, { en: string; zh: string }> = {
   "prompt-injection": {
     en: "Hijacking agent behavior through crafted inputs",
     zh: "透過精心構造的輸入劫持 agent 行為",
@@ -46,7 +46,6 @@ const CATEGORY_DESC: Record<string, { en: string; zh: string; displayName?: stri
     zh: "Agent 超越預期的操作邊界",
   },
   "model-level-attacks": {
-    displayName: "Model-Level Attacks",
     en: "Attacks on the LLM itself — behavior extraction, adversarial fine-tuning, poisoned training data",
     zh: "針對 LLM 模型本身的攻擊——行為提取、對抗式 fine-tuning、污染訓練資料",
   },
@@ -332,7 +331,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-fog">
               {categories.map((cat) => {
                 const desc = CATEGORY_DESC[cat.name];
-                const displayName = desc?.displayName ?? categoryDisplayName(cat.name);
+                const displayName = categoryDisplayName(cat.name, locale);
                 return (
                   <div key={cat.name} className="bg-paper p-5 md:p-6 hover:bg-ash/50 transition-colors">
                     <div className="font-display text-sm font-semibold text-ink">{displayName}</div>

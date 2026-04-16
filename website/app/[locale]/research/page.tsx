@@ -412,6 +412,91 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         </div>
       </Reveal>
 
+      {/* Upcoming Research */}
+      <Reveal>
+        <h2 className="font-display text-2xl font-extrabold tracking-[-1px] mb-1 mt-10">
+          {locale === "zh" ? "進行中的研究" : "Upcoming Research"}
+        </h2>
+        <p className="text-sm text-stone mb-6">
+          {locale === "zh"
+            ? "以下是 ATR 下一階段的研究方向。進度會反映在 GitHub release 與 paper 更新。"
+            : "The next research frontiers for ATR. Progress is reflected in GitHub releases and paper updates."}
+        </p>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <div className="grid grid-cols-1 gap-px bg-fog mb-8">
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-baseline justify-between gap-2 flex-wrap mb-1.5">
+              <div className="font-display text-sm md:text-base font-semibold text-ink">
+                {locale === "zh" ? "Tier 3 行為評估層" : "Tier 3 Behavioral Evaluator"}
+              </div>
+              <span className="font-data text-[10px] text-blue bg-blue/10 px-2 py-0.5 rounded-sm uppercase tracking-wide">
+                {locale === "zh" ? "進行中" : "In progress"}
+              </span>
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? "從靜態 regex 擴展到 runtime 行為偵測。初始規則：env 變數存取 + 網路呼叫的組合、工具呼叫頻率異常、非預期 shell 存取。"
+                : "Extends detection from static regex to runtime behavioral signals. Initial rules: env variable access combined with network calls, tool-call rate anomalies, unexpected shell access."}
+            </p>
+          </div>
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-baseline justify-between gap-2 flex-wrap mb-1.5">
+              <div className="font-display text-sm md:text-base font-semibold text-ink">
+                {locale === "zh" ? "Tier 4 語意評估 + 結晶 pipeline" : "Tier 4 Semantic Evaluator + Crystallization Pipeline"}
+              </div>
+              <span className="font-data text-[10px] text-stone bg-stone/10 px-2 py-0.5 rounded-sm uppercase tracking-wide">
+                {locale === "zh" ? "設計中" : "Design"}
+              </span>
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? "Tier 3 難以判定的樣本升級給 LLM-as-judge 語意分析；LLM 的發現會結晶成 Tier 2 regex 規則回流到 ATR，完成「適應性免疫 → 先天免疫」的轉換。"
+                : "Cases Tier 3 cannot decide escalate to LLM-as-judge semantic analysis. LLM findings crystallize into Tier 2 regex rules and flow back into ATR — the adaptive-to-innate immunity transition."}
+            </p>
+          </div>
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-baseline justify-between gap-2 flex-wrap mb-1.5">
+              <div className="font-display text-sm md:text-base font-semibold text-ink">
+                {locale === "zh" ? "Sigma / YARA 跨格式相容" : "Sigma / YARA Cross-format Compatibility"}
+              </div>
+              <span className="font-data text-[10px] text-stone bg-stone/10 px-2 py-0.5 rounded-sm uppercase tracking-wide">
+                {locale === "zh" ? "規劃中" : "Planned"}
+              </span>
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? "將 ATR 規則編譯為 Sigma（SIEM 端）與 YARA（檔案端）格式，讓 agent 威脅偵測融入現有資安偵測管線，不需要重建 pipeline。"
+                : "Compile ATR rules into Sigma (SIEM-side) and YARA (file-side) formats so agent threat detection plugs into existing security pipelines without rebuilding infrastructure."}
+            </p>
+          </div>
+          <div className="bg-paper p-5 md:p-6">
+            <div className="flex items-baseline justify-between gap-2 flex-wrap mb-1.5">
+              <div className="font-display text-sm md:text-base font-semibold text-ink">
+                {locale === "zh" ? "訓練 ↔ runtime 偵測邊界" : "Training ↔ Runtime Detection Boundary"}
+              </div>
+              <span className="font-data text-[10px] text-stone bg-stone/10 px-2 py-0.5 rounded-sm uppercase tracking-wide">
+                {locale === "zh" ? "開放問題" : "Open problem"}
+              </span>
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? "ATR 只偵測 runtime 攻擊。訓練階段植入的模型後門在推論時架構上不可見。要橋接這個斷層，需要結合 supply-chain provenance（model card、訓練資料稽核）與 runtime 行為指紋的新技術。"
+                : "ATR detects runtime attacks. Model backdoors planted during training are architecturally invisible at inference time. Bridging this gap requires new techniques combining supply-chain provenance (model cards, training data audits) with runtime behavioral fingerprinting."}
+            </p>
+          </div>
+        </div>
+      </Reveal>
+      <Reveal delay={0.2}>
+        <p className="text-xs text-mist leading-[1.7] mb-8">
+          {locale === "zh" ? (
+            <>素材來源：<a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/ATR-FRAMEWORK-SPEC.md" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">ATR-FRAMEWORK-SPEC.md</a> Phase 2-4 路線圖與 <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">主論文</a>未來工作章節。</>
+          ) : (
+            <>Sources: <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/blob/main/ATR-FRAMEWORK-SPEC.md" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">ATR-FRAMEWORK-SPEC.md</a> Phase 2-4 roadmap and the <a href="https://doi.org/10.5281/zenodo.19178002" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">main paper</a>&apos;s future work section.</>
+          )}
+        </p>
+      </Reveal>
+
       {/* Limitations */}
       <Reveal>
         <h2 className="font-display text-2xl font-extrabold tracking-[-1px] mb-1 mt-10">{t(locale, "research.limits")}</h2>

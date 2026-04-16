@@ -34,7 +34,7 @@ export async function generateMetadata({
 
   if (!rule) return { title: "Rule Not Found" };
 
-  const categoryDisplay = categoryDisplayName(rule.category);
+  const categoryDisplay = categoryDisplayName(rule.category, locale);
 
   return {
     title: `${rule.id}: ${rule.title}`,
@@ -73,7 +73,7 @@ export default async function RuleDetailPage({
 
   const detail = loadRuleDetail(ruleId);
   const related = getRelatedRules(rules, rule);
-  const categoryDisplay = categoryDisplayName(rule.category);
+  const categoryDisplay = categoryDisplayName(rule.category, locale);
   const severityClass = SEVERITY_COLORS[rule.severity] ?? "bg-ash text-stone";
 
   const jsonLd = {

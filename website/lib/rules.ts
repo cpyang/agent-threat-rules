@@ -19,22 +19,7 @@ function aliasCategory(category: string): string {
   return CATEGORY_ALIASES[category] ?? category;
 }
 
-/**
- * Override map for category slugs that don't capitalize cleanly via
- * `slug.split("-").map(cap).join(" ")`. Keeps display names consistent across
- * the homepage category grid and rule detail pages.
- */
-const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
-  "model-level-attacks": "Model-Level Attacks",
-};
-
-export function categoryDisplayName(category: string): string {
-  if (CATEGORY_DISPLAY_NAMES[category]) return CATEGORY_DISPLAY_NAMES[category];
-  return category
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
+export { categoryDisplayName } from "./categories";
 
 export interface RuleSummary {
   id: string;
