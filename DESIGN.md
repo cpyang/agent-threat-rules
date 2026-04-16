@@ -198,7 +198,7 @@ Each major section occupies approximately one viewport height. The scroll rhythm
 | 1. The Shift | Hero statement + stats + CTA | 100vh | Paper White |
 | 2. The Threat | Big threat number + narrative | 100vh | Paper White |
 | 3. The Numbers | 6-cell data grid | 100vh | Ash |
-| 4. The Categories | 9 threat categories | auto (taller) | Paper White |
+| 4. The Categories | 8 threat categories | auto (taller) | Paper White |
 | 5. The Proof | "Cisco ships ATR" statement | 100vh | Paper White |
 | 6. The Standards | 4-column coverage scores | 80vh | Ash |
 | 7. The Future | Crystallization + AI-native contribution | 100vh | Paper White |
@@ -360,7 +360,7 @@ Below: narrative paragraph about the attack surface.
 
 **Scene 4 — The Categories:**
 "What ATR detects."
-3x3 grid of 9 threat categories. Each: name + count + one-line description.
+Responsive grid (1/2/3 cols) of 8 threat categories. Each: name + count + one-line description. Current slugs: prompt-injection, tool-poisoning, skill-compromise, context-exfiltration, agent-manipulation, privilege-escalation, excessive-autonomy, model-level-attacks (merged from model-abuse + data-poisoning).
 
 **Scene 5 — The Proof:**
 "Cisco AI Defense ships 34 ATR rules as upstream."
@@ -403,10 +403,10 @@ Four paths: TypeScript, Python, Raw YAML, SIEM converters.
 ### Example Component Prompts
 
 **Hero Section:**
-"Create a full-viewport hero on Paper White (#FAFAF8). Center the ATR logo mark at top (the geometric A with speed lines, 80px height). Below: 'We used to protect people.' in Inter Tight 80px weight 900 color Stone (#6B6B76). Next line: 'Now we protect agents.' in Inter Tight 80px weight 900 color Ink Black (#0B0B0F). Below: three stats in JetBrains Mono — '108 rules', '9 categories', '99.7% precision' separated by centered dots. Two buttons: primary Signal Blue 'Integrate ATR' and secondary bordered 'Explore Rules'. Both 2px border-radius."
+"Create a full-viewport hero on Paper White (#FAFAF8). Center the ATR logo mark at top (the geometric A with speed lines, 80px height). Below: 'We used to protect people.' in Inter Tight 80px weight 900 color Stone (#6B6B76). Next line: 'Now we protect agents.' in Inter Tight 80px weight 900 color Ink Black (#0B0B0F). Below: three stats in JetBrains Mono — pull live values from stats.ts (e.g. '113 rules', '8 categories', '99.6% precision') separated by centered dots. Two buttons: primary Signal Blue 'Integrate ATR' and secondary bordered 'Explore Rules'. Both 2px border-radius."
 
 **Numbers Grid:**
-"Build a 3-column grid on Ash (#F3F3F0) background with 2px Paper White gaps between cells. Each cell: big number in JetBrains Mono 64px weight 700 Ink Black, unit text in JetBrains Mono 24px weight 400 Stone, description in Inter 14px weight 400 Stone below. Six cells: 108 rules, 99.7%, <5ms, 36,394 skills, 10/10, 91.8%."
+"Build a 3-column grid on Ash (#F3F3F0) background with 2px Paper White gaps between cells. Each cell: big number in JetBrains Mono 64px weight 700 Ink Black, unit text in JetBrains Mono 24px weight 400 Stone, description in Inter 14px weight 400 Stone below. Pull live values from stats.ts — current cells: rules count, MCP precision, SKILL.md recall, skills scanned (mega scan total), OWASP Agentic 10/10, SAFE-MCP 91.8%."
 
 **Category Grid:**
 "Create a 3-column grid with 1px Fog (#E8E8E5) borders between cells, on Paper White. Each cell: category name in Inter Tight 15px weight 600 Ink Black, rule count in JetBrains Mono 12px Signal Blue (#2563EB), one-line description in Inter 13px Stone. Nine cells for nine threat categories. Hover: border-color transitions to Stone. Sharp corners everywhere."
