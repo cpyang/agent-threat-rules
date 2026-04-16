@@ -356,7 +356,7 @@ Below: narrative paragraph about the attack surface.
 
 **Scene 3 — The Numbers:**
 6-cell grid. Each cell: one big monospace number + one description line.
-108 rules / 99.7% precision / <5ms / 36,394 skills scanned / 10/10 OWASP / 91.8% SAFE-MCP
+Live values from stats.ts (current: 113 rules / 99.6% MCP precision / 100% SKILL.md recall / 96,096 skills scanned / 10/10 OWASP Agentic / 91.8% SAFE-MCP)
 
 **Scene 4 — The Categories:**
 "What ATR detects."
