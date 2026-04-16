@@ -49,7 +49,7 @@ class TestScanCommand:
             rc = main(["scan", tmp_path, "--rules-dir", str(RULES_DIR)])
             assert rc == 2
             captured = capsys.readouterr()
-            assert "ATR-2026-001" in captured.out
+            assert "ATR-2026-00001" in captured.out
         finally:
             Path(tmp_path).unlink(missing_ok=True)
 
@@ -90,16 +90,16 @@ class TestTestCommand:
         rule_path = None
         for root_str, _dirs, files in os.walk(RULES_DIR):
             for fname in files:
-                if "ATR-2026-001" in fname:
+                if "ATR-2026-00001" in fname:
                     rule_path = Path(root_str) / fname
                     break
             if rule_path:
                 break
-        assert rule_path is not None, "Could not find ATR-2026-001"
+        assert rule_path is not None, "Could not find ATR-2026-00001"
 
         rc = main(["test", str(rule_path)])
         captured = capsys.readouterr()
-        assert "ATR-2026-001" in captured.out
+        assert "ATR-2026-00001" in captured.out
         assert "passed" in captured.out
 
     def test_test_nonexistent_path(self, capsys: pytest.CaptureFixture[str]) -> None:

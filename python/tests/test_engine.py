@@ -38,7 +38,7 @@ class TestRuleLoading:
 
 
 class TestATR2026001DirectPromptInjection:
-    """ATR-2026-001: Direct Prompt Injection via User Input."""
+    """ATR-2026-00001: Direct Prompt Injection via User Input."""
 
     def test_fires_on_ignore_previous_instructions(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -47,7 +47,7 @@ class TestATR2026001DirectPromptInjection:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-001" in rule_ids, f"Expected ATR-2026-001 in {rule_ids}"
+        assert "ATR-2026-00001" in rule_ids, f"Expected ATR-2026-00001 in {rule_ids}"
 
     def test_does_not_fire_on_benign_security_question(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -56,8 +56,8 @@ class TestATR2026001DirectPromptInjection:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-001" not in rule_ids, (
-            f"ATR-2026-001 should not trigger on benign input, got {rule_ids}"
+        assert "ATR-2026-00001" not in rule_ids, (
+            f"ATR-2026-00001 should not trigger on benign input, got {rule_ids}"
         )
 
     def test_fires_on_persona_switch(self, engine: ATREngine) -> None:
@@ -67,7 +67,7 @@ class TestATR2026001DirectPromptInjection:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-001" in rule_ids
+        assert "ATR-2026-00001" in rule_ids
 
     def test_fires_on_fake_system_tag(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -76,11 +76,11 @@ class TestATR2026001DirectPromptInjection:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-001" in rule_ids
+        assert "ATR-2026-00001" in rule_ids
 
 
 class TestATR2026010McpMaliciousResponse:
-    """ATR-2026-010: Malicious Content in MCP Tool Response."""
+    """ATR-2026-00010: Malicious Content in MCP Tool Response."""
 
     def test_fires_on_reverse_shell(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -90,7 +90,7 @@ class TestATR2026010McpMaliciousResponse:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-010" in rule_ids, f"Expected ATR-2026-010 in {rule_ids}"
+        assert "ATR-2026-00010" in rule_ids, f"Expected ATR-2026-00010 in {rule_ids}"
 
     def test_fires_on_rm_rf(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -100,7 +100,7 @@ class TestATR2026010McpMaliciousResponse:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-010" in rule_ids
+        assert "ATR-2026-00010" in rule_ids
 
     def test_fires_on_curl_pipe_bash(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -110,7 +110,7 @@ class TestATR2026010McpMaliciousResponse:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-010" in rule_ids
+        assert "ATR-2026-00010" in rule_ids
 
     def test_does_not_fire_on_normal_build_output(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -120,11 +120,11 @@ class TestATR2026010McpMaliciousResponse:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-010" not in rule_ids
+        assert "ATR-2026-00010" not in rule_ids
 
 
 class TestATR2026040PrivilegeEscalation:
-    """ATR-2026-040: Privilege Escalation and Admin Function Access."""
+    """ATR-2026-00040: Privilege Escalation and Admin Function Access."""
 
     def test_fires_on_execute_shell(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -137,7 +137,7 @@ class TestATR2026040PrivilegeEscalation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-040" in rule_ids, f"Expected ATR-2026-040 in {rule_ids}"
+        assert "ATR-2026-00040" in rule_ids, f"Expected ATR-2026-00040 in {rule_ids}"
 
     def test_fires_on_create_user(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -150,7 +150,7 @@ class TestATR2026040PrivilegeEscalation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-040" in rule_ids
+        assert "ATR-2026-00040" in rule_ids
 
     def test_fires_on_drop_table_sql(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -163,7 +163,7 @@ class TestATR2026040PrivilegeEscalation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-040" in rule_ids
+        assert "ATR-2026-00040" in rule_ids
 
     def test_does_not_fire_on_read_file(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -176,11 +176,11 @@ class TestATR2026040PrivilegeEscalation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-040" not in rule_ids
+        assert "ATR-2026-00040" not in rule_ids
 
 
 class TestATR2026060SkillImpersonation:
-    """ATR-2026-060: MCP Skill Impersonation and Supply Chain Attack."""
+    """ATR-2026-00060: MCP Skill Impersonation and Supply Chain Attack."""
 
     def test_fires_on_typosquatted_filesystem(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -190,7 +190,7 @@ class TestATR2026060SkillImpersonation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-060" in rule_ids, f"Expected ATR-2026-060 in {rule_ids}"
+        assert "ATR-2026-00060" in rule_ids, f"Expected ATR-2026-00060 in {rule_ids}"
 
     def test_fires_on_typosquatted_github(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -200,7 +200,7 @@ class TestATR2026060SkillImpersonation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-060" in rule_ids
+        assert "ATR-2026-00060" in rule_ids
 
     def test_fires_on_trust_prefix(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -210,7 +210,7 @@ class TestATR2026060SkillImpersonation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-060" in rule_ids
+        assert "ATR-2026-00060" in rule_ids
 
     def test_does_not_fire_on_correct_tool_name(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -220,11 +220,11 @@ class TestATR2026060SkillImpersonation:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-060" not in rule_ids
+        assert "ATR-2026-00060" not in rule_ids
 
 
 class TestATR2026013ToolSSRF:
-    """ATR-2026-013: SSRF via Agent Tool Calls."""
+    """ATR-2026-00013: SSRF via Agent Tool Calls."""
 
     def test_fires_on_aws_metadata(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -233,7 +233,7 @@ class TestATR2026013ToolSSRF:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-013" in rule_ids, f"Expected ATR-2026-013 in {rule_ids}"
+        assert "ATR-2026-00013" in rule_ids, f"Expected ATR-2026-00013 in {rule_ids}"
 
     def test_fires_on_localhost(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -242,7 +242,7 @@ class TestATR2026013ToolSSRF:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-013" in rule_ids
+        assert "ATR-2026-00013" in rule_ids
 
     def test_does_not_fire_on_public_url(self, engine: ATREngine) -> None:
         event = AgentEvent(
@@ -251,7 +251,7 @@ class TestATR2026013ToolSSRF:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-013" not in rule_ids
+        assert "ATR-2026-00013" not in rule_ids
 
 
 class TestSeveritySorting:
@@ -282,8 +282,8 @@ class TestUnicodeNormalization:
         event = AgentEvent(content=obfuscated, event_type="llm_input")
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-001" in rule_ids, (
-            "Zero-width obfuscated input should still trigger ATR-2026-001"
+        assert "ATR-2026-00001" in rule_ids, (
+            "Zero-width obfuscated input should still trigger ATR-2026-00001"
         )
 
 
@@ -297,7 +297,7 @@ class TestFieldResolution:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-001" in rule_ids
+        assert "ATR-2026-00001" in rule_ids
 
     def test_tool_call_resolves_tool_args(self, engine: ATREngine) -> None:
         """tool_call event type should resolve tool_args from content."""
@@ -307,4 +307,4 @@ class TestFieldResolution:
         )
         matches = engine.evaluate(event)
         rule_ids = [m.rule_id for m in matches]
-        assert "ATR-2026-013" in rule_ids
+        assert "ATR-2026-00013" in rule_ids

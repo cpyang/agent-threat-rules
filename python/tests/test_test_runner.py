@@ -12,7 +12,7 @@ RULES_DIR = Path(__file__).resolve().parent.parent.parent / "rules"
 
 
 def _find_rule_file(rule_id_prefix: str) -> Path | None:
-    """Find a rule file by ID prefix (e.g., 'ATR-2026-001')."""
+    """Find a rule file by ID prefix (e.g., 'ATR-2026-00001')."""
     for root_str, _dirs, files in __import__("os").walk(RULES_DIR):
         for fname in files:
             if fname.endswith(".yaml") and rule_id_prefix.lower() in fname.lower():
@@ -22,22 +22,22 @@ def _find_rule_file(rule_id_prefix: str) -> Path | None:
 
 class TestRunnerOnSingleRule:
     def test_atr_2026_001_has_test_cases(self) -> None:
-        """ATR-2026-001 should have embedded test cases that run."""
-        path = _find_rule_file("ATR-2026-001")
-        assert path is not None, "Could not find ATR-2026-001 rule file"
+        """ATR-2026-00001 should have embedded test cases that run."""
+        path = _find_rule_file("ATR-2026-00001")
+        assert path is not None, "Could not find ATR-2026-00001 rule file"
         result = run_rule_tests(path)
-        assert result is not None, "Expected test cases in ATR-2026-001"
+        assert result is not None, "Expected test cases in ATR-2026-00001"
         assert result.total > 0, "Expected at least one test case"
-        assert result.rule_id == "ATR-2026-001"
+        assert result.rule_id == "ATR-2026-00001"
 
     def test_atr_2026_001_true_positives_mostly_pass(self) -> None:
-        """Most true_positives in ATR-2026-001 should trigger.
+        """Most true_positives in ATR-2026-00001 should trigger.
 
-        Note: some CJK test cases are handled by ATR-2026-097 rather than
-        ATR-2026-001 itself, so we allow a small number of failures from
+        Note: some CJK test cases are handled by ATR-2026-00097 rather than
+        ATR-2026-00001 itself, so we allow a small number of failures from
         cross-rule test case coverage.
         """
-        path = _find_rule_file("ATR-2026-001")
+        path = _find_rule_file("ATR-2026-00001")
         assert path is not None
         result = run_rule_tests(path)
         assert result is not None
@@ -50,8 +50,8 @@ class TestRunnerOnSingleRule:
         )
 
     def test_atr_2026_001_true_negatives_pass(self) -> None:
-        """All true_negatives in ATR-2026-001 should NOT trigger."""
-        path = _find_rule_file("ATR-2026-001")
+        """All true_negatives in ATR-2026-00001 should NOT trigger."""
+        path = _find_rule_file("ATR-2026-00001")
         assert path is not None
         result = run_rule_tests(path)
         assert result is not None
@@ -61,9 +61,9 @@ class TestRunnerOnSingleRule:
             assert r.passed, f"True negative failed: {r.description} -- {r.detail}"
 
     def test_atr_2026_010_test_cases(self) -> None:
-        """ATR-2026-010 (MCP malicious response) test cases should pass."""
-        path = _find_rule_file("ATR-2026-010")
-        assert path is not None, "Could not find ATR-2026-010 rule file"
+        """ATR-2026-00010 (MCP malicious response) test cases should pass."""
+        path = _find_rule_file("ATR-2026-00010")
+        assert path is not None, "Could not find ATR-2026-00010 rule file"
         result = run_rule_tests(path)
         assert result is not None
         assert result.total > 0
@@ -77,9 +77,9 @@ class TestRunnerOnSingleRule:
         )
 
     def test_atr_2026_040_test_cases(self) -> None:
-        """ATR-2026-040 (privilege escalation) test cases should pass."""
-        path = _find_rule_file("ATR-2026-040")
-        assert path is not None, "Could not find ATR-2026-040 rule file"
+        """ATR-2026-00040 (privilege escalation) test cases should pass."""
+        path = _find_rule_file("ATR-2026-00040")
+        assert path is not None, "Could not find ATR-2026-00040 rule file"
         result = run_rule_tests(path)
         assert result is not None
         assert result.total > 0
@@ -90,9 +90,9 @@ class TestRunnerOnSingleRule:
         )
 
     def test_atr_2026_060_test_cases(self) -> None:
-        """ATR-2026-060 (skill impersonation) test cases should pass."""
-        path = _find_rule_file("ATR-2026-060")
-        assert path is not None, "Could not find ATR-2026-060 rule file"
+        """ATR-2026-00060 (skill impersonation) test cases should pass."""
+        path = _find_rule_file("ATR-2026-00060")
+        assert path is not None, "Could not find ATR-2026-00060 rule file"
         result = run_rule_tests(path)
         assert result is not None
         assert result.total > 0
