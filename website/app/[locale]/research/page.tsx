@@ -316,6 +316,102 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         </div>
       </Reveal>
 
+      {/* Methodology */}
+      <Reveal>
+        <h2 className="font-display text-2xl font-extrabold tracking-[-1px] mb-1 mt-10">
+          {locale === "zh" ? "研究方法論" : "Research Methodology"}
+        </h2>
+        <p className="text-sm text-stone mb-6">
+          {locale === "zh"
+            ? "所有研究都是可重現的。資料集、掃描腳本、評估腳本全部開源於 MIT license。"
+            : "All research is reproducible. Datasets, scan scripts, and evaluation scripts are open-source under MIT license."}
+        </p>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <div className="space-y-4 mb-8">
+          <div className="border-l-2 border-fog pl-4">
+            <div className="font-display text-sm font-semibold text-ink mb-1">
+              {locale === "zh" ? "掃描範圍" : "Scan coverage"}
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? `六個 registry 共 ${stats.megaScanTotal.toLocaleString()} 個 skill。最大子集：OpenClaw ${stats.megaScanSources.openclaw.toLocaleString()}、ClawHub ${stats.clawHubCrawled.toLocaleString()}、Skills.sh ${stats.megaScanSources.skillsSh.toLocaleString()}，加上三個額外 MCP / skill index。每個 registry 透過公開 HTTP API 或 git 倉儲爬取。`
+                : `Six registries totaling ${stats.megaScanTotal.toLocaleString()} skills. Largest subsets: OpenClaw ${stats.megaScanSources.openclaw.toLocaleString()}, ClawHub ${stats.clawHubCrawled.toLocaleString()}, Skills.sh ${stats.megaScanSources.skillsSh.toLocaleString()}, plus three additional MCP / skill indexes. Each registry is crawled via public HTTP API or git repository.`}
+            </p>
+          </div>
+          <div className="border-l-2 border-fog pl-4">
+            <div className="font-display text-sm font-semibold text-ink mb-1">
+              {locale === "zh" ? "偵測引擎" : "Detection engine"}
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? `${stats.ruleCount} 條規則全部以確定性 regex / AST 比對執行，無 LLM 推論。這確保同一個輸入在不同環境下的偵測結果完全一致——可重現性是前提。每條規則在發布前都會對 ${stats.clawHubCrawled.toLocaleString()} 個 ClawHub skill 的 wild 樣本驗證。`
+                : `All ${stats.ruleCount} rules execute deterministic regex / AST matching. No LLM inference. The same input produces the same detection result across environments — reproducibility is a prerequisite. Every rule is wild-validated against ${stats.clawHubCrawled.toLocaleString()} ClawHub skills before publication.`}
+            </p>
+          </div>
+          <div className="border-l-2 border-fog pl-4">
+            <div className="font-display text-sm font-semibold text-ink mb-1">
+              {locale === "zh" ? "基準測試" : "Benchmarking"}
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? `Precision / recall 採用外部 PINT dataset（${stats.pintSamples} 樣本），而非自產測試集——避免 overfit 到自家 test cases。另一組 SKILL.md benchmark 從真實 OpenClaw 抓 ${stats.skillBenchSamples} 個檔案，其中惡意樣本透過人工標記後作為 ground truth。`
+                : `Precision / recall uses the external PINT dataset (${stats.pintSamples} samples) rather than self-generated tests — this avoids overfitting to our own test cases. A separate SKILL.md benchmark uses ${stats.skillBenchSamples} real-world OpenClaw files, with malicious samples hand-labeled as ground truth.`}
+            </p>
+          </div>
+          <div className="border-l-2 border-fog pl-4">
+            <div className="font-display text-sm font-semibold text-ink mb-1">
+              {locale === "zh" ? "誤報量測" : "False positive measurement"}
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh"
+                ? "誤報率以真實 benign 樣本（通過人工或社群審查的正常 skill）除以總偵測數量測。每條已記錄的誤報情境會寫入 YAML 的 false_positives 欄位，並在規則頁面公開。"
+                : "False positive rate is measured against real benign samples (skills vetted by manual or community review), divided by total detections. Every documented FP context is written into the rule YAML's false_positives field and surfaced on the rule page."}
+            </p>
+          </div>
+          <div className="border-l-2 border-fog pl-4">
+            <div className="font-display text-sm font-semibold text-ink mb-1">
+              {locale === "zh" ? "重現性" : "Reproducibility"}
+            </div>
+            <p className="text-sm text-graphite leading-[1.7]">
+              {locale === "zh" ? (
+                <>掃描 checkpoint、測試集、評估腳本全部在 <code className="font-data text-xs bg-ash px-1.5 py-0.5">data/</code> 和 <code className="font-data text-xs bg-ash px-1.5 py-0.5">tests/</code> 下公開。任何研究者可以用相同的 ATR 版本重跑掃描並取得一致的結果。</>
+              ) : (
+                <>Scan checkpoints, test sets, and evaluation scripts are public under <code className="font-data text-xs bg-ash px-1.5 py-0.5">data/</code> and <code className="font-data text-xs bg-ash px-1.5 py-0.5">tests/</code>. Any researcher can rerun the scan with the same ATR version and obtain identical results.</>
+              )}
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* External Citations */}
+      <Reveal>
+        <h2 className="font-display text-2xl font-extrabold tracking-[-1px] mb-1 mt-10">
+          {locale === "zh" ? "外部引用" : "External Citations"}
+        </h2>
+        <p className="text-sm text-stone mb-6">
+          {locale === "zh"
+            ? "追蹤引用 ATR 的學術論文與技術報告。"
+            : "Academic papers and technical reports that cite ATR."}
+        </p>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <div className="bg-paper border border-fog p-5 md:p-6 mb-8">
+          <p className="text-sm text-graphite leading-[1.7]">
+            {locale === "zh" ? (
+              <>目前尚未有公開引用紀錄。如果你的論文、技術報告或產品文件引用了 ATR，請透過 <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">GitHub issue</a> 通知我們。</>
+            ) : (
+              <>No external citations recorded yet. If your paper, technical report, or product documentation cites ATR, please let us know via <a href="https://github.com/Agent-Threat-Rule/agent-threat-rules/issues/new" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">GitHub issue</a>.</>
+            )}
+          </p>
+          <p className="text-xs text-mist mt-3 leading-[1.7]">
+            {locale === "zh"
+              ? "Cite as: Lin, Kuan-Hsin (2026). The Collapse of Trust. DOI: 10.5281/zenodo.19178002"
+              : "Cite as: Lin, Kuan-Hsin (2026). The Collapse of Trust. DOI: 10.5281/zenodo.19178002"}
+          </p>
+        </div>
+      </Reveal>
+
       {/* Limitations */}
       <Reveal>
         <h2 className="font-display text-2xl font-extrabold tracking-[-1px] mb-1 mt-10">{t(locale, "research.limits")}</h2>
