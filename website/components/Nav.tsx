@@ -29,6 +29,7 @@ export function Nav({ locale }: { locale: Locale }) {
     "integrate",
     "ecosystem",
     "research",
+    "about",
     "quality-standard",
   ] as const;
 

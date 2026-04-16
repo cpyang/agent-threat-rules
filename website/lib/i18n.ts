@@ -16,6 +16,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "nav.wall": "Wall",
     "nav.ecosystem": "Ecosystem",
     "nav.research": "Research",
+    "nav.about": "About",
     "nav.quality-standard": "Quality",
     "nav.cta": "Integrate",
 
@@ -201,6 +202,7 @@ export const messages: Record<Locale, Record<string, string>> = {
     "nav.wall": "\u8CA2\u737B\u7246",
     "nav.ecosystem": "\u751F\u614B\u7CFB",
     "nav.research": "\u7814\u7A76",
+    "nav.about": "\u95DC\u65BC",
     "nav.quality-standard": "\u54C1\u8CEA\u6A19\u6E96",
     "nav.cta": "\u6574\u5408",
 
