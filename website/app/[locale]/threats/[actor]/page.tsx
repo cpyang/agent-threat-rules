@@ -207,7 +207,7 @@ export default async function ActorPage({
           {actor.atrRules.map((rid) => (
             <Link
               key={rid}
-              href={`${prefix}/rules`}
+              href={`${prefix}/rules/${rid}`}
               className="font-data text-xs md:text-sm bg-paper border border-fog hover:border-stone px-3 py-1.5 rounded-[2px] text-ink transition-colors"
             >
               {rid}
@@ -216,8 +216,8 @@ export default async function ActorPage({
         </div>
         <p className="text-xs text-mist mt-3 leading-[1.7]">
           {zh
-            ? "點擊規則 ID 可在規則瀏覽頁查詢 YAML 定義與測試案例。"
-            : "Click a rule ID to look up the YAML definition and test cases in the rule browser."}
+            ? "點擊規則 ID 可查看完整 YAML 定義、攻擊樣本與已記錄的規避手法。"
+            : "Click a rule ID for the full YAML definition, attack samples, and documented evasion techniques."}
         </p>
       </Section>
 
