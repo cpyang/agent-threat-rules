@@ -394,6 +394,28 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </a>
           </Reveal>
 
+          <Reveal delay={0.35}>
+            <div className="mt-8 md:mt-10 border-t border-fog pt-6 md:pt-8 max-w-[560px]">
+              <h3 className="font-display text-lg md:text-xl font-semibold text-ink tracking-[-0.5px] leading-[1.3]">
+                <span className="text-blue">Microsoft AGT</span>
+                {zh ? " 合併了 15 條 ATR 規則。" : " merged 15 ATR rules."}
+              </h3>
+              <p className="text-sm md:text-base text-graphite mt-2 md:mt-3 leading-[1.7]">
+                {zh
+                  ? "改寫為 AGT 的 PolicyDocument 格式，554 行新增。"
+                  : "Adapted as PolicyDocument, AGT's native policy format. 554 additions."}
+              </p>
+              <a
+                href="https://github.com/microsoft/agent-governance-toolkit/pull/908"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-data text-xs md:text-sm text-blue hover:underline inline-block mt-3"
+              >
+                {zh ? "在 GitHub 查看 PR #908 →" : "View PR #908 on GitHub →"}
+              </a>
+            </div>
+          </Reveal>
+
           <Reveal delay={0.4}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-fog mt-10 md:mt-12">
               {[
