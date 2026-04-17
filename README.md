@@ -8,13 +8,15 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 
 <br />
 
+[![npm](https://img.shields.io/npm/v/agent-threat-rules?style=flat-square&color=brightgreen&label=npm)](https://www.npmjs.com/package/agent-threat-rules)
+[![PyPI](https://img.shields.io/pypi/v/pyatr?style=flat-square&color=brightgreen&label=PyPI)](https://pypi.org/project/pyatr/)
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-ATR%20Scan-2ea44f?style=flat-square&logo=github)](https://github.com/marketplace/actions/atr-scan)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 [![Rules](https://img.shields.io/badge/rules-113-blue?style=flat-square)](#what-atr-detects)
 [![Tests](https://img.shields.io/badge/tests-361_passing-green?style=flat-square)](#ecosystem)
 [![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-100%25-brightgreen?style=flat-square)](#evaluation)
 [![Wild Scan](https://img.shields.io/badge/wild_scan-96%2C096_skills-blue?style=flat-square)](#ecosystem-scan)
 [![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
-[![Status](https://img.shields.io/badge/status-v2.0.0-brightgreen?style=flat-square)](#roadmap)
 
 </div>
 
