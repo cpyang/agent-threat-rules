@@ -93,12 +93,14 @@ export function createTCReporter(config?: TCReporterConfig): ATRReporter & {
     const batch = [...buffer];
     buffer = [];
 
-    // Map ATR events to TC ThreatDataSchema format
+    // Map ATR events to TC ThreatDataSchema format.
+    // Field name `sigmaRuleMatched` is legacy on the TC side (now stores ATR
+    // rule ID) — reporter must match the API contract or requests get 400.
     const tcEvents = batch.map((e) => ({
       attackSourceIP: clientId,
       attackType: e.category,
       mitreTechnique: e.ruleId,
-      ruleMatched: e.ruleId,
+      sigmaRuleMatched: e.ruleId,
       timestamp: e.timestamp,
       region: 'unknown',
       // Extra fields for richer data (TC ignores unknown fields via Zod passthrough)
