@@ -103,6 +103,48 @@ Skills that passed all checks with zero findings were candidates for auto-whitel
 
 ---
 
+## 3. Cisco AI Defense skill-scanner
+
+| Field | Value |
+|-------|-------|
+| **Deployer** | Cisco AI Defense |
+| **Framework** | cisco-ai-defense/skill-scanner |
+| **Integration method** | ATR community rule pack shipped as first-party rules |
+| **Rules loaded** | ATR community rule pack (subset of ATR detection rules) |
+| **Since** | 2026-04-03 |
+| **Status** | Merged to main |
+| **Reference** | [PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79) |
+
+---
+
+## 4. Microsoft Agent Governance Toolkit
+
+| Field | Value |
+|-------|-------|
+| **Deployer** | Microsoft |
+| **Framework** | microsoft/agent-governance-toolkit — PolicyEvaluator |
+| **Integration method** | ATR community rules consumed by the PolicyEvaluator engine |
+| **Rules loaded** | ATR community rules (via Agent-Threat-Rule/agent-threat-rules) |
+| **Since** | 2026-04-13 |
+| **Status** | Merged to main |
+| **Reference** | [PR #908](https://github.com/microsoft/agent-governance-toolkit/pull/908) |
+
+---
+
+## 5. OWASP Agentic AI Top 10 (precize)
+
+| Field | Value |
+|-------|-------|
+| **Deployer** | precize / OWASP community |
+| **Framework** | precize/Agentic-AI-Top10-Vulnerability |
+| **Integration method** | ATR detection rule mapping for 12 vulnerability categories |
+| **Rules loaded** | Cross-referenced mapping (full ATR rule set) |
+| **Since** | 2026-03-30 |
+| **Status** | Merged to main |
+| **Reference** | [PR #14](https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14) |
+
+---
+
 ## Submit a Deployment Report
 
 If you are using ATR rules in your project, we welcome deployment reports. They help us:
@@ -150,3 +192,15 @@ If you are using ATR rules in your project, we welcome deployment reports. They 
 |---|---------|--------|-------|--------|
 | 1 | Guard Integration | npm (`agent-threat-rules`) | 61 | Active |
 | 2 | Batch Skill Audit | Direct engine | 61 | Completed |
+| 3 | Cisco AI Defense skill-scanner | First-party rule pack | ATR community pack | Merged 2026-04-03 |
+| 4 | Microsoft Agent Governance Toolkit | PolicyEvaluator rules | ATR community rules | Merged 2026-04-13 |
+| 5 | OWASP Agentic AI Top 10 (precize) | Mapping reference | Full rule set | Merged 2026-03-30 |
+
+## Ecosystem References (documentation listings)
+
+ATR is also listed as a detection standard in these community resources:
+
+- [CryptoAILab/Awesome-LM-SSP PR #108](https://github.com/CryptoAILab/Awesome-LM-SSP/pull/108) (merged 2026-04-02)
+- [wearetyomsmnv/Awesome-LLM-agent-Security PR #6](https://github.com/wearetyomsmnv/Awesome-LLM-agent-Security/pull/6) (merged 2026-04-08)
+- [nibzard/awesome-agentic-patterns PR #58](https://github.com/nibzard/awesome-agentic-patterns/pull/58) (merged 2026-04-09)
+- [TalEliyahu/Awesome-AI-Security PR #53](https://github.com/TalEliyahu/Awesome-AI-Security/pull/53) (merged 2026-04-10)

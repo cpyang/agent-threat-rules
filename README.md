@@ -39,11 +39,20 @@ ATR maps to **10/10 OWASP Agentic Top 10 categories** ([full mapping](docs/OWASP
 
 ### Who uses ATR
 
+**7 merges across the AI security ecosystem in 6 weeks.**
+
 | Organization | Integration | Reference |
 |---|---|---|
-| **Cisco AI Defense** | 34 ATR rules merged into official skill-scanner | [PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79) |
-| **OWASP** | ASI01-ASI10 attack examples + detection strategies | [PR #814](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/pull/814) |
-| **OWASP Agentic AI Top 10** | Full vulnerability mapping | [PR #14](https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14) (merged) |
+| **Microsoft Agent Governance Toolkit** | ATR community rules for PolicyEvaluator | [PR #908](https://github.com/microsoft/agent-governance-toolkit/pull/908) |
+| **Cisco AI Defense** | ATR community rule pack in official skill-scanner | [PR #79](https://github.com/cisco-ai-defense/skill-scanner/pull/79) |
+| **OWASP Agentic AI Top 10** | Full vulnerability mapping | [PR #14](https://github.com/precize/Agentic-AI-Top10-Vulnerability/pull/14) |
+| **Awesome-LM-SSP** (CryptoAILab) | Listed in Toolkit section | [PR #108](https://github.com/CryptoAILab/Awesome-LM-SSP/pull/108) |
+| **Awesome-LLM-agent-Security** | Listed in Security Tools | [PR #6](https://github.com/wearetyomsmnv/Awesome-LLM-agent-Security/pull/6) |
+| **awesome-agentic-patterns** | Deterministic threat rule scanning pattern | [PR #58](https://github.com/nibzard/awesome-agentic-patterns/pull/58) |
+| **Awesome-AI-Security** | Listed in Agentic Systems | [PR #53](https://github.com/TalEliyahu/Awesome-AI-Security/pull/53) |
+
+**Pending review (major frameworks):**
+[NVIDIA Garak #1676](https://github.com/NVIDIA/garak/pull/1676) · [SAFE-MCP / OpenSSF #187](https://github.com/safe-agentic-framework/safe-mcp/pull/187) · [OWASP LLM Top 10 #814](https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/pull/814) · [IBM mcp-context-forge #4109](https://github.com/IBM/mcp-context-forge/pull/4109) · [Meta PurpleLlama #206](https://github.com/meta-llama/PurpleLlama/pull/206) · [Promptfoo #8529](https://github.com/promptfoo/promptfoo/pull/8529) · 5+ more
 
 > ATR rules are consumed as a standard -- not a product. MIT licensed, auto-updated via npm, zero strings attached.
 
