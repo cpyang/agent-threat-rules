@@ -391,11 +391,11 @@ def main() -> int:
     ap.add_argument(
         "--tc-url", default="https://tc.panguard.ai", help="TC base URL"
     )
-    ap.add_argument(
-        "--key",
-        default=os.environ.get("ATR_PARTNER_KEY", ""),
-        help="Partner API key (or set $ATR_PARTNER_KEY). Not used in --dry-run.",
-    )
+    # Key is env-only — never accepted as CLI arg. CLI args are visible in
+    # `ps -ef` / /proc/PID/cmdline / process audit logs, so accepting a
+    # long-lived bearer token there is a leak surface. Use $ATR_PARTNER_KEY
+    # (or $TC_ADMIN_API_KEY for admin mode). Scripts that pipe this command
+    # through `railway run` get the env injected automatically.
     ap.add_argument(
         "--partner-name",
         default="nvidia-airt",
@@ -479,9 +479,15 @@ def main() -> int:
         file=sys.stderr,
     )
 
-    if not args.dry_run and not args.key:
+    # Key lives in env only — never a CLI arg (process-list leak avoidance).
+    key = (
+        os.environ.get("ATR_PARTNER_KEY")
+        or os.environ.get("TC_ADMIN_API_KEY")
+        or ""
+    )
+    if not args.dry_run and not key:
         print(
-            "error: --key (or $ATR_PARTNER_KEY) required unless --dry-run",
+            "error: set $ATR_PARTNER_KEY or $TC_ADMIN_API_KEY in env unless --dry-run",
             file=sys.stderr,
         )
         return 2
@@ -512,7 +518,7 @@ def main() -> int:
         if args.mode == "drafter":
             status, resp = post_drafter(
                 args.tc_url,
-                args.key,
+                key,
                 finding,
                 args.partner_name,
                 timeout=args.drafter_timeout,
@@ -544,7 +550,7 @@ def main() -> int:
         else:  # legacy proposal mode
             payload = build_proposal(finding, args.partner_name, args.garak_version)
             h = payload["patternHash"]
-            status, body = post_proposal(args.tc_url, args.key, payload)
+            status, body = post_proposal(args.tc_url, key, payload)
             submitted += 1
             if status in (200, 201):
                 drafted += 1
