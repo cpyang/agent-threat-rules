@@ -264,18 +264,9 @@ export function loadSiteStats(): SiteStats {
         detail: "PR #117 submitted to curated security tools list.",
         url: "https://github.com/corca-ai/awesome-llm-security/pull/117",
       },
-      {
-        name: "Awesome MCP Security",
-        type: "open",
-        detail: "PR #87 submitted to MCP security resource list.",
-        url: "https://github.com/nicobailon/awesome-mcp-security/pull/87",
-      },
-      {
-        name: "OpenClaw Registry",
-        type: "open",
-        detail: "PR #58172 submitted. Fixed and waiting review.",
-        url: "https://github.com/nicobailon/safe-mcp/pull/58172",
-      },
+      // removed 2026-04-18: target repos returned 404
+      // - nicobailon/awesome-mcp-security
+      // - nicobailon/safe-mcp
       {
         name: "Awesome LLM agent Security",
         type: "merged",
@@ -338,8 +329,8 @@ export function loadSiteStats(): SiteStats {
       },
       {
         name: "Awesome AI Security",
-        type: "open",
-        detail: "PR #53 submitted to Agentic Systems section.",
+        type: "merged",
+        detail: "Merged into Agentic Systems section.",
         url: "https://github.com/TalEliyahu/Awesome-AI-Security/pull/53",
       },
       {
