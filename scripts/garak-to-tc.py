@@ -326,6 +326,59 @@ def post_proposal(
         return 599, f"{type(e).__name__}: {e}"
 
 
+def post_drafter(
+    tc_url: str,
+    key: str,
+    finding: GarakFinding,
+    partner_name: str,
+    timeout: float = 120.0,
+) -> tuple[int, dict]:
+    """
+    POST to /api/atr-proposals/from-payload — the TC drafter endpoint.
+    Server-side runs the tool-use LLM drafter that generates a full ATR YAML
+    rule from the raw attack payload, then inserts it into atr_proposals.
+
+    The drafter uses a multi-round tool-use loop (grep_existing_rules for
+    dedup + fetch_research for grounding + write YAML) so latency per call
+    is typically 30-60s. Caller should pass a generous timeout.
+
+    Returns (status_code, parsed_body).
+    """
+    body = {
+        "payload": finding.prompt,
+        "probe": finding.probe,
+        "detector": finding.detector,
+        "targetModel": finding.target_model,
+        "partnerName": partner_name,
+        "severity": finding.severity,
+    }
+    req = urllib.request.Request(
+        f"{tc_url.rstrip('/')}/api/atr-proposals/from-payload",
+        data=json.dumps(body).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {key}",
+            "User-Agent": f"garak-to-tc/{SCRIPT_VERSION}",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            raw = resp.read().decode("utf-8", errors="replace")
+            try:
+                return resp.status, json.loads(raw)
+            except json.JSONDecodeError:
+                return resp.status, {"raw": raw[:500]}
+    except urllib.error.HTTPError as e:
+        raw = e.read().decode("utf-8", errors="replace")
+        try:
+            return e.code, json.loads(raw)
+        except json.JSONDecodeError:
+            return e.code, {"raw": raw[:500]}
+    except Exception as e:  # noqa: BLE001
+        return 599, {"error": f"{type(e).__name__}: {e}"}
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -375,6 +428,23 @@ def main() -> int:
         default=100,
         help="Sleep between POSTs to stay under TC rate limit",
     )
+    ap.add_argument(
+        "--mode",
+        choices=["drafter", "proposal"],
+        default="drafter",
+        help=(
+            "drafter (default): POST raw payload to /api/atr-proposals/from-payload, "
+            "server-side LLM drafts a full ATR YAML rule. Needs admin/static key. "
+            "proposal (legacy): POST a client-built literal draft to /api/atr-proposals. "
+            "Fast but produces low-quality rules that the LLM reviewer typically rejects."
+        ),
+    )
+    ap.add_argument(
+        "--drafter-timeout",
+        type=int,
+        default=120,
+        help="Per-request timeout for drafter mode (tool-use loop takes ~30-60s)",
+    )
 
     args = ap.parse_args()
 
@@ -417,48 +487,82 @@ def main() -> int:
         return 2
 
     submitted = 0
-    accepted = 0
-    duplicates = 0
+    drafted = 0
+    declined = 0
     errors = 0
-    seen_hashes: set[str] = set()
+    seen_prompts: set[str] = set()
 
     for finding in findings:
         if args.limit and submitted >= args.limit:
             break
-        payload = build_proposal(finding, args.partner_name, args.garak_version)
 
-        h = payload["patternHash"]
-        if h in seen_hashes:
+        dedup_key = hashlib.sha256(finding.prompt.encode("utf-8")).hexdigest()[:16]
+        if dedup_key in seen_prompts:
             continue
-        seen_hashes.add(h)
+        seen_prompts.add(dedup_key)
 
         if args.dry_run:
             print(
-                f"[dry-run] {h} probe={finding.probe} severity={finding.severity} "
-                f"prompt={finding.prompt[:80]!r}"
+                f"[dry-run] mode={args.mode} dedup={dedup_key} probe={finding.probe} "
+                f"severity={finding.severity} prompt={finding.prompt[:80]!r}"
             )
             submitted += 1
             continue
 
-        status, body = post_proposal(args.tc_url, args.key, payload)
-        submitted += 1
-        if status in (200, 201):
-            accepted += 1
-        elif status == 409 or "duplicate" in body.lower():
-            duplicates += 1
-        else:
-            errors += 1
-            print(
-                f"  error: patternHash={h} status={status} body={body[:120]!r}",
-                file=sys.stderr,
+        if args.mode == "drafter":
+            status, resp = post_drafter(
+                args.tc_url,
+                args.key,
+                finding,
+                args.partner_name,
+                timeout=args.drafter_timeout,
             )
+            submitted += 1
+            data = resp.get("data") if isinstance(resp, dict) else None
+            if status in (200, 201) and isinstance(data, dict):
+                if data.get("drafted"):
+                    drafted += 1
+                    print(
+                        f"  drafted: patternHash={data.get('patternHash')} "
+                        f"toolCalls={data.get('toolCalls')} probe={finding.probe}"
+                    )
+                else:
+                    declined += 1
+                    print(
+                        f"  declined: dedup={dedup_key} probe={finding.probe} "
+                        f"reason={str(data.get('reason', ''))[:100]}"
+                    )
+            else:
+                errors += 1
+                err_msg = (
+                    resp.get("error") if isinstance(resp, dict) else str(resp)[:200]
+                )
+                print(
+                    f"  error: status={status} err={err_msg!r} probe={finding.probe}",
+                    file=sys.stderr,
+                )
+        else:  # legacy proposal mode
+            payload = build_proposal(finding, args.partner_name, args.garak_version)
+            h = payload["patternHash"]
+            status, body = post_proposal(args.tc_url, args.key, payload)
+            submitted += 1
+            if status in (200, 201):
+                drafted += 1
+            elif status == 409 or (isinstance(body, str) and "duplicate" in body.lower()):
+                declined += 1
+            else:
+                errors += 1
+                print(
+                    f"  error: patternHash={h} status={status} body={body[:120]!r}",
+                    file=sys.stderr,
+                )
 
         if args.rate_delay_ms > 0:
             time.sleep(args.rate_delay_ms / 1000.0)
 
     print(
-        f"\n[garak-to-tc] submitted={submitted} accepted={accepted} "
-        f"duplicates={duplicates} errors={errors}"
+        f"\n[garak-to-tc] mode={args.mode} submitted={submitted} "
+        f"drafted={drafted} declined={declined} errors={errors}"
     )
     return 0 if errors == 0 else 1
 

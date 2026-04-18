@@ -78,6 +78,29 @@ python3 garak-to-tc.py \\
       </section>
 
       <section className="mt-10 space-y-3">
+        <h2 className="text-xl font-semibold">Two modes</h2>
+        <p>
+          The script has two submission modes. The default (<code>--mode drafter</code>) is what
+          you want.
+        </p>
+        <ul className="list-disc pl-6">
+          <li>
+            <strong>drafter</strong> (default). POSTs each failed probe to{' '}
+            <code>/api/atr-proposals/from-payload</code>. Server-side runs a tool-use LLM drafter
+            (grep existing rules for dedup, fetch research for grounding, write YAML with 3+
+            conditions / 5+ TP / 5+ TN / 3+ evasion tests), passes RFC-001 quality gate, self-tests
+            its own regex, then files as a proposal. Each call takes 30-60s. This is the mode that
+            produces real ATR rules.
+          </li>
+          <li>
+            <strong>proposal</strong> (legacy). POSTs a client-built literal draft. Fast but the
+            LLM reviewer typically rejects these as too narrow (literal fingerprint ≠ detection
+            rule). Only use if you have your own YAML-generation step upstream.
+          </li>
+        </ul>
+      </section>
+
+      <section className="mt-10 space-y-3">
         <h2 className="text-xl font-semibold">What happens downstream</h2>
         <ol className="list-decimal space-y-1 pl-6">
           <li>
