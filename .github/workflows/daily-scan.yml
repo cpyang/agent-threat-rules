@@ -130,19 +130,7 @@ jobs:
             echo "Skipping weekly summary (day=$DAY or script not found)"
           fi
 
-      # Step 8: Commit public report back to repo
-      - name: Commit public ecosystem data
-        run: |
-          git config user.name "ATR Ecosystem Scanner"
-          git config user.email "scanner@atr-framework.org"
-          git add data/ecosystem-report.csv data/ecosystem-stats.json data/daily-summary.md
-          git diff --cached --quiet || git commit -m "chore: daily ecosystem scan $(date +%Y-%m-%d)
-
-          Scanned $(cat data/daily-summary.md | grep 'Scanned:' | head -1 | sed 's/.*Scanned: //' || echo 'N/A')
-          $(cat data/daily-summary.md | grep -E 'CRITICAL|HIGH' | head -2 || true)"
-          git push || echo "Push failed — will retry next run"
-
-      # Step 7: Generate daily summary
+      # Step 7: Generate daily summary (must run BEFORE commit — writes daily-summary.md)
       - name: Generate scan summary
         run: |
           node -e "
@@ -178,6 +166,31 @@ jobs:
             console.log(output);
             fs.writeFileSync('data/daily-summary.md', output);
           "
+
+      # Step 8: Commit public report back to repo (tolerates missing files from upstream failures)
+      - name: Commit public ecosystem data
+        run: |
+          git config user.name "ATR Ecosystem Scanner"
+          git config user.email "scanner@atr-framework.org"
+          # Only add files that actually exist so a partial run can still commit what it produced
+          for f in data/ecosystem-report.csv data/ecosystem-stats.json data/daily-summary.md; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            SUMMARY="N/A"
+            FLAGGED=""
+            if [ -f data/daily-summary.md ]; then
+              SUMMARY=$(grep 'Scanned:' data/daily-summary.md | head -1 | sed 's/.*Scanned: //' || echo 'N/A')
+              FLAGGED=$(grep -E 'CRITICAL|HIGH' data/daily-summary.md | head -2 || true)
+            fi
+            git commit -m "chore: daily ecosystem scan $(date +%Y-%m-%d)
+
+          Scanned $SUMMARY
+          $FLAGGED"
+            git push || echo "Push failed — will retry next run"
+          fi
 
       # Upload PRIVATE artifacts (full scan data — not in git)
       - name: Upload private scan artifacts
