@@ -1,0 +1,11 @@
+package,version,riskLevel,riskScore,toolCount,hasPostInstall,typosquatRisk,scannedAt
+mcp-use,1.24.1,HIGH,60,4,false,false,2026-04-18T07:07:33.274Z
+mcp-playwright,0.0.1,MEDIUM,35,0,false,false,2026-04-18T07:07:33.848Z
+mcp-atlassian,2.1.0,CRITICAL,100,80,false,false,2026-04-18T07:07:34.503Z
+mobile-mcp,0.0.7,CLEAN,0,0,false,false,2026-04-18T07:07:35.010Z
+notion-mcp-server,1.0.1,CLEAN,0,0,false,false,2026-04-18T07:07:35.468Z
+fastmcp,4.0.0,CLEAN,0,0,false,false,2026-04-18T07:07:36.205Z
+shadcn-ui-mcp-server,0.1.2,HIGH,40,8,false,false,2026-04-18T07:07:36.851Z
+supergateway,3.4.3,LOW,10,0,false,false,2026-04-18T07:07:37.398Z
+arxiv-mcp-server,0.1.5,HIGH,45,0,true,false,2026-04-18T07:07:37.868Z
+ha-mcp,0.1.6,CRITICAL,100,3,false,false,2026-04-18T07:07:38.803Z
