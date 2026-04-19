@@ -1,18 +1,18 @@
 {
-  "version": "2.0.2",
-  "generatedAt": "2026-04-18T07:10:06.369Z",
+  "version": "2.0.5",
+  "generatedAt": "2026-04-19T03:44:38.844Z",
   "rules": {
-    "total": 113,
+    "total": 118,
     "categories": 9,
     "byCategory": {
       "agent-manipulation": 13,
-      "context-exfiltration": 15,
+      "context-exfiltration": 16,
       "data-poisoning": 1,
       "excessive-autonomy": 5,
       "model-security": 2,
-      "privilege-escalation": 8,
-      "prompt-injection": 34,
-      "skill-compromise": 23,
+      "privilege-escalation": 9,
+      "prompt-injection": 36,
+      "skill-compromise": 24,
       "tool-poisoning": 12
     }
   },
