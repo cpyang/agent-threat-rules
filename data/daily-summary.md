@@ -1,24 +1,27 @@
-## Daily Scan Summary (2026-04-19)
+## Daily Scan Summary (2026-04-20)
 - Scanned: 50 packages
-- CRITICAL: 5
+- CRITICAL: 8
 - HIGH: 4
-- CLEAN/LOW: 38
+- CLEAN/LOW: 30
 
 ### Flagged Packages:
-- [HIGH] korean-law-mcp (score: 50)
-- [CRITICAL] mcp-server-kubernetes (score: 75)
-- [HIGH] 12306-mcp (score: 50)
-- [CRITICAL] xmcp (score: 100)
-- [HIGH] mcp-server-docker (score: 60)
-- [CRITICAL] freee-mcp (score: 100)
-- [CRITICAL] @_davideast/stitch-mcp (score: 70)
-- [CRITICAL] @aaron-pienza/mcp-server-salesforce (score: 100)
-- [HIGH] @aaronsb/google-workspace-mcp (score: 40)
+- [CRITICAL] gmail-mcp-server (score: 100)
+- [HIGH] @a4hgehad/weave-mcp (score: 55)
+- [HIGH] @aashari/boilerplate-mcp-server (score: 50)
+- [HIGH] @aegisaudit/mcp-server (score: 40)
+- [CRITICAL] @aerostack/gateway (score: 100)
+- [CRITICAL] @agent-infra/mcp-server-commands (score: 100)
+- [CRITICAL] @agent-infra/mcp-server-filesystem (score: 100)
+- [CRITICAL] @agent-memo/mcp-client (score: 75)
+- [CRITICAL] @agent-tasks/mcp-server (score: 100)
+- [CRITICAL] @agent-wiki/mcp-server (score: 85)
+- [HIGH] @agenticamem/xap-mcp (score: 50)
+- [CRITICAL] @agentlair/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 60
-  - CLEAN: 36
-  - CRITICAL: 7
-  - HIGH: 7
-  - LOW: 6
-  - MEDIUM: 4
+- Total scanned: 110
+  - CLEAN: 60
+  - CRITICAL: 15
+  - HIGH: 11
+  - LOW: 12
+  - MEDIUM: 12
