@@ -12,7 +12,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 [![PyPI](https://img.shields.io/pypi/v/pyatr?style=flat-square&color=brightgreen&label=PyPI)](https://pypi.org/project/pyatr/)
 [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-ATR%20Scan-2ea44f?style=flat-square&logo=github)](https://github.com/marketplace/actions/atr-scan)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
-[![Rules](https://img.shields.io/badge/rules-113-blue?style=flat-square)](#what-atr-detects)
+[![Rules](https://img.shields.io/badge/rules-311-blue?style=flat-square)](#what-atr-detects)
 [![Tests](https://img.shields.io/badge/tests-361_passing-green?style=flat-square)](#ecosystem)
 [![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-100%25-brightgreen?style=flat-square)](#evaluation)
 [![Wild Scan](https://img.shields.io/badge/wild_scan-96%2C096_skills-blue?style=flat-square)](#ecosystem-scan)
@@ -84,7 +84,7 @@ npm install -g agent-threat-rules
 atr scan skill.md                 # scan a SKILL.md for threats
 atr scan mcp-config.json          # scan MCP events for threats
 atr scan skill.md --sarif         # output SARIF v2.1.0 for GitHub Security tab
-atr convert generic-regex         # export 113 rules as JSON (714+ regex patterns)
+atr convert generic-regex         # export 311 rules as JSON (1,600+ regex patterns)
 atr convert splunk                # export to Splunk SPL
 atr convert elastic               # export to Elasticsearch Query DSL
 atr stats                         # show rule collection stats
@@ -110,7 +110,7 @@ One line. Zero config. SARIF results in your Security tab.
 
 ## What ATR Detects
 
-113 rules across 9 categories, mapped to real CVEs:
+311 rules across 9 categories, mapped to real CVEs:
 
 | Category | What it catches | Rules | Real CVEs |
 |----------|----------------|-------|-----------|
@@ -259,7 +259,7 @@ Every rule is a YAML file answering: **what** to detect, **how** to detect it, *
 ### Export rules
 
 ```bash
-# For your security platform (113 rules, 714+ regex patterns as JSON)
+# For your security platform (311 rules, 1,600+ regex patterns as JSON)
 atr convert generic-regex --output atr-rules.json
 
 # For SIEM integration
@@ -307,7 +307,7 @@ Want to integrate ATR into your product? Three options:
 ```bash
 # Option 1: Export rules as JSON (recommended for most tools)
 atr convert generic-regex --output atr-rules.json
-# → 113 rules, 714+ regex patterns, severity/category metadata
+# → 311 rules, 1,600+ regex patterns, severity/category metadata
 
 # Option 2: Use the TypeScript engine directly
 npm install agent-threat-rules
@@ -358,7 +358,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 - [x] **v0.4** -- 71 rules, ClawHub 36K scan, SAFE-MCP 91.8%
 - [x] **v1.0** -- 108 rules, 53K mega scan, GitHub Action + SARIF, generic-regex export, Cisco adoption
 - [x] **v1.1** -- Threat Cloud flywheel, 5 ecosystem merges, Microsoft AGT + NVIDIA Garak PRs
-- [x] **v2.0.0** (current) -- 113 rules, 96K mega scan, 751 malware discovered, RFC-001, GOVERNANCE.md, website launch
+- [x] **v2.0.0** -- 113 rules, 96K mega scan, 751 malware discovered, RFC-001, GOVERNANCE.md, website launch
+- [x] **v2.0.11** (current) -- 311 rules, 193 new NVIDIA garak probe coverage (ATR-00300~00414), 97.1% garak recall
 - [ ] **v2.1** -- Go engine, ML classifier integration, semantic signatures, community rule submissions
 - [ ] **v3.0** -- Multi-engine standard: 2+ engines, 10+ production deployments, schema review by 3+ security teams
 
@@ -366,7 +367,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. See [CONTRIBUTION-GUI
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **Phase 0: Core product** | 113 rules, 62.7% recall, OWASP 10/10, 96K scan | **Done** |
+| **Phase 0: Core product** | 311 rules, 97.1% garak recall, OWASP 10/10, 96K scan | **Done** |
 | **Phase 1: Distribution** | GitHub Action, SARIF, generic-regex export, ecosystem PRs | **Done** |
 | **Phase 2: Adoption** | Cisco merged (34 rules), OWASP PR, 11 ecosystem PRs | **In progress** |
 | **Phase 3: Community flywheel** | Threat Cloud crystallization, auto-generated rules, 10+ contributors | In progress |
@@ -381,7 +382,7 @@ ATR uses "ATR Scanned" (not "ATR Certified") until recall exceeds 80%. We are ho
 ```
 ATR (this repo)                        Your Product / Integration
 ┌─────────────────────────┐            ┌──────────────────────────┐
-│ 113 Rules (YAML)        │   match    │ Block / Allow / Alert     │
+│ 311 Rules (YAML)        │   match    │ Block / Allow / Alert     │
 │ Engine (TS + Py)        │ ────────→  │ SIEM (Splunk / Elastic)  │
 │ CLI / MCP / GitHub Act. │   results  │ CI/CD (SARIF → Security) │
 │ SARIF / Generic Regex   │            │ Runtime Proxy (MCP)      │

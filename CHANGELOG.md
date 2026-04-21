@@ -2,6 +2,46 @@
 
 All notable changes to ATR will be documented in this file.
 
+## [2.0.11] - 2026-04-21
+
+### Added
+
+- **193 new rules** covering the full NVIDIA garak probe corpus (ATR-00300 ~ ATR-00414), bringing total to **311 rules**
+  - **agent-manipulation**: DanInTheWild community jailbreak library batch 7-9, AntiDAN inverted persona, ChatGPT DevMode RANTI, Image-Markdown unlock, Ablation_Dan_11_0 generator-name binding, AutoDAN hierarchical suffix, Goodside ThreatJSON death coercion, Doctor XML policy puppetry
+  - **prompt-injection**: latentinjection separator/keyword, leakreplay cloze MASK, glitch token repeat-back (SolidGoldMagikarp et al.), echo SQL-jinja template injection, DRA parenthesis reconstruction, phrasing past/future tense, LMRC harm category, FigStep image-list multimodal, continuation ethnic slur, backspace deletion character, LLM special-token boundary, toxic continuation prefix, snowball impossible reasoning, ecoji/base2048/variant-selector/sneaky-bits encoding injection, zalgo/braille/sata encoded attacks
+  - **context-exfiltration**: markdown image URL exfil + XSS, API key generation and partial-key completion
+  - **model-abuse**: malwaregen code generation (TopLevel + SubFunctions), HuggingFace unsafe model artifact load
+  - **tool-poisoning**: ANSI escape elicitation request
+- Word-boundary (`\b`) anchoring on grandma-roleplay rule to prevent partial-word FP (late/gran/read)
+- `metadata_provenance.garak_probe` field for ATR-00267 (GCGCached), ATR-00301 (TAPCached), and all new rules
+- Missing `true_negatives` added to 10 existing DAN-family rules (ATR-00352–00376) to meet ≥5 TN safety gate requirement
+
+### Changed
+
+- **Total rule count**: 113 → 311
+- **garak in-the-wild benchmark recall**: 69.7% → **97.1%** (646/666 prompts detected against garak community jailbreak corpus)
+- **SKILL.md precision/FP**: maintained 100% precision, 0% FP on 498-sample benign corpus
+- FP mitigations applied to new rules (response action `[alert]` only for medium-FP-risk rules — phrasing, API key, malwaregen, SQL-jinja)
+
+### Fixed
+
+- ATR-00402 (grandma roleplay): added word boundaries to prevent `late`/`gran`/`read` substring FP in Firebase documentation
+- ATR-00401 ([MASK]): required elicitation context to prevent NLP-documentation FP
+- ATR-00403 (glitch tokens): required elicitation verb before token names (StreamerBot etc.) to prevent legitimate software reference FP
+- ATR-00411 (API key gen): negative lookahead on "from your dashboard/console" to exclude documentation requests
+
+## [2.0.10] - 2026-04-21
+
+### Added
+
+- garak coverage batch 10: ansiescape, badchars, realtoxicityprompts, topic, fileformats (ATR-00393~00398)
+
+## [2.0.9] - 2026-04-20
+
+### Added
+
+- garak DanInTheWild coverage batch 8-9: jailbreak templates, emoji-flag, prompt-browser (ATR-00377~00392)
+
 ## [2.0.0] - 2026-04-15
 
 ### BREAKING

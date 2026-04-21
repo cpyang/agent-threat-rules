@@ -88,6 +88,17 @@ const MILESTONES: Milestone[] = [
       zh: "113 條偵測規則，跨 8 個類別。完整對照 MITRE ATLAS、OWASP Agentic、OWASP LLM、OWASP AST。",
     },
   },
+  {
+    date: "2026-04-21",
+    title: {
+      en: "v2.0.11 · NVIDIA garak coverage",
+      zh: "v2.0.11 · NVIDIA garak 覆蓋",
+    },
+    detail: {
+      en: "193 new rules covering the full NVIDIA garak probe corpus (311 total). garak in-the-wild jailbreak benchmark recall: 97.1% (646/666).",
+      zh: "新增 193 條規則，涵蓋完整 NVIDIA garak probe corpus（總計 311 條）。garak in-the-wild jailbreak 基準召回率：97.1%（646/666）。",
+    },
+  },
 ];
 
 export default async function AboutPage({

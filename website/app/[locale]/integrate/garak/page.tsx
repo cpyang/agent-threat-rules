@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { loadSiteStats } from '@/lib/stats';
 
 export const metadata: Metadata = {
   title: 'NVIDIA garak × ATR — ATR',
@@ -7,6 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default function GarakIntegratePage() {
+  const stats = loadSiteStats();
+  const ruleCountStr = `${stats.ruleCount} rules today`.padEnd(25);
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="text-3xl font-bold">NVIDIA garak × ATR</h1>
@@ -29,7 +32,7 @@ export default function GarakIntegratePage() {
         <pre className="overflow-x-auto rounded bg-neutral-900 p-4 text-sm">
 {`garak (red team)                    ATR (standard)           downstream
 ─────────────────                    ──────────────           ──────────
-Probes claude-3.7                    114 rules today          npm: agent-threat-rules
+Probes claude-3.7                    ${ruleCountStr}npm: agent-threat-rules
 Probes gpt-5                 ──▶     +auto-crystallised       PyPI: pyatr
 Probes gemini-2-pro                  from garak evidence      Cisco DefenseClaw
 Writes report.jsonl                  canary 24h               OWASP Agentic Top 10

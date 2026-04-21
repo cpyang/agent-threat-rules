@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { loadSiteStats } from "@/lib/stats";
 import "./globals.css";
+
+const stats = loadSiteStats();
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | ATR",
   },
   description:
-    "Open-source detection standard for AI agent security. 113 rules, 96K skills scanned, 751 malware discovered, RFC-001 quality standard. Shipped in Cisco AI Defense. MIT Licensed.",
+    `Open-source detection standard for AI agent security. ${stats.ruleCount} rules, 96K skills scanned, 751 malware discovered, RFC-001 quality standard. Shipped in Cisco AI Defense. MIT Licensed.`,
   metadataBase: new URL("https://agentthreatrule.org"),
   alternates: {
     canonical: "https://agentthreatrule.org",
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ATR - Agent Threat Rules",
     description:
-      "The open detection standard for AI agent security. 113 rules. 96K skills scanned. 751 malware discovered. Shipped in Cisco.",
+      `The open detection standard for AI agent security. ${stats.ruleCount} rules. 96K skills scanned. 751 malware discovered. Shipped in Cisco.`,
     url: "https://agentthreatrule.org",
     siteName: "ATR - Agent Threat Rules",
     type: "website",
@@ -56,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ATR - Agent Threat Rules",
     description:
-      "The open detection standard for AI agent security. 113 rules. 96K skills scanned. 751 malware discovered. Shipped in Cisco.",
+      `The open detection standard for AI agent security. ${stats.ruleCount} rules. 96K skills scanned. 751 malware discovered. Shipped in Cisco.`,
     images: ["https://agentthreatrule.org/og-image.png"],
   },
   keywords: [
@@ -101,7 +104,7 @@ const jsonLd = {
       "@type": "SoftwareSourceCode",
       name: "agent-threat-rules",
       description:
-        "Open-source detection standard for AI agent security. 113 rules, 96K skills scanned, 751 malware discovered. Sub-millisecond, zero dependencies.",
+        `Open-source detection standard for AI agent security. ${stats.ruleCount} rules, 96K skills scanned, 751 malware discovered. Sub-millisecond, zero dependencies.`,
       codeRepository: "https://github.com/Agent-Threat-Rule/agent-threat-rules",
       programmingLanguage: ["YAML", "TypeScript"],
       license: "https://opensource.org/licenses/MIT",

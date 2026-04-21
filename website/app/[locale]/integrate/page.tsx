@@ -131,7 +131,7 @@ export default async function IntegratePage({ params }: { params: Promise<{ loca
                 title: locale === "zh" ? "嵌入" : "Embed",
                 who: locale === "zh" ? "平台方（IDE、agent 框架）" : "Platforms (IDEs, agent frameworks)",
                 how: locale === "zh" ? "npm install + 呼叫 ATR engine" : "npm install + call ATR engine",
-                what: locale === "zh" ? "你的用戶自動受到 113 條規則保護" : "Your users protected by 113 rules automatically",
+                what: locale === "zh" ? `你的用戶自動受到 ${stats.ruleCount} 條規則保護` : `Your users protected by ${stats.ruleCount} rules automatically`,
                 update: locale === "zh" ? "npm update 或 lockfile + CI" : "npm update or lockfile + CI",
               },
               {
