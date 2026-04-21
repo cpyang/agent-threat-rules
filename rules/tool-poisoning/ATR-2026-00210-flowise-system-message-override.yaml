@@ -38,6 +38,14 @@ metadata_provenance:
   mitre_atlas: human-reviewed
   owasp_llm: human-reviewed
   owasp_agentic: human-reviewed
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "CVE-2025-59528 Flowise template injection allows attacker-controlled chat input to overwrite the system prompt and achieve RCE via vm.runInNewContext; Article 15 cybersecurity requirements mandate that AI system implementations sanitize all user-controlled inputs before template interpolation into privileged execution contexts."
+      strength: primary
+    - article: "9"
+      context: "System message template injection via unsanitized user input is a documented high-risk vulnerability class; Article 9 risk management systems must include input sanitization controls as a mandatory risk treatment for AI systems that use template-based system prompt construction."
+      strength: secondary
 
 tags:
   category: tool-poisoning

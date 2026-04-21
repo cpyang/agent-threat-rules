@@ -38,6 +38,14 @@ metadata_provenance:
   mitre_atlas: human-reviewed
   owasp_llm: human-reviewed
   owasp_agentic: human-reviewed
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "CVE-2026-33032 runaway tool invocation exploits retry directives to cause unbounded token consumption and rate-limit probing via malicious MCP server responses; Article 15 robustness requirements mandate that high-risk AI systems resist resource exhaustion attacks delivered through agent tool communication channels."
+      strength: primary
+    - article: "14"
+      context: "Runaway invocation loops prevent effective human oversight by consuming the agent's token budget before any human-reviewable output is produced; Article 14 oversight mechanisms must include detection of denial-of-oversight patterns that exhaust agent capacity through tool-layer abuse."
+      strength: secondary
 
 tags:
   category: tool-poisoning
