@@ -1,27 +1,29 @@
-## Daily Scan Summary (2026-04-20)
+## Daily Scan Summary (2026-04-21)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 4
-- CLEAN/LOW: 30
+- CRITICAL: 4
+- HIGH: 10
+- CLEAN/LOW: 31
 
 ### Flagged Packages:
-- [CRITICAL] gmail-mcp-server (score: 100)
-- [HIGH] @a4hgehad/weave-mcp (score: 55)
-- [HIGH] @aashari/boilerplate-mcp-server (score: 50)
-- [HIGH] @aegisaudit/mcp-server (score: 40)
-- [CRITICAL] @aerostack/gateway (score: 100)
-- [CRITICAL] @agent-infra/mcp-server-commands (score: 100)
-- [CRITICAL] @agent-infra/mcp-server-filesystem (score: 100)
-- [CRITICAL] @agent-memo/mcp-client (score: 75)
-- [CRITICAL] @agent-tasks/mcp-server (score: 100)
-- [CRITICAL] @agent-wiki/mcp-server (score: 85)
-- [HIGH] @agenticamem/xap-mcp (score: 50)
-- [CRITICAL] @agentlair/mcp (score: 100)
+- [HIGH] @acwink/movies-search-mcp (score: 60)
+- [HIGH] @agentpmt/mcp-router (score: 50)
+- [HIGH] @agentsbazaar/mcp (score: 50)
+- [HIGH] @agimon-ai/imagine-mcp (score: 50)
+- [HIGH] @agimon-ai/log-sink-mcp (score: 40)
+- [HIGH] @agimon-ai/model-proxy-mcp (score: 40)
+- [HIGH] @ahdev/dokploy-mcp (score: 50)
+- [HIGH] @ahmedmustahid/postgres-mcp-server (score: 50)
+- [CRITICAL] @ai-dossier/mcp-server (score: 100)
+- [CRITICAL] @aicloud360/mcp-server-disk (score: 100)
+- [CRITICAL] @aiondadotcom/mcp-ssh (score: 80)
+- [HIGH] @aipper/zentao-mcp-server (score: 40)
+- [HIGH] @aiready/mcp-server (score: 40)
+- [CRITICAL] @aiwerk/mcp-bridge (score: 100)
 
 ### Cumulative:
-- Total scanned: 110
-  - CLEAN: 60
-  - CRITICAL: 15
-  - HIGH: 11
-  - LOW: 12
-  - MEDIUM: 12
+- Total scanned: 160
+  - CLEAN: 84
+  - CRITICAL: 19
+  - HIGH: 21
+  - LOW: 19
+  - MEDIUM: 17
