@@ -51,6 +51,14 @@ scripts/notify-author.ts
 .claude/commands/weekly-report.md
 benchmark/
 
+# LaTeX build artifacts
+docs/paper/ATR-Paper.aux
+docs/paper/ATR-Paper.log
+docs/paper/ATR-Paper.out
+
+# Ecosystem crawl state
+crawl-state.json
+
 # Scan reports (generated, not source)
 data/skill-scan-report-full.json
 data/skill-scan-report-full.csv
