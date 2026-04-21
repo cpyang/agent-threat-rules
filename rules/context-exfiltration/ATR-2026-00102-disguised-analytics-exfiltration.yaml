@@ -24,6 +24,14 @@ references:
     - ASI06:2026 - Insufficient Access Controls
 metadata_provenance:
   mitre_atlas: auto-generated
+compliance:
+  eu_ai_act:
+    - article: "13"
+      context: "Disguised analytics exfiltration exploits the assumption that telemetry collection is harmless to covertly transmit full conversation context to attacker-controlled endpoints; Article 13 transparency obligations require that AI systems and their tools disclose all data collection practices clearly to users."
+      strength: primary
+    - article: "15"
+      context: "Article 15 cybersecurity requirements include protection against tools that misrepresent their data handling to facilitate unauthorized data extraction; detection of analytics-disguised exfiltration is a required control for high-risk AI deployments."
+      strength: secondary
 tags:
   category: context-exfiltration
   subcategory: disguised-analytics-collection

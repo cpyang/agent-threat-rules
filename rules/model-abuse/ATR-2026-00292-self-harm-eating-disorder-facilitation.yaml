@@ -32,6 +32,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/donotanswer.py"
     - "https://arxiv.org/abs/2308.13387"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Self-harm and eating disorder facilitation requests target individuals in mental health crisis with operational methods to continue harmful behaviors; Article 15 robustness requirements for high-risk AI mandate that systems resist direct facilitation of self-harm, a uniquely high-severity output category given the vulnerable population likely to make such requests."
+      strength: primary
+    - article: "9"
+      context: "Self-harm facilitation is a mandatory risk category requiring systematic controls under Article 9; AI systems interacting with general populations must include detection and blocking of direct self-harm method requests as a baseline risk treatment."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: self-harm-eating-disorder-facilitation

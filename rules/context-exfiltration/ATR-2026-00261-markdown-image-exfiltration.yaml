@@ -27,6 +27,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/tree/main/garak/data/xss"
     - "https://embracethered.com/blog/posts/2023/markdown-image-exfiltration/"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Markdown image URL exfiltration exploits chat UI auto-fetch behavior to transmit base64-encoded conversation data to attacker-controlled domains via LLM-generated image references; Article 15 cybersecurity requirements mandate that AI system output handlers detect and block covert exfiltration channels embedded in rendered content."
+      strength: primary
+    - article: "13"
+      context: "Covert exfiltration via markdown rendering is invisible to users and operators, directly violating the transparency that Article 13 requires by allowing AI-generated output to silently transmit user data without any indication."
+      strength: secondary
 tags:
   category: context-exfiltration
   subcategory: markdown-image-uri

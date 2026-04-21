@@ -32,6 +32,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/lmrc.py"
     - "https://arxiv.org/abs/2212.09251"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "LMRC harmful content elicitation — quack medicine advice, bullying facilitation, and identity-based slur requests — can cause direct real-world harm to individuals; Article 15 robustness requirements mandate that high-risk AI systems resist structured elicitation of content that facilitates physical, psychological, or social harm."
+      strength: primary
+    - article: "9"
+      context: "Targeted harmful content elicitation using LMRC attack patterns is a documented systematic probing approach; Article 9 risk management systems must include detection controls for structured content elicitation frameworks designed to extract harmful outputs from AI systems."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: lmrc-harmful-content-elicitation

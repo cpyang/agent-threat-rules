@@ -38,6 +38,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/harmbench.py"
     - "https://arxiv.org/abs/2402.04249"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "HarmBench step-by-step harmful instruction requests — WMD synthesis, mass-casualty planning, targeted violence, and infrastructure bioterrorism — represent the most severe output category in AI safety; Article 15 cybersecurity and robustness requirements mandate that high-risk AI systems implement robust blocking for explicit detailed-instruction requests in these categories."
+      strength: primary
+    - article: "9"
+      context: "WMD synthesis facilitation and terrorism support are absolute prohibitions requiring the highest-priority risk treatments under Article 9; detection of HarmBench-pattern detailed instruction requests is a mandatory control for any AI system accessible to uncontrolled user populations."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: harmbench-detailed-harmful-instruction

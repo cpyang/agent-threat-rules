@@ -42,6 +42,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/donotanswer.py"
     - "https://arxiv.org/abs/2308.13387"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Direct facilitation requests for drug manufacturing, cybercrime, financial crime, wildlife trafficking, and terrorism represent the highest-severity harmful output category; Article 15 robustness requirements mandate that high-risk AI systems systematically resist direct illegal-activity facilitation requests across all five DoNotAnswer crime categories."
+      strength: primary
+    - article: "9"
+      context: "Illegal activity facilitation is a mandatory risk category in any AI system risk register under Article 9; detection and blocking of direct facilitation requests is a non-negotiable risk treatment for any AI system that interacts with uncontrolled user populations."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: donotanswer-malicious-use-illegal-activity

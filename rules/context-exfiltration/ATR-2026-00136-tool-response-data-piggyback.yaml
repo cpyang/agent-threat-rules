@@ -23,6 +23,14 @@ references:
     - AML.T0054
   safe_mcp:
     - SMCP-T012
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Tool response piggybacking embeds credential theft or social engineering within legitimate-looking tool outputs, exploiting the agent's inherent trust in tool responses to exfiltrate sensitive data; Article 15 cybersecurity requirements mandate that AI systems validate tool output integrity and detect embedded exfiltration payloads."
+      strength: primary
+    - article: "13"
+      context: "Piggybacked data theft disguised as normal tool responses undermines the transparency Article 13 requires between AI system behavior and what users or operators understand to be occurring; users cannot exercise informed oversight when tool responses silently exfiltrate their data."
+      strength: secondary
 tags:
   category: context-exfiltration
   subcategory: tool-response-piggyback

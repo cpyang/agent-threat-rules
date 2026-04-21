@@ -21,6 +21,14 @@ references:
     - ASI03 - Excessive Agency
 metadata_provenance:
   mitre_atlas: auto-generated
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Casual unauthorized privilege escalation — where an agent self-authorizes access to admin panels or privileged settings through informal discovery framing — bypasses human authorization gates; Article 14 requires that access to privileged system components remain under explicit human approval regardless of the linguistic framing used."
+      strength: primary
+    - article: "15"
+      context: "Article 15 robustness requirements include resistance against social-engineering-style privilege escalation techniques; casual self-authorization patterns represent a documented adversarial approach that exploits agents' tendency to act on observed access opportunities."
+      strength: secondary
 tags:
   category: privilege-escalation
   subcategory: casual-escalation

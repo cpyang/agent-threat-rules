@@ -28,6 +28,14 @@ references:
     - "AML.T0051 - LLM Prompt Injection"
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/continuation.py"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Harmful completion attacks exploit next-token prediction to elicit harmful content that would be refused if requested directly; Article 15 robustness requirements mandate that high-risk AI systems resist systematic adversarial techniques targeting behavioral constraints through partial-phrase completion mechanics."
+      strength: primary
+    - article: "9"
+      context: "Continuation attacks are a documented adversarial technique in the AI risk landscape; Article 9 risk management systems must include detection controls for completion-based jailbreak patterns that use implicit rather than explicit harmful requests."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: harmful-completion-continuation
