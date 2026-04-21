@@ -27,6 +27,16 @@ references:
   mitre_atlas:
     - AML.T0051 - Prompt Injection
     - AML.T0043 - Craft Adversarial Data
+
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Article 15 cybersecurity requirements for high-risk AI include protecting agent communication channels against spoofing, replay, and message integrity attacks; this rule detects structural communication failures between agents."
+      strength: primary
+    - article: "14"
+      context: "Spoofed inter-agent messages can trigger unauthorized agent actions without any human-visible audit trail, undermining the traceability required by Article 14 human oversight provisions."
+      strength: secondary
+
 tags:
   category: agent-manipulation
   subcategory: inter-agent-communication

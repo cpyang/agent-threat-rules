@@ -22,6 +22,16 @@ references:
   mitre_atlas:
     - AML.T0044 - Full ML Model Access
     - AML.T0024 - Exfiltration via ML Inference API
+
+compliance:
+  eu_ai_act:
+    - article: "13"
+      context: "Systematic model behavior extraction enables adversaries to reverse-engineer internal decision logic; Article 13 transparency obligations require protecting against unauthorized extraction of operational model properties that could facilitate circumvention."
+      strength: primary
+    - article: "15"
+      context: "Article 15 cybersecurity requirements include protecting the AI system against extraction attacks that map decision boundaries for adversarial exploitation; this rule detects systematic probing patterns."
+      strength: secondary
+
 tags:
   category: model-abuse
   subcategory: model-extraction

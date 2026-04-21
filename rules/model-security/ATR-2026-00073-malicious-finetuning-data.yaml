@@ -22,6 +22,16 @@ references:
   mitre_atlas:
     - AML.T0020 - Poison Training Data
     - AML.T0018 - Backdoor ML Model
+
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Article 15 accuracy requirements mandate that high-risk AI systems maintain reliable performance; malicious fine-tuning data degrades accuracy and introduces adversarial backdoors that undermine these requirements."
+      strength: primary
+    - article: "9"
+      context: "Poisoned training data is a documented supply chain risk requiring monitoring controls under Article 9; detection of malicious training patterns implements the required risk management measure."
+      strength: secondary
+
 tags:
   category: data-poisoning
   subcategory: malicious-finetuning

@@ -26,6 +26,16 @@ references:
   mitre_atlas:
     - AML.T0051 - Prompt Injection
     - AML.T0043 - Craft Adversarial Data
+
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Goal hijacking redirects the agent away from its authorized objectives without human awareness, directly undermining the human oversight mechanisms Article 14 requires for high-risk AI systems."
+      strength: primary
+    - article: "15"
+      context: "Article 15 robustness requirements include resistance against adversarial redirection of agent objectives; this rule detects explicit and subtle goal-pivot patterns at runtime."
+      strength: secondary
+
 tags:
   category: agent-manipulation
   subcategory: goal-hijacking

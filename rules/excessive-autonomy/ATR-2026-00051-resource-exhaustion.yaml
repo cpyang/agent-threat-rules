@@ -25,6 +25,16 @@ references:
   mitre_atlas:
     - AML.T0046 - Spamming ML System with Chaff Data
     - AML.T0053 - LLM Plugin Compromise
+
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Resource exhaustion attacks prevent human operators from accessing or stopping the AI system, directly undermining the human oversight and intervention capability Article 14 requires."
+      strength: primary
+    - article: "15"
+      context: "Article 15 robustness requirements mandate that AI systems handle adversarial denial-of-service conditions gracefully; this rule detects resource exhaustion patterns before full system unavailability."
+      strength: secondary
+
 tags:
   category: excessive-autonomy
   subcategory: resource-exhaustion

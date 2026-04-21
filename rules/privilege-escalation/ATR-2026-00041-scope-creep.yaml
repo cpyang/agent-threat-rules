@@ -24,6 +24,16 @@ references:
   mitre_atlas:
     - AML.T0040 - AI Model Inference API Access
     - AML.T0047 - ML-Enabled Product or Service
+
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Gradual scope creep enables an agent to exceed its authorized operational boundaries without triggering explicit alerts, progressively eroding the human oversight controls Article 14 mandates."
+      strength: primary
+    - article: "9"
+      context: "Scope creep is a documented incremental risk pattern in AI agent systems; Article 9 risk management obligations require monitoring controls to detect unsolicited capability expansion."
+      strength: secondary
+
 tags:
   category: privilege-escalation
   subcategory: scope-creep

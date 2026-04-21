@@ -25,6 +25,16 @@ references:
   mitre_attack:
     - T1078 - Valid Accounts
     - T1550 - Use Alternate Authentication Material
+
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Cross-agent privilege escalation allows one agent to acquire capabilities from another agent's authorization scope without human approval, directly bypassing the role-based access controls that Article 14 human oversight requires."
+      strength: primary
+    - article: "9"
+      context: "Multi-agent privilege escalation via trust relationships is a documented attack pattern in the AI system risk register; Article 9 requires monitoring controls for this lateral movement risk."
+      strength: secondary
+
 tags:
   category: agent-manipulation
   subcategory: cross-agent-privilege-escalation
