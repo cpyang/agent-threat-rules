@@ -61,6 +61,11 @@ compliance:
     - clause: "9.1"
       context: "Clause 9.1 monitoring and evaluation requires measuring AI system behavior against expected norms; loop counter patterns are the measurable anomaly indicators for this rule."
       strength: secondary
+  colorado_ai_act:
+    - section: "6-1-1703"
+      clause: "Deployer ongoing monitoring of AI system performance"
+      context: "SB24-205 requires deployers to monitor high-risk AI systems for performance drift after deployment. A runaway loop is a performance-degradation event — the system is no longer behaving within its validated operational envelope. This rule gives the deployer the telemetry signal needed to fulfill the ongoing-monitoring obligation and to trigger impact reassessment if needed."
+      strength: primary
 
 tags:
   category: excessive-autonomy
