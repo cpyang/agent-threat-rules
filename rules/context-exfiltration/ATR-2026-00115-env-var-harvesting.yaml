@@ -20,6 +20,14 @@ references:
     - ASI03:2026 - Agent Identity and Access Abuse
   mitre_attack:
     - T1082 - System Information Discovery
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Bulk environment variable harvesting exposes every secret in the agent runtime in a single operation, providing an attacker with complete access to all connected services; Article 15 cybersecurity requirements mandate that AI systems resist systematic environment enumeration attacks."
+      strength: primary
+    - article: "12"
+      context: "Exfiltrated environment variables typically include logging and monitoring credentials; Article 12 record-keeping integrity depends on protecting the secrets that secure audit infrastructure from compromise via environment harvesting."
+      strength: secondary
 tags:
   category: context-exfiltration
   subcategory: env-var-harvesting

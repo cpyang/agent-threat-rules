@@ -22,6 +22,14 @@ references:
     - ASI05:2026 - Unexpected Code Execution
   mitre_attack:
     - T1053 - Scheduled Task/Job
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Delayed execution bypasses exploit the temporal gap between task scheduling and execution to acquire elevated privileges that were not authorized at scheduling time; Article 14 oversight requirements must cover deferred actions, not just real-time tool invocations."
+      strength: primary
+    - article: "15"
+      context: "Article 15 robustness requirements include protection against adversarial privilege escalation techniques; scheduled task abuse that runs with system-level permissions after bypassing user-context checks is a documented attack pattern requiring detection controls."
+      strength: secondary
 tags:
   category: privilege-escalation
   subcategory: delayed-execution-bypass

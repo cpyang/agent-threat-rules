@@ -30,6 +30,14 @@ references:
     - ASI09:2026 - Inadequate Access Controls
   mitre_atlas:
     - AML.T0053 - LLM Plugin Compromise
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Autonomous financial transfers and payments executed without explicit human confirmation in the current turn represent the paradigmatic human oversight failure Article 14 is designed to prevent; financial actions are inherently irreversible and must remain under direct human control."
+      strength: primary
+    - article: "9"
+      context: "Unauthorized financial action by AI agents is a high-severity risk requiring mandatory human-in-the-loop controls; Article 9 risk management systems must classify autonomous financial execution as an unacceptable risk and implement blocking controls."
+      strength: secondary
 tags:
   category: excessive-autonomy
   subcategory: unauthorized-financial-action

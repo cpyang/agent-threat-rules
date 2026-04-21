@@ -18,6 +18,14 @@ references:
     - ASI05:2026 - Unexpected Code Execution
   mitre_attack:
     - T1059 - Command and Scripting Interpreter
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "eval() and dynamic code execution primitives allow attackers to execute arbitrary code within the agent runtime, enabling complete host system compromise; Article 15 cybersecurity requirements mandate that high-risk AI systems prohibit or strictly control dynamic code evaluation capabilities."
+      strength: primary
+    - article: "14"
+      context: "Arbitrary code execution via eval injection can override safety controls and execute actions that bypass all human oversight mechanisms; Article 14 requires that AI system architectures prevent such unrestricted capability access from agent tool layers."
+      strength: secondary
 tags:
   category: privilege-escalation
   subcategory: eval-injection

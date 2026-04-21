@@ -23,6 +23,14 @@ references:
     - AML.T0051 - LLM Prompt Injection
   mitre_attack:
     - "T1565.001 - Data Manipulation: Stored Data Manipulation"
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Agent memory poisoning corrupts persistent context across sessions, allowing attackers to establish behavioral backdoors that survive individual-turn oversight checks; Article 14 requires that human oversight mechanisms remain effective across the full lifecycle of agent interactions, including persistent state."
+      strength: primary
+    - article: "15"
+      context: "Article 15 robustness requirements mandate resistance against adversarial inputs that modify system behavior; memory injection attacks that alter an agent's long-term behavioral state represent a critical robustness failure requiring detection controls."
+      strength: secondary
 tags:
   category: context-exfiltration
   subcategory: memory-manipulation

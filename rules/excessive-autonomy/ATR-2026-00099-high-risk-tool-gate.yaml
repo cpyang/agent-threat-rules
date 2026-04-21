@@ -34,6 +34,14 @@ references:
     - ASI10:2026 - Insufficient Human Oversight
   mitre_atlas:
     - AML.T0053 - LLM Plugin Compromise
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Invocation of financial, destructive, communication, or permission-altering tools without human confirmation is precisely the excessive autonomy scenario Article 14 human oversight requirements are designed to prevent; this rule enforces the mandatory human-in-the-loop gate for all high-risk tool categories."
+      strength: primary
+    - article: "9"
+      context: "High-risk tool access without confirmation gates is a documented unacceptable risk for AI systems; Article 9 risk management requires that organizations identify tool categories that require mandatory human approval and implement blocking controls accordingly."
+      strength: secondary
 tags:
   category: excessive-autonomy
   subcategory: high-risk-tool-gate

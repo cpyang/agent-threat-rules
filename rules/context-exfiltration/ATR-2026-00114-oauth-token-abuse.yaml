@@ -19,6 +19,14 @@ references:
     - ASI03:2026 - Agent Identity and Access Abuse
   mitre_attack:
     - T1528 - Steal Application Access Token
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "OAuth token interception and redirect_uri manipulation enable agent-assisted account takeover across all services using the stolen token; Article 15 cybersecurity requirements mandate that high-risk AI systems detect and block token theft patterns in agent-handled authentication flows."
+      strength: primary
+    - article: "12"
+      context: "Stolen OAuth tokens allow attackers to impersonate legitimate users in audit logs, corrupting the record integrity that Article 12 requires; token interception detection is a prerequisite for maintaining trustworthy audit trails."
+      strength: secondary
 tags:
   category: context-exfiltration
   subcategory: oauth-token-abuse

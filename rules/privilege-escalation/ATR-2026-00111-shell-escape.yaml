@@ -19,6 +19,14 @@ references:
     - ASI05:2026 - Unexpected Code Execution
   mitre_attack:
     - T1059.004 - Unix Shell
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Shell metacharacter injection enables attackers to chain arbitrary OS commands onto otherwise safe tool invocations, achieving full system compromise through agent tool arguments; Article 15 cybersecurity requirements mandate that AI systems sanitize all inputs passed to shell-adjacent tool layers."
+      strength: primary
+    - article: "14"
+      context: "Shell escape attacks allow execution of arbitrary system commands outside any authorized scope, completely bypassing human oversight of what actions the agent actually performs; Article 14 requires that agent actions remain within observable and sanctioned boundaries."
+      strength: secondary
 tags:
   category: privilege-escalation
   subcategory: shell-escape
