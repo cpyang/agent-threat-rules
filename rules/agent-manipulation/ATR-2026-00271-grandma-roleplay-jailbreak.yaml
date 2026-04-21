@@ -26,6 +26,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/grandma.py"
     - "https://www.independent.co.uk/tech/chatgpt-microsoft-windows-11-grandma-exploit-b2360213.html"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Grandma roleplay jailbreaks use emotional manipulation through grief and nostalgia framing to circumvent safety constraints; Article 15 robustness requirements include resistance against social engineering techniques that exploit psychological vulnerabilities in human-AI interaction."
+      strength: primary
+    - article: "9"
+      context: "Persona-based jailbreaks exploiting emotional framing are documented high-risk attack patterns; Article 9 risk management requires systematic controls for emotional manipulation techniques used to extract harmful content from high-risk AI systems."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: grandma-roleplay-jailbreak

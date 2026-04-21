@@ -17,6 +17,14 @@ references:
     - 'LLM06:2025 - Excessive Agency'
   owasp_agentic:
     - 'ASI03:2026 - Cross-Agent Escalation'
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Skill scope hijacking embeds privilege escalation instructions within SKILL.md files to expand agent capabilities beyond authorized boundaries without human knowledge; Article 14 requires that agents operate within sanctioned scopes visible to human overseers."
+      strength: primary
+    - article: "15"
+      context: "Article 15 cybersecurity requirements mandate protection against supply chain attacks; malicious SKILL.md files represent a documented technique for injecting unauthorized capability expansion at the skill-definition layer."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: skill-scope-hijack

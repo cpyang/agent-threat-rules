@@ -19,6 +19,14 @@ references:
     - ASI09:2026 - Human Trust Exploitation
   mitre_attack:
     - T1566 - Phishing
+compliance:
+  eu_ai_act:
+    - article: "13"
+      context: "Social engineering delivered through agent output exploits the elevated trust users place in AI-generated content; Article 13 transparency obligations require that AI systems not be used as vectors for deception or manipulation against the users they serve."
+      strength: primary
+    - article: "14"
+      context: "Agents weaponized for social engineering undermine the informed human judgment that Article 14 oversight depends on; users manipulated through trusted AI channels cannot exercise effective oversight of subsequent decisions."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: social-engineering-via-agent

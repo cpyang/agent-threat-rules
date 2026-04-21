@@ -20,6 +20,14 @@ references:
     - ASI07:2026 - Insecure Inter-Agent Communication
   mitre_attack:
     - T1557 - Adversary-in-the-Middle
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Malicious agent-to-agent message injection exploits unvalidated inter-agent channels to execute unauthorized actions; Article 15 cybersecurity requirements mandate detection and resistance against such adversarial input manipulation."
+      strength: primary
+    - article: "14"
+      context: "A2A message injection can cause agents to take actions outside their authorized scope without human awareness, eroding the effective oversight capability Article 14 requires for high-risk AI systems."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: a2a-message-validation

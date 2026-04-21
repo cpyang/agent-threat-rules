@@ -20,6 +20,14 @@ references:
     - ASI10:2026 - Rogue Agents
   mitre_attack:
     - T1036 - Masquerading
+compliance:
+  eu_ai_act:
+    - article: "13"
+      context: "Agent identity spoofing creates false impressions of authority and trustworthiness that users and other agents cannot distinguish from legitimate communications; Article 13 transparency obligations require that AI system identity and authority claims be verifiable."
+      strength: primary
+    - article: "15"
+      context: "Article 15 cybersecurity requirements include protection against masquerading attacks; identity spoofing in multi-agent systems represents a documented adversarial pattern targeting the authentication layer of agent architectures."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: agent-identity-spoofing

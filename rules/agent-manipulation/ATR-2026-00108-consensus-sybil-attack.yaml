@@ -24,6 +24,14 @@ references:
     - ASI01:2026 - Agent Goal Hijack
   mitre_atlas:
     - AML.T0043 - Craft Adversarial Data
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Consensus Sybil attacks allow compromised agents to manufacture false agreement in multi-agent decision systems, directly undermining the human oversight capability Article 14 requires for high-risk AI applications."
+      strength: primary
+    - article: "15"
+      context: "Article 15 robustness requirements mandate that high-risk AI systems resist adversarial manipulation; Sybil attacks on consensus mechanisms are a documented adversarial pattern requiring systematic detection."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: consensus-sybil-attack

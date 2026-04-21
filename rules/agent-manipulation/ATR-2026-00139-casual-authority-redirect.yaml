@@ -21,6 +21,14 @@ references:
     - ASI06 - Rogue Actions
 metadata_provenance:
   mitre_atlas: auto-generated
+compliance:
+  eu_ai_act:
+    - article: "14"
+      context: "Casual authority data redirect attacks redirect agent output to attacker-controlled endpoints by spoofing organizational authority, bypassing human review of where sensitive data flows; Article 14 oversight requires that data redirection decisions remain under human control."
+      strength: primary
+    - article: "15"
+      context: "Article 15 cybersecurity requirements include protection against social engineering attacks targeting agent output pipelines; casual authority redirect is a documented adversarial technique exploiting agents as exfiltration proxies."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: casual-authority-redirect

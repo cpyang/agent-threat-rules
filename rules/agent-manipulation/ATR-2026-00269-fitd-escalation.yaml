@@ -26,6 +26,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/continuation.py"
     - "https://jailbreaking-llms.github.io/"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "Foot-in-the-door escalation exploits LLM consistency bias to incrementally extract harmful outputs that would be refused if requested directly; Article 15 robustness requirements demand resistance against systematic adversarial probing techniques targeting model behavioral constraints."
+      strength: primary
+    - article: "9"
+      context: "FITD escalation is a documented multi-step adversarial pattern; Article 9 risk management systems must include detection controls for incremental jailbreak techniques that bypass single-turn safety evaluation."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: fitd-escalation

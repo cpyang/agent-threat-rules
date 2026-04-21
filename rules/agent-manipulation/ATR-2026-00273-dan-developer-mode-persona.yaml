@@ -27,6 +27,14 @@ references:
   research:
     - "https://github.com/NVIDIA/garak/blob/main/garak/probes/dan.py"
     - "https://github.com/NVIDIA/garak/blob/main/garak/data/dan/"
+compliance:
+  eu_ai_act:
+    - article: "15"
+      context: "DAN and Developer Mode persona jailbreaks attempt to replace the model's safety-trained identity with an unrestricted persona; Article 15 robustness and cybersecurity requirements mandate that high-risk AI systems resist identity replacement attacks that disable safety constraints."
+      strength: primary
+    - article: "9"
+      context: "Named persona jailbreaks are a well-documented attack family with widespread deployment in the wild; Article 9 risk management systems for high-risk AI must include detection controls for this established technique for bypassing content restrictions."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: dan-developer-mode-persona
