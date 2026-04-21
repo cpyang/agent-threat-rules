@@ -1,6 +1,6 @@
 {
   "name": "agent-threat-rules",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "type": "module",
   "description": "Open detection standard for AI agent security. 113 rules for prompt injection, tool poisoning, context exfiltration, and MCP attacks. Shipped in Cisco AI Defense.",
   "main": "./dist/index.js",
