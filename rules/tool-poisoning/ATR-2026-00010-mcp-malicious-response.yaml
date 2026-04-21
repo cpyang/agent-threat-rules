@@ -40,6 +40,45 @@ references:
     - "CVE-2025-59536"
     - "CVE-2026-21852"
 
+compliance:
+  owasp_agentic:
+    - id: ASI02:2026
+      context: "Malicious content injected via MCP tool responses is the primary ASI02 Tool Misuse and Exploitation vector — a compromised or impersonated MCP server weaponizes the tool call interface to deliver shells, encoded payloads, and privilege escalation commands."
+      strength: primary
+    - id: ASI05:2026
+      context: "Shell commands and code execution payloads in tool responses aim to trigger unexpected code execution by the agent, falling under the ASI05 Unexpected Code Execution category."
+      strength: secondary
+  owasp_llm:
+    - id: LLM01:2025
+      context: "Prompt injection delivered through MCP tool responses is an indirect LLM01:2025 attack variant where the injection payload is embedded in tool output rather than user input."
+      strength: primary
+    - id: LLM05:2025
+      context: "Failure to validate MCP tool response content before agent processing is a LLM05:2025 Improper Output Handling scenario enabling downstream command injection and reverse shell execution."
+      strength: secondary
+  eu_ai_act:
+    - article: "15"
+      context: "MCP tool response injection attacks the cybersecurity integrity of the AI system; Article 15 requires technical measures ensuring the system can resist such third-party content attacks."
+      strength: primary
+    - article: "9"
+      context: "Compromised MCP server responses are a documented attack surface in the AI system risk register; Article 9 requires detection controls to manage this identified risk."
+      strength: secondary
+  nist_ai_rmf:
+    - function: Manage
+      subcategory: MG.2.3
+      context: "Runtime detection of malicious MCP tool responses is the primary risk treatment for tool-poisoning attacks identified in the AI risk register."
+      strength: primary
+    - function: Map
+      subcategory: MP.3.3
+      context: "MCP servers are third-party components in the AI tool ecosystem; identifying malicious tool responses is an MP.3.3 third-party component risk detection action."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "Clause 6.2 AIMS security planning requires controls for third-party tool interfaces; this rule operationalizes the detection measure for malicious content delivered via MCP."
+      strength: primary
+    - clause: "8.5"
+      context: "MCP server integrations are externally-provided AI-related processes under clause 8.5; this rule validates that external tool responses do not contain adversarial payloads before the agent acts on them."
+      strength: secondary
+
 tags:
   category: tool-poisoning
   subcategory: mcp-response-injection

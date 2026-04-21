@@ -29,6 +29,46 @@ references:
   mitre_atlas:
     - AML.T0051.001 - Indirect Prompt Injection
     - AML.T0020 - Poison Training Data
+
+compliance:
+  owasp_agentic:
+    - id: ASI06:2026
+      context: "Injecting hidden directives into RAG-retrieved documents or knowledge base entries is the primary ASI06 Memory and Context Poisoning attack — the agent's context window is contaminated with attacker-controlled instructions."
+      strength: primary
+  owasp_llm:
+    - id: LLM01:2025
+      context: "Hidden instruction markers and role-override commands embedded in retrieved content deliver indirect prompt injection through the data layer, satisfying the LLM01:2025 Prompt Injection category via the RAG attack surface."
+      strength: primary
+    - id: LLM03:2025
+      context: "Poisoned knowledge base entries injected into the supply chain of training or retrieval data satisfy the LLM03:2025 Supply Chain Vulnerabilities category at the data tier."
+      strength: secondary
+    - id: LLM08:2025
+      context: "Malicious vector store entries that cause the agent to retrieve and act on attacker-controlled instructions fall under LLM08:2025 Excessive Agency triggered by contaminated retrieval context."
+      strength: partial
+  eu_ai_act:
+    - article: "15"
+      context: "Article 15 accuracy and robustness requirements demand that AI systems maintain reliable behavior even when training or retrieval data is adversarially contaminated; this rule detects such contamination in the data pipeline."
+      strength: primary
+    - article: "9"
+      context: "Data poisoning of RAG pipelines is a documented risk requiring monitoring controls under Article 9; detection events from this rule provide the evidence trail for risk management reporting."
+      strength: secondary
+  nist_ai_rmf:
+    - function: Map
+      subcategory: MP.5.1
+      context: "Adversarial manipulation of retrieval data is an AI-specific risk source requiring identification; this rule maps data poisoning attempts as they occur in the production pipeline."
+      strength: primary
+    - function: Manage
+      subcategory: MG.2.3
+      context: "Active detection of data poisoning events implements the risk treatment for the data contamination risk identified in the AI risk register."
+      strength: secondary
+  iso_42001:
+    - clause: "8.3"
+      context: "Clause 8.3 data governance for AI systems requires controls ensuring data integrity; detection of hidden directives in retrieved content is the runtime enforcement of clause 8.3 data quality requirements."
+      strength: primary
+    - clause: "6.2"
+      context: "Clause 6.2 AIMS security planning must include controls for adversarial data injection into AI pipelines; this rule operationalizes the detection measure for that planning objective."
+      strength: secondary
+
 tags:
   category: data-poisoning
   subcategory: rag-and-knowledge-poisoning

@@ -26,6 +26,43 @@ references:
     - AML.T0010 - ML Supply Chain Compromise
   mitre_attack:
     - T1195 - Supply Chain Compromise
+
+compliance:
+  owasp_agentic:
+    - id: ASI04:2026
+      context: "MCP skill impersonation via typosquatting, namespace collision, and version spoofing is the primary ASI04 Agentic Supply Chain Vulnerabilities attack vector — malicious skills masquerade as trusted tools to gain agent execution context."
+      strength: primary
+  owasp_llm:
+    - id: LLM03:2025
+      context: "Typosquatted and impersonated MCP skills are supply chain compromise artifacts targeting the tool ecosystem; this rule implements LLM03:2025 Supply Chain Vulnerabilities detection at the skill-name level."
+      strength: primary
+    - id: LLM05:2025
+      context: "An agent invoking an impersonated skill may receive malicious responses that require LLM05:2025 Improper Output Handling controls; this rule prevents the initial tool invocation before output is processed."
+      strength: secondary
+  eu_ai_act:
+    - article: "13"
+      context: "Article 13 transparency requires that AI systems operate with clearly identified components; skill impersonation violates this requirement by substituting unauthorized tools that appear legitimate."
+      strength: primary
+    - article: "9"
+      context: "Supply chain compromise via malicious skill registries is a documented risk requiring monitoring controls under Article 9; skill-name pattern detection is the runtime enforcement of those controls."
+      strength: secondary
+  nist_ai_rmf:
+    - function: Map
+      subcategory: MP.2.3
+      context: "Identifying typosquatted and impersonated MCP skills as AI supply chain risks implements MP.2.3 AI supply chain risk identification at the tool-registry level."
+      strength: primary
+    - function: Govern
+      subcategory: GV.1.2
+      context: "GV.1.2 accountability roles must include responsibility for validating third-party tool integrity; this rule provides the automated signal needed to fulfill that governance obligation."
+      strength: secondary
+  iso_42001:
+    - clause: "8.5"
+      context: "MCP skills are externally-provided AI-related components under clause 8.5; this rule enforces controls over externally-provided tools by detecting impersonation before invocation."
+      strength: primary
+    - clause: "6.2"
+      context: "Clause 6.2 AIMS security planning requires controls for third-party component integrity; skill impersonation detection operationalizes that planning objective at runtime."
+      strength: secondary
+
 tags:
   category: skill-compromise
   subcategory: skill-impersonation

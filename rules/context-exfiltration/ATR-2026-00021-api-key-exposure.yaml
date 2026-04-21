@@ -29,6 +29,43 @@ references:
     - "AML.T0057 - LLM Data Leakage"
     - "AML.T0055 - Unsecured Credentials"
 
+compliance:
+  owasp_agentic:
+    - id: ASI03:2026
+      context: "Credential exposure in agent output enables adversaries to abuse the identity and privileges associated with leaked keys, directly enabling unauthorized resource access classified under ASI03."
+      strength: primary
+  owasp_llm:
+    - id: LLM02:2025
+      context: "API keys, tokens, private keys, and database credentials are sensitive information whose disclosure in agent output is the canonical LLM02:2025 Sensitive Information Disclosure scenario."
+      strength: primary
+    - id: LLM07:2025
+      context: "Credentials embedded in or derived from system prompts that appear in agent output constitute a LLM07:2025 System Prompt Leakage incident with direct security impact."
+      strength: secondary
+  eu_ai_act:
+    - article: "12"
+      section: "1"
+      context: "Article 12 requires automatic logging of events; a credential exposure incident is a high-severity event that must be automatically recorded and reported to the deployer for incident investigation."
+      strength: primary
+    - article: "9"
+      context: "Credential leakage is a documented risk class in the AI system risk management plan; Article 9 requires that monitoring controls are implemented to detect and respond to such events."
+      strength: secondary
+  nist_ai_rmf:
+    - function: Govern
+      subcategory: GV.6.1
+      context: "GV.6.1 requires organizational policies governing sensitive data and credentials in AI systems; this rule enforces those policies by detecting credential exposure at runtime."
+      strength: primary
+    - function: Manage
+      subcategory: MG.3.1
+      context: "Credential exposure requires an immediate risk treatment response; this detection rule is the technical implementation of the risk treatment plan for credential leakage events."
+      strength: secondary
+  iso_42001:
+    - clause: "8.4"
+      context: "Clause 8.4 AI system impact assessment must identify credential leakage as a high-severity impact scenario; this rule generates the detection evidence needed for audit and impact reporting."
+      strength: primary
+    - clause: "6.2"
+      context: "Protecting credentials from exposure is an explicit AIMS information security objective under clause 6.2; detection of leakage events measures whether this objective is being achieved."
+      strength: secondary
+
 tags:
   category: context-exfiltration
   subcategory: credential-exposure
