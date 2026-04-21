@@ -36,6 +36,20 @@ compliance:
     - article: "9"
       context: "Continuation attacks are a documented adversarial technique in the AI risk landscape; Article 9 risk management systems must include detection controls for completion-based jailbreak patterns that use implicit rather than explicit harmful requests."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "MP.5.1"
+      context: "Harmful completion and continuation attacks exploit next-token prediction mechanics to elicit harmful content through partial-phrase baiting; MP.5.1 requires that this class of adversarial input technique targeting model completion behavior be identified and tracked as an AI system risk."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Risk treatment plans under MG.2.3 must implement detection controls for completion-based jailbreaks — including slur-prefix completion, harmful sentence starters, and synthesis step continuation — that bypass direct refusal by using implicit harmful requests."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "Risk treatment activities under clause 6.2 must address harmful completion attacks where partial harmful phrases or synthesis instructions with trailing ellipses exploit AI next-token prediction to produce content the system would refuse if asked directly."
+      strength: primary
+    - clause: "8.6"
+      context: "Operational controls under clause 8.6 must include input scanning that detects continuation bait patterns — explicit completion requests with harmful domain markers, slur-prefix redaction, and open-ended synthesis steps — before they reach the model's prediction layer."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: harmful-completion-continuation

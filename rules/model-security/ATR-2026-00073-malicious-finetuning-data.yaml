@@ -31,6 +31,20 @@ compliance:
     - article: "9"
       context: "Poisoned training data is a documented supply chain risk requiring monitoring controls under Article 9; detection of malicious training patterns implements the required risk management measure."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "MP.5.1"
+      context: "Malicious fine-tuning data injects adversarial backdoor triggers and safety bypass instructions into the AI training process; MP.5.1 requires that this class of adversarial supply chain attack is identified and tracked before poisoned datasets are ingested."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Detected malicious fine-tuning submissions require immediate risk treatment including quarantine and forensic analysis; MG.2.3 mandates that risk treatment plans are implemented to prevent backdoor activation after model deployment."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "ISO 42001 clause 6.2 risk treatment plans must address training data poisoning as a supply chain threat; this rule operationalizes the detection control that inspects fine-tuning uploads for backdoor trigger patterns before they alter model behavior."
+      strength: primary
+    - clause: "8.3"
+      context: "Clause 8.3 requires that data quality, integrity, and provenance for AI systems are maintained; malicious fine-tuning detection enforces data integrity by blocking training examples that embed backdoors, credential disclosure patterns, or safety bypass instructions."
+      strength: secondary
 
 tags:
   category: data-poisoning

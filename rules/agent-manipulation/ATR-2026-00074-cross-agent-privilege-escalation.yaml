@@ -34,6 +34,20 @@ compliance:
     - article: "9"
       context: "Multi-agent privilege escalation via trust relationships is a documented attack pattern in the AI system risk register; Article 9 requires monitoring controls for this lateral movement risk."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "GV.1.2"
+      context: "Cross-agent privilege escalation exploits gaps in the accountability roles defined for each agent in a multi-agent system; GV.1.2 requires that agent role boundaries are defined and that lateral movement across those boundaries is detected."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Credential forwarding and orchestrator bypass between agents require immediate risk treatment to prevent lateral movement from escalating to full system compromise; MG.2.3 mandates that these response plans are pre-defined and activated on detection."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "ISO 42001 clause 6.2 risk treatment activities must cover inter-agent privilege escalation as a multi-agent architecture risk; this rule implements the detection control for credential forwarding and unauthorized role assumption between agents."
+      strength: primary
+    - clause: "8.6"
+      context: "Clause 8.6 operational controls ensure each agent executes within its authorized capability set; cross-agent privilege escalation detection enforces that no agent can assume the permissions of a higher-privilege agent without explicit authorization."
+      strength: secondary
 
 tags:
   category: agent-manipulation

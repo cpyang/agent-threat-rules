@@ -34,6 +34,20 @@ compliance:
     - article: "15"
       context: "Article 15 robustness requirements mandate that AI systems handle adversarial denial-of-service conditions gracefully; this rule detects resource exhaustion patterns before full system unavailability."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "GV.1.2"
+      context: "Resource exhaustion attacks exploit the absence of enforced consumption limits within an agent's accountability scope; GV.1.2 requires that resource boundaries are defined, assigned, and monitored for violations."
+      strength: primary
+    - subcategory: "MG.3.2"
+      context: "Unbounded resource consumption constitutes an AI incident requiring a defined response; MG.3.2 mandates that processes to detect and respond to resource exhaustion failures are in place before full system unavailability occurs."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "ISO 42001 clause 6.2 risk treatment plans must address denial-of-service risks from unbounded agent operations; this rule implements the monitoring control for resource exhaustion patterns before they cause system degradation."
+      strength: primary
+    - clause: "8.6"
+      context: "Clause 8.6 operational controls ensure AI systems execute correctly and within resource limits; detection of SELECT * without LIMIT, infinite loops, and bulk spawn patterns enforces these operational boundaries."
+      strength: secondary
 
 tags:
   category: excessive-autonomy

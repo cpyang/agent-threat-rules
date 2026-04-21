@@ -34,6 +34,20 @@ compliance:
     - article: "9"
       context: "Persona-based jailbreaks exploiting emotional framing are documented high-risk attack patterns; Article 9 risk management requires systematic controls for emotional manipulation techniques used to extract harmful content from high-risk AI systems."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "MP.5.1"
+      context: "Grandma roleplay jailbreaks are adversarial inputs that exploit grief and nostalgia emotional framing to bypass safety constraints; MP.5.1 requires that this class of psychological manipulation risk is identified and tracked as a distinct adversarial input vector."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Emotional-framing persona jailbreaks represent a known risk requiring active treatment through detection controls for deceased-relative roleplay patterns; MG.2.3 requires that risk treatment plans are implemented for identified AI risks including this garak-documented attack family."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "Clause 6.2 AI objectives and plans must include risk treatment for emotional manipulation techniques such as grandma roleplay that lower the model's refusal threshold by exploiting grief and nostalgia framing."
+      strength: primary
+    - clause: "8.6"
+      context: "Clause 8.6 operational controls must ensure that harmful procedural content is not generated regardless of the emotional or persona framing used in the request, blocking grandma roleplay jailbreak patterns before harmful content is produced."
+      strength: secondary
 tags:
   category: agent-manipulation
   subcategory: grandma-roleplay-jailbreak

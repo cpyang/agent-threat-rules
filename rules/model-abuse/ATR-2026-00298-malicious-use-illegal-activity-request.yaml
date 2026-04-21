@@ -50,6 +50,20 @@ compliance:
     - article: "9"
       context: "Illegal activity facilitation is a mandatory risk category in any AI system risk register under Article 9; detection and blocking of direct facilitation requests is a non-negotiable risk treatment for any AI system that interacts with uncontrolled user populations."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "MP.5.1"
+      context: "DoNotAnswer malicious use requests — drug manufacturing, wildlife trafficking, cybercrime, financial crime, and terrorism facilitation — are adversarial inputs with explicit illegal intent markers designed to extract operationally harmful outputs; MP.5.1 requires all five crime categories to be identified and tracked as adversarial input risks."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Risk treatment plans under MG.2.3 must implement blocking controls across all DoNotAnswer malicious use categories, as direct illegal activity facilitation requests represent the highest-priority risk treatment required for AI systems interacting with uncontrolled user populations."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "Risk treatment activities under clause 6.2 must address all five DoNotAnswer malicious use categories — drug crime, wildlife trafficking, cybercrime, financial crime, and terrorism — as mandatory treatment targets for AI systems accessible to the general public."
+      strength: primary
+    - clause: "8.6"
+      context: "Operational controls under clause 8.6 must enforce blocking of illegal activity facilitation requests distinguished by explicit illegal intent markers such as 'illegally', 'without getting caught', and 'on the black market', preventing the AI system from providing operational crime assistance."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: donotanswer-malicious-use-illegal-activity

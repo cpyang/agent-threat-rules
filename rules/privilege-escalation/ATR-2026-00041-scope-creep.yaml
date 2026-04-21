@@ -33,6 +33,20 @@ compliance:
     - article: "9"
       context: "Scope creep is a documented incremental risk pattern in AI agent systems; Article 9 risk management obligations require monitoring controls to detect unsolicited capability expansion."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "GV.1.2"
+      context: "Scope creep erodes the accountability roles and task boundaries assigned to AI agents; GV.1.2 requires that these roles are enforced, making detection of unsolicited capability expansion essential."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Incremental scope expansion represents an active exploitation of agent autonomy; MG.2.3 risk treatment plans must be triggered when agents self-authorize actions beyond their initial assignment."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "ISO 42001 clause 6.2 risk treatment activities must cover gradual privilege expansion; this rule detects the incremental language patterns that indicate an agent is executing scope creep rather than a sudden escalation."
+      strength: primary
+    - clause: "8.6"
+      context: "Clause 8.6 operational controls require that AI systems execute within their defined boundaries; scope creep detection enforces these boundaries by identifying when agents attempt to self-authorize additional actions."
+      strength: secondary
 
 tags:
   category: privilege-escalation

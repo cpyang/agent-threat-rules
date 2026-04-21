@@ -46,6 +46,20 @@ compliance:
     - article: "9"
       context: "System message template injection via unsanitized user input is a documented high-risk vulnerability class; Article 9 risk management systems must include input sanitization controls as a mandatory risk treatment for AI systems that use template-based system prompt construction."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "MP.5.1"
+      context: "CVE-2025-59528 Flowise template injection is an adversarial input attack where attacker-controlled chat input exploits unsanitized {{$flow.variables}} and {{$input}} interpolation to overwrite the system prompt and achieve RCE via vm.runInNewContext; MP.5.1 requires this injection vector to be identified and tracked as an adversarial input risk."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Risk treatment plans under MG.2.3 must mandate input sanitization before Flowise template interpolation, as the CVE-2025-59528 attack achieves system prompt override and remote code execution through the vm.runInNewContext and new Function sinks."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "Risk treatment activities under clause 6.2 must address the Flowise system message override vulnerability (CVE-2025-59528), implementing sanitization controls that prevent attacker-controlled chat inputs from reaching template interpolation in privileged execution contexts."
+      strength: primary
+    - clause: "8.6"
+      context: "Operational controls under clause 8.6 must include detection of Flowise template interpolation syntax ({{$flow.variables}}, {{$input}}) in content fields that feed into system messages or code execution sinks, blocking the CVE-2025-59528 RCE pathway."
+      strength: secondary
 
 tags:
   category: tool-poisoning

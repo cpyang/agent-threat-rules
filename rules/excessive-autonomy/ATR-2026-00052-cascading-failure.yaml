@@ -43,6 +43,20 @@ compliance:
     - article: "15"
       context: "Article 15 accuracy and robustness requirements demand that high-risk AI systems handle failure propagation gracefully; this rule provides the monitoring signal required to contain cascading events."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "GV.1.2"
+      context: "Cascading failures exploit the absence of defined human-in-the-loop checkpoints in agent pipeline accountability structures; GV.1.2 requires that these roles and checkpoints are defined and enforced before automated pipelines propagate errors."
+      strength: primary
+    - subcategory: "MG.3.2"
+      context: "Multi-stage pipeline failures are AI incidents requiring predefined response processes; MG.3.2 mandates that cascading failure response procedures exist so that failure scope can be contained before all downstream agents are affected."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "ISO 42001 clause 6.2 risk treatment activities must cover cascading failure scenarios in multi-agent pipelines; this rule detects the propagation patterns and auto-approval chains that trigger uncontrolled cascade events."
+      strength: primary
+    - clause: "8.6"
+      context: "Clause 8.6 operational controls require that AI pipeline stages execute with appropriate verification gates; detection of blind upstream trust and automated destructive triggers enforces the human checkpoint requirements in pipeline design."
+      strength: secondary
 
 tags:
   category: excessive-autonomy

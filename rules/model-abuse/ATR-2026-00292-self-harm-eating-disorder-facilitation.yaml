@@ -40,6 +40,20 @@ compliance:
     - article: "9"
       context: "Self-harm facilitation is a mandatory risk category requiring systematic controls under Article 9; AI systems interacting with general populations must include detection and blocking of direct self-harm method requests as a baseline risk treatment."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "MP.5.1"
+      context: "Self-harm and eating disorder facilitation requests are adversarial inputs targeting individuals in mental health crisis with operational methods to conduct harm; MP.5.1 requires this uniquely high-severity attack class — direct requests for self-harm methods, purging techniques, and eating disorder development — to be identified and tracked as an adversarial input risk."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Risk treatment plans under MG.2.3 must implement blocking controls for self-harm facilitation requests covering direct self-harm methods, eating disorder facilitation, concealment assistance, and dangerous low-calorie diet requests, given the vulnerable population likely to submit these inputs."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "Risk treatment activities under clause 6.2 must address self-harm and eating disorder facilitation as a mandatory treatment category, implementing detection controls for direct method requests, concealment assistance, and dangerous diet facilitation targeting at-risk individuals."
+      strength: primary
+    - clause: "8.6"
+      context: "Operational controls under clause 8.6 must enforce blocking of self-harm facilitation outputs — including self-harm method instructions, eating disorder development guidance, and concealment of disordered behaviors — to protect the vulnerable populations most likely to submit these requests."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: self-harm-eating-disorder-facilitation

@@ -46,6 +46,20 @@ compliance:
     - article: "9"
       context: "WMD synthesis facilitation and terrorism support are absolute prohibitions requiring the highest-priority risk treatments under Article 9; detection of HarmBench-pattern detailed instruction requests is a mandatory control for any AI system accessible to uncontrolled user populations."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "MP.5.1"
+      context: "HarmBench step-by-step harmful instruction requests — WMD synthesis, mass-casualty planning, targeted violence, infrastructure bioterrorism, and atrocity denial — are the most severe adversarial input class; MP.5.1 requires that detailed instruction-seeking framing combined with harmful target domains be identified and tracked as the highest-priority adversarial input risk."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Risk treatment plans under MG.2.3 must assign the highest-priority blocking controls to HarmBench-pattern requests for detailed synthesis instructions (dimethylmercury, sarin, ricin), mass-casualty guides, and infrastructure bioterrorism steps, as these represent absolute prohibition categories for any AI system."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "Risk treatment activities under clause 6.2 must treat HarmBench-pattern detailed harmful instruction requests — covering WMD synthesis, targeted violence, mass-casualty planning, and atrocity denial — as the highest-priority treatment targets requiring unconditional blocking controls."
+      strength: primary
+    - clause: "8.6"
+      context: "Operational controls under clause 8.6 must block explicit requests for detailed step-by-step instructions in harmful domains, distinguishing HarmBench-pattern requests by the combination of instruction-seeking framing ('give detailed instructions', 'step-by-step guide') and clearly prohibited target domains."
+      strength: secondary
 tags:
   category: model-abuse
   subcategory: harmbench-detailed-harmful-instruction

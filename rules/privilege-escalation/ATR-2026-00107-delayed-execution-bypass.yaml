@@ -30,6 +30,20 @@ compliance:
     - article: "15"
       context: "Article 15 robustness requirements include protection against adversarial privilege escalation techniques; scheduled task abuse that runs with system-level permissions after bypassing user-context checks is a documented attack pattern requiring detection controls."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "GV.1.2"
+      context: "Privilege escalation via delayed task execution requires accountability roles that extend human oversight to deferred agent actions, ensuring that scheduled tasks are subject to the same authorization checks as real-time tool invocations."
+      strength: primary
+    - subcategory: "MG.2.3"
+      context: "Risk treatment plans must address the temporal gap exploit in scheduled task execution by requiring that permission checks are re-validated at execution time rather than only at scheduling time."
+      strength: secondary
+  iso_42001:
+    - clause: "6.2"
+      context: "AI risk treatment activities must explicitly cover deferred execution attack patterns by requiring that scheduled tasks inherit and re-verify the invoking user's authorization context at the time of actual execution."
+      strength: primary
+    - clause: "8.6"
+      context: "Operational controls for AI systems must ensure that delayed background tasks do not acquire elevated privileges beyond what was authorized during scheduling, closing the temporal gap that this attack exploits."
+      strength: secondary
 tags:
   category: privilege-escalation
   subcategory: delayed-execution-bypass

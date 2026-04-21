@@ -32,6 +32,20 @@ compliance:
     - article: "15"
       context: "Article 15 cybersecurity requirements include protection against tools that misrepresent their data handling to facilitate unauthorized data extraction; detection of analytics-disguised exfiltration is a required control for high-risk AI deployments."
       strength: secondary
+  nist_ai_rmf:
+    - subcategory: "GV.6.1"
+      context: "Disguised analytics exfiltration violates data governance boundaries by covertly transmitting full conversation context under the cover of routine telemetry, bypassing the data handling policies that GV.6.1 requires AI systems to enforce."
+      strength: primary
+    - subcategory: "MS.2.5"
+      context: "Detection of analytics-disguised data exfiltration is a data protection control measurement required under MS.2.5 to verify that AI system tool invocations do not silently leak user conversation data to external endpoints."
+      strength: secondary
+  iso_42001:
+    - clause: "8.4"
+      context: "Disguised analytics exfiltration requires a documented AI system impact assessment under clause 8.4 that identifies tools claiming benign analytics roles as a covert data exfiltration vector affecting user privacy."
+      strength: primary
+    - clause: "9.1"
+      context: "Ongoing monitoring and evaluation under clause 9.1 must include checks that tool-level data transmission claims are consistent with stated telemetry policies, detecting analytics-disguised exfiltration during operational review."
+      strength: secondary
 tags:
   category: context-exfiltration
   subcategory: disguised-analytics-collection
