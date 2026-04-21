@@ -194,3 +194,47 @@ Merged rules are automatically:
       a shared protocol
 - [ ] ATR Engine Conformance Test Suite: any engine must pass to claim
       "ATR-compatible"
+
+---
+
+## ATR Standards Membership
+
+ATR provides two community programs that define the project's relationship with
+the broader security industry. Both are governed by [docs/BDFL-charter.md](docs/BDFL-charter.md).
+
+### ATR Certified Skill — Free
+
+ATR Certified Skill is a community designation indicating that an MCP skill has been
+reviewed against the current ATR rule corpus and passes with zero critical findings.
+
+- Cost: Zero. No fee, no commercial relationship required.
+- Process: community review via GitHub Issue; CI is the authority.
+- Validity: 90 days or until a new ATR release affecting relevant rule categories.
+- Model: MITRE ATT&CK / Let's Encrypt transparency model. Quality decisions
+  are made by the community and enforced by CI — not by any commercial entity.
+
+The ATR Numbering Authority does not charge for, influence, or gatekeep skill
+certification outcomes. The CI output is the authoritative source.
+
+### ATR Enterprise Member — $10,000 / year
+
+Enterprise Membership is a governance relationship for organizations that build on
+or depend on ATR. Modeled on the Apache Software Foundation Platinum Sponsor model.
+
+- Cost: $10,000 / year per organization.
+- Benefits: governance vote (post-TSC), early RFC draft access, 7-day priority PR
+  review SLA, logo display in README and website, private coordination channel.
+- Eligibility: any organization demonstrably using ATR in a security product,
+  research project, or internal tooling.
+- Application: open a GitHub Issue with label `enterprise-member-application`.
+
+Enterprise Membership grants governance participation rights. It does NOT grant:
+- Any influence over individual rule acceptance or rejection
+- Any ability to accelerate or block specific rule IDs
+- Any access to non-public data from other organizations' Threat Cloud sensors
+
+Decisions about rule quality are made solely by the CI quality gate and human
+reviewers following the standard review process. Enterprise Membership purchases
+governance access, not detection quality outcomes.
+
+Full program details: [docs/BDFL-charter.md §Enterprise Member Program](docs/BDFL-charter.md#atr-enterprise-member-program----10000--year).

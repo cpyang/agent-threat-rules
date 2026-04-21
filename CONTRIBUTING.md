@@ -250,6 +250,44 @@ Major schema changes require community discussion:
 
 ---
 
+## ATR Standards Programs
+
+### ATR Certified Skill — Getting Certified (Free)
+
+If you have an MCP skill and want to display the ATR Certified badge:
+
+1. Open a GitHub Issue with title `[ATR Certified] <skill-name>`
+2. Attach or link the skill artifact (SKILL.md or MCP tool description)
+3. A community reviewer will run `atr scan` against the artifact and post
+   the full output
+4. If zero critical/high findings: maintainer applies the `atr-certified`
+   label and adds the skill to the certified registry
+5. Certification is valid 90 days. Recertify after each major ATR release.
+
+Cost: Zero. No account required. No commercial relationship required.
+
+### ATR Enterprise Member — Governance Participation
+
+Enterprise Membership is for organizations that depend on ATR in a security
+product, research project, or internal tooling and want governance participation.
+
+Membership is $10,000/year and provides:
+- One governance vote per organization in TSC-level decisions (post-TSC formation)
+- 14-day early access to new RFC drafts before public comment period opens
+- 7-day priority PR review SLA (vs standard 14-day SLA)
+- Organization logo in this repository's README and ATR website
+- Private mailing list for coordinating vendor-pack rule contributions
+
+To apply: open a GitHub Issue with label `enterprise-member-application` and
+include a brief description of how your organization uses ATR.
+
+Enterprise Membership does not grant influence over individual rule decisions.
+Rule acceptance is determined by CI quality gate and community review only.
+
+Full terms: [docs/BDFL-charter.md](docs/BDFL-charter.md).
+
+---
+
 ## License
 
 All contributions are licensed under MIT.
