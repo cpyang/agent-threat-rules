@@ -15,6 +15,7 @@ AI Agent 威脅偵測規則 -- 開源、社群驅動
 [![Rules](https://img.shields.io/badge/rules-311-blue?style=flat-square)](#what-atr-detects)
 [![Tests](https://img.shields.io/badge/tests-361_passing-green?style=flat-square)](#ecosystem)
 [![SKILL.md Recall](https://img.shields.io/badge/SKILL.md_recall-100%25-brightgreen?style=flat-square)](#evaluation)
+[![Garak Recall](https://img.shields.io/badge/garak_recall-97.1%25-brightgreen?style=flat-square)](#evaluation)
 [![Wild Scan](https://img.shields.io/badge/wild_scan-96%2C096_skills-blue?style=flat-square)](#ecosystem-scan)
 [![OWASP](https://img.shields.io/badge/OWASP_Agentic_Top_10-10%2F10-brightgreen?style=flat-square)](#standards-coverage)
 
@@ -72,6 +73,7 @@ Key finding: at least 3 coordinated threat actors mass-published poisoned skills
 
 | Benchmark | Samples | Recall | Precision | FP Rate |
 |-----------|---------|--------|-----------|---------|
+| **NVIDIA garak (in-the-wild jailbreaks)** | **666** | **97.1%** | 100% | 0% |
 | SKILL.md (498 labeled samples) | 498 | **100%** | **97%** | **0.20%** |
 | PINT (Invariant Labs, adversarial) | 850 | -- | 99.6% | 62.7% |
 | Wild scan (96K real-world) | 96,096 | -- | -- | 1.35% flag rate |
@@ -114,12 +116,13 @@ One line. Zero config. SARIF results in your Security tab.
 
 | Category | What it catches | Rules | Real CVEs |
 |----------|----------------|-------|-----------|
-| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads, CJK attacks, hidden override instructions | 33 | CVE-2025-53773, CVE-2025-32711 |
-| **Skill Compromise** | Typosquatting, context poisoning, subcommand overflow, rug pull, supply chain attacks, credential exfil combos | 23 | CVE-2025-59536, CVE-2026-28363 |
-| **Context Exfiltration** | API key leakage, system prompt theft, credential harvesting, env variable exfiltration | 14 | CVE-2026-24307 |
-| **Tool Poisoning** | Malicious MCP responses, consent bypass, hidden LLM instructions, schema contradictions | 12 | CVE-2025-68143/68144/68145 |
-| **Agent Manipulation** | Cross-agent attacks, goal hijacking, Sybil consensus attacks, scope hijacking | 12 | -- |
-| **Privilege Escalation** | Scope creep, delayed execution bypass, admin function access | 8 | CVE-2026-0628 |
+| **Prompt Injection** | "Ignore previous instructions", persona hijacking, encoded payloads (base-N, ROT, Unicode tags, sneaky-bits, zalgo, ecoji, base2048), CJK attacks, latent injection, glitch tokens, DRA parenthesis reconstruction, leakreplay MASK | 108 | CVE-2025-53773, CVE-2025-32711 |
+| **Agent Manipulation** | DAN family (DAN / DUDE / STAN / AntiDAN / RANTI / DevMode), AutoDAN, DanInTheWild, tense framing, grandma roleplay, goodside threat-JSON, doctor XML puppetry, cross-agent attacks, goal hijacking, Sybil consensus | 99 | -- |
+| **Skill Compromise** | Typosquatting, context poisoning, subcommand overflow, rug pull, supply chain attacks, credential exfil combos, HuggingFace unsafe artifacts | 37 | CVE-2025-59536, CVE-2026-28363 |
+| **Context Exfiltration** | API key generation/completion, system prompt theft, credential harvesting, env variable exfil, markdown-URL data exfil, XSS in tool response | 26 | CVE-2026-24307 |
+| **Tool Poisoning** | Malicious MCP responses, consent bypass, hidden LLM instructions, schema contradictions, ANSI escape elicitation | 16 | CVE-2025-68143/68144/68145 |
+| **Privilege Escalation** | Scope creep, delayed execution bypass, admin function access, shell escape | 9 | CVE-2026-0628 |
+| **Model Abuse** | Malware code generation (malwaregen), EICAR/GTUBE signatures, AV-evasion gen | 8 | -- |
 | **Excessive Autonomy** | Runaway loops, resource exhaustion, unauthorized financial actions | 5 | -- |
 | **Model Security** | Behavior extraction, malicious fine-tuning data | 2 | -- |
 | **Data Poisoning** | RAG/knowledge base tampering, memory manipulation | 1 | -- |
@@ -137,7 +140,7 @@ We test ATR with our own tests, external benchmarks, AND real-world wild scannin
 | **SKILL.md benchmark** | **498 labeled samples** | **498** | **97.0%** | **100%** |
 | **96K wild scan** | **OpenClaw + Skills.sh + Hermes + ClawHub** | **96,096** | **--** | **--** |
 | **PINT (adversarial)** | **Invariant Labs** | **850** | **99.6%** | **62.7%** |
-| **Garak (real-world jailbreaks)** | **NVIDIA** | **666** | -- | **69.7%** |
+| **Garak (real-world jailbreaks)** | **NVIDIA** | **666** | 100% | **97.1%** |
 | Self-test (own test cases) | Internal | 361 | 100% | 88.5% |
 
 ```bash
