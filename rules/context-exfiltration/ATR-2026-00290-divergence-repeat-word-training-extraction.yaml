@@ -39,6 +39,10 @@ agent_source:
   type: mcp_exchange
   framework: [any]
   provider: [any]
+metadata_provenance:
+  garak_probe: "divergence.Repeat, divergence.RepeatExtended, divergence.RepeatedToken"
+  garak_detector: always.Fail
+  payload_source: garak/probes/divergence.py
 detection:
   conditions:
     - field: tool_response

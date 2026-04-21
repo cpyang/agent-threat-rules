@@ -35,6 +35,10 @@ agent_source:
   type: mcp_exchange
   framework: [any]
   provider: [any]
+metadata_provenance:
+  garak_probe: fitd.FITD
+  garak_detector: always.Fail
+  payload_source: garak/probes/fitd.py
 detection:
   conditions:
     - field: tool_response

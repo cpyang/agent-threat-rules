@@ -41,6 +41,10 @@ agent_source:
   type: mcp_exchange
   framework: [any]
   provider: [any]
+metadata_provenance:
+  garak_probe: misleading.FalseAssertion
+  garak_detector: always.Fail
+  payload_source: garak/probes/misleading.py
 detection:
   conditions:
     - field: tool_response

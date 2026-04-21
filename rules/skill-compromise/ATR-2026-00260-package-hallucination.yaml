@@ -36,6 +36,10 @@ agent_source:
   type: mcp_exchange
   framework: [any]
   provider: [any]
+metadata_provenance:
+  garak_probe: "packagehallucination.Python, packagehallucination.JavaScript"
+  garak_detector: always.Fail
+  payload_source: garak/probes/packagehallucination.py
 detection:
   conditions:
     - field: tool_response
