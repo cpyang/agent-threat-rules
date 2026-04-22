@@ -1,12 +1,12 @@
 {
-  "version": "2.0.11",
-  "generatedAt": "2026-04-21T03:32:11.223Z",
+  "version": "2.0.17",
+  "generatedAt": "2026-04-22T03:30:53.716Z",
   "rules": {
-    "total": 311,
+    "total": 314,
     "categories": 10,
     "byCategory": {
       "agent-manipulation": 99,
-      "context-exfiltration": 26,
+      "context-exfiltration": 27,
       "data-poisoning": 1,
       "excessive-autonomy": 5,
       "model-abuse": 8,
@@ -14,7 +14,7 @@
       "privilege-escalation": 9,
       "prompt-injection": 108,
       "skill-compromise": 37,
-      "tool-poisoning": 16
+      "tool-poisoning": 18
     }
   },
   "ecosystem": {
