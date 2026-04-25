@@ -1,27 +1,25 @@
-## Daily Scan Summary (2026-04-24)
+## Daily Scan Summary (2026-04-25)
 - Scanned: 50 packages
-- CRITICAL: 7
-- HIGH: 5
-- CLEAN/LOW: 34
+- CRITICAL: 6
+- HIGH: 4
+- CLEAN/LOW: 33
 
 ### Flagged Packages:
-- [CRITICAL] mcp-atlassian (score: 100)
-- [HIGH] shadcn-ui-mcp-server (score: 40)
-- [HIGH] arxiv-mcp-server (score: 45)
-- [CRITICAL] ha-mcp (score: 100)
-- [HIGH] korean-law-mcp (score: 50)
-- [CRITICAL] mcp-server-kubernetes (score: 75)
-- [CRITICAL] gmail-mcp-server (score: 100)
-- [HIGH] 12306-mcp (score: 50)
-- [CRITICAL] xmcp (score: 100)
-- [HIGH] mcp-server-docker (score: 60)
-- [CRITICAL] freee-mcp (score: 100)
-- [CRITICAL] @_davideast/stitch-mcp (score: 70)
+- [CRITICAL] @aaron-pienza/mcp-server-salesforce (score: 100)
+- [HIGH] @aaronsb/google-workspace-mcp (score: 40)
+- [HIGH] @aashari/boilerplate-mcp-server (score: 50)
+- [CRITICAL] @addition-works/runway-mcp-server (score: 100)
+- [CRITICAL] @agent-infra/mcp-server-commands (score: 100)
+- [CRITICAL] @agent-infra/mcp-server-filesystem (score: 100)
+- [CRITICAL] @agent-tasks/mcp-server (score: 100)
+- [CRITICAL] @agent-wiki/mcp-server (score: 85)
+- [HIGH] @agentlux/mcp-server (score: 50)
+- [HIGH] @agimon-ai/imagine-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 50
-  - CLEAN: 30
-  - CRITICAL: 7
-  - HIGH: 5
-  - LOW: 4
-  - MEDIUM: 4
+- Total scanned: 100
+  - CLEAN: 57
+  - CRITICAL: 13
+  - HIGH: 9
+  - LOW: 10
+  - MEDIUM: 11
