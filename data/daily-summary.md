@@ -1,25 +1,28 @@
-## Daily Scan Summary (2026-04-25)
+## Daily Scan Summary (2026-04-26)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 4
-- CLEAN/LOW: 33
+- CRITICAL: 5
+- HIGH: 8
+- CLEAN/LOW: 30
 
 ### Flagged Packages:
-- [CRITICAL] @aaron-pienza/mcp-server-salesforce (score: 100)
-- [HIGH] @aaronsb/google-workspace-mcp (score: 40)
-- [HIGH] @aashari/boilerplate-mcp-server (score: 50)
-- [CRITICAL] @addition-works/runway-mcp-server (score: 100)
-- [CRITICAL] @agent-infra/mcp-server-commands (score: 100)
-- [CRITICAL] @agent-infra/mcp-server-filesystem (score: 100)
-- [CRITICAL] @agent-tasks/mcp-server (score: 100)
-- [CRITICAL] @agent-wiki/mcp-server (score: 85)
-- [HIGH] @agentlux/mcp-server (score: 50)
-- [HIGH] @agimon-ai/imagine-mcp (score: 50)
+- [HIGH] @agenticamem/xap-mcp (score: 50)
+- [HIGH] @agentsbazaar/mcp (score: 50)
+- [HIGH] @agimon-ai/log-sink-mcp (score: 40)
+- [HIGH] @agimon-ai/model-proxy-mcp (score: 40)
+- [HIGH] @ahdev/dokploy-mcp (score: 50)
+- [HIGH] @ahmedmustahid/postgres-mcp-server (score: 50)
+- [CRITICAL] @ai-dossier/mcp-server (score: 100)
+- [CRITICAL] @aicloud360/mcp-server-disk (score: 100)
+- [CRITICAL] @aiondadotcom/mcp-ssh (score: 80)
+- [HIGH] @aipper/zentao-mcp-server (score: 40)
+- [HIGH] @aiready/mcp-server (score: 40)
+- [CRITICAL] @aiwerk/mcp-bridge (score: 100)
+- [CRITICAL] @alexsarrell/gitlab-mcp-server (score: 70)
 
 ### Cumulative:
-- Total scanned: 100
-  - CLEAN: 57
-  - CRITICAL: 13
-  - HIGH: 9
-  - LOW: 10
-  - MEDIUM: 11
+- Total scanned: 150
+  - CLEAN: 81
+  - CRITICAL: 18
+  - HIGH: 17
+  - LOW: 16
+  - MEDIUM: 18
