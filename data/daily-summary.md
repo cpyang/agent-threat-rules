@@ -1,28 +1,26 @@
-## Daily Scan Summary (2026-04-26)
+## Daily Scan Summary (2026-04-27)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 8
-- CLEAN/LOW: 30
+- CRITICAL: 6
+- HIGH: 4
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [HIGH] @agenticamem/xap-mcp (score: 50)
-- [HIGH] @agentsbazaar/mcp (score: 50)
-- [HIGH] @agimon-ai/log-sink-mcp (score: 40)
-- [HIGH] @agimon-ai/model-proxy-mcp (score: 40)
-- [HIGH] @ahdev/dokploy-mcp (score: 50)
-- [HIGH] @ahmedmustahid/postgres-mcp-server (score: 50)
-- [CRITICAL] @ai-dossier/mcp-server (score: 100)
-- [CRITICAL] @aicloud360/mcp-server-disk (score: 100)
-- [CRITICAL] @aiondadotcom/mcp-ssh (score: 80)
-- [HIGH] @aipper/zentao-mcp-server (score: 40)
-- [HIGH] @aiready/mcp-server (score: 40)
-- [CRITICAL] @aiwerk/mcp-bridge (score: 100)
-- [CRITICAL] @alexsarrell/gitlab-mcp-server (score: 70)
+- [CRITICAL] @172ai/containers-mcp-server (score: 100)
+- [HIGH] @a4hgehad/weave-mcp (score: 55)
+- [CRITICAL] @agent_fi/mcp-server (score: 100)
+- [HIGH] @agentica/core (score: 60)
+- [HIGH] @agentpmt/mcp-router (score: 50)
+- [CRITICAL] @agentuniversity/implant (score: 90)
+- [CRITICAL] @almanak/mcp-server (score: 95)
+- [HIGH] @alosies/gitlab-mcp-server (score: 45)
+- [CRITICAL] @altimateai/datamate (score: 100)
+- [CRITICAL] @amplitude/plugin-session-replay-browser (score: 100)
 
 ### Cumulative:
-- Total scanned: 150
-  - CLEAN: 81
-  - CRITICAL: 18
-  - HIGH: 17
-  - LOW: 16
-  - MEDIUM: 18
+- Total scanned: 200
+  - CLEAN: 109
+  - CRITICAL: 24
+  - ERROR: 1
+  - HIGH: 21
+  - LOW: 23
+  - MEDIUM: 22
