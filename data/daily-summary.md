@@ -1,25 +1,25 @@
-## Daily Scan Summary (2026-04-28)
+## Daily Scan Summary (2026-04-29)
 - Scanned: 50 packages
-- CRITICAL: 7
-- HIGH: 2
-- CLEAN/LOW: 33
+- CRITICAL: 5
+- HIGH: 4
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @agentforge-ai/core (score: 100)
-- [HIGH] @anyshift/anyshift-mcp-server (score: 40)
-- [CRITICAL] @aot-tech/jira-mcp-server (score: 80)
-- [CRITICAL] @apify/actors-mcp-server (score: 100)
-- [CRITICAL] @arabold/docs-mcp-server (score: 100)
-- [HIGH] @arimakouyou/spec-workflow-mcp (score: 50)
-- [CRITICAL] @arkheia/mcp-server (score: 100)
-- [CRITICAL] @atelier-ai/mcp (score: 100)
-- [CRITICAL] @atezer/figma-mcp-bridge (score: 100)
+- [CRITICAL] iterm-mcp (score: 80)
+- [HIGH] prometheus-mcp-server (score: 40)
+- [CRITICAL] @199-bio/engram (score: 90)
+- [CRITICAL] @1claw/mcp (score: 100)
+- [HIGH] @a2hmarket/a2h-mcp (score: 50)
+- [CRITICAL] @aaronsb/salesforce-cloud-mcp (score: 100)
+- [HIGH] @accelon/ptkmcp (score: 60)
+- [HIGH] @ace-sdk/mcp (score: 40)
+- [CRITICAL] @adapik/jira-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 250
-  - CLEAN: 137
-  - CRITICAL: 31
+- Total scanned: 300
+  - CLEAN: 171
+  - CRITICAL: 36
   - ERROR: 1
-  - HIGH: 23
-  - LOW: 28
-  - MEDIUM: 30
+  - HIGH: 27
+  - LOW: 32
+  - MEDIUM: 33
