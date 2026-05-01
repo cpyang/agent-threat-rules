@@ -1,31 +1,23 @@
-## Daily Scan Summary (2026-04-30)
+## Daily Scan Summary (2026-05-01)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 9
-- CLEAN/LOW: 30
+- CRITICAL: 4
+- HIGH: 3
+- CLEAN/LOW: 36
 
 ### Flagged Packages:
-- [CRITICAL] @astandrik/local-ydb-mcp (score: 100)
-- [HIGH] @attackforge/mcp-server (score: 50)
-- [HIGH] @auth0/auth0-mcp-server (score: 48)
-- [HIGH] @automatalabs/mcp-server-playwright (score: 50)
-- [HIGH] @avatarbook/mcp-server (score: 60)
-- [HIGH] @aztec/mcp-server (score: 40)
-- [HIGH] @baklib/baklib-mcp-server (score: 40)
-- [CRITICAL] @basex-ui/mcp-server (score: 75)
-- [HIGH] @beeper/desktop-mcp (score: 60)
-- [HIGH] @bgx4k3p/huly-mcp-server (score: 50)
-- [CRITICAL] @bigstrider/transcodes-mcp-server (score: 100)
-- [CRITICAL] @binalyze/air-mcp (score: 100)
-- [CRITICAL] @biolm/biolm-mcp (score: 100)
-- [HIGH] @bitatlas/mcp-server (score: 50)
-- [CRITICAL] @bitwarden/mcp-server (score: 96.66666666666666)
+- [CRITICAL] @beepflow/mcp (score: 100)
+- [CRITICAL] @blackhole-dex/blackhole-mcp-server (score: 85)
+- [HIGH] @bridge_gpt/mcp-server (score: 45)
+- [HIGH] @builtwith/mcp-server (score: 50)
+- [HIGH] @bytebase/dbhub (score: 50)
+- [CRITICAL] @calcis/mcp-server (score: 80)
+- [CRITICAL] @cemalturkcann/mariadb-mcp-server (score: 95)
 
 ### Cumulative:
-- Total scanned: 350
-  - CLEAN: 194
-  - CRITICAL: 42
+- Total scanned: 400
+  - CLEAN: 225
+  - CRITICAL: 46
   - ERROR: 1
-  - HIGH: 36
-  - LOW: 39
-  - MEDIUM: 38
+  - HIGH: 39
+  - LOW: 44
+  - MEDIUM: 45
