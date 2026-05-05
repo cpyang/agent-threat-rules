@@ -1,26 +1,24 @@
-## Daily Scan Summary (2026-05-04)
+## Daily Scan Summary (2026-05-05)
 - Scanned: 50 packages
 - CRITICAL: 4
-- HIGH: 6
-- CLEAN/LOW: 35
+- HIGH: 4
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [HIGH] @adisuryanathanael/mcp-server-filesystem2 (score: 55)
-- [HIGH] @boltmcp/mcp-sdk-express (score: 50)
-- [HIGH] @boltmcp/mcp-sdk-node (score: 50)
-- [CRITICAL] @claude-code-best/mcp-chrome-bridge (score: 100)
-- [HIGH] @cloudinary/asset-management-mcp (score: 45)
-- [HIGH] @composer-app/mcp (score: 50)
-- [CRITICAL] @contextstream/mcp-server (score: 75)
-- [CRITICAL] @cozyflux/mcp-server (score: 100)
-- [HIGH] @cristip73/mcp-server-asana (score: 55)
-- [CRITICAL] @crush-protocol/mcp-client (score: 100)
+- [CRITICAL] @adbutler/mcp-server (score: 100)
+- [CRITICAL] @antv/mcp-server-antv (score: 85)
+- [HIGH] @buywhere/mcp-server (score: 45)
+- [CRITICAL] @dalmasonto/taskflow-mcp (score: 70)
+- [CRITICAL] @dangerusslee/gitlab-mcp-server (score: 70)
+- [HIGH] @databrainhq/mcp-server (score: 50)
+- [HIGH] @davoxi/mcp-server (score: 45)
+- [HIGH] @decaf-ts/mcp-server (score: 60)
 
 ### Cumulative:
-- Total scanned: 550
-  - CLEAN: 306
-  - CRITICAL: 58
+- Total scanned: 600
+  - CLEAN: 339
+  - CRITICAL: 62
   - ERROR: 1
-  - HIGH: 55
-  - LOW: 73
-  - MEDIUM: 57
+  - HIGH: 59
+  - LOW: 79
+  - MEDIUM: 60
