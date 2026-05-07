@@ -1,30 +1,28 @@
-## Daily Scan Summary (2026-05-06)
+## Daily Scan Summary (2026-05-07)
 - Scanned: 50 packages
-- CRITICAL: 11
-- HIGH: 3
-- CLEAN/LOW: 31
+- CRITICAL: 7
+- HIGH: 5
+- CLEAN/LOW: 33
 
 ### Flagged Packages:
-- [CRITICAL] @afferens/mcp-server (score: 100)
-- [CRITICAL] @asterpay/mcp-server (score: 100)
-- [CRITICAL] @beosin/kyt-mcp-server (score: 100)
-- [CRITICAL] @businys/mcp-server (score: 100)
-- [HIGH] @channel47/google-ads-mcp (score: 45)
-- [CRITICAL] @citely/mcp-server (score: 100)
-- [HIGH] @cognistore/mcp-server (score: 40)
-- [CRITICAL] @didit-protocol/mcp-server (score: 100)
-- [CRITICAL] @dinanathdash/envault-mcp-server (score: 100)
-- [CRITICAL] @doitintl/doit-mcp-server (score: 75)
-- [CRITICAL] @dokploy/mcp (score: 100)
-- [HIGH] @dollhousemcp/mcp-server (score: 50)
-- [CRITICAL] @doomscrollr/mcp-server (score: 75)
-- [CRITICAL] @edubase/mcp (score: 100)
+- [CRITICAL] @addition-works/figma-mcp-server (score: 100)
+- [CRITICAL] @bdmarvin/mcp-server-gbp (score: 100)
+- [CRITICAL] @cognisos/fabric-mcp (score: 100)
+- [CRITICAL] @elisym/mcp (score: 75)
+- [CRITICAL] @elixium.ai/mcp-server (score: 100)
+- [HIGH] @elizaos/plugin-mcp (score: 50)
+- [HIGH] @emuluxe/mcp-server (score: 40)
+- [HIGH] @ericthered926/duckduckgo-mcp-server (score: 60)
+- [CRITICAL] @execufunction/mcp-server (score: 100)
+- [HIGH] @executeautomation/database-server (score: 65)
+- [HIGH] @executeautomation/playwright-mcp-server (score: 45)
+- [CRITICAL] @extentos/mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 650
-  - CLEAN: 364
-  - CRITICAL: 73
+- Total scanned: 700
+  - CLEAN: 395
+  - CRITICAL: 80
   - ERROR: 1
-  - HIGH: 62
-  - LOW: 85
-  - MEDIUM: 65
+  - HIGH: 67
+  - LOW: 87
+  - MEDIUM: 70
