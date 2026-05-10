@@ -1,21 +1,23 @@
-## Daily Scan Summary (2026-05-09)
+## Daily Scan Summary (2026-05-10)
 - Scanned: 50 packages
-- CRITICAL: 3
+- CRITICAL: 5
 - HIGH: 2
-- CLEAN/LOW: 39
+- CLEAN/LOW: 40
 
 ### Flagged Packages:
-- [CRITICAL] @amitdeshmukh/google-jules-mcp (score: 75)
-- [HIGH] @crscreditapi/finstack-mcp-server (score: 50)
-- [CRITICAL] @drumnation/unsplash-smart-mcp-server (score: 100)
-- [CRITICAL] @emergent-wisdom/understanding-graph-mcp-server (score: 95)
-- [HIGH] @fastmcp-me/agentops-mcp (score: 40)
+- [CRITICAL] @firefly-iii-mcp/core (score: 100)
+- [CRITICAL] @flexprice/mcp-server (score: 100)
+- [CRITICAL] @flowdot.ai/mcp-server (score: 100)
+- [CRITICAL] @fuzehq-io/mcp (score: 100)
+- [HIGH] @gannonh/firebase-mcp (score: 50)
+- [CRITICAL] @genlobe/mcp-server (score: 100)
+- [HIGH] @geobio/mcp-open-library (score: 45)
 
 ### Cumulative:
-- Total scanned: 800
-  - CLEAN: 456
-  - CRITICAL: 90
+- Total scanned: 850
+  - CLEAN: 490
+  - CRITICAL: 95
   - ERROR: 1
-  - HIGH: 81
-  - LOW: 94
-  - MEDIUM: 78
+  - HIGH: 83
+  - LOW: 100
+  - MEDIUM: 81
