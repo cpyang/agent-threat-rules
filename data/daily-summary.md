@@ -1,23 +1,21 @@
-## Daily Scan Summary (2026-05-10)
+## Daily Scan Summary (2026-05-11)
 - Scanned: 50 packages
-- CRITICAL: 5
+- CRITICAL: 3
 - HIGH: 2
-- CLEAN/LOW: 40
+- CLEAN/LOW: 41
 
 ### Flagged Packages:
-- [CRITICAL] @firefly-iii-mcp/core (score: 100)
-- [CRITICAL] @flexprice/mcp-server (score: 100)
-- [CRITICAL] @flowdot.ai/mcp-server (score: 100)
-- [CRITICAL] @fuzehq-io/mcp (score: 100)
-- [HIGH] @gannonh/firebase-mcp (score: 50)
-- [CRITICAL] @genlobe/mcp-server (score: 100)
-- [HIGH] @geobio/mcp-open-library (score: 45)
+- [CRITICAL] @choplin/mcp-gemini-cli (score: 80)
+- [HIGH] @geunoh/s3-mcp-server (score: 50)
+- [HIGH] @gongrzhe/server-gmail-autoauth-mcp (score: 50)
+- [CRITICAL] @gopherhole/mcp (score: 100)
+- [CRITICAL] @gramatr/mcp (score: 75)
 
 ### Cumulative:
-- Total scanned: 850
-  - CLEAN: 490
-  - CRITICAL: 95
+- Total scanned: 900
+  - CLEAN: 523
+  - CRITICAL: 98
   - ERROR: 1
-  - HIGH: 83
-  - LOW: 100
-  - MEDIUM: 81
+  - HIGH: 85
+  - LOW: 108
+  - MEDIUM: 85
