@@ -1,27 +1,24 @@
-## Daily Scan Summary (2026-05-12)
+## Daily Scan Summary (2026-05-13)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 3
-- CLEAN/LOW: 32
+- CRITICAL: 6
+- HIGH: 2
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @hasna/mementos (score: 95)
-- [HIGH] @hasna/todos (score: 55)
-- [CRITICAL] @henkey/postgres-mcp-server (score: 100)
-- [CRITICAL] @heroku/mcp-server (score: 75)
-- [CRITICAL] @heroui/native-mcp (score: 70)
-- [CRITICAL] @heroui/react-mcp (score: 100)
-- [CRITICAL] @hirey-ai/mcp-server (score: 100)
-- [CRITICAL] @hirey/hi-mcp-server (score: 100)
-- [HIGH] @hiveai/mcp (score: 60)
-- [HIGH] @honecrm/mcp-server (score: 60)
-- [CRITICAL] @hz-abyssal-heart/a2amarket-mcp-server (score: 100)
+- [CRITICAL] @arguslog/mcp-server (score: 100)
+- [CRITICAL] @askexenow/exe-create-mcp (score: 100)
+- [HIGH] @doquflow/server (score: 45)
+- [CRITICAL] @esdantunes/atlassian-mcp (score: 100)
+- [CRITICAL] @f2c/mcp (score: 100)
+- [HIGH] @gethmy/mcp (score: 45)
+- [CRITICAL] @gscdump/cli (score: 100)
+- [CRITICAL] @inbetweenai/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 950
-  - CLEAN: 551
-  - CRITICAL: 106
+- Total scanned: 1000
+  - CLEAN: 581
+  - CRITICAL: 112
   - ERROR: 1
-  - HIGH: 88
-  - LOW: 112
-  - MEDIUM: 92
+  - HIGH: 90
+  - LOW: 120
+  - MEDIUM: 96
