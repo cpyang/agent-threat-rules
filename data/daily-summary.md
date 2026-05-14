@@ -1,24 +1,26 @@
-## Daily Scan Summary (2026-05-13)
+## Daily Scan Summary (2026-05-14)
 - Scanned: 50 packages
-- CRITICAL: 6
+- CRITICAL: 8
 - HIGH: 2
-- CLEAN/LOW: 38
+- CLEAN/LOW: 32
 
 ### Flagged Packages:
-- [CRITICAL] @arguslog/mcp-server (score: 100)
-- [CRITICAL] @askexenow/exe-create-mcp (score: 100)
-- [HIGH] @doquflow/server (score: 45)
-- [CRITICAL] @esdantunes/atlassian-mcp (score: 100)
-- [CRITICAL] @f2c/mcp (score: 100)
-- [HIGH] @gethmy/mcp (score: 45)
-- [CRITICAL] @gscdump/cli (score: 100)
-- [CRITICAL] @inbetweenai/mcp (score: 100)
+- [CRITICAL] @0xshariq/email-mcp-server (score: 100)
+- [CRITICAL] @ai.to.design/figma-connector (score: 100)
+- [CRITICAL] @alisaitteke/photoshop-mcp (score: 100)
+- [CRITICAL] @deepsql/mcp (score: 85)
+- [HIGH] @filepad/mcp-server (score: 55)
+- [CRITICAL] @fragments-sdk/cli (score: 100)
+- [CRITICAL] @gonzih/cc-agent (score: 100)
+- [CRITICAL] @gurulu/mcp-server (score: 100)
+- [CRITICAL] @illuminaresolutions/n8n-mcp-server (score: 100)
+- [HIGH] @instantdb/mcp (score: 55)
 
 ### Cumulative:
-- Total scanned: 1000
-  - CLEAN: 581
-  - CRITICAL: 112
+- Total scanned: 1050
+  - CLEAN: 609
+  - CRITICAL: 120
   - ERROR: 1
-  - HIGH: 90
-  - LOW: 120
-  - MEDIUM: 96
+  - HIGH: 92
+  - LOW: 124
+  - MEDIUM: 104
