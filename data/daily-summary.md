@@ -1,26 +1,26 @@
-## Daily Scan Summary (2026-05-14)
+## Daily Scan Summary (2026-05-15)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 2
+- CRITICAL: 4
+- HIGH: 6
 - CLEAN/LOW: 32
 
 ### Flagged Packages:
-- [CRITICAL] @0xshariq/email-mcp-server (score: 100)
-- [CRITICAL] @ai.to.design/figma-connector (score: 100)
-- [CRITICAL] @alisaitteke/photoshop-mcp (score: 100)
-- [CRITICAL] @deepsql/mcp (score: 85)
-- [HIGH] @filepad/mcp-server (score: 55)
-- [CRITICAL] @fragments-sdk/cli (score: 100)
-- [CRITICAL] @gonzih/cc-agent (score: 100)
-- [CRITICAL] @gurulu/mcp-server (score: 100)
-- [CRITICAL] @illuminaresolutions/n8n-mcp-server (score: 100)
-- [HIGH] @instantdb/mcp (score: 55)
+- [CRITICAL] @agenttrust-sdk/mcp (score: 85)
+- [HIGH] @dankelleher/mcp-eval (score: 50)
+- [CRITICAL] @hoststack.dev/mcp (score: 100)
+- [CRITICAL] @isteam/mcp (score: 75)
+- [HIGH] @jaumemory/mcp-server (score: 60)
+- [HIGH] @jiujiang/jishi-mcp-server (score: 60)
+- [HIGH] @johnson.lee/mysql-mcp-server (score: 45)
+- [HIGH] @joshuarileydev/supabase-mcp-server (score: 40)
+- [HIGH] @jpisnice/shadcn-ui-mcp-server (score: 40)
+- [CRITICAL] @jungho-dev/fs-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 1050
-  - CLEAN: 609
-  - CRITICAL: 120
+- Total scanned: 1100
+  - CLEAN: 635
+  - CRITICAL: 124
   - ERROR: 1
-  - HIGH: 92
-  - LOW: 124
-  - MEDIUM: 104
+  - HIGH: 98
+  - LOW: 130
+  - MEDIUM: 112
