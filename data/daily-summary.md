@@ -1,28 +1,24 @@
-## Daily Scan Summary (2026-05-20)
+## Daily Scan Summary (2026-05-21)
 - Scanned: 50 packages
-- CRITICAL: 7
-- HIGH: 5
-- CLEAN/LOW: 33
+- CRITICAL: 4
+- HIGH: 4
+- CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [CRITICAL] @b10cks/mcp-server (score: 100)
-- [CRITICAL] @comparedge/mcp-server (score: 75)
-- [CRITICAL] @desplega.ai/qa-use (score: 100)
-- [HIGH] @fragile.app/mcp (score: 50)
-- [CRITICAL] @kazuph/mcp-raindrop (score: 80)
-- [HIGH] @line-harness/mcp-server (score: 50)
-- [HIGH] @mcp-s/mcp (score: 40)
-- [CRITICAL] @mcp-ui/client (score: 100)
-- [HIGH] @mcp-ui/server (score: 50)
-- [CRITICAL] @mcpmarket/mcp-auto-install (score: 100)
-- [CRITICAL] @memberjunction/ai-mcp-server (score: 100)
-- [HIGH] @mergeguide/mcp-server (score: 60)
+- [HIGH] @essentialai/cogent-bridge (score: 40)
+- [CRITICAL] @locofy/mcp (score: 100)
+- [HIGH] @mailerlite/canny-mcp-server (score: 40)
+- [HIGH] @mcpservers/openrouterai (score: 50)
+- [HIGH] @membank/mcp (score: 40)
+- [CRITICAL] @microsoft/agentos-mcp-server (score: 76)
+- [CRITICAL] @midscene/harmony-mcp (score: 100)
+- [CRITICAL] @midscene/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 1350
-  - CLEAN: 769
-  - CRITICAL: 161
+- Total scanned: 1400
+  - CLEAN: 798
+  - CRITICAL: 165
   - ERROR: 1
-  - HIGH: 118
-  - LOW: 161
-  - MEDIUM: 140
+  - HIGH: 122
+  - LOW: 166
+  - MEDIUM: 148
