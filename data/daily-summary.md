@@ -1,24 +1,22 @@
-## Daily Scan Summary (2026-05-21)
+## Daily Scan Summary (2026-05-22)
 - Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 4
-- CLEAN/LOW: 34
+- CRITICAL: 5
+- HIGH: 1
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [HIGH] @essentialai/cogent-bridge (score: 40)
-- [CRITICAL] @locofy/mcp (score: 100)
-- [HIGH] @mailerlite/canny-mcp-server (score: 40)
-- [HIGH] @mcpservers/openrouterai (score: 50)
-- [HIGH] @membank/mcp (score: 40)
-- [CRITICAL] @microsoft/agentos-mcp-server (score: 76)
-- [CRITICAL] @midscene/harmony-mcp (score: 100)
-- [CRITICAL] @midscene/mcp (score: 100)
+- [CRITICAL] @dashclaw/mcp-server (score: 100)
+- [CRITICAL] @hualinge/relay-mcp-server (score: 80)
+- [HIGH] @liveauth-labs/mcp-server (score: 55)
+- [CRITICAL] @mirrai/mcp-server (score: 100)
+- [CRITICAL] @missionsquad/mcp-github (score: 100)
+- [CRITICAL] @moneyforward_i/admina-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 1400
-  - CLEAN: 798
-  - CRITICAL: 165
+- Total scanned: 1450
+  - CLEAN: 832
+  - CRITICAL: 170
   - ERROR: 1
-  - HIGH: 122
-  - LOW: 166
-  - MEDIUM: 148
+  - HIGH: 123
+  - LOW: 171
+  - MEDIUM: 153
