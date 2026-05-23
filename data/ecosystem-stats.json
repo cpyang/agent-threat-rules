@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-05-22T02:43:28.703Z",
-  "totalPackages": 1450,
-  "totalTools": 17973,
+  "generatedAt": "2026-05-23T02:29:21.834Z",
+  "totalPackages": 1500,
+  "totalTools": 18549,
   "riskDistribution": {
-    "CLEAN": 832,
-    "MEDIUM": 153,
-    "CRITICAL": 170,
-    "HIGH": 123,
-    "LOW": 171,
+    "CLEAN": 859,
+    "MEDIUM": 155,
+    "CRITICAL": 182,
+    "HIGH": 128,
+    "LOW": 175,
     "ERROR": 1
   },
   "supplyChain": {
-    "withPostInstall": 57,
+    "withPostInstall": 61,
     "typosquatRisk": 3
   },
-  "threatRate": 20.2,
-  "lastScanDate": "2026-05-22T02:43:27.263Z"
+  "threatRate": 20.7,
+  "lastScanDate": "2026-05-23T02:29:20.520Z"
 }
