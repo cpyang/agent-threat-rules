@@ -1,31 +1,26 @@
-## Daily Scan Summary (2026-05-25)
+## Daily Scan Summary (2026-05-26)
 - Scanned: 50 packages
-- CRITICAL: 11
-- HIGH: 4
-- CLEAN/LOW: 31
+- CRITICAL: 7
+- HIGH: 3
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [HIGH] @botcommunity/mcp-server (score: 40)
-- [CRITICAL] @buygit/mcp-server (score: 100)
-- [HIGH] @costlens/mcp-server (score: 40)
-- [HIGH] @markdownai/mcp (score: 45)
-- [HIGH] @nbiish/ai-tool-mcp (score: 40)
-- [CRITICAL] @neruva/mcp (score: 100)
-- [CRITICAL] @omnidim-ai/mcp-server (score: 100)
-- [CRITICAL] @oneforma/mcp-server (score: 100)
-- [CRITICAL] @oneuptime/mcp-server (score: 100)
-- [CRITICAL] @onyxsecurity/mcp-gateway (score: 100)
-- [CRITICAL] @openape/apes (score: 100)
-- [CRITICAL] @opencapstack/mcp-server (score: 95)
-- [CRITICAL] @openjiuwen/relay-mcp-server (score: 80)
-- [CRITICAL] @optiqcode/cli (score: 70)
-- [CRITICAL] @opvs-ai/mcp (score: 100)
+- [CRITICAL] @actwith-ai/mcp-server (score: 100)
+- [CRITICAL] @aithr-ai/mcp-server (score: 100)
+- [CRITICAL] @apexradius/apex-automation-mcp (score: 90)
+- [CRITICAL] @bromso/figma-mcp (score: 100)
+- [HIGH] @codify-ai/mcp-client (score: 50)
+- [CRITICAL] @deepakd/tekionai-mcp-client (score: 90)
+- [HIGH] @elsium-ai/mcp (score: 40)
+- [CRITICAL] @fazer-ai/mcp-obsidian (score: 80)
+- [HIGH] @jhl8041/dooray-mcp (score: 60)
+- [CRITICAL] @kaanha-ai/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 1600
-  - CLEAN: 904
-  - CRITICAL: 203
+- Total scanned: 1650
+  - CLEAN: 932
+  - CRITICAL: 210
   - ERROR: 2
-  - HIGH: 133
-  - LOW: 185
-  - MEDIUM: 173
+  - HIGH: 136
+  - LOW: 194
+  - MEDIUM: 176
