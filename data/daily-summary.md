@@ -1,26 +1,20 @@
-## Daily Scan Summary (2026-05-26)
+## Daily Scan Summary (2026-05-27)
 - Scanned: 50 packages
-- CRITICAL: 7
+- CRITICAL: 1
 - HIGH: 3
-- CLEAN/LOW: 37
+- CLEAN/LOW: 44
 
 ### Flagged Packages:
-- [CRITICAL] @actwith-ai/mcp-server (score: 100)
-- [CRITICAL] @aithr-ai/mcp-server (score: 100)
-- [CRITICAL] @apexradius/apex-automation-mcp (score: 90)
-- [CRITICAL] @bromso/figma-mcp (score: 100)
-- [HIGH] @codify-ai/mcp-client (score: 50)
-- [CRITICAL] @deepakd/tekionai-mcp-client (score: 90)
-- [HIGH] @elsium-ai/mcp (score: 40)
-- [CRITICAL] @fazer-ai/mcp-obsidian (score: 80)
-- [HIGH] @jhl8041/dooray-mcp (score: 60)
-- [CRITICAL] @kaanha-ai/mcp (score: 100)
+- [HIGH] @acwink/movies-search-mcp (score: 60)
+- [HIGH] @agile-team/wl-skills-kit (score: 55)
+- [CRITICAL] @caputchin/mcp (score: 100)
+- [HIGH] @chrbailey/promptspeak-mcp-server (score: 50)
 
 ### Cumulative:
-- Total scanned: 1650
-  - CLEAN: 932
-  - CRITICAL: 210
+- Total scanned: 1700
+  - CLEAN: 968
+  - CRITICAL: 211
   - ERROR: 2
-  - HIGH: 136
-  - LOW: 194
-  - MEDIUM: 176
+  - HIGH: 139
+  - LOW: 202
+  - MEDIUM: 178
