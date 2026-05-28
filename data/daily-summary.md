@@ -1,20 +1,28 @@
-## Daily Scan Summary (2026-05-27)
+## Daily Scan Summary (2026-05-28)
 - Scanned: 50 packages
-- CRITICAL: 1
-- HIGH: 3
-- CLEAN/LOW: 44
+- CRITICAL: 5
+- HIGH: 7
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [HIGH] @acwink/movies-search-mcp (score: 60)
-- [HIGH] @agile-team/wl-skills-kit (score: 55)
-- [CRITICAL] @caputchin/mcp (score: 100)
-- [HIGH] @chrbailey/promptspeak-mcp-server (score: 50)
+- [HIGH] @ainative/cody-for-chrome-mcp (score: 50)
+- [CRITICAL] @atoms-tech/atoms-mcp (score: 100)
+- [CRITICAL] @framingui/mcp-server (score: 80)
+- [HIGH] @linqapp/sdk-mcp (score: 50)
+- [CRITICAL] @majuntao-1/browser-bridge-mcp-server (score: 100)
+- [HIGH] @mehmetsenol/gorev-mcp-server (score: 45)
+- [HIGH] @mrprasadrsawant/meldep-mcp (score: 45)
+- [HIGH] @node-in-layers/mcp-server (score: 60)
+- [CRITICAL] @orderly.network/sdk-docs (score: 70)
+- [HIGH] @overpod/mcp-telegram (score: 50)
+- [CRITICAL] @patternfly/patternfly-mcp (score: 100)
+- [HIGH] @payloadcms/plugin-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 1700
-  - CLEAN: 968
-  - CRITICAL: 211
+- Total scanned: 1750
+  - CLEAN: 1004
+  - CRITICAL: 216
   - ERROR: 2
-  - HIGH: 139
-  - LOW: 202
-  - MEDIUM: 178
+  - HIGH: 146
+  - LOW: 203
+  - MEDIUM: 179
