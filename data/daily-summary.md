@@ -1,22 +1,20 @@
-## Daily Scan Summary (2026-05-29)
+## Daily Scan Summary (2026-05-30)
 - Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 2
-- CLEAN/LOW: 36
+- CRITICAL: 3
+- HIGH: 1
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @agentrysh/mcp (score: 100)
-- [HIGH] @mozilla/firefox-devtools-mcp-moz (score: 45)
-- [HIGH] @mux/mcp (score: 60)
-- [CRITICAL] @n8n/mcp-browser (score: 100)
-- [CRITICAL] @pactpay/mcp-server (score: 100)
-- [CRITICAL] @peaka/mcp-server-peaka (score: 100)
+- [CRITICAL] @aerostack/gateway (score: 100)
+- [HIGH] @ayga/mcp-client (score: 40)
+- [CRITICAL] @byimprint/mcp-server (score: 70)
+- [CRITICAL] @charlie.act7/canvas-mcp-server (score: 90)
 
 ### Cumulative:
-- Total scanned: 1800
-  - CLEAN: 1035
-  - CRITICAL: 220
+- Total scanned: 1850
+  - CLEAN: 1068
+  - CRITICAL: 223
   - ERROR: 2
-  - HIGH: 148
-  - LOW: 208
-  - MEDIUM: 187
+  - HIGH: 149
+  - LOW: 213
+  - MEDIUM: 195
