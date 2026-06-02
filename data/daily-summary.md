@@ -1,24 +1,25 @@
-## Daily Scan Summary (2026-06-01)
+## Daily Scan Summary (2026-06-02)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 2
-- CLEAN/LOW: 37
+- CRITICAL: 5
+- HIGH: 4
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [CRITICAL] @controlzero/mcp-server (score: 100)
-- [CRITICAL] @i18n-agent/mcp-client (score: 100)
-- [CRITICAL] @ikenga/mcp-iyke (score: 100)
-- [HIGH] @luiscore/chorus-field (score: 40)
-- [CRITICAL] @mcp-ts/sdk (score: 100)
-- [HIGH] @mcp-z/client (score: 40)
-- [CRITICAL] @mkterswingman/yt-mcp (score: 100)
-- [CRITICAL] @mysten-incubation/memwal-mcp (score: 100)
+- [HIGH] @argosvix/mcp-server (score: 40)
+- [CRITICAL] @fruition/fcp-mcp-server (score: 100)
+- [HIGH] @gbs-toolkit/mcp-server (score: 50)
+- [CRITICAL] @kodiak-finance/orderly-sdk-docs (score: 70)
+- [CRITICAL] @maestro-ai/mcp-server (score: 95)
+- [CRITICAL] @modesty/fluent-mcp (score: 100)
+- [HIGH] @ory/mcp-oauth-provider (score: 50)
+- [CRITICAL] @phrase/phrase-mcp-server (score: 100)
+- [HIGH] @pimzino/spec-workflow-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 1950
-  - CLEAN: 1128
-  - CRITICAL: 232
+- Total scanned: 2000
+  - CLEAN: 1162
+  - CRITICAL: 237
   - ERROR: 3
-  - HIGH: 156
-  - LOW: 224
-  - MEDIUM: 207
+  - HIGH: 160
+  - LOW: 225
+  - MEDIUM: 213
