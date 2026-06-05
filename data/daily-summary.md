@@ -1,23 +1,27 @@
-## Daily Scan Summary (2026-06-04)
+## Daily Scan Summary (2026-06-05)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 4
-- CLEAN/LOW: 41
+- CRITICAL: 6
+- HIGH: 5
+- CLEAN/LOW: 31
 
 ### Flagged Packages:
-- [HIGH] @avantguardllc/mcp-huntress (score: 40)
-- [HIGH] @guandata/guanbi-mcp-server (score: 50)
-- [HIGH] @microagents/mcp-server-github (score: 50)
-- [HIGH] @piotr-agier/google-drive-mcp (score: 65)
-- [CRITICAL] @plur-ai/mcp (score: 100)
-- [CRITICAL] @pmxt/mcp (score: 75)
-- [CRITICAL] @policyrisk/mcp-server (score: 100)
+- [HIGH] @airabbit/sqlite-mcp-server (score: 40)
+- [CRITICAL] @alexbuzo/atp-mcp (score: 100)
+- [HIGH] @amitgurbani/mcp-server-woocommerce (score: 50)
+- [HIGH] @imagekit/api-mcp (score: 50)
+- [CRITICAL] @porkbunllc/mcp-server (score: 100)
+- [CRITICAL] @processon/mcp-server-processon-node (score: 70)
+- [CRITICAL] @projectsflow/mcp-server (score: 100)
+- [HIGH] @proto-bridge/mcp-server (score: 50)
+- [HIGH] @pubnub/mcp (score: 55)
+- [CRITICAL] @r-huijts/strava-mcp-server (score: 70)
+- [CRITICAL] @rad-security/mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 2100
-  - CLEAN: 1219
-  - CRITICAL: 248
+- Total scanned: 2150
+  - CLEAN: 1246
+  - CRITICAL: 254
   - ERROR: 3
-  - HIGH: 170
-  - LOW: 238
-  - MEDIUM: 222
+  - HIGH: 175
+  - LOW: 242
+  - MEDIUM: 230
