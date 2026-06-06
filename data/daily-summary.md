@@ -1,27 +1,31 @@
-## Daily Scan Summary (2026-06-05)
+## Daily Scan Summary (2026-06-06)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 5
-- CLEAN/LOW: 31
+- CRITICAL: 5
+- HIGH: 10
+- CLEAN/LOW: 29
 
 ### Flagged Packages:
-- [HIGH] @airabbit/sqlite-mcp-server (score: 40)
-- [CRITICAL] @alexbuzo/atp-mcp (score: 100)
-- [HIGH] @amitgurbani/mcp-server-woocommerce (score: 50)
-- [HIGH] @imagekit/api-mcp (score: 50)
-- [CRITICAL] @porkbunllc/mcp-server (score: 100)
-- [CRITICAL] @processon/mcp-server-processon-node (score: 70)
-- [CRITICAL] @projectsflow/mcp-server (score: 100)
-- [HIGH] @proto-bridge/mcp-server (score: 50)
-- [HIGH] @pubnub/mcp (score: 55)
-- [CRITICAL] @r-huijts/strava-mcp-server (score: 70)
-- [CRITICAL] @rad-security/mcp-server (score: 100)
+- [HIGH] @leashmarket/mcp-core (score: 40)
+- [HIGH] @marupelkar/vaaya-mcp (score: 55)
+- [HIGH] @mcp-abap-adt/auth-providers (score: 40)
+- [HIGH] @mockzilla/mcp (score: 45)
+- [HIGH] @morris131/mysql-mcp-server (score: 50)
+- [CRITICAL] @n24q02m/better-godot-mcp (score: 90)
+- [HIGH] @nado-language/mcp (score: 50)
+- [CRITICAL] @pasympa/discord-mcp (score: 100)
+- [HIGH] @polarity-lab/cosmos-mcp (score: 50)
+- [HIGH] @productbrain/mcp (score: 40)
+- [CRITICAL] @quackai/q402-mcp (score: 100)
+- [HIGH] @rebilliaai/mcp-server (score: 40)
+- [CRITICAL] @regle/mcp-server (score: 85)
+- [CRITICAL] @relaystation/mcp (score: 100)
+- [HIGH] @remindlo/mcp-server (score: 40)
 
 ### Cumulative:
-- Total scanned: 2150
-  - CLEAN: 1246
-  - CRITICAL: 254
+- Total scanned: 2200
+  - CLEAN: 1274
+  - CRITICAL: 259
   - ERROR: 3
-  - HIGH: 175
-  - LOW: 242
-  - MEDIUM: 230
+  - HIGH: 185
+  - LOW: 243
+  - MEDIUM: 236
