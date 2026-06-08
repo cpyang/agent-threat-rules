@@ -1,25 +1,27 @@
-## Daily Scan Summary (2026-06-07)
+## Daily Scan Summary (2026-06-08)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 1
-- CLEAN/LOW: 35
+- CRITICAL: 7
+- HIGH: 4
+- CLEAN/LOW: 30
 
 ### Flagged Packages:
-- [CRITICAL] @nielspeter/sonarlint-mcp-server (score: 85)
-- [CRITICAL] @remixhq/mcp (score: 100)
-- [CRITICAL] @respira/wordpress-mcp-server (score: 100)
-- [HIGH] @retell-ai/mcp-server (score: 50)
-- [CRITICAL] @revealui/mcp (score: 90)
-- [CRITICAL] @rokealvo/jira-mcp (score: 100)
-- [CRITICAL] @roomi-fields/notebooklm-mcp (score: 85)
-- [CRITICAL] @rushdb/mcp-server (score: 100)
-- [CRITICAL] @sanctuary-framework/mcp-server (score: 100)
+- [HIGH] @boostmoveo/priority-mcp-server (score: 40)
+- [HIGH] @o1-labs/mina-mcp-server (score: 45)
+- [CRITICAL] @pinepaper.studio/mcp-server (score: 100)
+- [CRITICAL] @secondlayer/mcp (score: 100)
+- [CRITICAL] @sellable/mcp (score: 95)
+- [CRITICAL] @shipcheck/mcp-server (score: 75)
+- [HIGH] @shirbarzur/planform-mcp-server (score: 50)
+- [CRITICAL] @shopify/dev-mcp (score: 100)
+- [HIGH] @shrkcrft/mcp-server (score: 50)
+- [CRITICAL] @siftable/mcp-server (score: 100)
+- [CRITICAL] @simonecoelhosfo/optimizely-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 2250
-  - CLEAN: 1306
-  - CRITICAL: 267
+- Total scanned: 2300
+  - CLEAN: 1332
+  - CRITICAL: 274
   - ERROR: 3
-  - HIGH: 186
-  - LOW: 246
-  - MEDIUM: 242
+  - HIGH: 190
+  - LOW: 250
+  - MEDIUM: 251
