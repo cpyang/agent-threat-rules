@@ -1,23 +1,24 @@
-## Daily Scan Summary (2026-06-09)
+## Daily Scan Summary (2026-06-10)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 4
-- CLEAN/LOW: 36
+- CRITICAL: 6
+- HIGH: 2
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [HIGH] @aibuilders/mcp-coach-server (score: 65)
-- [CRITICAL] @formio/mcp (score: 75)
-- [CRITICAL] @marvelcodes/mcp-pear (score: 85)
-- [HIGH] @opencode-llm-wiki/mcp-server (score: 40)
-- [HIGH] @routecraft/ai (score: 60)
-- [CRITICAL] @sequenzy/mcp (score: 100)
-- [HIGH] @sinch/mcp (score: 50)
+- [CRITICAL] @disciplog/mcp (score: 100)
+- [CRITICAL] @easecloudio/mcp-metabase-server (score: 100)
+- [CRITICAL] @emmamind/easylog-mcp (score: 100)
+- [HIGH] @justinclayton/mcp-sync (score: 40)
+- [CRITICAL] @licinexusbr/mcp (score: 80)
+- [CRITICAL] @marsnme/mcp-gateway (score: 100)
+- [HIGH] @mfukushim/map-traveler-mcp (score: 45)
+- [CRITICAL] @ncukondo/pubmed-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 2350
-  - CLEAN: 1360
-  - CRITICAL: 277
+- Total scanned: 2400
+  - CLEAN: 1394
+  - CRITICAL: 283
   - ERROR: 3
-  - HIGH: 194
-  - LOW: 258
-  - MEDIUM: 258
+  - HIGH: 196
+  - LOW: 261
+  - MEDIUM: 263
