@@ -1,26 +1,25 @@
-## Daily Scan Summary (2026-06-14)
+## Daily Scan Summary (2026-06-15)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 2
-- CLEAN/LOW: 36
+- CRITICAL: 6
+- HIGH: 3
+- CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [CRITICAL] @appium/mcp-documentation (score: 100)
-- [HIGH] @didcid/mcp-server (score: 50)
-- [HIGH] @robinmordasiewicz/f5xc-terraform-mcp (score: 55)
-- [CRITICAL] @stubbedev/atlassian-mcp (score: 100)
-- [CRITICAL] @subscribe.dev/mcp (score: 100)
-- [CRITICAL] @suco/odoo-surface-mcp (score: 100)
-- [CRITICAL] @suekou/mcp-notion-server (score: 100)
-- [CRITICAL] @suthio/redash-mcp (score: 100)
-- [CRITICAL] @synapta/mcp (score: 100)
-- [CRITICAL] @syncfusion/blazor-assistant (score: 80)
+- [HIGH] @realvest/mcp-server (score: 45)
+- [CRITICAL] @syncfusion/javascript-assistant (score: 80)
+- [HIGH] @taazkareem/clickup-mcp-server (score: 50)
+- [CRITICAL] @tacticlaunch/mcp-linear (score: 100)
+- [CRITICAL] @tankpkg/mcp-server (score: 100)
+- [CRITICAL] @telora/mcp-products (score: 85)
+- [HIGH] @thehammer/schema-mcp-server (score: 60)
+- [CRITICAL] @thirdstrandstudio/mcp-figma (score: 100)
+- [CRITICAL] @tim0_12432/hotkeyless-ahk-mcp-server (score: 80)
 
 ### Cumulative:
-- Total scanned: 2600
-  - CLEAN: 1520
-  - CRITICAL: 300
+- Total scanned: 2650
+  - CLEAN: 1546
+  - CRITICAL: 306
   - ERROR: 4
-  - HIGH: 214
-  - LOW: 279
-  - MEDIUM: 283
+  - HIGH: 217
+  - LOW: 287
+  - MEDIUM: 290
