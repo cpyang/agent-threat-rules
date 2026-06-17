@@ -1,23 +1,24 @@
-## Daily Scan Summary (2026-06-16)
+## Daily Scan Summary (2026-06-17)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 1
-- CLEAN/LOW: 38
+- CRITICAL: 5
+- HIGH: 3
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [CRITICAL] @affise/mcp-server (score: 100)
-- [CRITICAL] @agentlair/mcp (score: 100)
-- [CRITICAL] @ebowwa/ai (score: 100)
-- [CRITICAL] @figmcp/mcp-server (score: 80)
-- [CRITICAL] @goodsamsoftware/freshbooks-mcp (score: 100)
-- [HIGH] @hypequery/mcp (score: 40)
-- [CRITICAL] @nfinitmonkeys/jungle-mcp (score: 100)
+- [CRITICAL] @atawai/mcp (score: 100)
+- [HIGH] @kynver-app/mcp-analyst (score: 60)
+- [CRITICAL] @noelclaw/mcp (score: 100)
+- [CRITICAL] @paylobster/mcp-server (score: 100)
+- [CRITICAL] @quilium/mcp (score: 100)
+- [HIGH] @runhuman/mcp-server (score: 60)
+- [HIGH] @seed-ship/duckdb-mcp-native (score: 45)
+- [CRITICAL] @shiharu/mcp-remote-ssh (score: 100)
 
 ### Cumulative:
-- Total scanned: 2700
-  - CLEAN: 1579
-  - CRITICAL: 312
+- Total scanned: 2750
+  - CLEAN: 1609
+  - CRITICAL: 317
   - ERROR: 4
-  - HIGH: 218
-  - LOW: 292
-  - MEDIUM: 295
+  - HIGH: 221
+  - LOW: 299
+  - MEDIUM: 300
