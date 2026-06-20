@@ -1,26 +1,31 @@
-## Daily Scan Summary (2026-06-19)
+## Daily Scan Summary (2026-06-20)
 - Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 6
-- CLEAN/LOW: 35
+- CRITICAL: 10
+- HIGH: 5
+- CLEAN/LOW: 29
 
 ### Flagged Packages:
-- [CRITICAL] @agentmailr/mcp-server (score: 70)
-- [HIGH] @aivault/aivault-mcp-server (score: 40)
-- [HIGH] @alfe.ai/openclaw-github (score: 40)
-- [CRITICAL] @anyforge/mcp-server (score: 90)
-- [HIGH] @excalidraw-skill-pack/mcp-server (score: 40)
-- [CRITICAL] @fullmention/mcp-server (score: 100)
-- [HIGH] @iflow-mcp/garethcott_enhanced-postgres-mcp-server (score: 45)
-- [HIGH] @iflow-mcp/garethcott-enhanced-postgres-mcp-server (score: 45)
-- [CRITICAL] @iflow-mcp/wizd-airylark-mcp-server (score: 100)
-- [HIGH] @ignitionai/mcp-template (score: 50)
+- [CRITICAL] @azeth/mcp-server (score: 100)
+- [CRITICAL] @heyseo/mcp-server (score: 100)
+- [HIGH] @memori.ai/mcp-sharepoint (score: 45)
+- [HIGH] @mozilla/firefox-devtools-mcp (score: 60)
+- [CRITICAL] @reaatech/media-pipeline-mcp-server (score: 100)
+- [HIGH] @replenishradar/mcp-server (score: 50)
+- [CRITICAL] @robertoagent/mcp (score: 100)
+- [CRITICAL] @supernova123/system-monitoring-mcp-server (score: 100)
+- [CRITICAL] @syncfusion/angular-assistant (score: 80)
+- [CRITICAL] @tinify-ai/mcp-server (score: 100)
+- [HIGH] @tomtom-org/tomtom-mcp (score: 60)
+- [HIGH] @toolprint/hypertool-mcp (score: 55)
+- [CRITICAL] @toomanycooks/mcp-server (score: 85)
+- [CRITICAL] @tosspayments/integration-guide-mcp (score: 85)
+- [CRITICAL] @transcend-io/mcp-server-admin (score: 100)
 
 ### Cumulative:
-- Total scanned: 2850
-  - CLEAN: 1667
-  - CRITICAL: 328
+- Total scanned: 2900
+  - CLEAN: 1692
+  - CRITICAL: 338
   - ERROR: 4
-  - HIGH: 232
-  - LOW: 309
-  - MEDIUM: 310
+  - HIGH: 237
+  - LOW: 313
+  - MEDIUM: 316
