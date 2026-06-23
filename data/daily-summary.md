@@ -1,22 +1,33 @@
-## Daily Scan Summary (2026-06-22)
+## Daily Scan Summary (2026-06-23)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 3
-- CLEAN/LOW: 40
+- CRITICAL: 13
+- HIGH: 4
+- CLEAN/LOW: 32
 
 ### Flagged Packages:
-- [CRITICAL] @2sio/mcp (score: 100)
-- [HIGH] @achmadya-dev/mcp-core (score: 50)
-- [HIGH] @ao-mcp/setup (score: 60)
-- [CRITICAL] @kordra/mcp (score: 100)
-- [HIGH] @niyogi/render-mcp (score: 50)
-- [CRITICAL] @task-boards/mcp-server (score: 100)
+- [CRITICAL] @bitofacoder/omni-mcp-server (score: 100)
+- [CRITICAL] @bretterer/forge-mcp-server (score: 100)
+- [CRITICAL] @chinchillaenterprises/mcp-slack (score: 95)
+- [HIGH] @crossdelta/pf-mcp (score: 65)
+- [CRITICAL] @curless/agentbank-mcp (score: 100)
+- [HIGH] @demox-site/mcp-server (score: 40)
+- [CRITICAL] @everyapi-ai/mcp (score: 100)
+- [HIGH] @findagent/mcp (score: 40)
+- [CRITICAL] @glie/mcp-polaris (score: 100)
+- [CRITICAL] @hasna/machines (score: 100)
+- [CRITICAL] @iqai/defillama-mcp (score: 100)
+- [CRITICAL] @juicedresume/mcp (score: 100)
+- [HIGH] @n24q02m/mcp-core (score: 50)
+- [CRITICAL] @nrjdalal/slack-mcp-server (score: 80)
+- [CRITICAL] @openbat/mcp (score: 100)
+- [CRITICAL] @origozero/zeromind (score: 100)
+- [CRITICAL] @paneui/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 3000
-  - CLEAN: 1746
-  - CRITICAL: 351
+- Total scanned: 3050
+  - CLEAN: 1774
+  - CRITICAL: 364
   - ERROR: 7
-  - HIGH: 247
-  - LOW: 325
-  - MEDIUM: 324
+  - HIGH: 251
+  - LOW: 329
+  - MEDIUM: 325
