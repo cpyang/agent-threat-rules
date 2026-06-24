@@ -1,33 +1,22 @@
-## Daily Scan Summary (2026-06-23)
+## Daily Scan Summary (2026-06-24)
 - Scanned: 50 packages
-- CRITICAL: 13
-- HIGH: 4
-- CLEAN/LOW: 32
+- CRITICAL: 3
+- HIGH: 3
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @bitofacoder/omni-mcp-server (score: 100)
-- [CRITICAL] @bretterer/forge-mcp-server (score: 100)
-- [CRITICAL] @chinchillaenterprises/mcp-slack (score: 95)
-- [HIGH] @crossdelta/pf-mcp (score: 65)
-- [CRITICAL] @curless/agentbank-mcp (score: 100)
-- [HIGH] @demox-site/mcp-server (score: 40)
-- [CRITICAL] @everyapi-ai/mcp (score: 100)
-- [HIGH] @findagent/mcp (score: 40)
-- [CRITICAL] @glie/mcp-polaris (score: 100)
-- [CRITICAL] @hasna/machines (score: 100)
-- [CRITICAL] @iqai/defillama-mcp (score: 100)
-- [CRITICAL] @juicedresume/mcp (score: 100)
-- [HIGH] @n24q02m/mcp-core (score: 50)
-- [CRITICAL] @nrjdalal/slack-mcp-server (score: 80)
-- [CRITICAL] @openbat/mcp (score: 100)
-- [CRITICAL] @origozero/zeromind (score: 100)
-- [CRITICAL] @paneui/mcp (score: 100)
+- [CRITICAL] @codefundi/code-fundi-mcp (score: 100)
+- [HIGH] @emilia-protocol/mcp-server (score: 50)
+- [HIGH] @falconai/mcp-server (score: 45)
+- [HIGH] @fastmcp-me/imagegen-mcp (score: 50)
+- [CRITICAL] @fastmcp-me/mcp-modus (score: 95)
+- [CRITICAL] @fastmcp-me/ncp (score: 80)
 
 ### Cumulative:
-- Total scanned: 3050
-  - CLEAN: 1774
-  - CRITICAL: 364
+- Total scanned: 3100
+  - CLEAN: 1807
+  - CRITICAL: 367
   - ERROR: 7
-  - HIGH: 251
-  - LOW: 329
-  - MEDIUM: 325
+  - HIGH: 254
+  - LOW: 334
+  - MEDIUM: 331
