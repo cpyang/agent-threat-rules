@@ -1,22 +1,29 @@
-## Daily Scan Summary (2026-06-24)
+## Daily Scan Summary (2026-06-25)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 3
-- CLEAN/LOW: 38
+- CRITICAL: 7
+- HIGH: 6
+- CLEAN/LOW: 31
 
 ### Flagged Packages:
-- [CRITICAL] @codefundi/code-fundi-mcp (score: 100)
-- [HIGH] @emilia-protocol/mcp-server (score: 50)
-- [HIGH] @falconai/mcp-server (score: 45)
-- [HIGH] @fastmcp-me/imagegen-mcp (score: 50)
-- [CRITICAL] @fastmcp-me/mcp-modus (score: 95)
-- [CRITICAL] @fastmcp-me/ncp (score: 80)
+- [HIGH] @intelligentelectron/universal-netlist (score: 40)
+- [CRITICAL] @marchward/mcp-server (score: 100)
+- [CRITICAL] @modelstat/mcp (score: 100)
+- [HIGH] @rectify-so/mcp (score: 65)
+- [CRITICAL] @schift-io/ai-memory-mcp (score: 100)
+- [HIGH] @uxai/mcp-server (score: 45)
+- [CRITICAL] @vantagestack/mcp-server (score: 100)
+- [HIGH] @veecode-platform/docs-mcp (score: 60)
+- [HIGH] @vibe/mcp (score: 50)
+- [CRITICAL] @vibemap.ai/mcp-server (score: 100)
+- [HIGH] @vibescope/mcp-server (score: 45)
+- [CRITICAL] @virsanghavi/axis-server (score: 100)
+- [CRITICAL] @vizejs/musea-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 3100
-  - CLEAN: 1807
-  - CRITICAL: 367
+- Total scanned: 3150
+  - CLEAN: 1833
+  - CRITICAL: 374
   - ERROR: 7
-  - HIGH: 254
-  - LOW: 334
-  - MEDIUM: 331
+  - HIGH: 260
+  - LOW: 339
+  - MEDIUM: 337
