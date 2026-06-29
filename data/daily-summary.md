@@ -1,26 +1,23 @@
-## Daily Scan Summary (2026-06-28)
+## Daily Scan Summary (2026-06-29)
 - Scanned: 50 packages
-- CRITICAL: 7
+- CRITICAL: 4
 - HIGH: 3
 - CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [CRITICAL] @hasna/domains (score: 80)
-- [CRITICAL] @trishchuk/codex-mcp-tool (score: 90)
-- [CRITICAL] @turjuman/mcp-server (score: 100)
-- [CRITICAL] @utdk/mcp (score: 85)
-- [CRITICAL] @varun-ai07/covenant-mcp (score: 100)
-- [CRITICAL] @voltagent/docs-mcp (score: 80)
-- [HIGH] @winds-ai/autonomous-frontend-browser-tools (score: 50)
-- [HIGH] @wundervault/mcp-server (score: 65)
-- [HIGH] @wundr.io/neolith-mcp-server (score: 55)
-- [CRITICAL] @xuandev/atlassian-mcp (score: 100)
+- [CRITICAL] @iqai/mcp-debank (score: 100)
+- [HIGH] @whitenoisenpm/testforge-mcp (score: 40)
+- [CRITICAL] @xzxzzx/bilibili-mcp (score: 100)
+- [HIGH] @yhy2001/figma-mcp-server (score: 50)
+- [CRITICAL] @yiong/mcp-chinese-rag-toolkit (score: 80)
+- [CRITICAL] @yoda.digital/gitlab-mcp-server (score: 100)
+- [HIGH] @yoryoboy/bi-mcp (score: 65)
 
 ### Cumulative:
-- Total scanned: 3300
-  - CLEAN: 1940
-  - CRITICAL: 392
-  - ERROR: 7
-  - HIGH: 263
-  - LOW: 350
-  - MEDIUM: 348
+- Total scanned: 3350
+  - CLEAN: 1965
+  - CRITICAL: 396
+  - ERROR: 8
+  - HIGH: 266
+  - LOW: 359
+  - MEDIUM: 356
