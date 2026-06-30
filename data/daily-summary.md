@@ -1,23 +1,25 @@
-## Daily Scan Summary (2026-06-29)
+## Daily Scan Summary (2026-06-30)
 - Scanned: 50 packages
-- CRITICAL: 4
+- CRITICAL: 6
 - HIGH: 3
-- CLEAN/LOW: 34
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @iqai/mcp-debank (score: 100)
-- [HIGH] @whitenoisenpm/testforge-mcp (score: 40)
-- [CRITICAL] @xzxzzx/bilibili-mcp (score: 100)
-- [HIGH] @yhy2001/figma-mcp-server (score: 50)
-- [CRITICAL] @yiong/mcp-chinese-rag-toolkit (score: 80)
-- [CRITICAL] @yoda.digital/gitlab-mcp-server (score: 100)
-- [HIGH] @yoryoboy/bi-mcp (score: 65)
+- [HIGH] @hasna/prompts (score: 60)
+- [CRITICAL] @jedmamosto/wizpay-mcp-setup (score: 85)
+- [CRITICAL] @mseep/obsidian-mcp-server (score: 100)
+- [CRITICAL] @rotifer/mcp-server (score: 100)
+- [CRITICAL] @stratsmithio/mcp-server (score: 100)
+- [CRITICAL] @team-monet/monet (score: 100)
+- [CRITICAL] @zapo-js/mcp-server (score: 100)
+- [HIGH] @zereight/mcp-gitlab (score: 40)
+- [HIGH] @zeroheight/mcp-server (score: 50)
 
 ### Cumulative:
-- Total scanned: 3350
-  - CLEAN: 1965
-  - CRITICAL: 396
+- Total scanned: 3400
+  - CLEAN: 1998
+  - CRITICAL: 402
   - ERROR: 8
-  - HIGH: 266
-  - LOW: 359
-  - MEDIUM: 356
+  - HIGH: 269
+  - LOW: 364
+  - MEDIUM: 359
