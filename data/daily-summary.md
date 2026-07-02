@@ -1,28 +1,23 @@
-## Daily Scan Summary (2026-07-01)
+## Daily Scan Summary (2026-07-02)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 4
-- CLEAN/LOW: 32
+- CRITICAL: 4
+- HIGH: 3
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [CRITICAL] @dtz-labs/zesarux-mcp (score: 100)
-- [HIGH] @mseep/mcp (score: 55)
-- [CRITICAL] @oneie/mcp (score: 100)
-- [CRITICAL] @opensourceops/canny-mcp (score: 85)
-- [CRITICAL] @syncfusion/react-assistant (score: 80)
-- [CRITICAL] @tbrgeek/spotify-mcp-server (score: 70)
-- [HIGH] aem-mcp-server (score: 50)
-- [CRITICAL] aether-mcp-server (score: 100)
-- [CRITICAL] ag-mcp (score: 100)
-- [CRITICAL] agent-browser-mcp-server (score: 100)
-- [HIGH] agent-orchestrator-mcp-server (score: 40)
-- [HIGH] agent-twitter-client-mcp (score: 50)
+- [CRITICAL] @anonymilyhq/mcp-server (score: 100)
+- [HIGH] @arivie/source-mcp (score: 55)
+- [CRITICAL] @getmarrow/mcp (score: 100)
+- [HIGH] @project-aegis/mcp-server (score: 65)
+- [CRITICAL] @roottale/cms-mcp (score: 100)
+- [HIGH] @zhin.js/mcp (score: 55)
+- [CRITICAL] airbrake-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 3450
-  - CLEAN: 2026
-  - CRITICAL: 410
+- Total scanned: 3500
+  - CLEAN: 2053
+  - CRITICAL: 414
   - ERROR: 8
-  - HIGH: 273
-  - LOW: 368
-  - MEDIUM: 365
+  - HIGH: 276
+  - LOW: 378
+  - MEDIUM: 371
