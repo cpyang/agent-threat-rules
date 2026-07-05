@@ -1,33 +1,28 @@
-## Daily Scan Summary (2026-07-04)
+## Daily Scan Summary (2026-07-05)
 - Scanned: 50 packages
-- CRITICAL: 10
-- HIGH: 7
-- CLEAN/LOW: 25
+- CRITICAL: 7
+- HIGH: 5
+- CLEAN/LOW: 29
 
 ### Flagged Packages:
-- [CRITICAL] @bloxtools/mcp-server (score: 90)
-- [HIGH] @cochatai/bsky-mcp-server (score: 55)
-- [HIGH] @hasna/mailery (score: 45)
-- [CRITICAL] @hbarhate/ssh-mcp-server (score: 100)
-- [HIGH] @lynx-js/devtool-mcp-server (score: 60)
-- [HIGH] @usehercules/mcp (score: 60)
-- [HIGH] @webhouse/cms-mcp-server (score: 65)
-- [CRITICAL] @yata-technologies/coyote-mcp (score: 100)
-- [CRITICAL] asqend-mcp (score: 100)
-- [CRITICAL] bashterm-mcp-server (score: 100)
-- [CRITICAL] bitrix24-tasks-mcp-server (score: 100)
-- [HIGH] boondmanager-mcp-server (score: 55)
-- [HIGH] brave-mcp (score: 40)
-- [CRITICAL] brave-real-browser-mcp-server (score: 80)
-- [CRITICAL] bybit-official-trading-server (score: 100)
-- [CRITICAL] calendly-mcp-server (score: 90)
-- [CRITICAL] camoufox-mcp (score: 90)
+- [HIGH] @kaddo/mcp (score: 65)
+- [CRITICAL] arcox-mcp (score: 100)
+- [CRITICAL] canvas-mcp-server (score: 100)
+- [HIGH] catbox-mcp-server (score: 50)
+- [HIGH] claude-faf-mcp (score: 65)
+- [CRITICAL] claudeus-wp-mcp (score: 100)
+- [HIGH] cli-chat-mcp (score: 40)
+- [HIGH] cli-to-mcp (score: 50)
+- [CRITICAL] code-engine-mcp-server (score: 100)
+- [CRITICAL] code-review-mcp-server (score: 100)
+- [CRITICAL] codeatlas-enterprise (score: 100)
+- [CRITICAL] codeatlas-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 3600
-  - CLEAN: 2099
-  - CRITICAL: 434
+- Total scanned: 3650
+  - CLEAN: 2121
+  - CRITICAL: 441
   - ERROR: 9
-  - HIGH: 288
-  - LOW: 389
-  - MEDIUM: 381
+  - HIGH: 293
+  - LOW: 396
+  - MEDIUM: 390
