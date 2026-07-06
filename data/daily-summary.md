@@ -1,28 +1,25 @@
-## Daily Scan Summary (2026-07-05)
+## Daily Scan Summary (2026-07-06)
 - Scanned: 50 packages
-- CRITICAL: 7
-- HIGH: 5
-- CLEAN/LOW: 29
+- CRITICAL: 2
+- HIGH: 7
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [HIGH] @kaddo/mcp (score: 65)
-- [CRITICAL] arcox-mcp (score: 100)
-- [CRITICAL] canvas-mcp-server (score: 100)
-- [HIGH] catbox-mcp-server (score: 50)
-- [HIGH] claude-faf-mcp (score: 65)
-- [CRITICAL] claudeus-wp-mcp (score: 100)
-- [HIGH] cli-chat-mcp (score: 40)
-- [HIGH] cli-to-mcp (score: 50)
-- [CRITICAL] code-engine-mcp-server (score: 100)
-- [CRITICAL] code-review-mcp-server (score: 100)
-- [CRITICAL] codeatlas-enterprise (score: 100)
-- [CRITICAL] codeatlas-mcp-server (score: 100)
+- [HIGH] @agentailor/mcp (score: 65)
+- [CRITICAL] @fastmcp-me/okx-mcp (score: 100)
+- [HIGH] @fastmcp-me/strapi-mcp (score: 50)
+- [HIGH] @feedmob/civitai-records (score: 40)
+- [HIGH] @feedmob/femini-reporting (score: 40)
+- [HIGH] @iflow-mcp/7gugu-zip-mcp (score: 50)
+- [HIGH] @iflow-mcp/gdmacmillan-apt-mcp-server (score: 60)
+- [HIGH] @iflow-mcp/zip-mcp (score: 50)
+- [CRITICAL] @inlustris/youtube-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 3650
-  - CLEAN: 2121
-  - CRITICAL: 441
+- Total scanned: 3700
+  - CLEAN: 2157
+  - CRITICAL: 443
   - ERROR: 9
-  - HIGH: 293
-  - LOW: 396
-  - MEDIUM: 390
+  - HIGH: 300
+  - LOW: 398
+  - MEDIUM: 393
