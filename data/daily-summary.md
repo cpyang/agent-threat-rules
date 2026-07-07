@@ -1,25 +1,26 @@
-## Daily Scan Summary (2026-07-06)
+## Daily Scan Summary (2026-07-07)
 - Scanned: 50 packages
-- CRITICAL: 2
+- CRITICAL: 3
 - HIGH: 7
-- CLEAN/LOW: 38
+- CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [HIGH] @agentailor/mcp (score: 65)
-- [CRITICAL] @fastmcp-me/okx-mcp (score: 100)
-- [HIGH] @fastmcp-me/strapi-mcp (score: 50)
-- [HIGH] @feedmob/civitai-records (score: 40)
-- [HIGH] @feedmob/femini-reporting (score: 40)
-- [HIGH] @iflow-mcp/7gugu-zip-mcp (score: 50)
-- [HIGH] @iflow-mcp/gdmacmillan-apt-mcp-server (score: 60)
-- [HIGH] @iflow-mcp/zip-mcp (score: 50)
-- [CRITICAL] @inlustris/youtube-mcp (score: 100)
+- [HIGH] @creeperhost/modlens-mcp (score: 40)
+- [CRITICAL] @jointhewheel/mcp-server (score: 100)
+- [HIGH] @lineman-io/plugin (score: 40)
+- [HIGH] @mseep/mcp-server-subagent (score: 60)
+- [HIGH] allure-testops-mcp (score: 55)
+- [CRITICAL] anythingllm-mcp-server (score: 100)
+- [CRITICAL] autoglm-mcp-server (score: 90)
+- [HIGH] bem-ai-sdk-mcp (score: 60)
+- [HIGH] codeloop-mcp-server (score: 40)
+- [HIGH] codemagic-mcp-server (score: 65)
 
 ### Cumulative:
-- Total scanned: 3700
-  - CLEAN: 2157
-  - CRITICAL: 443
-  - ERROR: 9
-  - HIGH: 300
-  - LOW: 398
-  - MEDIUM: 393
+- Total scanned: 3750
+  - CLEAN: 2185
+  - CRITICAL: 446
+  - ERROR: 10
+  - HIGH: 307
+  - LOW: 404
+  - MEDIUM: 398
