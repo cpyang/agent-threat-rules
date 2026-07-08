@@ -1,26 +1,24 @@
-## Daily Scan Summary (2026-07-07)
+## Daily Scan Summary (2026-07-08)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 7
+- CRITICAL: 4
+- HIGH: 4
 - CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [HIGH] @creeperhost/modlens-mcp (score: 40)
-- [CRITICAL] @jointhewheel/mcp-server (score: 100)
-- [HIGH] @lineman-io/plugin (score: 40)
-- [HIGH] @mseep/mcp-server-subagent (score: 60)
-- [HIGH] allure-testops-mcp (score: 55)
-- [CRITICAL] anythingllm-mcp-server (score: 100)
-- [CRITICAL] autoglm-mcp-server (score: 90)
-- [HIGH] bem-ai-sdk-mcp (score: 60)
-- [HIGH] codeloop-mcp-server (score: 40)
-- [HIGH] codemagic-mcp-server (score: 65)
+- [CRITICAL] @http402/forge-mcp (score: 100)
+- [HIGH] @mseep/outline-mcp-server (score: 65)
+- [CRITICAL] @multilipi/mcp (score: 85)
+- [HIGH] conductor-node-mcp (score: 60)
+- [HIGH] connectiq-mcp-server (score: 60)
+- [HIGH] context-mcp-server (score: 50)
+- [CRITICAL] coolify-mcp-server (score: 100)
+- [CRITICAL] crawlforge-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 3750
-  - CLEAN: 2185
-  - CRITICAL: 446
+- Total scanned: 3800
+  - CLEAN: 2213
+  - CRITICAL: 450
   - ERROR: 10
-  - HIGH: 307
-  - LOW: 404
-  - MEDIUM: 398
+  - HIGH: 311
+  - LOW: 410
+  - MEDIUM: 406
