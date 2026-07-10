@@ -1,23 +1,25 @@
-## Daily Scan Summary (2026-07-09)
+## Daily Scan Summary (2026-07-10)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 4
-- CLEAN/LOW: 37
+- CRITICAL: 6
+- HIGH: 3
+- CLEAN/LOW: 32
 
 ### Flagged Packages:
-- [CRITICAL] @1ly/mcp-server (score: 100)
-- [HIGH] @aaarc/handfree-ssh-mcp (score: 60)
-- [CRITICAL] @foxitsoftware/foxit-pdf-api-mcp-server (score: 100)
-- [CRITICAL] @friday-ai-codes/mcp (score: 100)
-- [HIGH] @ggui-ai/ui-gen (score: 65)
-- [HIGH] @manansiingh/figma-react-mcp-server (score: 45)
-- [HIGH] @memorycrystal/mcp-server (score: 65)
+- [CRITICAL] @sisense/mcp-server (score: 100)
+- [CRITICAL] @teralynk/mcp-server (score: 100)
+- [HIGH] dbatools-mcp-server (score: 50)
+- [CRITICAL] debreu-mcp (score: 100)
+- [CRITICAL] deployhq-mcp-server (score: 100)
+- [HIGH] discogs-mcp-server (score: 55)
+- [HIGH] dodopayments-mcp (score: 50)
+- [CRITICAL] dokploy-mcp-server (score: 100)
+- [CRITICAL] duckpond-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 3850
-  - CLEAN: 2244
-  - CRITICAL: 453
+- Total scanned: 3900
+  - CLEAN: 2270
+  - CRITICAL: 459
   - ERROR: 10
-  - HIGH: 315
-  - LOW: 416
-  - MEDIUM: 412
+  - HIGH: 318
+  - LOW: 422
+  - MEDIUM: 421
