@@ -1,25 +1,27 @@
-## Daily Scan Summary (2026-07-11)
+## Daily Scan Summary (2026-07-12)
 - Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 5
-- CLEAN/LOW: 36
+- CRITICAL: 5
+- HIGH: 6
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [HIGH] @augno/sdk-mcp (score: 50)
-- [CRITICAL] @creedspace/mcp-server (score: 100)
-- [CRITICAL] @humsana/mcp-server (score: 100)
-- [CRITICAL] @shopana/novaposhta-mcp-server (score: 100)
-- [HIGH] expo-mcp (score: 40)
-- [HIGH] fangguo-component-mcp-server (score: 60)
-- [CRITICAL] fast-context-mcp (score: 90)
-- [HIGH] feedback-mcp-server (score: 45)
-- [HIGH] fetchpet-mcp-server (score: 50)
+- [CRITICAL] @alfe.ai/atlassian-mcp (score: 80)
+- [HIGH] @alfe.ai/github-mcp (score: 40)
+- [HIGH] @atray/mcp (score: 50)
+- [HIGH] @attson/atwebpilot-mcp (score: 55)
+- [CRITICAL] @browsa/mcp (score: 100)
+- [HIGH] @cascivo/mcp (score: 50)
+- [HIGH] @devcoffee/mcp-tools (score: 40)
+- [CRITICAL] @duzzle/emma-mcp (score: 100)
+- [CRITICAL] @dypai-ai/mcp (score: 100)
+- [CRITICAL] @fannabe/mcp (score: 100)
+- [HIGH] @fentaris/cli (score: 40)
 
 ### Cumulative:
-- Total scanned: 3950
-  - CLEAN: 2299
-  - CRITICAL: 463
+- Total scanned: 4000
+  - CLEAN: 2329
+  - CRITICAL: 468
   - ERROR: 10
-  - HIGH: 323
-  - LOW: 429
-  - MEDIUM: 426
+  - HIGH: 329
+  - LOW: 434
+  - MEDIUM: 430
