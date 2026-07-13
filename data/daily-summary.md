@@ -1,27 +1,22 @@
-## Daily Scan Summary (2026-07-12)
+## Daily Scan Summary (2026-07-13)
 - Scanned: 50 packages
 - CRITICAL: 5
-- HIGH: 6
-- CLEAN/LOW: 35
+- HIGH: 1
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [CRITICAL] @alfe.ai/atlassian-mcp (score: 80)
-- [HIGH] @alfe.ai/github-mcp (score: 40)
-- [HIGH] @atray/mcp (score: 50)
-- [HIGH] @attson/atwebpilot-mcp (score: 55)
-- [CRITICAL] @browsa/mcp (score: 100)
-- [HIGH] @cascivo/mcp (score: 50)
-- [HIGH] @devcoffee/mcp-tools (score: 40)
-- [CRITICAL] @duzzle/emma-mcp (score: 100)
-- [CRITICAL] @dypai-ai/mcp (score: 100)
-- [CRITICAL] @fannabe/mcp (score: 100)
-- [HIGH] @fentaris/cli (score: 40)
+- [CRITICAL] @conto_finance/mcp-server (score: 100)
+- [CRITICAL] @ironbridgefoundation/ironbridge-mcp-server (score: 100)
+- [CRITICAL] @jtrader.ai/mcp (score: 75)
+- [HIGH] @plumpslabs/fennec-core (score: 40)
+- [CRITICAL] @sellable/admin-mcp (score: 100)
+- [CRITICAL] @tanstack/ai-mcp (score: 80)
 
 ### Cumulative:
-- Total scanned: 4000
-  - CLEAN: 2329
-  - CRITICAL: 468
+- Total scanned: 4050
+  - CLEAN: 2358
+  - CRITICAL: 473
   - ERROR: 10
-  - HIGH: 329
-  - LOW: 434
-  - MEDIUM: 430
+  - HIGH: 330
+  - LOW: 442
+  - MEDIUM: 437
