@@ -1,22 +1,21 @@
-## Daily Scan Summary (2026-07-13)
+## Daily Scan Summary (2026-07-14)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 1
+- CRITICAL: 2
+- HIGH: 3
 - CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [CRITICAL] @conto_finance/mcp-server (score: 100)
-- [CRITICAL] @ironbridgefoundation/ironbridge-mcp-server (score: 100)
-- [CRITICAL] @jtrader.ai/mcp (score: 75)
-- [HIGH] @plumpslabs/fennec-core (score: 40)
-- [CRITICAL] @sellable/admin-mcp (score: 100)
-- [CRITICAL] @tanstack/ai-mcp (score: 80)
+- [CRITICAL] @receiz/mcp-server (score: 100)
+- [CRITICAL] deckbase-mcp-server (score: 75)
+- [HIGH] firecrawl-mcp (score: 55)
+- [HIGH] fireflies-mcp-server (score: 40)
+- [HIGH] flora-mcp (score: 60)
 
 ### Cumulative:
-- Total scanned: 4050
-  - CLEAN: 2358
-  - CRITICAL: 473
-  - ERROR: 10
-  - HIGH: 330
-  - LOW: 442
-  - MEDIUM: 437
+- Total scanned: 4100
+  - CLEAN: 2387
+  - CRITICAL: 475
+  - ERROR: 11
+  - HIGH: 333
+  - LOW: 450
+  - MEDIUM: 444
