@@ -1,21 +1,30 @@
-## Daily Scan Summary (2026-07-14)
+## Daily Scan Summary (2026-07-15)
 - Scanned: 50 packages
-- CRITICAL: 2
+- CRITICAL: 11
 - HIGH: 3
-- CLEAN/LOW: 37
+- CLEAN/LOW: 26
 
 ### Flagged Packages:
-- [CRITICAL] @receiz/mcp-server (score: 100)
-- [CRITICAL] deckbase-mcp-server (score: 75)
-- [HIGH] firecrawl-mcp (score: 55)
-- [HIGH] fireflies-mcp-server (score: 40)
-- [HIGH] flora-mcp (score: 60)
+- [CRITICAL] @ambienceai/mcp-server (score: 100)
+- [HIGH] @doc77/mcp (score: 50)
+- [CRITICAL] @humanlabs-kr/link-mcp-server (score: 100)
+- [CRITICAL] @itechsmart/mcp-server (score: 100)
+- [CRITICAL] @nitrostack/cli (score: 100)
+- [CRITICAL] @plumpslabs/fennec-cli (score: 70)
+- [CRITICAL] @pyrokine/mcp-ssh (score: 100)
+- [CRITICAL] @tokor/desktop-commander (score: 100)
+- [HIGH] aifp-mcp (score: 60)
+- [CRITICAL] easy-notion-mcp (score: 100)
+- [CRITICAL] gcs-google-mcp-server (score: 70)
+- [CRITICAL] ghl-mcp-server (score: 100)
+- [CRITICAL] github-mcp-server (score: 100)
+- [HIGH] gitnexus (score: 50)
 
 ### Cumulative:
-- Total scanned: 4100
-  - CLEAN: 2387
-  - CRITICAL: 475
-  - ERROR: 11
-  - HIGH: 333
-  - LOW: 450
-  - MEDIUM: 444
+- Total scanned: 4150
+  - CLEAN: 2406
+  - CRITICAL: 486
+  - ERROR: 12
+  - HIGH: 336
+  - LOW: 457
+  - MEDIUM: 453
