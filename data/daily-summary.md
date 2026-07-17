@@ -1,21 +1,27 @@
-## Daily Scan Summary (2026-07-16)
+## Daily Scan Summary (2026-07-17)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 2
-- CLEAN/LOW: 40
+- CRITICAL: 5
+- HIGH: 6
+- CLEAN/LOW: 33
 
 ### Flagged Packages:
-- [CRITICAL] @agentmemories/mcp (score: 100)
-- [HIGH] @createa/meme-mcp (score: 40)
-- [CRITICAL] @ex7/mcp (score: 100)
-- [CRITICAL] @jayakrishna007/managemate-mcp-server (score: 100)
-- [HIGH] @popupspacesystems/mcp-server (score: 40)
+- [HIGH] @ductape/mcp (score: 60)
+- [CRITICAL] @remogram/mcp (score: 100)
+- [CRITICAL] @skill-hub/mcp-server (score: 100)
+- [HIGH] @teambrain/mcp (score: 60)
+- [HIGH] @timofi/timofi-mcp-server (score: 55)
+- [HIGH] agent-planner-mcp (score: 60)
+- [CRITICAL] comfyui-mcp (score: 70)
+- [HIGH] decocms (score: 60)
+- [CRITICAL] derived-mcp-server (score: 100)
+- [CRITICAL] devmind-mcp (score: 100)
+- [HIGH] figma-console-mcp (score: 40)
 
 ### Cumulative:
-- Total scanned: 4200
-  - CLEAN: 2438
-  - CRITICAL: 489
+- Total scanned: 4250
+  - CLEAN: 2467
+  - CRITICAL: 494
   - ERROR: 12
-  - HIGH: 338
-  - LOW: 465
-  - MEDIUM: 458
+  - HIGH: 344
+  - LOW: 469
+  - MEDIUM: 464
