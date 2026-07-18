@@ -1,27 +1,28 @@
-## Daily Scan Summary (2026-07-17)
+## Daily Scan Summary (2026-07-18)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 6
-- CLEAN/LOW: 33
+- CRITICAL: 8
+- HIGH: 4
+- CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [HIGH] @ductape/mcp (score: 60)
-- [CRITICAL] @remogram/mcp (score: 100)
-- [CRITICAL] @skill-hub/mcp-server (score: 100)
-- [HIGH] @teambrain/mcp (score: 60)
-- [HIGH] @timofi/timofi-mcp-server (score: 55)
-- [HIGH] agent-planner-mcp (score: 60)
-- [CRITICAL] comfyui-mcp (score: 70)
-- [HIGH] decocms (score: 60)
-- [CRITICAL] derived-mcp-server (score: 100)
-- [CRITICAL] devmind-mcp (score: 100)
-- [HIGH] figma-console-mcp (score: 40)
+- [HIGH] @artymclabin/gmail-mcp (score: 55)
+- [CRITICAL] @codepeelai/mcp-server (score: 85)
+- [CRITICAL] @gravitykit/mcp (score: 85)
+- [HIGH] @hirejack/mcp (score: 55)
+- [CRITICAL] @intentlm/mcp-server (score: 100)
+- [CRITICAL] @jtalk22/slack-mcp (score: 100)
+- [CRITICAL] @kk-2004/kfile-mcp (score: 100)
+- [HIGH] @martinloop/mcp (score: 60)
+- [CRITICAL] @mseep/whoop-mcp-server (score: 100)
+- [HIGH] @noedgeai-org/doc2x-mcp (score: 60)
+- [CRITICAL] @openoba-ai/erdl-mcp (score: 95)
+- [CRITICAL] @ours.network/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 4250
-  - CLEAN: 2467
-  - CRITICAL: 494
+- Total scanned: 4300
+  - CLEAN: 2496
+  - CRITICAL: 502
   - ERROR: 12
-  - HIGH: 344
-  - LOW: 469
-  - MEDIUM: 464
+  - HIGH: 348
+  - LOW: 474
+  - MEDIUM: 468
