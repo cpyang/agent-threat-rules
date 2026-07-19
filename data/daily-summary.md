@@ -1,28 +1,30 @@
-## Daily Scan Summary (2026-07-18)
+## Daily Scan Summary (2026-07-19)
 - Scanned: 50 packages
 - CRITICAL: 8
-- HIGH: 4
-- CLEAN/LOW: 34
+- HIGH: 6
+- CLEAN/LOW: 29
 
 ### Flagged Packages:
-- [HIGH] @artymclabin/gmail-mcp (score: 55)
-- [CRITICAL] @codepeelai/mcp-server (score: 85)
-- [CRITICAL] @gravitykit/mcp (score: 85)
-- [HIGH] @hirejack/mcp (score: 55)
-- [CRITICAL] @intentlm/mcp-server (score: 100)
-- [CRITICAL] @jtalk22/slack-mcp (score: 100)
-- [CRITICAL] @kk-2004/kfile-mcp (score: 100)
-- [HIGH] @martinloop/mcp (score: 60)
-- [CRITICAL] @mseep/whoop-mcp-server (score: 100)
-- [HIGH] @noedgeai-org/doc2x-mcp (score: 60)
-- [CRITICAL] @openoba-ai/erdl-mcp (score: 95)
-- [CRITICAL] @ours.network/mcp (score: 100)
+- [CRITICAL] @metaneutrons/german-legal-mcp (score: 100)
+- [CRITICAL] @thingd/cli (score: 75)
+- [HIGH] @thisness.ai/concord-mcp (score: 50)
+- [HIGH] @trustbaseai/collab-mcp (score: 50)
+- [HIGH] @vault-ledger/mcp-server (score: 65)
+- [CRITICAL] countly-mcp-server (score: 100)
+- [HIGH] filemayor-mcp (score: 60)
+- [CRITICAL] godot-mcp-server (score: 100)
+- [CRITICAL] gongio-mcp (score: 100)
+- [HIGH] google-veo3-1-mcp-server (score: 60)
+- [CRITICAL] google-workspace-mcp (score: 100)
+- [HIGH] grayboard-mcp-server (score: 40)
+- [CRITICAL] gws-mcp-server (score: 100)
+- [CRITICAL] haiku-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 4300
-  - CLEAN: 2496
-  - CRITICAL: 502
+- Total scanned: 4350
+  - CLEAN: 2520
+  - CRITICAL: 510
   - ERROR: 12
-  - HIGH: 348
-  - LOW: 474
-  - MEDIUM: 468
+  - HIGH: 354
+  - LOW: 479
+  - MEDIUM: 475
