@@ -1,30 +1,25 @@
-## Daily Scan Summary (2026-07-19)
+## Daily Scan Summary (2026-07-20)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 6
-- CLEAN/LOW: 29
+- CRITICAL: 5
+- HIGH: 4
+- CLEAN/LOW: 36
 
 ### Flagged Packages:
-- [CRITICAL] @metaneutrons/german-legal-mcp (score: 100)
-- [CRITICAL] @thingd/cli (score: 75)
-- [HIGH] @thisness.ai/concord-mcp (score: 50)
-- [HIGH] @trustbaseai/collab-mcp (score: 50)
-- [HIGH] @vault-ledger/mcp-server (score: 65)
-- [CRITICAL] countly-mcp-server (score: 100)
-- [HIGH] filemayor-mcp (score: 60)
-- [CRITICAL] godot-mcp-server (score: 100)
-- [CRITICAL] gongio-mcp (score: 100)
-- [HIGH] google-veo3-1-mcp-server (score: 60)
-- [CRITICAL] google-workspace-mcp (score: 100)
-- [HIGH] grayboard-mcp-server (score: 40)
-- [CRITICAL] gws-mcp-server (score: 100)
-- [CRITICAL] haiku-mcp-server (score: 100)
+- [CRITICAL] hatchbox-mcp-server (score: 100)
+- [HIGH] hemisphere (score: 40)
+- [CRITICAL] hostinger-api-mcp (score: 100)
+- [CRITICAL] hygge-presale-mcp (score: 100)
+- [HIGH] ideaboardz-mcp-server (score: 40)
+- [HIGH] imap-mcp-server (score: 65)
+- [CRITICAL] infranodus-mcp-server (score: 100)
+- [CRITICAL] integrate-sdk (score: 100)
+- [HIGH] jira-mcp (score: 45)
 
 ### Cumulative:
-- Total scanned: 4350
-  - CLEAN: 2520
-  - CRITICAL: 510
+- Total scanned: 4400
+  - CLEAN: 2548
+  - CRITICAL: 515
   - ERROR: 12
-  - HIGH: 354
-  - LOW: 479
-  - MEDIUM: 475
+  - HIGH: 358
+  - LOW: 487
+  - MEDIUM: 480
