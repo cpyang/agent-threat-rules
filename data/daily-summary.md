@@ -1,25 +1,27 @@
-## Daily Scan Summary (2026-07-20)
+## Daily Scan Summary (2026-07-21)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 4
-- CLEAN/LOW: 36
+- CRITICAL: 6
+- HIGH: 5
+- CLEAN/LOW: 31
 
 ### Flagged Packages:
-- [CRITICAL] hatchbox-mcp-server (score: 100)
-- [HIGH] hemisphere (score: 40)
-- [CRITICAL] hostinger-api-mcp (score: 100)
-- [CRITICAL] hygge-presale-mcp (score: 100)
-- [HIGH] ideaboardz-mcp-server (score: 40)
-- [HIGH] imap-mcp-server (score: 65)
-- [CRITICAL] infranodus-mcp-server (score: 100)
-- [CRITICAL] integrate-sdk (score: 100)
-- [HIGH] jira-mcp (score: 45)
+- [HIGH] @agentdomain/mcp-server (score: 50)
+- [CRITICAL] @claudexor/mcp-server (score: 75)
+- [CRITICAL] @doxlabs/mcp (score: 100)
+- [HIGH] @hasna/calendar (score: 55)
+- [CRITICAL] @maildev/mcp (score: 100)
+- [HIGH] @ramestta/agent-mcp-server (score: 55)
+- [CRITICAL] @routescore/mcp (score: 100)
+- [HIGH] @wyreup/mcp (score: 50)
+- [CRITICAL] helios9-mcp-server (score: 100)
+- [CRITICAL] kapture-mcp (score: 100)
+- [HIGH] kip-mcp-server (score: 50)
 
 ### Cumulative:
-- Total scanned: 4400
-  - CLEAN: 2548
-  - CRITICAL: 515
+- Total scanned: 4450
+  - CLEAN: 2575
+  - CRITICAL: 521
   - ERROR: 12
-  - HIGH: 358
-  - LOW: 487
-  - MEDIUM: 480
+  - HIGH: 363
+  - LOW: 491
+  - MEDIUM: 488
