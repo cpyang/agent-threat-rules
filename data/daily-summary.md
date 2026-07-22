@@ -1,27 +1,23 @@
-## Daily Scan Summary (2026-07-21)
+## Daily Scan Summary (2026-07-22)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 5
-- CLEAN/LOW: 31
+- CRITICAL: 1
+- HIGH: 6
+- CLEAN/LOW: 41
 
 ### Flagged Packages:
-- [HIGH] @agentdomain/mcp-server (score: 50)
-- [CRITICAL] @claudexor/mcp-server (score: 75)
-- [CRITICAL] @doxlabs/mcp (score: 100)
-- [HIGH] @hasna/calendar (score: 55)
-- [CRITICAL] @maildev/mcp (score: 100)
-- [HIGH] @ramestta/agent-mcp-server (score: 55)
-- [CRITICAL] @routescore/mcp (score: 100)
-- [HIGH] @wyreup/mcp (score: 50)
-- [CRITICAL] helios9-mcp-server (score: 100)
-- [CRITICAL] kapture-mcp (score: 100)
-- [HIGH] kip-mcp-server (score: 50)
+- [HIGH] @achieveai/hitl-mcp-server (score: 55)
+- [HIGH] @alanxchen/google-workspace-mcp (score: 50)
+- [HIGH] @arivie/mcp (score: 65)
+- [HIGH] @devstroupe/devkit-mcp (score: 50)
+- [CRITICAL] @growsurfteam/growsurf-mcp (score: 100)
+- [HIGH] @katok-mcp/mcp-server (score: 50)
+- [HIGH] @kya-os/create-mcpi-app (score: 45)
 
 ### Cumulative:
-- Total scanned: 4450
-  - CLEAN: 2575
-  - CRITICAL: 521
+- Total scanned: 4500
+  - CLEAN: 2611
+  - CRITICAL: 522
   - ERROR: 12
-  - HIGH: 363
-  - LOW: 491
-  - MEDIUM: 488
+  - HIGH: 369
+  - LOW: 496
+  - MEDIUM: 490
