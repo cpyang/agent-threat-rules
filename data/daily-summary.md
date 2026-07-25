@@ -1,30 +1,26 @@
-## Daily Scan Summary (2026-07-24)
+## Daily Scan Summary (2026-07-25)
 - Scanned: 50 packages
-- CRITICAL: 11
-- HIGH: 3
-- CLEAN/LOW: 30
+- CRITICAL: 4
+- HIGH: 6
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @akka-finance/mcp-server (score: 100)
-- [HIGH] @atomos-web/structura-mcp (score: 50)
-- [HIGH] @ecommclaw/ops-mcp-server (score: 40)
-- [CRITICAL] @levelup-log/mcp-server (score: 80)
-- [CRITICAL] @mdui/mcp (score: 100)
-- [CRITICAL] @provenancecode/mcp-server (score: 100)
-- [CRITICAL] @torknetwork/mcp-server (score: 100)
-- [CRITICAL] axp-mcp-server (score: 90)
-- [CRITICAL] bricks-mcp-server (score: 100)
-- [CRITICAL] ladder-mcp (score: 80)
-- [CRITICAL] loaditout-mcp-server (score: 100)
-- [CRITICAL] loopctl-mcp-server (score: 100)
-- [HIGH] ludus-cli (score: 40)
-- [CRITICAL] m365connector (score: 100)
+- [HIGH] @antonytm/mcp-sitecore-server (score: 50)
+- [HIGH] @aprovan/patchwork-mcp (score: 45)
+- [CRITICAL] @cognitionai/metabase-mcp-server (score: 100)
+- [HIGH] @dotcontext/mcp (score: 60)
+- [HIGH] @f4ww4z/mcp-mysql-server (score: 65)
+- [CRITICAL] @goplausible/algorand-mcp (score: 100)
+- [CRITICAL] @hypothesi/tauri-mcp-server (score: 100)
+- [CRITICAL] @jason.today/webmcp (score: 100)
+- [HIGH] @k8ika0s/mcp-tmux (score: 50)
+- [HIGH] @likec4/mcp (score: 55)
 
 ### Cumulative:
-- Total scanned: 4600
-  - CLEAN: 2670
-  - CRITICAL: 537
+- Total scanned: 4650
+  - CLEAN: 2703
+  - CRITICAL: 541
   - ERROR: 12
-  - HIGH: 373
-  - LOW: 505
-  - MEDIUM: 503
+  - HIGH: 379
+  - LOW: 510
+  - MEDIUM: 505
