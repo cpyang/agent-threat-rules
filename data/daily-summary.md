@@ -1,26 +1,22 @@
-## Daily Scan Summary (2026-07-25)
+## Daily Scan Summary (2026-07-26)
 - Scanned: 50 packages
 - CRITICAL: 4
-- HIGH: 6
-- CLEAN/LOW: 38
+- HIGH: 2
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [HIGH] @antonytm/mcp-sitecore-server (score: 50)
-- [HIGH] @aprovan/patchwork-mcp (score: 45)
-- [CRITICAL] @cognitionai/metabase-mcp-server (score: 100)
-- [HIGH] @dotcontext/mcp (score: 60)
-- [HIGH] @f4ww4z/mcp-mysql-server (score: 65)
-- [CRITICAL] @goplausible/algorand-mcp (score: 100)
-- [CRITICAL] @hypothesi/tauri-mcp-server (score: 100)
-- [CRITICAL] @jason.today/webmcp (score: 100)
-- [HIGH] @k8ika0s/mcp-tmux (score: 50)
-- [HIGH] @likec4/mcp (score: 55)
+- [CRITICAL] @bugsby/cli (score: 100)
+- [CRITICAL] @fadenhq/cli (score: 100)
+- [HIGH] @kioie/facet (score: 45)
+- [CRITICAL] @lawrencehui/citio (score: 100)
+- [CRITICAL] @lokvis/mcp-server (score: 100)
+- [HIGH] @policylayer/intercept (score: 40)
 
 ### Cumulative:
-- Total scanned: 4650
-  - CLEAN: 2703
-  - CRITICAL: 541
+- Total scanned: 4700
+  - CLEAN: 2730
+  - CRITICAL: 545
   - ERROR: 12
-  - HIGH: 379
-  - LOW: 510
-  - MEDIUM: 505
+  - HIGH: 381
+  - LOW: 522
+  - MEDIUM: 510
