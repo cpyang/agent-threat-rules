@@ -1,28 +1,25 @@
-## Daily Scan Summary (2026-07-28)
+## Daily Scan Summary (2026-07-29)
 - Scanned: 50 packages
 - CRITICAL: 7
-- HIGH: 5
-- CLEAN/LOW: 34
+- HIGH: 2
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @behavioros/mcp-server (score: 100)
-- [CRITICAL] @progress/kendo-angular-webmcp (score: 100)
-- [CRITICAL] @zxkane/quip-mcp-server (score: 70)
-- [CRITICAL] altmetric-mcp (score: 100)
-- [HIGH] console-logger-mcp (score: 45)
-- [HIGH] corrdex (score: 55)
-- [CRITICAL] edgeone-pages-mcp-fullstack (score: 100)
-- [CRITICAL] epub-mcp-server (score: 100)
-- [HIGH] freesearch-mcp (score: 45)
-- [CRITICAL] jaegis-github-mcp-server (score: 100)
-- [HIGH] kitbag-mcp (score: 45)
-- [HIGH] korean-dart-mcp (score: 40)
+- [CRITICAL] @andrea9293/mcp-documentation-server (score: 100)
+- [HIGH] @ecosyste-ms/mcp (score: 40)
+- [CRITICAL] @parad0x_labs/mcp-server (score: 100)
+- [HIGH] @snowluma/mcp (score: 55)
+- [CRITICAL] @socialapis/mcp (score: 100)
+- [CRITICAL] @taotao7/bypass-content-platform-mcp (score: 100)
+- [CRITICAL] @uptimebolt/mcp-server (score: 100)
+- [CRITICAL] @verdicter/mcp (score: 75)
+- [CRITICAL] clickhouse-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 4800
-  - CLEAN: 2789
-  - CRITICAL: 555
+- Total scanned: 4850
+  - CLEAN: 2823
+  - CRITICAL: 562
   - ERROR: 12
-  - HIGH: 389
-  - LOW: 535
-  - MEDIUM: 520
+  - HIGH: 391
+  - LOW: 539
+  - MEDIUM: 523
