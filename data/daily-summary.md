@@ -1,25 +1,29 @@
-## Daily Scan Summary (2026-07-29)
+## Daily Scan Summary (2026-07-30)
 - Scanned: 50 packages
 - CRITICAL: 7
-- HIGH: 2
-- CLEAN/LOW: 38
+- HIGH: 6
+- CLEAN/LOW: 33
 
 ### Flagged Packages:
-- [CRITICAL] @andrea9293/mcp-documentation-server (score: 100)
-- [HIGH] @ecosyste-ms/mcp (score: 40)
-- [CRITICAL] @parad0x_labs/mcp-server (score: 100)
-- [HIGH] @snowluma/mcp (score: 55)
-- [CRITICAL] @socialapis/mcp (score: 100)
-- [CRITICAL] @taotao7/bypass-content-platform-mcp (score: 100)
-- [CRITICAL] @uptimebolt/mcp-server (score: 100)
-- [CRITICAL] @verdicter/mcp (score: 75)
-- [CRITICAL] clickhouse-mcp-server (score: 100)
+- [HIGH] @fui-org/fui-mcp (score: 65)
+- [HIGH] @legacy-shield/mcp-server (score: 50)
+- [CRITICAL] @maximai/mcp-server (score: 100)
+- [HIGH] @onemrvapublic/design-system-mcp-server (score: 40)
+- [CRITICAL] abyss-mcp (score: 100)
+- [HIGH] fetchsandbox-mcp (score: 50)
+- [CRITICAL] finance-mcp-server (score: 100)
+- [CRITICAL] fnpackup-mcp-server (score: 75)
+- [CRITICAL] glm-mcp (score: 75)
+- [CRITICAL] help-scout-mcp-server (score: 100)
+- [HIGH] influship-api-mcp (score: 60)
+- [CRITICAL] local-mcp (score: 75)
+- [HIGH] mariadb-mcp-server (score: 45)
 
 ### Cumulative:
-- Total scanned: 4850
-  - CLEAN: 2823
-  - CRITICAL: 562
+- Total scanned: 4900
+  - CLEAN: 2852
+  - CRITICAL: 569
   - ERROR: 12
-  - HIGH: 391
-  - LOW: 539
-  - MEDIUM: 523
+  - HIGH: 397
+  - LOW: 543
+  - MEDIUM: 527
