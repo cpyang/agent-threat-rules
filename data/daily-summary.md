@@ -1,29 +1,25 @@
-## Daily Scan Summary (2026-07-30)
+## Daily Scan Summary (2026-07-31)
 - Scanned: 50 packages
-- CRITICAL: 7
-- HIGH: 6
-- CLEAN/LOW: 33
+- CRITICAL: 5
+- HIGH: 4
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [HIGH] @fui-org/fui-mcp (score: 65)
-- [HIGH] @legacy-shield/mcp-server (score: 50)
-- [CRITICAL] @maximai/mcp-server (score: 100)
-- [HIGH] @onemrvapublic/design-system-mcp-server (score: 40)
-- [CRITICAL] abyss-mcp (score: 100)
-- [HIGH] fetchsandbox-mcp (score: 50)
-- [CRITICAL] finance-mcp-server (score: 100)
-- [CRITICAL] fnpackup-mcp-server (score: 75)
-- [CRITICAL] glm-mcp (score: 75)
-- [CRITICAL] help-scout-mcp-server (score: 100)
-- [HIGH] influship-api-mcp (score: 60)
-- [CRITICAL] local-mcp (score: 75)
-- [HIGH] mariadb-mcp-server (score: 45)
+- [CRITICAL] @back4app/mcp-server-back4app (score: 100)
+- [HIGH] @closot/mcp (score: 65)
+- [CRITICAL] mcp-arr-server (score: 100)
+- [HIGH] mcp-bigquery-server (score: 55)
+- [HIGH] mcp-deepseek (score: 40)
+- [CRITICAL] mcp-discord (score: 100)
+- [HIGH] mcp-excalidraw-server (score: 40)
+- [CRITICAL] mcp-figma (score: 100)
+- [CRITICAL] mcp-mail-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 4900
-  - CLEAN: 2852
-  - CRITICAL: 569
+- Total scanned: 4950
+  - CLEAN: 2883
+  - CRITICAL: 574
   - ERROR: 12
-  - HIGH: 397
-  - LOW: 543
-  - MEDIUM: 527
+  - HIGH: 401
+  - LOW: 547
+  - MEDIUM: 533
