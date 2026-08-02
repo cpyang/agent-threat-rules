@@ -1,22 +1,20 @@
-## Daily Scan Summary (2026-08-01)
+## Daily Scan Summary (2026-08-02)
 - Scanned: 50 packages
-- CRITICAL: 4
+- CRITICAL: 2
 - HIGH: 2
 - CLEAN/LOW: 40
 
 ### Flagged Packages:
-- [CRITICAL] @algosuite/vo-mcp (score: 100)
-- [HIGH] @ask-llm/claude-mcp (score: 45)
-- [HIGH] @better-auth/mcp (score: 65)
-- [CRITICAL] @oneentry/mcp-server (score: 100)
-- [CRITICAL] @presentation-md/mcp-server (score: 85)
-- [CRITICAL] @schematichq/schematic-mcp (score: 100)
+- [HIGH] @fastmcp-me/webscout-mcp (score: 45)
+- [CRITICAL] @mcpflow.io/unsplash-smart-mcp-server (score: 90)
+- [CRITICAL] @mseep/unsplash-smart-mcp-server (score: 90)
+- [HIGH] @mseep/zip-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 5000
-  - CLEAN: 2920
-  - CRITICAL: 578
+- Total scanned: 5050
+  - CLEAN: 2955
+  - CRITICAL: 580
   - ERROR: 13
-  - HIGH: 403
-  - LOW: 550
-  - MEDIUM: 536
+  - HIGH: 405
+  - LOW: 555
+  - MEDIUM: 542
