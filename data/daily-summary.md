@@ -1,20 +1,23 @@
-## Daily Scan Summary (2026-08-02)
+## Daily Scan Summary (2026-08-03)
 - Scanned: 50 packages
-- CRITICAL: 2
-- HIGH: 2
-- CLEAN/LOW: 40
+- CRITICAL: 4
+- HIGH: 3
+- CLEAN/LOW: 32
 
 ### Flagged Packages:
-- [HIGH] @fastmcp-me/webscout-mcp (score: 45)
-- [CRITICAL] @mcpflow.io/unsplash-smart-mcp-server (score: 90)
-- [CRITICAL] @mseep/unsplash-smart-mcp-server (score: 90)
-- [HIGH] @mseep/zip-mcp (score: 50)
+- [HIGH] @kamacrm/mcp-server (score: 40)
+- [CRITICAL] @zy_zhou/vps-mcp-server (score: 100)
+- [HIGH] enhanced-postgres-mcp-server (score: 45)
+- [CRITICAL] mcp-mailtrap (score: 100)
+- [CRITICAL] mcp-scraper (score: 100)
+- [CRITICAL] mcp-server-fear-greed (score: 70)
+- [HIGH] mcp-server-flomo (score: 50)
 
 ### Cumulative:
-- Total scanned: 5050
-  - CLEAN: 2955
-  - CRITICAL: 580
+- Total scanned: 5100
+  - CLEAN: 2981
+  - CRITICAL: 584
   - ERROR: 13
-  - HIGH: 405
-  - LOW: 555
-  - MEDIUM: 542
+  - HIGH: 408
+  - LOW: 561
+  - MEDIUM: 553
