@@ -1,31 +1,23 @@
-## Daily Scan Summary (2026-08-07)
+## Daily Scan Summary (2026-08-08)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 7
-- CLEAN/LOW: 31
+- CRITICAL: 4
+- HIGH: 3
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [HIGH] @anthelis/puter-claude-mcp (score: 45)
-- [HIGH] @blacksandscyber/mcp-server-shield (score: 60)
-- [HIGH] @cadcamfun/ai-service (score: 40)
-- [HIGH] @chatrealty/mcp-server (score: 55)
-- [CRITICAL] @claude-flow/hooks (score: 100)
-- [HIGH] @claude-flow/shared (score: 60)
-- [CRITICAL] @claudeoverflow/mcp-server (score: 95)
-- [CRITICAL] @farming-labs/docs (score: 95)
-- [HIGH] @gabriel3615/claude-stock-analysis-mcp (score: 50)
-- [HIGH] @galda/cli (score: 60)
-- [CRITICAL] @hookbase/mcp-server (score: 100)
-- [CRITICAL] @iabtcf/core (score: 100)
-- [CRITICAL] @iflow-mcp/cubie-ai-solana-mcp (score: 100)
-- [CRITICAL] @iflow-mcp/eoinjordan-gbstudio-claude-mcp (score: 80)
-- [CRITICAL] @iflow-mcp/xmcp (score: 100)
+- [CRITICAL] @marian-craciunescu/ssh-mcp-server-secured (score: 100)
+- [CRITICAL] @spctre/mcp-server (score: 100)
+- [CRITICAL] @whizbang/docs-mcp-server (score: 80)
+- [CRITICAL] mcp-server-redmine (score: 100)
+- [HIGH] mcp-server-siri-shortcuts (score: 60)
+- [HIGH] mcp-server-slack (score: 50)
+- [HIGH] mcp-server-tempmail (score: 50)
 
 ### Cumulative:
-- Total scanned: 5300
-  - CLEAN: 3098
-  - CRITICAL: 605
+- Total scanned: 5350
+  - CLEAN: 3126
+  - CRITICAL: 609
   - ERROR: 14
-  - HIGH: 427
-  - LOW: 581
-  - MEDIUM: 575
+  - HIGH: 430
+  - LOW: 592
+  - MEDIUM: 579
