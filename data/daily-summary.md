@@ -1,23 +1,19 @@
-## Daily Scan Summary (2026-08-08)
+## Daily Scan Summary (2026-08-09)
 - Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 3
-- CLEAN/LOW: 39
+- CRITICAL: 2
+- HIGH: 1
+- CLEAN/LOW: 42
 
 ### Flagged Packages:
-- [CRITICAL] @marian-craciunescu/ssh-mcp-server-secured (score: 100)
-- [CRITICAL] @spctre/mcp-server (score: 100)
-- [CRITICAL] @whizbang/docs-mcp-server (score: 80)
-- [CRITICAL] mcp-server-redmine (score: 100)
-- [HIGH] mcp-server-siri-shortcuts (score: 60)
-- [HIGH] mcp-server-slack (score: 50)
-- [HIGH] mcp-server-tempmail (score: 50)
+- [CRITICAL] @flomenco/claude-plugin-mcp (score: 70)
+- [HIGH] @kubb/core (score: 50)
+- [CRITICAL] @modelcontextprotocol/conformance (score: 100)
 
 ### Cumulative:
-- Total scanned: 5350
-  - CLEAN: 3126
-  - CRITICAL: 609
+- Total scanned: 5400
+  - CLEAN: 3165
+  - CRITICAL: 611
   - ERROR: 14
-  - HIGH: 430
-  - LOW: 592
-  - MEDIUM: 579
+  - HIGH: 431
+  - LOW: 595
+  - MEDIUM: 584
