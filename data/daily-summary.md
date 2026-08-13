@@ -1,23 +1,24 @@
-## Daily Scan Summary (2026-08-12)
+## Daily Scan Summary (2026-08-13)
 - Scanned: 50 packages
 - CRITICAL: 4
-- HIGH: 3
-- CLEAN/LOW: 40
+- HIGH: 4
+- CLEAN/LOW: 36
 
 ### Flagged Packages:
-- [CRITICAL] @1key4ai/cc-bridge (score: 100)
-- [CRITICAL] @4da/mcp-server (score: 100)
-- [HIGH] @a2uicatalog/mcp (score: 60)
-- [HIGH] @activepieces/piece-mcp-client (score: 40)
-- [HIGH] @agent-nexus/mcp-server (score: 50)
-- [CRITICAL] @agentchatme/claude-code (score: 70)
-- [CRITICAL] @agentmug/runtime (score: 100)
+- [CRITICAL] @agimon-ai/browse-tool (score: 100)
+- [HIGH] @axionquant/mcp (score: 40)
+- [CRITICAL] @d4works/mcp-clockify (score: 75)
+- [HIGH] @rpc-relay/mcp-server (score: 65)
+- [HIGH] @scratchrun/mcp-server (score: 45)
+- [CRITICAL] @snackbase/mcp (score: 90)
+- [CRITICAL] certifico-mark (score: 100)
+- [HIGH] deepadata-edm-mcp-server (score: 40)
 
 ### Cumulative:
-- Total scanned: 5550
-  - CLEAN: 3254
-  - CRITICAL: 627
+- Total scanned: 5600
+  - CLEAN: 3284
+  - CRITICAL: 631
   - ERROR: 16
-  - HIGH: 439
-  - LOW: 611
-  - MEDIUM: 603
+  - HIGH: 443
+  - LOW: 617
+  - MEDIUM: 609
