@@ -1,28 +1,26 @@
-## Daily Scan Summary (2026-08-14)
+## Daily Scan Summary (2026-08-15)
 - Scanned: 50 packages
-- CRITICAL: 8
+- CRITICAL: 6
 - HIGH: 4
-- CLEAN/LOW: 34
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [HIGH] @kirtijha/salesforce-mcp-server (score: 55)
-- [CRITICAL] iterminal-mcp-server (score: 100)
-- [CRITICAL] kitty-hive (score: 100)
-- [CRITICAL] mcp-adr-analysis-server (score: 100)
-- [CRITICAL] mcp-server-templated (score: 100)
-- [CRITICAL] mcpql (score: 100)
-- [CRITICAL] media-gen-mcp-server (score: 100)
-- [HIGH] meetlys-mcp (score: 50)
-- [HIGH] memtrace (score: 50)
-- [CRITICAL] mimo-executor-zl-mcp (score: 100)
-- [CRITICAL] mindgraph-mcp (score: 100)
-- [HIGH] mitmachim-mcp (score: 40)
+- [CRITICAL] @wphealthkit/mcp-server (score: 100)
+- [HIGH] @zeromodern/mcp-server-0mod (score: 40)
+- [CRITICAL] microsoft365-mcp-server (score: 100)
+- [CRITICAL] mobai-mcp (score: 100)
+- [HIGH] modern-treasury-mcp (score: 50)
+- [HIGH] momen-mcp (score: 50)
+- [CRITICAL] morphed-mcp-server (score: 100)
+- [HIGH] mysql-mcp-server (score: 45)
+- [CRITICAL] n8n-mcp (score: 100)
+- [CRITICAL] node-opcua-modeler-mcp-server (score: 80)
 
 ### Cumulative:
-- Total scanned: 5650
-  - CLEAN: 3312
-  - CRITICAL: 639
+- Total scanned: 5700
+  - CLEAN: 3338
+  - CRITICAL: 645
   - ERROR: 16
-  - HIGH: 447
-  - LOW: 623
-  - MEDIUM: 613
+  - HIGH: 451
+  - LOW: 632
+  - MEDIUM: 618
