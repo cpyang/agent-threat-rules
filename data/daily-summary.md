@@ -1,29 +1,28 @@
-## Daily Scan Summary (2026-08-16)
+## Daily Scan Summary (2026-08-17)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 7
-- CLEAN/LOW: 31
+- CRITICAL: 8
+- HIGH: 4
+- CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [CRITICAL] @blindpay/mcp (score: 100)
-- [CRITICAL] onestep-puppeteer-mcp-server (score: 100)
-- [HIGH] openapi-mcp-server (score: 60)
-- [CRITICAL] openchrome-mcp (score: 100)
-- [CRITICAL] opengrok-mcp-server (score: 70)
-- [HIGH] openregister-mcp (score: 60)
-- [HIGH] oracle-mcp-server (score: 45)
-- [CRITICAL] osint-mcp-server (score: 100)
-- [HIGH] outline-mcp-server (score: 65)
-- [HIGH] pagespeed-mcp-server (score: 40)
-- [HIGH] palantir-mcp (score: 45)
-- [CRITICAL] pango-lingo-mcp-server (score: 100)
-- [HIGH] papierkram-mcp-server (score: 50)
+- [HIGH] @cl-mcp/mcp-server (score: 60)
+- [CRITICAL] @neiltron/apple-health-mcp (score: 100)
+- [HIGH] @roxybrowser/playwright (score: 50)
+- [CRITICAL] @wisewandtools/mcp-server (score: 75)
+- [HIGH] @yocoolab/mcp-server (score: 50)
+- [CRITICAL] agentphone-mcp (score: 100)
+- [CRITICAL] mcp-server-db (score: 100)
+- [HIGH] next-finance-mcp (score: 45)
+- [CRITICAL] pinterest-mcp-server (score: 95)
+- [CRITICAL] playwright-stealth-mcp-server (score: 100)
+- [CRITICAL] posterly-mcp-server (score: 100)
+- [CRITICAL] proctor-mcp-server (score: 75)
 
 ### Cumulative:
-- Total scanned: 5750
-  - CLEAN: 3363
-  - CRITICAL: 651
-  - ERROR: 16
-  - HIGH: 458
-  - LOW: 638
-  - MEDIUM: 624
+- Total scanned: 5800
+  - CLEAN: 3394
+  - CRITICAL: 659
+  - ERROR: 17
+  - HIGH: 462
+  - LOW: 641
+  - MEDIUM: 627
