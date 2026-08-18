@@ -1,28 +1,28 @@
-## Daily Scan Summary (2026-08-17)
+## Daily Scan Summary (2026-08-18)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 4
-- CLEAN/LOW: 34
+- CRITICAL: 7
+- HIGH: 5
+- CLEAN/LOW: 30
 
 ### Flagged Packages:
-- [HIGH] @cl-mcp/mcp-server (score: 60)
-- [CRITICAL] @neiltron/apple-health-mcp (score: 100)
-- [HIGH] @roxybrowser/playwright (score: 50)
-- [CRITICAL] @wisewandtools/mcp-server (score: 75)
-- [HIGH] @yocoolab/mcp-server (score: 50)
-- [CRITICAL] agentphone-mcp (score: 100)
-- [CRITICAL] mcp-server-db (score: 100)
-- [HIGH] next-finance-mcp (score: 45)
-- [CRITICAL] pinterest-mcp-server (score: 95)
-- [CRITICAL] playwright-stealth-mcp-server (score: 100)
-- [CRITICAL] posterly-mcp-server (score: 100)
-- [CRITICAL] proctor-mcp-server (score: 75)
+- [CRITICAL] agent-device (score: 100)
+- [CRITICAL] @agentistics/mcp (score: 100)
+- [HIGH] @themelt/mcp-server (score: 50)
+- [CRITICAL] @vtxmacro/cli (score: 100)
+- [CRITICAL] brains-mcp (score: 100)
+- [HIGH] eastworld-mcp-server (score: 40)
+- [HIGH] nimble-js-mcp (score: 60)
+- [CRITICAL] questrade-mcp-server (score: 80)
+- [HIGH] quickbooks-mcp (score: 50)
+- [HIGH] rabbitmq-mcp (score: 40)
+- [CRITICAL] real-browser-mcp-server (score: 75)
+- [CRITICAL] reddit-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 5800
-  - CLEAN: 3394
-  - CRITICAL: 659
+- Total scanned: 5850
+  - CLEAN: 3413
+  - CRITICAL: 666
   - ERROR: 17
-  - HIGH: 462
-  - LOW: 641
-  - MEDIUM: 627
+  - HIGH: 467
+  - LOW: 652
+  - MEDIUM: 635
