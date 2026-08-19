@@ -1,28 +1,25 @@
-## Daily Scan Summary (2026-08-18)
+## Daily Scan Summary (2026-08-19)
 - Scanned: 50 packages
-- CRITICAL: 7
-- HIGH: 5
-- CLEAN/LOW: 30
+- CRITICAL: 3
+- HIGH: 6
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [CRITICAL] agent-device (score: 100)
-- [CRITICAL] @agentistics/mcp (score: 100)
-- [HIGH] @themelt/mcp-server (score: 50)
-- [CRITICAL] @vtxmacro/cli (score: 100)
-- [CRITICAL] brains-mcp (score: 100)
-- [HIGH] eastworld-mcp-server (score: 40)
-- [HIGH] nimble-js-mcp (score: 60)
-- [CRITICAL] questrade-mcp-server (score: 80)
-- [HIGH] quickbooks-mcp (score: 50)
-- [HIGH] rabbitmq-mcp (score: 40)
-- [CRITICAL] real-browser-mcp-server (score: 75)
-- [CRITICAL] reddit-mcp-server (score: 100)
+- [CRITICAL] @aurentiaai/mcp-server (score: 100)
+- [HIGH] @pingrep/mcp-server (score: 65)
+- [CRITICAL] @prosemeter/mcp (score: 90)
+- [HIGH] @yawlabs/ssh-mcp (score: 60)
+- [HIGH] agent-room-mcp (score: 45)
+- [HIGH] aiterm-mcp (score: 50)
+- [HIGH] microcms-mcp-server (score: 60)
+- [CRITICAL] mux-mcp-gateway (score: 70)
+- [HIGH] react-native-ai-devtools (score: 40)
 
 ### Cumulative:
-- Total scanned: 5850
-  - CLEAN: 3413
-  - CRITICAL: 666
-  - ERROR: 17
-  - HIGH: 467
-  - LOW: 652
-  - MEDIUM: 635
+- Total scanned: 5900
+  - CLEAN: 3445
+  - CRITICAL: 669
+  - ERROR: 19
+  - HIGH: 473
+  - LOW: 657
+  - MEDIUM: 637
