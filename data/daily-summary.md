@@ -1,27 +1,23 @@
-## Daily Scan Summary (2026-08-20)
+## Daily Scan Summary (2026-08-21)
 - Scanned: 50 packages
-- CRITICAL: 6
-- HIGH: 5
-- CLEAN/LOW: 32
+- CRITICAL: 4
+- HIGH: 3
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [HIGH] @aiet/mcp-server (score: 40)
-- [CRITICAL] @allocator-one/harness-cli (score: 100)
-- [CRITICAL] @mseep/verodat-mcp-server (score: 85)
-- [CRITICAL] rive-mcp-server (score: 75)
-- [CRITICAL] rlm-mcp-server (score: 100)
-- [HIGH] rosetta-mcp-server (score: 60)
-- [CRITICAL] sad-mcp (score: 70)
-- [CRITICAL] salesforce-mcp-server (score: 75)
-- [HIGH] samarth-gtm-mcp (score: 50)
-- [HIGH] scorecard-ai-mcp (score: 50)
-- [HIGH] scrapeless-mcp-server (score: 55)
+- [CRITICAL] @jadchene/mcp-gateway-service (score: 80)
+- [HIGH] @jahandco/mcp-server (score: 60)
+- [HIGH] @or-sdk/mcp-tools (score: 60)
+- [CRITICAL] @sweyaai/tenex-sdlc-mcp (score: 70)
+- [CRITICAL] @testomatio/mcp (score: 100)
+- [HIGH] @vybestack/llxprt-code-mcp (score: 50)
+- [CRITICAL] agnost (score: 100)
 
 ### Cumulative:
-- Total scanned: 5950
-  - CLEAN: 3475
-  - CRITICAL: 675
-  - ERROR: 19
-  - HIGH: 478
-  - LOW: 659
-  - MEDIUM: 644
+- Total scanned: 6000
+  - CLEAN: 3501
+  - CRITICAL: 679
+  - ERROR: 20
+  - HIGH: 481
+  - LOW: 668
+  - MEDIUM: 651
