@@ -1,27 +1,30 @@
-## Daily Scan Summary (2026-08-22)
+## Daily Scan Summary (2026-08-23)
 - Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 7
-- CLEAN/LOW: 33
+- CRITICAL: 5
+- HIGH: 9
+- CLEAN/LOW: 29
 
 ### Flagged Packages:
-- [HIGH] @dplooy/mcp-server (score: 50)
-- [HIGH] openrouter-deep-research-hadrian-full (score: 50)
-- [HIGH] qu4zr-mcp (score: 65)
-- [CRITICAL] rentahuman-mcp (score: 100)
-- [CRITICAL] screenpipe-mcp (score: 100)
-- [HIGH] search-console-mcp (score: 45)
-- [CRITICAL] search-mcp-server (score: 90)
-- [HIGH] sensorium-mcp (score: 50)
-- [HIGH] shadcn-mcp (score: 45)
-- [CRITICAL] signalk-mcp-server (score: 85)
-- [HIGH] skills-mcp-server (score: 45)
+- [HIGH] @storybloq/agkit (score: 40)
+- [HIGH] @terminals-tech/openrouter-agents (score: 55)
+- [HIGH] deeporax-browser-mcp (score: 50)
+- [HIGH] spaces-mcp-server (score: 65)
+- [CRITICAL] square-mcp-server (score: 100)
+- [CRITICAL] ssh-agent-mcp-server (score: 100)
+- [HIGH] stepfun-mcp (score: 40)
+- [HIGH] storybook-mcp (score: 60)
+- [HIGH] storybook-mcp-server (score: 40)
+- [CRITICAL] strava-mcp-server (score: 70)
+- [HIGH] taurusdb-mcp (score: 50)
+- [CRITICAL] tdesign-mcp-server (score: 80)
+- [CRITICAL] tebra-mcp-server (score: 100)
+- [HIGH] telnyx-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 6050
-  - CLEAN: 3529
-  - CRITICAL: 683
+- Total scanned: 6100
+  - CLEAN: 3554
+  - CRITICAL: 688
   - ERROR: 20
-  - HIGH: 488
-  - LOW: 673
-  - MEDIUM: 657
+  - HIGH: 497
+  - LOW: 677
+  - MEDIUM: 664
