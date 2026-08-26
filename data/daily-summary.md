@@ -1,34 +1,28 @@
-## Daily Scan Summary (2026-08-25)
+## Daily Scan Summary (2026-08-26)
 - Scanned: 50 packages
-- CRITICAL: 10
-- HIGH: 8
-- CLEAN/LOW: 28
+- CRITICAL: 7
+- HIGH: 5
+- CLEAN/LOW: 30
 
 ### Flagged Packages:
-- [HIGH] @biolm/biolm-models-mcp (score: 60)
-- [HIGH] @codingmantra/mcp-server (score: 50)
-- [CRITICAL] @genkey/keygen-mcp-server (score: 100)
-- [CRITICAL] @miluan/xagent (score: 100)
-- [HIGH] @omniboard/mcp (score: 40)
-- [CRITICAL] @prismnetwork/mcp (score: 100)
-- [HIGH] @ryanseaotter/mcp-server (score: 50)
-- [HIGH] @sid7vish/universal-rag-mcp (score: 55)
-- [CRITICAL] @simplr-ai/mcp (score: 100)
-- [CRITICAL] @sunra/mcp-server (score: 100)
-- [CRITICAL] @taraksh011/memoryhub (score: 100)
-- [CRITICAL] @thallylabs/mcp (score: 100)
-- [HIGH] @zhangzichao2008/mcp-graphiti (score: 40)
-- [CRITICAL] dsh-mcp-panel (score: 100)
-- [CRITICAL] mcp-guardian (score: 100)
-- [HIGH] mcp-jnm (score: 40)
-- [CRITICAL] mcp-sqlite-tools (score: 100)
-- [HIGH] paygate-mcp (score: 50)
+- [HIGH] @ask-llm/ollama-mcp (score: 40)
+- [CRITICAL] @nockdev/hsa (score: 80)
+- [CRITICAL] @segosolutions/mcp-server (score: 80)
+- [HIGH] @specforge/cli (score: 65)
+- [CRITICAL] hubspot-mcp-server (score: 100)
+- [HIGH] thebrain-mcp-server (score: 60)
+- [CRITICAL] tie-mcp-server (score: 100)
+- [CRITICAL] tldv-mcp (score: 100)
+- [CRITICAL] tokportal-mcp (score: 100)
+- [HIGH] tradeblocks-mcp (score: 60)
+- [CRITICAL] tradingview-mcp-server (score: 100)
+- [HIGH] trello-mcp-server (score: 55)
 
 ### Cumulative:
-- Total scanned: 6200
-  - CLEAN: 3611
-  - CRITICAL: 702
+- Total scanned: 6250
+  - CLEAN: 3638
+  - CRITICAL: 709
   - ERROR: 20
-  - HIGH: 507
-  - LOW: 689
-  - MEDIUM: 671
+  - HIGH: 512
+  - LOW: 692
+  - MEDIUM: 679
