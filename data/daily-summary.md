@@ -1,28 +1,23 @@
-## Daily Scan Summary (2026-08-26)
+## Daily Scan Summary (2026-08-27)
 - Scanned: 50 packages
 - CRITICAL: 7
-- HIGH: 5
-- CLEAN/LOW: 30
+- HIGH: 0
+- CLEAN/LOW: 36
 
 ### Flagged Packages:
-- [HIGH] @ask-llm/ollama-mcp (score: 40)
-- [CRITICAL] @nockdev/hsa (score: 80)
-- [CRITICAL] @segosolutions/mcp-server (score: 80)
-- [HIGH] @specforge/cli (score: 65)
-- [CRITICAL] hubspot-mcp-server (score: 100)
-- [HIGH] thebrain-mcp-server (score: 60)
-- [CRITICAL] tie-mcp-server (score: 100)
-- [CRITICAL] tldv-mcp (score: 100)
-- [CRITICAL] tokportal-mcp (score: 100)
-- [HIGH] tradeblocks-mcp (score: 60)
-- [CRITICAL] tradingview-mcp-server (score: 100)
-- [HIGH] trello-mcp-server (score: 55)
+- [CRITICAL] @aicloud360/360-ai-cloud-disk-mcp (score: 100)
+- [CRITICAL] @hasna/sandboxes (score: 100)
+- [CRITICAL] convocore-mcp (score: 100)
+- [CRITICAL] general-tools-mcp-server (score: 100)
+- [CRITICAL] godot-mcp-bridge (score: 100)
+- [CRITICAL] impact-ui-mcp-server (score: 90)
+- [CRITICAL] letsfg-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 6250
-  - CLEAN: 3638
-  - CRITICAL: 709
-  - ERROR: 20
+- Total scanned: 6300
+  - CLEAN: 3665
+  - CRITICAL: 716
+  - ERROR: 21
   - HIGH: 512
-  - LOW: 692
-  - MEDIUM: 679
+  - LOW: 701
+  - MEDIUM: 685
