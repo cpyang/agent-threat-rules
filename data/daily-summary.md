@@ -1,23 +1,25 @@
-## Daily Scan Summary (2026-08-27)
+## Daily Scan Summary (2026-08-28)
 - Scanned: 50 packages
-- CRITICAL: 7
-- HIGH: 0
-- CLEAN/LOW: 36
+- CRITICAL: 8
+- HIGH: 1
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [CRITICAL] @aicloud360/360-ai-cloud-disk-mcp (score: 100)
-- [CRITICAL] @hasna/sandboxes (score: 100)
-- [CRITICAL] convocore-mcp (score: 100)
-- [CRITICAL] general-tools-mcp-server (score: 100)
-- [CRITICAL] godot-mcp-bridge (score: 100)
-- [CRITICAL] impact-ui-mcp-server (score: 90)
-- [CRITICAL] letsfg-mcp (score: 100)
+- [HIGH] @roarkanalytics/sdk-mcp (score: 60)
+- [CRITICAL] tripo-ai-mcp-server (score: 100)
+- [CRITICAL] twelvelabs-mcp (score: 100)
+- [CRITICAL] ue-mcp (score: 90)
+- [CRITICAL] unity-mcp-server (score: 85)
+- [CRITICAL] velixar-mcp-server (score: 100)
+- [CRITICAL] watsonx-mcp-server (score: 100)
+- [CRITICAL] webpage-mcp (score: 75)
+- [CRITICAL] webpilot-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 6300
-  - CLEAN: 3665
-  - CRITICAL: 716
+- Total scanned: 6350
+  - CLEAN: 3695
+  - CRITICAL: 724
   - ERROR: 21
-  - HIGH: 512
-  - LOW: 701
-  - MEDIUM: 685
+  - HIGH: 513
+  - LOW: 706
+  - MEDIUM: 691
