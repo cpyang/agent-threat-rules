@@ -1,25 +1,23 @@
-## Daily Scan Summary (2026-08-28)
+## Daily Scan Summary (2026-08-29)
 - Scanned: 50 packages
-- CRITICAL: 8
-- HIGH: 1
-- CLEAN/LOW: 35
+- CRITICAL: 3
+- HIGH: 4
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [HIGH] @roarkanalytics/sdk-mcp (score: 60)
-- [CRITICAL] tripo-ai-mcp-server (score: 100)
-- [CRITICAL] twelvelabs-mcp (score: 100)
-- [CRITICAL] ue-mcp (score: 90)
-- [CRITICAL] unity-mcp-server (score: 85)
-- [CRITICAL] velixar-mcp-server (score: 100)
-- [CRITICAL] watsonx-mcp-server (score: 100)
-- [CRITICAL] webpage-mcp (score: 75)
-- [CRITICAL] webpilot-mcp-server (score: 100)
+- [HIGH] @devflow-tools/mcp-server (score: 60)
+- [HIGH] @graphite-atlas/mcp-server (score: 40)
+- [CRITICAL] @hostora/mcp-server (score: 100)
+- [CRITICAL] @instawp/mcp-wp (score: 100)
+- [HIGH] @openmrp/sdk-mcp (score: 50)
+- [CRITICAL] @reactive-agents/tools (score: 100)
+- [HIGH] @ricokahler/mcp-cli (score: 50)
 
 ### Cumulative:
-- Total scanned: 6350
-  - CLEAN: 3695
-  - CRITICAL: 724
-  - ERROR: 21
-  - HIGH: 513
-  - LOW: 706
-  - MEDIUM: 691
+- Total scanned: 6400
+  - CLEAN: 3731
+  - CRITICAL: 727
+  - ERROR: 22
+  - HIGH: 517
+  - LOW: 709
+  - MEDIUM: 694
