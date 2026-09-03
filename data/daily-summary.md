@@ -1,21 +1,21 @@
-## Daily Scan Summary (2026-09-02)
+## Daily Scan Summary (2026-09-03)
 - Scanned: 50 packages
-- CRITICAL: 1
-- HIGH: 4
-- CLEAN/LOW: 42
+- CRITICAL: 2
+- HIGH: 3
+- CLEAN/LOW: 35
 
 ### Flagged Packages:
-- [HIGH] @gndev/bangwo8-mcp (score: 45)
-- [HIGH] @massteck/aloc-mcp-server (score: 45)
-- [HIGH] @missionsquad/mcp-ercot (score: 60)
-- [HIGH] @mokoconsulting/mcp-mokomonitor (score: 60)
-- [CRITICAL] @mseep/airylark-mcp-server (score: 100)
+- [HIGH] @kontor-mcp/server (score: 50)
+- [HIGH] @lutery/vision-mcp (score: 55)
+- [CRITICAL] @neuronsearchlab/mcp (score: 100)
+- [HIGH] adobe-premiere-pro-mcp (score: 65)
+- [CRITICAL] basicdeploy-mcp (score: 75)
 
 ### Cumulative:
-- Total scanned: 6600
-  - CLEAN: 3858
-  - CRITICAL: 738
+- Total scanned: 6650
+  - CLEAN: 3888
+  - CRITICAL: 740
   - ERROR: 27
-  - HIGH: 529
-  - LOW: 729
-  - MEDIUM: 719
+  - HIGH: 532
+  - LOW: 734
+  - MEDIUM: 729
