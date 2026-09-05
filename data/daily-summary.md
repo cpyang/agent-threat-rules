@@ -1,27 +1,23 @@
-## Daily Scan Summary (2026-09-04)
-- Scanned: 50 packages
-- CRITICAL: 9
-- HIGH: 2
-- CLEAN/LOW: 32
+## Daily Scan Summary (2026-09-05)
+- Scanned: 34 packages
+- CRITICAL: 4
+- HIGH: 3
+- CLEAN/LOW: 23
 
 ### Flagged Packages:
-- [HIGH] @chamba/claude-extras (score: 50)
-- [CRITICAL] @citizen-protocol/mcp-server (score: 100)
-- [CRITICAL] @jondax/mcp-server (score: 75)
-- [CRITICAL] @kenkaiiii/queen-mcp (score: 100)
-- [CRITICAL] @mizchi/lsmcp (score: 100)
-- [CRITICAL] @prefecthq/fastmcp-ts (score: 100)
-- [HIGH] @securestamp/mcp-guard (score: 40)
-- [CRITICAL] @sit-onyx/modelcontextprotocol (score: 95)
-- [CRITICAL] @soracom-labs/soracom-mcp-server (score: 100)
-- [CRITICAL] @szc-ft/mcp-szcd-component-helper (score: 85)
-- [CRITICAL] @thunder_ai/mcp-element-ui (score: 75)
+- [CRITICAL] darknet-mcp-server (score: 100)
+- [CRITICAL] freedcamp-mcp-server (score: 100)
+- [HIGH] litellm-mcp-server (score: 40)
+- [HIGH] robotjs-mcp-server (score: 45)
+- [CRITICAL] sap-b1-mcp-server (score: 80)
+- [CRITICAL] zephyr-scale-mcp-server (score: 100)
+- [HIGH] zion-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 6700
-  - CLEAN: 3912
-  - CRITICAL: 749
-  - ERROR: 27
-  - HIGH: 534
-  - LOW: 742
-  - MEDIUM: 736
+- Total scanned: 6734
+  - CLEAN: 3930
+  - CRITICAL: 753
+  - ERROR: 28
+  - HIGH: 537
+  - LOW: 747
+  - MEDIUM: 739
