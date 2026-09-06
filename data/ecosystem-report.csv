@@ -6733,3 +6733,7 @@ zion-mcp,2.7.4,HIGH,50,0,false,false,2026-09-05T02:29:06.869Z
 zola-mcp,1.12.0,LOW,10,0,false,false,2026-09-05T02:29:07.450Z
 zotero-mcp,1.1.0,CLEAN,0,0,false,false,2026-09-05T02:29:07.892Z
 zubeid-youtube-mcp-server,1.0.2,CLEAN,0,20,false,false,2026-09-05T02:29:08.376Z
+@bluente/translate-mcp-server,0.4.0,CLEAN,0,0,false,false,2026-09-06T02:21:52.536Z
+@cloud-arch/mcp-server,0.2.2,CLEAN,0,0,false,false,2026-09-06T02:21:53.418Z
+@mario.andreschak/mcp-browser,3.45.1,CRITICAL,100,44,true,false,2026-09-06T02:21:54.466Z
+premanmcp,1.0.1,MEDIUM,25,0,false,false,2026-09-06T02:21:55.129Z
