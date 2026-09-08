@@ -1,19 +1,23 @@
-## Daily Scan Summary (2026-09-07)
-- Scanned: 36 packages
-- CRITICAL: 0
-- HIGH: 3
-- CLEAN/LOW: 27
+## Daily Scan Summary (2026-09-08)
+- Scanned: 38 packages
+- CRITICAL: 3
+- HIGH: 4
+- CLEAN/LOW: 29
 
 ### Flagged Packages:
-- [HIGH] rsbuild-plugin-vue-mcp (score: 50)
-- [HIGH] sloth-d2c-mcp (score: 55)
-- [HIGH] wjx-mcp-server (score: 50)
+- [HIGH] @daveremy/oura-mcp (score: 40)
+- [HIGH] @tempoxyz/mercator (score: 65)
+- [CRITICAL] @velaro/mcp-server (score: 100)
+- [HIGH] @voxburst/mcp-server (score: 40)
+- [CRITICAL] mcp-server-creem (score: 100)
+- [CRITICAL] milkee-mcp (score: 100)
+- [HIGH] s3-aws-mcp-server (score: 50)
 
 ### Cumulative:
-- Total scanned: 6774
-  - CLEAN: 3950
-  - CRITICAL: 754
-  - ERROR: 28
-  - HIGH: 540
-  - LOW: 756
-  - MEDIUM: 746
+- Total scanned: 6812
+  - CLEAN: 3974
+  - CRITICAL: 757
+  - ERROR: 29
+  - HIGH: 544
+  - LOW: 761
+  - MEDIUM: 747
