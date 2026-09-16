@@ -1,22 +1,26 @@
-## Daily Scan Summary (2026-09-15)
+## Daily Scan Summary (2026-09-16)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 1
-- CLEAN/LOW: 36
+- CRITICAL: 7
+- HIGH: 3
+- CLEAN/LOW: 34
 
 ### Flagged Packages:
-- [CRITICAL] @colin-cai0318/opengrok-mcp-server (score: 70)
-- [CRITICAL] @restormel/mcp (score: 100)
-- [CRITICAL] @spartan-ng/mcp (score: 100)
-- [CRITICAL] @stone-js/mcp-dev (score: 100)
-- [HIGH] @storybook/addon-docs (score: 50)
-- [CRITICAL] @tacticlaunch/xmcp (score: 100)
+- [CRITICAL] @arthuratlas/better-pingcode (score: 95)
+- [CRITICAL] @becklabs/beck-mcp-server (score: 100)
+- [CRITICAL] @calltelemetry/ct-lab-mcp (score: 90)
+- [CRITICAL] @denisixnpm/planka-mcp (score: 90)
+- [HIGH] @maphnet/jc-mcp (score: 40)
+- [CRITICAL] @mcp-devices/plugin-android (score: 70)
+- [HIGH] @sodiumhq/mcp-pm (score: 50)
+- [CRITICAL] @yawlabs/caddy-mcp (score: 100)
+- [HIGH] aliensec-mcp-server (score: 45)
+- [CRITICAL] clickai-mcp-filesystem (score: 85)
 
 ### Cumulative:
-- Total scanned: 7060
-  - CLEAN: 4111
-  - CRITICAL: 777
-  - ERROR: 33
-  - HIGH: 569
-  - LOW: 799
-  - MEDIUM: 771
+- Total scanned: 7110
+  - CLEAN: 4139
+  - CRITICAL: 784
+  - ERROR: 34
+  - HIGH: 572
+  - LOW: 805
+  - MEDIUM: 776
