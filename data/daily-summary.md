@@ -1,24 +1,21 @@
-## Daily Scan Summary (2026-09-17)
+## Daily Scan Summary (2026-09-18)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 3
-- CLEAN/LOW: 36
+- CRITICAL: 4
+- HIGH: 1
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [CRITICAL] @candleswarm/mcp (score: 100)
-- [HIGH] @coefficient-work/mcp-doctor (score: 50)
-- [HIGH] @drawpro/mcp (score: 60)
-- [HIGH] @el4cteo/rbx-studio-mcp (score: 45)
-- [CRITICAL] @error-bar/mcp (score: 100)
-- [CRITICAL] @mori-mori/mcp-ssh-pty (score: 70)
-- [CRITICAL] @seekrit/mcp (score: 95)
-- [CRITICAL] @torus-economy/mcp-server (score: 100)
+- [CRITICAL] @heyclaude/mcp (score: 85)
+- [HIGH] @jch1887/artillery-mcp-server (score: 40)
+- [CRITICAL] excalidrop (score: 100)
+- [CRITICAL] keywordgraph-mcp-server (score: 100)
+- [CRITICAL] mirailens (score: 95)
 
 ### Cumulative:
-- Total scanned: 7160
-  - CLEAN: 4163
-  - CRITICAL: 789
+- Total scanned: 7210
+  - CLEAN: 4199
+  - CRITICAL: 793
   - ERROR: 35
-  - HIGH: 575
-  - LOW: 817
-  - MEDIUM: 781
+  - HIGH: 576
+  - LOW: 820
+  - MEDIUM: 787
