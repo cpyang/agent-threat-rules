@@ -1,21 +1,14 @@
-## Daily Scan Summary (2026-09-18)
-- Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 1
-- CLEAN/LOW: 39
-
-### Flagged Packages:
-- [CRITICAL] @heyclaude/mcp (score: 85)
-- [HIGH] @jch1887/artillery-mcp-server (score: 40)
-- [CRITICAL] excalidrop (score: 100)
-- [CRITICAL] keywordgraph-mcp-server (score: 100)
-- [CRITICAL] mirailens (score: 95)
+## Daily Scan Summary (2026-09-19)
+- Scanned: 10 packages
+- CRITICAL: 0
+- HIGH: 0
+- CLEAN/LOW: 9
 
 ### Cumulative:
-- Total scanned: 7210
-  - CLEAN: 4199
+- Total scanned: 7220
+  - CLEAN: 4207
   - CRITICAL: 793
   - ERROR: 35
   - HIGH: 576
-  - LOW: 820
-  - MEDIUM: 787
+  - LOW: 821
+  - MEDIUM: 788

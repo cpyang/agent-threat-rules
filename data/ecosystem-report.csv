@@ -7209,3 +7209,13 @@ pog-mcp,1.1.6,LOW,5,0,false,false,2026-09-18T02:40:58.519Z
 resy-mcp,0.14.4,MEDIUM,15,0,false,false,2026-09-18T02:40:59.199Z
 sbuilder-mcp,0.61.1,CLEAN,0,0,false,false,2026-09-18T02:41:00.046Z
 setlist-mcp,0.11.4,CLEAN,0,0,false,false,2026-09-18T02:41:00.699Z
+@baozi.bet/mcp-server,5.0.1,CLEAN,0,168,false,false,2026-09-19T02:41:48.187Z
+@coral-viz/mcp-server,0.2.4,CLEAN,0,12,false,false,2026-09-19T02:41:49.182Z
+@lore-co/mcp,0.2.7,CLEAN,0,0,false,false,2026-09-19T02:41:50.095Z
+@olano/mcp-singapore,0.4.1,LOW,5,0,false,false,2026-09-19T02:41:51.013Z
+emoment-mcp,0.3.7,CLEAN,0,0,false,false,2026-09-19T02:41:51.582Z
+kaleidoscope-mcp-server,1.2.5,MEDIUM,15,0,false,false,2026-09-19T02:41:52.603Z
+lens-mcp-server,1.4.1,CLEAN,0,0,false,false,2026-09-19T02:41:53.200Z
+opcua-mcp-server,0.3.0,CLEAN,0,0,false,false,2026-09-19T02:41:53.787Z
+reactbits-mcp-server,1.2.7,CLEAN,0,15,false,false,2026-09-19T02:41:55.375Z
+unofficial-streamio-mcp-server,0.1.0,CLEAN,0,0,false,false,2026-09-19T02:41:56.089Z
