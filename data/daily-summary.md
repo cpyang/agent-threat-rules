@@ -1,24 +1,29 @@
-## Daily Scan Summary (2026-09-20)
-- Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 4
-- CLEAN/LOW: 38
+## Daily Scan Summary (2026-09-21)
+- Scanned: 47 packages
+- CRITICAL: 8
+- HIGH: 5
+- CLEAN/LOW: 30
 
 ### Flagged Packages:
-- [HIGH] @fastmcp-me/ankr-mcp (score: 40)
-- [HIGH] @gresmcp/mcp (score: 55)
-- [HIGH] @lokiplay/mcp (score: 55)
-- [CRITICAL] @postmcp/cli (score: 90)
-- [CRITICAL] @valbuild/mcp (score: 90)
-- [HIGH] @workover/mcp (score: 65)
-- [CRITICAL] @xiaoxiamimengfb/weapp-dev-mcp (score: 100)
-- [CRITICAL] @yfme/weapp-dev-mcp (score: 100)
+- [HIGH] @ai-sdlc/plugin-mcp-server (score: 60)
+- [CRITICAL] @getmcpads/google-analytics-mcp-server (score: 80)
+- [CRITICAL] @getmcpads/google-search-console-mcp-server (score: 100)
+- [CRITICAL] @getmcpads/meta-ads-mcp-server (score: 100)
+- [CRITICAL] @mseep/specifai-mcp-server (score: 80)
+- [HIGH] @opensubtitles/mcp-server (score: 40)
+- [CRITICAL] cyberchef-mcp (score: 100)
+- [CRITICAL] mcp-cs (score: 100)
+- [HIGH] mcp-proxy-auth (score: 60)
+- [CRITICAL] pixie-mcp (score: 100)
+- [CRITICAL] shatale-mcp-server (score: 100)
+- [HIGH] vibeos-mcp (score: 65)
+- [HIGH] vinv-mcp (score: 65)
 
 ### Cumulative:
-- Total scanned: 7270
-  - CLEAN: 4243
-  - CRITICAL: 797
+- Total scanned: 7317
+  - CLEAN: 4268
+  - CRITICAL: 805
   - ERROR: 35
-  - HIGH: 580
-  - LOW: 823
-  - MEDIUM: 792
+  - HIGH: 585
+  - LOW: 828
+  - MEDIUM: 796
