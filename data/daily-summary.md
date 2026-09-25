@@ -1,23 +1,18 @@
-## Daily Scan Summary (2026-09-24)
-- Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 2
-- CLEAN/LOW: 38
+## Daily Scan Summary (2026-09-25)
+- Scanned: 24 packages
+- CRITICAL: 1
+- HIGH: 1
+- CLEAN/LOW: 22
 
 ### Flagged Packages:
-- [CRITICAL] @christopher_dondici/mcp-gen (score: 90)
-- [CRITICAL] @dr-debug/mcp (score: 100)
-- [CRITICAL] @hcu-lab.me/mcp-device (score: 100)
-- [CRITICAL] @lightsage/mcp (score: 100)
-- [CRITICAL] @powerduck/openapi-mcp-server (score: 100)
-- [HIGH] artsonia-mcp (score: 50)
-- [HIGH] devsense-php-mcp (score: 60)
+- [CRITICAL] patents-mcp-server (score: 100)
+- [HIGH] zipline-mcp (score: 65)
 
 ### Cumulative:
-- Total scanned: 7467
-  - CLEAN: 4370
-  - CRITICAL: 812
+- Total scanned: 7491
+  - CLEAN: 4386
+  - CRITICAL: 813
   - ERROR: 36
-  - HIGH: 592
-  - LOW: 848
+  - HIGH: 593
+  - LOW: 854
   - MEDIUM: 809
