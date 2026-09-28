@@ -1,18 +1,22 @@
-## Daily Scan Summary (2026-09-27)
-- Scanned: 17 packages
-- CRITICAL: 0
-- HIGH: 2
-- CLEAN/LOW: 14
+## Daily Scan Summary (2026-09-28)
+- Scanned: 20 packages
+- CRITICAL: 3
+- HIGH: 3
+- CLEAN/LOW: 11
 
 ### Flagged Packages:
-- [HIGH] plumery-mcp (score: 60)
-- [HIGH] unreal-engine-mcp-server (score: 50)
+- [CRITICAL] @millwork/solver-mcp (score: 90)
+- [HIGH] @okfshare/mcp (score: 55)
+- [CRITICAL] @sealmetrics/mcp (score: 100)
+- [HIGH] @stocksteam/mcp-server (score: 45)
+- [CRITICAL] @thinkingos/vsl-mcp-server (score: 100)
+- [HIGH] @tibia.sh/tibiawiki-mcp (score: 65)
 
 ### Cumulative:
-- Total scanned: 7558
-  - CLEAN: 4437
-  - CRITICAL: 814
+- Total scanned: 7578
+  - CLEAN: 4446
+  - CRITICAL: 817
   - ERROR: 36
-  - HIGH: 596
-  - LOW: 863
-  - MEDIUM: 812
+  - HIGH: 599
+  - LOW: 865
+  - MEDIUM: 815
