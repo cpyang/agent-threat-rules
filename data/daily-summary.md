@@ -1,22 +1,22 @@
-## Daily Scan Summary (2026-09-28)
-- Scanned: 20 packages
-- CRITICAL: 3
-- HIGH: 3
-- CLEAN/LOW: 11
+## Daily Scan Summary (2026-09-29)
+- Scanned: 33 packages
+- CRITICAL: 1
+- HIGH: 5
+- CLEAN/LOW: 23
 
 ### Flagged Packages:
-- [CRITICAL] @millwork/solver-mcp (score: 90)
-- [HIGH] @okfshare/mcp (score: 55)
-- [CRITICAL] @sealmetrics/mcp (score: 100)
-- [HIGH] @stocksteam/mcp-server (score: 45)
-- [CRITICAL] @thinkingos/vsl-mcp-server (score: 100)
-- [HIGH] @tibia.sh/tibiawiki-mcp (score: 65)
+- [HIGH] @klaros/mcp-server (score: 50)
+- [CRITICAL] @powerduck/dev-mcp-server (score: 100)
+- [HIGH] @randomsynergy/arcane-mcp-server (score: 50)
+- [HIGH] @weolbu/grayboard-mcp-server (score: 40)
+- [HIGH] gsd-mcp-server (score: 50)
+- [HIGH] koragraphmcp (score: 55)
 
 ### Cumulative:
-- Total scanned: 7578
-  - CLEAN: 4446
-  - CRITICAL: 817
-  - ERROR: 36
-  - HIGH: 599
-  - LOW: 865
-  - MEDIUM: 815
+- Total scanned: 7611
+  - CLEAN: 4465
+  - CRITICAL: 818
+  - ERROR: 37
+  - HIGH: 604
+  - LOW: 869
+  - MEDIUM: 818
