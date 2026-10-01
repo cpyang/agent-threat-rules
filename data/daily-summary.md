@@ -1,21 +1,20 @@
-## Daily Scan Summary (2026-09-30)
-- Scanned: 26 packages
+## Daily Scan Summary (2026-10-01)
+- Scanned: 23 packages
 - CRITICAL: 2
-- HIGH: 3
-- CLEAN/LOW: 19
+- HIGH: 2
+- CLEAN/LOW: 18
 
 ### Flagged Packages:
-- [HIGH] blacksmith-mcp (score: 50)
-- [CRITICAL] magector (score: 100)
-- [HIGH] mcp-server-surepetcare (score: 50)
-- [HIGH] mock-mcp-server (score: 65)
-- [CRITICAL] worksona-mcp-server (score: 100)
+- [HIGH] @bankless/onchain-mcp (score: 45)
+- [HIGH] @profoundai/mcp (score: 65)
+- [CRITICAL] @rate-api/mcp (score: 100)
+- [CRITICAL] bambu-printer-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 7637
-  - CLEAN: 4481
-  - CRITICAL: 820
+- Total scanned: 7660
+  - CLEAN: 4494
+  - CRITICAL: 822
   - ERROR: 37
-  - HIGH: 607
-  - LOW: 872
-  - MEDIUM: 820
+  - HIGH: 609
+  - LOW: 877
+  - MEDIUM: 821
