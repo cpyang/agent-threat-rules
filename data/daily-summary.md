@@ -1,20 +1,20 @@
-## Daily Scan Summary (2026-10-01)
-- Scanned: 23 packages
+## Daily Scan Summary (2026-10-02)
+- Scanned: 50 packages
 - CRITICAL: 2
 - HIGH: 2
-- CLEAN/LOW: 18
+- CLEAN/LOW: 42
 
 ### Flagged Packages:
-- [HIGH] @bankless/onchain-mcp (score: 45)
-- [HIGH] @profoundai/mcp (score: 65)
-- [CRITICAL] @rate-api/mcp (score: 100)
-- [CRITICAL] bambu-printer-mcp (score: 100)
+- [CRITICAL] @nodatachat/mcp (score: 100)
+- [HIGH] @syncfusion/react-mcp (score: 50)
+- [CRITICAL] ayphic-mcp-server (score: 90)
+- [HIGH] bas-mcp-addon (score: 50)
 
 ### Cumulative:
-- Total scanned: 7660
-  - CLEAN: 4494
-  - CRITICAL: 822
+- Total scanned: 7710
+  - CLEAN: 4530
+  - CRITICAL: 824
   - ERROR: 37
-  - HIGH: 609
-  - LOW: 877
-  - MEDIUM: 821
+  - HIGH: 611
+  - LOW: 883
+  - MEDIUM: 825
