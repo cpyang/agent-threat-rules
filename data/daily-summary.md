@@ -1,20 +1,20 @@
-## Daily Scan Summary (2026-10-02)
-- Scanned: 50 packages
-- CRITICAL: 2
-- HIGH: 2
-- CLEAN/LOW: 42
+## Daily Scan Summary (2026-10-03)
+- Scanned: 16 packages
+- CRITICAL: 3
+- HIGH: 1
+- CLEAN/LOW: 11
 
 ### Flagged Packages:
-- [CRITICAL] @nodatachat/mcp (score: 100)
-- [HIGH] @syncfusion/react-mcp (score: 50)
-- [CRITICAL] ayphic-mcp-server (score: 90)
-- [HIGH] bas-mcp-addon (score: 50)
+- [CRITICAL] @agentbadge/mcp (score: 100)
+- [CRITICAL] @pqc-sdk/mcp-server (score: 70)
+- [HIGH] sharp-mcp (score: 50)
+- [CRITICAL] webcite-mcp-server (score: 100)
 
 ### Cumulative:
-- Total scanned: 7710
-  - CLEAN: 4530
-  - CRITICAL: 824
+- Total scanned: 7726
+  - CLEAN: 4537
+  - CRITICAL: 827
   - ERROR: 37
-  - HIGH: 611
-  - LOW: 883
-  - MEDIUM: 825
+  - HIGH: 612
+  - LOW: 887
+  - MEDIUM: 826
