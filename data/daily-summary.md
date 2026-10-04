@@ -1,20 +1,18 @@
-## Daily Scan Summary (2026-10-03)
-- Scanned: 16 packages
-- CRITICAL: 3
-- HIGH: 1
-- CLEAN/LOW: 11
+## Daily Scan Summary (2026-10-04)
+- Scanned: 13 packages
+- CRITICAL: 0
+- HIGH: 2
+- CLEAN/LOW: 9
 
 ### Flagged Packages:
-- [CRITICAL] @agentbadge/mcp (score: 100)
-- [CRITICAL] @pqc-sdk/mcp-server (score: 70)
-- [HIGH] sharp-mcp (score: 50)
-- [CRITICAL] webcite-mcp-server (score: 100)
+- [HIGH] @iflow-mcp/formula1-mcp (score: 50)
+- [HIGH] @wayd/mcp (score: 45)
 
 ### Cumulative:
-- Total scanned: 7726
-  - CLEAN: 4537
+- Total scanned: 7739
+  - CLEAN: 4545
   - CRITICAL: 827
   - ERROR: 37
-  - HIGH: 612
-  - LOW: 887
-  - MEDIUM: 826
+  - HIGH: 614
+  - LOW: 888
+  - MEDIUM: 828
