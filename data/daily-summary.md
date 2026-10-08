@@ -1,22 +1,19 @@
-## Daily Scan Summary (2026-10-07)
-- Scanned: 28 packages
-- CRITICAL: 5
-- HIGH: 1
-- CLEAN/LOW: 21
+## Daily Scan Summary (2026-10-08)
+- Scanned: 50 packages
+- CRITICAL: 0
+- HIGH: 3
+- CLEAN/LOW: 41
 
 ### Flagged Packages:
-- [CRITICAL] @chatdaddytech/mcp-server (score: 100)
-- [CRITICAL] @forwardemail/mcp-server (score: 100)
-- [HIGH] @hans312/skills-platform-mcp-server (score: 50)
-- [CRITICAL] @icure/cardinal-mcp-server (score: 100)
-- [CRITICAL] clevertap-mcp (score: 100)
-- [CRITICAL] sbitbucket-mcp-server (score: 85)
+- [HIGH] @calltelemetry/ct-ai-mcp (score: 50)
+- [HIGH] @cavi-ai/mcp-eval (score: 50)
+- [HIGH] @cmssy/ai-tools (score: 40)
 
 ### Cumulative:
-- Total scanned: 7817
-  - CLEAN: 4594
+- Total scanned: 7867
+  - CLEAN: 4632
   - CRITICAL: 835
-  - ERROR: 37
-  - HIGH: 619
-  - LOW: 898
-  - MEDIUM: 834
+  - ERROR: 39
+  - HIGH: 622
+  - LOW: 901
+  - MEDIUM: 838
