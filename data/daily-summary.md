@@ -1,19 +1,22 @@
-## Daily Scan Summary (2026-10-08)
+## Daily Scan Summary (2026-10-09)
 - Scanned: 50 packages
-- CRITICAL: 0
+- CRITICAL: 3
 - HIGH: 3
-- CLEAN/LOW: 41
+- CLEAN/LOW: 43
 
 ### Flagged Packages:
-- [HIGH] @calltelemetry/ct-ai-mcp (score: 50)
-- [HIGH] @cavi-ai/mcp-eval (score: 50)
-- [HIGH] @cmssy/ai-tools (score: 40)
+- [CRITICAL] @agent360/browser-mcp (score: 100)
+- [CRITICAL] @easy-cms/plugin-mcp (score: 100)
+- [CRITICAL] @illestcore/mcp (score: 90)
+- [HIGH] @littlebigbrain/mcp (score: 65)
+- [HIGH] @neem2004/android-mcp-server (score: 65)
+- [HIGH] @pinta-ai/mcp-logger (score: 45)
 
 ### Cumulative:
-- Total scanned: 7867
-  - CLEAN: 4632
-  - CRITICAL: 835
-  - ERROR: 39
-  - HIGH: 622
-  - LOW: 901
+- Total scanned: 7917
+  - CLEAN: 4667
+  - CRITICAL: 838
+  - ERROR: 40
+  - HIGH: 625
+  - LOW: 909
   - MEDIUM: 838
