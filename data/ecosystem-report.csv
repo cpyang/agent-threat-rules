@@ -7961,3 +7961,10 @@ solidvents-mcp,0.1.13,CLEAN,0,0,false,false,2026-10-10T03:48:56.402Z
 tracegist-mcp-bridge,1.1.1,CLEAN,0,0,false,false,2026-10-10T03:48:57.098Z
 uae-einvoice-mcp,0.2.1,CLEAN,0,0,false,false,2026-10-10T03:48:57.718Z
 zhipu-mcp-bridge,0.1.0,CLEAN,0,0,false,false,2026-10-10T03:48:58.395Z
+@skyelight/mcp,0.8.2,LOW,10,19,false,false,2026-10-11T03:19:51.432Z
+@yuzutask-project/mcp-server,0.1.10,CRITICAL,100,62,false,false,2026-10-11T03:19:52.117Z
+mcp-image-extractor,1.1.0,MEDIUM,25,2,false,false,2026-10-11T03:19:52.407Z
+mcp-server-overleaf,0.3.5,CLEAN,0,0,false,false,2026-10-11T03:19:52.811Z
+perf-mcp-server,0.2.2,CLEAN,0,26,false,false,2026-10-11T03:19:54.135Z
+platformio-mcp-server,1.2.0,CLEAN,0,0,false,false,2026-10-11T03:19:54.551Z
+thestandup-mcp,1.5.0,CLEAN,0,0,false,false,2026-10-11T03:19:54.861Z
