@@ -1,17 +1,24 @@
-## Daily Scan Summary (2026-10-11)
-- Scanned: 7 packages
-- CRITICAL: 1
-- HIGH: 0
-- CLEAN/LOW: 5
+## Daily Scan Summary (2026-10-12)
+- Scanned: 50 packages
+- CRITICAL: 3
+- HIGH: 5
+- CLEAN/LOW: 33
 
 ### Flagged Packages:
-- [CRITICAL] @yuzutask-project/mcp-server (score: 100)
+- [CRITICAL] @memoryrelay/mcp-server (score: 100)
+- [HIGH] @prompteryx/mcp-server (score: 50)
+- [HIGH] @seekeragentconnect/mcp-server (score: 45)
+- [HIGH] @shardflux/mcp (score: 40)
+- [CRITICAL] ai-cli-mcp (score: 95)
+- [HIGH] ardea (score: 40)
+- [CRITICAL] bricks-builder-mcp (score: 100)
+- [HIGH] browserctl-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 7969
-  - CLEAN: 4693
-  - CRITICAL: 845
-  - ERROR: 40
-  - HIGH: 632
-  - LOW: 917
-  - MEDIUM: 842
+- Total scanned: 8019
+  - CLEAN: 4722
+  - CRITICAL: 848
+  - ERROR: 42
+  - HIGH: 637
+  - LOW: 921
+  - MEDIUM: 849
