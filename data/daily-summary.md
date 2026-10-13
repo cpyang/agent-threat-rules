@@ -1,24 +1,22 @@
-## Daily Scan Summary (2026-10-12)
+## Daily Scan Summary (2026-10-13)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 5
-- CLEAN/LOW: 33
+- CRITICAL: 5
+- HIGH: 1
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [CRITICAL] @memoryrelay/mcp-server (score: 100)
-- [HIGH] @prompteryx/mcp-server (score: 50)
-- [HIGH] @seekeragentconnect/mcp-server (score: 45)
-- [HIGH] @shardflux/mcp (score: 40)
-- [CRITICAL] ai-cli-mcp (score: 95)
-- [HIGH] ardea (score: 40)
-- [CRITICAL] bricks-builder-mcp (score: 100)
-- [HIGH] browserctl-mcp (score: 50)
+- [CRITICAL] @beryl-so/cli (score: 100)
+- [CRITICAL] @whizan/mcp-devops (score: 100)
+- [HIGH] endfield-mcp (score: 60)
+- [CRITICAL] formlabs-local-mcp (score: 70)
+- [CRITICAL] kimi-api-mcp (score: 85)
+- [CRITICAL] openalex-research-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 8019
-  - CLEAN: 4722
-  - CRITICAL: 848
-  - ERROR: 42
-  - HIGH: 637
-  - LOW: 921
-  - MEDIUM: 849
+- Total scanned: 8069
+  - CLEAN: 4755
+  - CRITICAL: 853
+  - ERROR: 43
+  - HIGH: 638
+  - LOW: 927
+  - MEDIUM: 853
