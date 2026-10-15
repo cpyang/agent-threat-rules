@@ -1,19 +1,29 @@
-## Daily Scan Summary (2026-10-14)
-- Scanned: 25 packages
-- CRITICAL: 2
-- HIGH: 1
-- CLEAN/LOW: 18
+## Daily Scan Summary (2026-10-15)
+- Scanned: 50 packages
+- CRITICAL: 3
+- HIGH: 10
+- CLEAN/LOW: 28
 
 ### Flagged Packages:
-- [HIGH] @codeqr/ts-mcp (score: 50)
-- [CRITICAL] @mobalab/x-mcp-server (score: 75)
-- [CRITICAL] vibe-annotations-server (score: 80)
+- [HIGH] @dfm-fi/agent (score: 40)
+- [HIGH] @joomshaper/helix-mcp-server (score: 50)
+- [HIGH] @millstone/synapse-context-mcp (score: 50)
+- [CRITICAL] @teamnetwork-nz/ninjaone-mcp-server (score: 100)
+- [CRITICAL] @thedesignagent/mcp (score: 100)
+- [HIGH] @tontoko/fast-playwright-mcp (score: 60)
+- [HIGH] @uipath/agenthub-tool (score: 65)
+- [CRITICAL] @whitestork/hakini-marketing-mcp (score: 100)
+- [HIGH] @yikizi/mcp-local-rag (score: 40)
+- [HIGH] claude-mcp (score: 60)
+- [HIGH] claude-mcp-quickstart (score: 55)
+- [HIGH] claude-runner (score: 50)
+- [HIGH] fmrl-mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 8094
-  - CLEAN: 4767
-  - CRITICAL: 855
+- Total scanned: 8144
+  - CLEAN: 4792
+  - CRITICAL: 858
   - ERROR: 44
-  - HIGH: 639
-  - LOW: 933
-  - MEDIUM: 856
+  - HIGH: 649
+  - LOW: 936
+  - MEDIUM: 865
