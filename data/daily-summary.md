@@ -1,29 +1,25 @@
-## Daily Scan Summary (2026-10-15)
+## Daily Scan Summary (2026-10-16)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 10
-- CLEAN/LOW: 28
+- CRITICAL: 4
+- HIGH: 5
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [HIGH] @dfm-fi/agent (score: 40)
-- [HIGH] @joomshaper/helix-mcp-server (score: 50)
-- [HIGH] @millstone/synapse-context-mcp (score: 50)
-- [CRITICAL] @teamnetwork-nz/ninjaone-mcp-server (score: 100)
-- [CRITICAL] @thedesignagent/mcp (score: 100)
-- [HIGH] @tontoko/fast-playwright-mcp (score: 60)
-- [HIGH] @uipath/agenthub-tool (score: 65)
-- [CRITICAL] @whitestork/hakini-marketing-mcp (score: 100)
-- [HIGH] @yikizi/mcp-local-rag (score: 40)
-- [HIGH] claude-mcp (score: 60)
-- [HIGH] claude-mcp-quickstart (score: 55)
-- [HIGH] claude-runner (score: 50)
-- [HIGH] fmrl-mcp (score: 50)
+- [CRITICAL] @brandhorse/mcp-server (score: 100)
+- [HIGH] @promptfoo/evil-mcp-server (score: 50)
+- [CRITICAL] gbstudio-claude-mcp (score: 90)
+- [CRITICAL] mousainote-claude-mcp (score: 70)
+- [HIGH] phantom-voices-mcp (score: 65)
+- [CRITICAL] playwright (score: 100)
+- [HIGH] rdk-docs-mcp (score: 55)
+- [HIGH] redoc (score: 50)
+- [HIGH] ruflo (score: 65)
 
 ### Cumulative:
-- Total scanned: 8144
-  - CLEAN: 4792
-  - CRITICAL: 858
+- Total scanned: 8194
+  - CLEAN: 4824
+  - CRITICAL: 862
   - ERROR: 44
-  - HIGH: 649
-  - LOW: 936
-  - MEDIUM: 865
+  - HIGH: 654
+  - LOW: 941
+  - MEDIUM: 869
