@@ -1,25 +1,19 @@
-## Daily Scan Summary (2026-10-16)
-- Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 5
-- CLEAN/LOW: 37
+## Daily Scan Summary (2026-10-17)
+- Scanned: 9 packages
+- CRITICAL: 1
+- HIGH: 2
+- CLEAN/LOW: 6
 
 ### Flagged Packages:
-- [CRITICAL] @brandhorse/mcp-server (score: 100)
-- [HIGH] @promptfoo/evil-mcp-server (score: 50)
-- [CRITICAL] gbstudio-claude-mcp (score: 90)
-- [CRITICAL] mousainote-claude-mcp (score: 70)
-- [HIGH] phantom-voices-mcp (score: 65)
-- [CRITICAL] playwright (score: 100)
-- [HIGH] rdk-docs-mcp (score: 55)
-- [HIGH] redoc (score: 50)
-- [HIGH] ruflo (score: 65)
+- [HIGH] @garc33/bitbucket-server-mcp-server (score: 60)
+- [HIGH] @withpica/mcp-server-directory (score: 65)
+- [CRITICAL] mola-cloud (score: 100)
 
 ### Cumulative:
-- Total scanned: 8194
-  - CLEAN: 4824
-  - CRITICAL: 862
+- Total scanned: 8203
+  - CLEAN: 4830
+  - CRITICAL: 863
   - ERROR: 44
-  - HIGH: 654
+  - HIGH: 656
   - LOW: 941
   - MEDIUM: 869
