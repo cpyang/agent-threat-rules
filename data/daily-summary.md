@@ -1,19 +1,23 @@
-## Daily Scan Summary (2026-10-17)
-- Scanned: 9 packages
-- CRITICAL: 1
-- HIGH: 2
-- CLEAN/LOW: 6
+## Daily Scan Summary (2026-10-18)
+- Scanned: 50 packages
+- CRITICAL: 2
+- HIGH: 5
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [HIGH] @garc33/bitbucket-server-mcp-server (score: 60)
-- [HIGH] @withpica/mcp-server-directory (score: 65)
-- [CRITICAL] mola-cloud (score: 100)
+- [HIGH] @ctliz/agent-intercom-claude (score: 50)
+- [HIGH] @ctliz/agent-intercom-codex (score: 50)
+- [HIGH] @marlobu/mcp-server (score: 40)
+- [CRITICAL] @mxalbert/context-mode (score: 100)
+- [CRITICAL] @steipete/terminator-mcp (score: 85)
+- [HIGH] @xiaou66/vite-plugin-vue-mcp-next (score: 60)
+- [HIGH] bob-control-mcp (score: 55)
 
 ### Cumulative:
-- Total scanned: 8203
-  - CLEAN: 4830
-  - CRITICAL: 863
+- Total scanned: 8253
+  - CLEAN: 4859
+  - CRITICAL: 865
   - ERROR: 44
-  - HIGH: 656
-  - LOW: 941
-  - MEDIUM: 869
+  - HIGH: 661
+  - LOW: 951
+  - MEDIUM: 873
