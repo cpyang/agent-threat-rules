@@ -1,23 +1,17 @@
-## Daily Scan Summary (2026-10-21)
-- Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 2
-- CLEAN/LOW: 40
+## Daily Scan Summary (2026-10-22)
+- Scanned: 15 packages
+- CRITICAL: 0
+- HIGH: 1
+- CLEAN/LOW: 12
 
 ### Flagged Packages:
-- [CRITICAL] @almyty/mcp-server (score: 95)
-- [HIGH] @chrischall/microsoft-teams-mcp (score: 65)
-- [CRITICAL] @pixeldojo/mcp (score: 100)
-- [CRITICAL] @rymi/mcp (score: 100)
-- [HIGH] apimodels-mcp (score: 65)
-- [CRITICAL] beyond-simulator-mcp (score: 100)
-- [CRITICAL] edoardo (score: 100)
+- [HIGH] useloupe (score: 45)
 
 ### Cumulative:
-- Total scanned: 8403
-  - CLEAN: 4954
+- Total scanned: 8418
+  - CLEAN: 4961
   - CRITICAL: 879
-  - ERROR: 47
-  - HIGH: 677
-  - LOW: 965
-  - MEDIUM: 881
+  - ERROR: 48
+  - HIGH: 678
+  - LOW: 970
+  - MEDIUM: 882
