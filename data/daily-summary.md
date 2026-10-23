@@ -1,17 +1,18 @@
-## Daily Scan Summary (2026-10-22)
-- Scanned: 15 packages
+## Daily Scan Summary (2026-10-23)
+- Scanned: 50 packages
 - CRITICAL: 0
-- HIGH: 1
-- CLEAN/LOW: 12
+- HIGH: 2
+- CLEAN/LOW: 47
 
 ### Flagged Packages:
-- [HIGH] useloupe (score: 45)
+- [HIGH] @bearbuild/playwright-mcp (score: 60)
+- [HIGH] @infimind-next/ai-hive-mcp (score: 60)
 
 ### Cumulative:
-- Total scanned: 8418
-  - CLEAN: 4961
+- Total scanned: 8468
+  - CLEAN: 5000
   - CRITICAL: 879
-  - ERROR: 48
-  - HIGH: 678
-  - LOW: 970
+  - ERROR: 49
+  - HIGH: 680
+  - LOW: 978
   - MEDIUM: 882
