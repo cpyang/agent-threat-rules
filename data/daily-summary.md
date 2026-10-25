@@ -1,18 +1,18 @@
-## Daily Scan Summary (2026-10-24)
-- Scanned: 50 packages
-- CRITICAL: 1
-- HIGH: 1
-- CLEAN/LOW: 47
+## Daily Scan Summary (2026-10-25)
+- Scanned: 28 packages
+- CRITICAL: 0
+- HIGH: 2
+- CLEAN/LOW: 22
 
 ### Flagged Packages:
-- [HIGH] @clubedge/create-clubedge-app (score: 45)
-- [CRITICAL] @lumen-seo/mcp (score: 100)
+- [HIGH] @jim-panse/pdf-to-text-mcp (score: 50)
+- [HIGH] @podkst/mcp-server (score: 40)
 
 ### Cumulative:
-- Total scanned: 8518
-  - CLEAN: 5041
+- Total scanned: 8546
+  - CLEAN: 5052
   - CRITICAL: 880
   - ERROR: 49
-  - HIGH: 681
-  - LOW: 984
-  - MEDIUM: 883
+  - HIGH: 683
+  - LOW: 995
+  - MEDIUM: 887
