@@ -1,18 +1,19 @@
-## Daily Scan Summary (2026-10-25)
-- Scanned: 28 packages
-- CRITICAL: 0
-- HIGH: 2
-- CLEAN/LOW: 22
+## Daily Scan Summary (2026-10-26)
+- Scanned: 50 packages
+- CRITICAL: 2
+- HIGH: 1
+- CLEAN/LOW: 40
 
 ### Flagged Packages:
-- [HIGH] @jim-panse/pdf-to-text-mcp (score: 50)
-- [HIGH] @podkst/mcp-server (score: 40)
+- [CRITICAL] @bitbybit-dev/occt (score: 100)
+- [CRITICAL] @pipeshub-ai/mcp (score: 100)
+- [HIGH] @widgentic/mcp (score: 50)
 
 ### Cumulative:
-- Total scanned: 8546
-  - CLEAN: 5052
-  - CRITICAL: 880
-  - ERROR: 49
-  - HIGH: 683
-  - LOW: 995
-  - MEDIUM: 887
+- Total scanned: 8596
+  - CLEAN: 5087
+  - CRITICAL: 882
+  - ERROR: 51
+  - HIGH: 684
+  - LOW: 1000
+  - MEDIUM: 892
