@@ -1,23 +1,24 @@
-## Daily Scan Summary (2026-10-27)
+## Daily Scan Summary (2026-10-28)
 - Scanned: 50 packages
-- CRITICAL: 4
+- CRITICAL: 5
 - HIGH: 3
-- CLEAN/LOW: 41
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [CRITICAL] @agimon-ai/po-workflow-mcp (score: 100)
-- [CRITICAL] @autoposter/mcp (score: 80)
-- [HIGH] @botozap/mcp (score: 55)
-- [CRITICAL] @imazhar101/mcp-zoominfo-server (score: 85)
-- [CRITICAL] @missionsquad/mcp-msq (score: 100)
-- [HIGH] @mojomo/mcp-server (score: 65)
-- [HIGH] @opichi/mcp-api-helper (score: 50)
+- [CRITICAL] @kallfi/mcp (score: 100)
+- [CRITICAL] @skeyelab/directus-mcp-server (score: 100)
+- [CRITICAL] @streamkap/tools (score: 75)
+- [HIGH] @varity-labs/mcp (score: 45)
+- [HIGH] contextwise (score: 60)
+- [CRITICAL] honeycomb-mcp (score: 100)
+- [HIGH] ictrp-mcp-server (score: 65)
+- [CRITICAL] kolide-mcp-server (score: 80)
 
 ### Cumulative:
-- Total scanned: 8646
-  - CLEAN: 5123
-  - CRITICAL: 886
+- Total scanned: 8696
+  - CLEAN: 5152
+  - CRITICAL: 891
   - ERROR: 51
-  - HIGH: 687
-  - LOW: 1005
-  - MEDIUM: 894
+  - HIGH: 690
+  - LOW: 1013
+  - MEDIUM: 899
