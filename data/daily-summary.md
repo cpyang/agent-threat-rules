@@ -1,24 +1,21 @@
-## Daily Scan Summary (2026-10-28)
+## Daily Scan Summary (2026-10-29)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 3
+- CRITICAL: 3
+- HIGH: 2
 - CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [CRITICAL] @kallfi/mcp (score: 100)
-- [CRITICAL] @skeyelab/directus-mcp-server (score: 100)
-- [CRITICAL] @streamkap/tools (score: 75)
-- [HIGH] @varity-labs/mcp (score: 45)
-- [HIGH] contextwise (score: 60)
-- [CRITICAL] honeycomb-mcp (score: 100)
-- [HIGH] ictrp-mcp-server (score: 65)
-- [CRITICAL] kolide-mcp-server (score: 80)
+- [HIGH] @mlightcad/cad-mcp-server (score: 50)
+- [HIGH] @react-router/dev (score: 45)
+- [CRITICAL] @scout-ast/cli (score: 100)
+- [CRITICAL] @versatil/sdlc-framework (score: 100)
+- [CRITICAL] @xevos117/mcp-zotero (score: 100)
 
 ### Cumulative:
-- Total scanned: 8696
-  - CLEAN: 5152
-  - CRITICAL: 891
-  - ERROR: 51
-  - HIGH: 690
-  - LOW: 1013
-  - MEDIUM: 899
+- Total scanned: 8746
+  - CLEAN: 5184
+  - CRITICAL: 894
+  - ERROR: 52
+  - HIGH: 692
+  - LOW: 1018
+  - MEDIUM: 906
