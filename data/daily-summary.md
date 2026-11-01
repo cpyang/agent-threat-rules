@@ -1,19 +1,21 @@
-## Daily Scan Summary (2026-10-31)
+## Daily Scan Summary (2026-11-01)
 - Scanned: 50 packages
-- CRITICAL: 2
-- HIGH: 1
-- CLEAN/LOW: 44
+- CRITICAL: 3
+- HIGH: 2
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @ashwinhprasad/zoho-analytics-mcp-server (score: 75)
-- [CRITICAL] @contentful/app-sdk (score: 90)
-- [HIGH] @fastmcp-me/better-playwright-mcp (score: 40)
+- [CRITICAL] @iflow-mcp/vertex-ai-mcp-server (score: 100)
+- [HIGH] @ismalicious/mcp-server (score: 55)
+- [CRITICAL] @shadoprizm/cyberlens-mcp-server (score: 100)
+- [HIGH] @upon-ai/mcp-server (score: 50)
+- [CRITICAL] @vj-presidio/specif-ai-mcp-server-test (score: 100)
 
 ### Cumulative:
-- Total scanned: 8846
-  - CLEAN: 5260
-  - CRITICAL: 898
+- Total scanned: 8896
+  - CLEAN: 5288
+  - CRITICAL: 901
   - ERROR: 52
-  - HIGH: 696
-  - LOW: 1026
-  - MEDIUM: 914
+  - HIGH: 698
+  - LOW: 1036
+  - MEDIUM: 921
