@@ -1,21 +1,19 @@
-## Daily Scan Summary (2026-11-03)
+## Daily Scan Summary (2026-11-04)
 - Scanned: 50 packages
-- CRITICAL: 2
-- HIGH: 3
-- CLEAN/LOW: 38
+- CRITICAL: 3
+- HIGH: 0
+- CLEAN/LOW: 44
 
 ### Flagged Packages:
-- [HIGH] @aaa-sentinel/mcp-server (score: 60)
-- [CRITICAL] @elastic.io/mcp (score: 100)
-- [CRITICAL] @kaisers-io/openapi-mcp (score: 100)
-- [HIGH] @rel-time/mcp-server (score: 60)
-- [HIGH] @usejunior/email-mcp (score: 40)
+- [CRITICAL] @adhd/agent-mcp (score: 100)
+- [CRITICAL] @adhd/apigen-cli (score: 75)
+- [CRITICAL] @adrive/mcp-server (score: 90)
 
 ### Cumulative:
-- Total scanned: 8996
-  - CLEAN: 5342
-  - CRITICAL: 909
-  - ERROR: 55
+- Total scanned: 9046
+  - CLEAN: 5385
+  - CRITICAL: 912
+  - ERROR: 56
   - HIGH: 708
-  - LOW: 1051
-  - MEDIUM: 931
+  - LOW: 1052
+  - MEDIUM: 933
