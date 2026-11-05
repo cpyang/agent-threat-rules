@@ -1,19 +1,22 @@
-## Daily Scan Summary (2026-11-04)
+## Daily Scan Summary (2026-11-05)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 0
-- CLEAN/LOW: 44
+- CRITICAL: 4
+- HIGH: 2
+- CLEAN/LOW: 40
 
 ### Flagged Packages:
-- [CRITICAL] @adhd/agent-mcp (score: 100)
-- [CRITICAL] @adhd/apigen-cli (score: 75)
-- [CRITICAL] @adrive/mcp-server (score: 90)
+- [HIGH] @fragmentfit/mcp-server (score: 60)
+- [CRITICAL] @ninedeploy/mcp (score: 100)
+- [CRITICAL] @teamnetwork-nz/payhero-mcp-server (score: 85)
+- [CRITICAL] arbentia-mcp-server (score: 100)
+- [CRITICAL] asrai-mcp-apikey (score: 85)
+- [HIGH] buluver (score: 60)
 
 ### Cumulative:
-- Total scanned: 9046
-  - CLEAN: 5385
-  - CRITICAL: 912
+- Total scanned: 9096
+  - CLEAN: 5420
+  - CRITICAL: 916
   - ERROR: 56
-  - HIGH: 708
-  - LOW: 1052
-  - MEDIUM: 933
+  - HIGH: 710
+  - LOW: 1057
+  - MEDIUM: 937
