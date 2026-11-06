@@ -1,22 +1,17 @@
-## Daily Scan Summary (2026-11-05)
+## Daily Scan Summary (2026-11-06)
 - Scanned: 50 packages
-- CRITICAL: 4
-- HIGH: 2
-- CLEAN/LOW: 40
+- CRITICAL: 1
+- HIGH: 0
+- CLEAN/LOW: 44
 
 ### Flagged Packages:
-- [HIGH] @fragmentfit/mcp-server (score: 60)
-- [CRITICAL] @ninedeploy/mcp (score: 100)
-- [CRITICAL] @teamnetwork-nz/payhero-mcp-server (score: 85)
-- [CRITICAL] arbentia-mcp-server (score: 100)
-- [CRITICAL] asrai-mcp-apikey (score: 85)
-- [HIGH] buluver (score: 60)
+- [CRITICAL] @a5c-ai/tasks-adapter (score: 100)
 
 ### Cumulative:
-- Total scanned: 9096
-  - CLEAN: 5420
-  - CRITICAL: 916
-  - ERROR: 56
+- Total scanned: 9146
+  - CLEAN: 5455
+  - CRITICAL: 917
+  - ERROR: 60
   - HIGH: 710
-  - LOW: 1057
-  - MEDIUM: 937
+  - LOW: 1066
+  - MEDIUM: 938
