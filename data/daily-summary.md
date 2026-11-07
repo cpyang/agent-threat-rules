@@ -1,17 +1,22 @@
-## Daily Scan Summary (2026-11-06)
+## Daily Scan Summary (2026-11-07)
 - Scanned: 50 packages
-- CRITICAL: 1
-- HIGH: 0
-- CLEAN/LOW: 44
+- CRITICAL: 3
+- HIGH: 3
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @a5c-ai/tasks-adapter (score: 100)
+- [HIGH] @arii/boomtick-mcp (score: 50)
+- [CRITICAL] @bridge-ds/mcp (score: 85)
+- [HIGH] @diegopetrucci/pi-mcp-adapter (score: 45)
+- [CRITICAL] @foundocs/foundocs-setup (score: 75)
+- [CRITICAL] @minhspark/codex-mcp-bridge (score: 70)
+- [HIGH] @open-pencil/mcp (score: 45)
 
 ### Cumulative:
-- Total scanned: 9146
-  - CLEAN: 5455
-  - CRITICAL: 917
+- Total scanned: 9196
+  - CLEAN: 5488
+  - CRITICAL: 920
   - ERROR: 60
-  - HIGH: 710
-  - LOW: 1066
-  - MEDIUM: 938
+  - HIGH: 713
+  - LOW: 1071
+  - MEDIUM: 944
