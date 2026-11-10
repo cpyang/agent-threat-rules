@@ -1,23 +1,27 @@
-## Daily Scan Summary (2026-11-09)
+## Daily Scan Summary (2026-11-10)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 4
-- CLEAN/LOW: 38
+- CRITICAL: 8
+- HIGH: 3
+- CLEAN/LOW: 30
 
 ### Flagged Packages:
-- [CRITICAL] @42a/mcp (score: 100)
-- [HIGH] @a2rg/obsidian-mcp (score: 50)
-- [HIGH] @affitor/mcp (score: 50)
-- [HIGH] @agent-e2e/harness (score: 50)
-- [HIGH] @agentmesh-p2p/sdk (score: 60)
-- [CRITICAL] @agilemonster/mcp-server (score: 100)
-- [CRITICAL] @ai-of-mine/fast-mermaid-validator-mcp (score: 90)
+- [HIGH] @amplify-monitor/mcp-server (score: 40)
+- [HIGH] @daften/mealie-mcp (score: 45)
+- [CRITICAL] @itapi-core/mcp-telegram (score: 75)
+- [CRITICAL] @orbitlogistics/mcp-plain (score: 100)
+- [CRITICAL] @relvo/mcp (score: 100)
+- [CRITICAL] @tirdad/mcp-server (score: 100)
+- [HIGH] @xerolo44/rpgmaker-mv-mcp (score: 50)
+- [CRITICAL] @zaprojektujogrod/mcp-server (score: 100)
+- [CRITICAL] arkova-mcp-server (score: 100)
+- [CRITICAL] embark-mcp (score: 80)
+- [CRITICAL] jupyterlab-collab-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 9296
-  - CLEAN: 5556
-  - CRITICAL: 924
-  - ERROR: 62
-  - HIGH: 719
-  - LOW: 1086
-  - MEDIUM: 949
+- Total scanned: 9346
+  - CLEAN: 5582
+  - CRITICAL: 932
+  - ERROR: 64
+  - HIGH: 722
+  - LOW: 1090
+  - MEDIUM: 956
