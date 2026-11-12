@@ -1,21 +1,20 @@
-## Daily Scan Summary (2026-11-11)
+## Daily Scan Summary (2026-11-12)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 2
-- CLEAN/LOW: 43
+- CRITICAL: 4
+- HIGH: 0
+- CLEAN/LOW: 40
 
 ### Flagged Packages:
-- [CRITICAL] @aklinker1/rollup-plugin-visualizer (score: 100)
-- [CRITICAL] @amg555/frameforge-mcp (score: 70)
-- [CRITICAL] @amplitude/plugin-custom-enrichment-browser (score: 100)
-- [HIGH] @amplitude/plugin-experiment-browser (score: 60)
-- [HIGH] @backstage-community/plugin-mcp-chat-backend (score: 60)
+- [CRITICAL] @attocash/marketplace-mcp (score: 90)
+- [CRITICAL] @cig-chat/mcp (score: 100)
+- [CRITICAL] @corsair-dev/mcp (score: 75)
+- [CRITICAL] @felores/kie-cli (score: 100)
 
 ### Cumulative:
-- Total scanned: 9396
-  - CLEAN: 5617
-  - CRITICAL: 935
+- Total scanned: 9446
+  - CLEAN: 5647
+  - CRITICAL: 939
   - ERROR: 65
   - HIGH: 724
-  - LOW: 1098
-  - MEDIUM: 957
+  - LOW: 1108
+  - MEDIUM: 963
