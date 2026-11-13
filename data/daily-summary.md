@@ -1,20 +1,21 @@
-## Daily Scan Summary (2026-11-12)
+## Daily Scan Summary (2026-11-13)
 - Scanned: 50 packages
-- CRITICAL: 4
+- CRITICAL: 5
 - HIGH: 0
-- CLEAN/LOW: 40
+- CLEAN/LOW: 39
 
 ### Flagged Packages:
-- [CRITICAL] @attocash/marketplace-mcp (score: 90)
-- [CRITICAL] @cig-chat/mcp (score: 100)
-- [CRITICAL] @corsair-dev/mcp (score: 75)
-- [CRITICAL] @felores/kie-cli (score: 100)
+- [CRITICAL] @gaiventures/pilotfish-mcp (score: 100)
+- [CRITICAL] @jaibber/mcp (score: 100)
+- [CRITICAL] @nearai/near-mcp (score: 100)
+- [CRITICAL] @notta-labs/notta-mcp (score: 85)
+- [CRITICAL] @onelogin/onelogin-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 9446
-  - CLEAN: 5647
-  - CRITICAL: 939
+- Total scanned: 9496
+  - CLEAN: 5680
+  - CRITICAL: 944
   - ERROR: 65
   - HIGH: 724
-  - LOW: 1108
-  - MEDIUM: 963
+  - LOW: 1114
+  - MEDIUM: 969
