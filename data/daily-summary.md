@@ -1,21 +1,23 @@
-## Daily Scan Summary (2026-11-13)
+## Daily Scan Summary (2026-11-14)
 - Scanned: 50 packages
-- CRITICAL: 5
-- HIGH: 0
-- CLEAN/LOW: 39
+- CRITICAL: 6
+- HIGH: 1
+- CLEAN/LOW: 38
 
 ### Flagged Packages:
-- [CRITICAL] @gaiventures/pilotfish-mcp (score: 100)
-- [CRITICAL] @jaibber/mcp (score: 100)
-- [CRITICAL] @nearai/near-mcp (score: 100)
-- [CRITICAL] @notta-labs/notta-mcp (score: 85)
-- [CRITICAL] @onelogin/onelogin-mcp (score: 100)
+- [CRITICAL] @rigstate/mcp (score: 100)
+- [CRITICAL] @sly_ai/mcp-server (score: 100)
+- [CRITICAL] @teamnetwork-nz/devoli-mcp-server (score: 100)
+- [CRITICAL] @teamnetwork-nz/veeam-mcp-server (score: 100)
+- [CRITICAL] @tryvira/mcp (score: 100)
+- [HIGH] enterprise-db-mcp-server (score: 40)
+- [CRITICAL] mcp-server-bitbucket (score: 100)
 
 ### Cumulative:
-- Total scanned: 9496
-  - CLEAN: 5680
-  - CRITICAL: 944
+- Total scanned: 9546
+  - CLEAN: 5715
+  - CRITICAL: 950
   - ERROR: 65
-  - HIGH: 724
-  - LOW: 1114
-  - MEDIUM: 969
+  - HIGH: 725
+  - LOW: 1117
+  - MEDIUM: 974
