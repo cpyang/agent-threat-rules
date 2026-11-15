@@ -1,23 +1,18 @@
-## Daily Scan Summary (2026-11-14)
+## Daily Scan Summary (2026-11-15)
 - Scanned: 50 packages
-- CRITICAL: 6
+- CRITICAL: 1
 - HIGH: 1
-- CLEAN/LOW: 38
+- CLEAN/LOW: 48
 
 ### Flagged Packages:
-- [CRITICAL] @rigstate/mcp (score: 100)
-- [CRITICAL] @sly_ai/mcp-server (score: 100)
-- [CRITICAL] @teamnetwork-nz/devoli-mcp-server (score: 100)
-- [CRITICAL] @teamnetwork-nz/veeam-mcp-server (score: 100)
-- [CRITICAL] @tryvira/mcp (score: 100)
-- [HIGH] enterprise-db-mcp-server (score: 40)
-- [CRITICAL] mcp-server-bitbucket (score: 100)
+- [HIGH] @gydr-ai/mcp-oauth (score: 50)
+- [CRITICAL] @pramaan/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 9546
-  - CLEAN: 5715
-  - CRITICAL: 950
+- Total scanned: 9596
+  - CLEAN: 5759
+  - CRITICAL: 951
   - ERROR: 65
-  - HIGH: 725
-  - LOW: 1117
+  - HIGH: 726
+  - LOW: 1121
   - MEDIUM: 974
