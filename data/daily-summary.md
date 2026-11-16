@@ -1,18 +1,21 @@
-## Daily Scan Summary (2026-11-15)
+## Daily Scan Summary (2026-11-16)
 - Scanned: 50 packages
-- CRITICAL: 1
+- CRITICAL: 4
 - HIGH: 1
-- CLEAN/LOW: 48
+- CLEAN/LOW: 33
 
 ### Flagged Packages:
-- [HIGH] @gydr-ai/mcp-oauth (score: 50)
-- [CRITICAL] @pramaan/mcp (score: 100)
+- [HIGH] @layerre/mcp-server (score: 60)
+- [CRITICAL] @seanhogg/builderforce-memory-mcp (score: 100)
+- [CRITICAL] @vertracloud/mcp (score: 100)
+- [CRITICAL] dsh-mcp-registry (score: 70)
+- [CRITICAL] frinus-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 9596
-  - CLEAN: 5759
-  - CRITICAL: 951
-  - ERROR: 65
-  - HIGH: 726
-  - LOW: 1121
-  - MEDIUM: 974
+- Total scanned: 9646
+  - CLEAN: 5784
+  - CRITICAL: 955
+  - ERROR: 66
+  - HIGH: 727
+  - LOW: 1129
+  - MEDIUM: 985
