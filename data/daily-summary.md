@@ -1,19 +1,21 @@
-## Daily Scan Summary (2026-11-17)
+## Daily Scan Summary (2026-11-18)
 - Scanned: 50 packages
-- CRITICAL: 0
+- CRITICAL: 2
 - HIGH: 3
-- CLEAN/LOW: 41
+- CLEAN/LOW: 45
 
 ### Flagged Packages:
-- [HIGH] @burtthecoder/mcp-shodan (score: 55)
-- [HIGH] @chkp/quantum-gw-cli-mcp (score: 65)
-- [HIGH] @imenam/simple-scraper (score: 50)
+- [HIGH] @agentmesh-md/mcp-server (score: 40)
+- [HIGH] @chnmig/vdoc-mcp (score: 55)
+- [HIGH] @humanleg/mcp-server (score: 50)
+- [CRITICAL] @iwas/mcp (score: 100)
+- [CRITICAL] @mwillbanks/ast-mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 9696
-  - CLEAN: 5819
-  - CRITICAL: 955
+- Total scanned: 9746
+  - CLEAN: 5860
+  - CRITICAL: 957
   - ERROR: 67
-  - HIGH: 730
-  - LOW: 1135
+  - HIGH: 733
+  - LOW: 1139
   - MEDIUM: 990
