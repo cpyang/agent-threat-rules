@@ -1,20 +1,19 @@
-## Daily Scan Summary (2026-11-19)
+## Daily Scan Summary (2026-11-20)
 - Scanned: 50 packages
 - CRITICAL: 2
-- HIGH: 2
-- CLEAN/LOW: 41
+- HIGH: 1
+- CLEAN/LOW: 46
 
 ### Flagged Packages:
-- [HIGH] @sstolz/kdrive-mcp-server (score: 60)
-- [HIGH] @totalreclaw/mcp-server (score: 50)
-- [CRITICAL] mcp-ssh-manager (score: 75)
-- [CRITICAL] nephis-mcp-server (score: 100)
+- [HIGH] @gnopulse/mcp (score: 40)
+- [CRITICAL] @ritualdev-lab/mcp-builder-kit (score: 100)
+- [CRITICAL] @thegrayrabbit/mcp (score: 100)
 
 ### Cumulative:
-- Total scanned: 9796
-  - CLEAN: 5894
-  - CRITICAL: 959
+- Total scanned: 9846
+  - CLEAN: 5936
+  - CRITICAL: 961
   - ERROR: 68
-  - HIGH: 735
-  - LOW: 1146
-  - MEDIUM: 994
+  - HIGH: 736
+  - LOW: 1150
+  - MEDIUM: 995
