@@ -1,21 +1,25 @@
-## Daily Scan Summary (2026-11-21)
+## Daily Scan Summary (2026-11-22)
 - Scanned: 50 packages
-- CRITICAL: 3
-- HIGH: 2
-- CLEAN/LOW: 39
+- CRITICAL: 5
+- HIGH: 4
+- CLEAN/LOW: 37
 
 ### Flagged Packages:
-- [HIGH] @visuallyjs/browser-ui-mcp (score: 65)
-- [CRITICAL] discord-mcp-pro (score: 85)
-- [HIGH] evidence-mcp-dev (score: 50)
-- [CRITICAL] fastmcp-backlog-server (score: 100)
-- [CRITICAL] fastmcp-oauth (score: 100)
+- [CRITICAL] awwwards-mcp (score: 70)
+- [HIGH] @aegis-402/mcp (score: 40)
+- [CRITICAL] @agentskit/tools (score: 100)
+- [CRITICAL] @aiondadotcom/mcp-wordpress (score: 100)
+- [CRITICAL] @aliasfleet/mcp-server (score: 75)
+- [CRITICAL] @answerai/confluence-mcp (score: 95)
+- [HIGH] @answerai/jira-mcp (score: 50)
+- [HIGH] @apideck/mcp-connect (score: 50)
+- [HIGH] @apitoll/seller-sdk (score: 50)
 
 ### Cumulative:
-- Total scanned: 9896
-  - CLEAN: 5972
-  - CRITICAL: 964
+- Total scanned: 9946
+  - CLEAN: 6001
+  - CRITICAL: 969
   - ERROR: 68
-  - HIGH: 738
-  - LOW: 1153
-  - MEDIUM: 1001
+  - HIGH: 742
+  - LOW: 1161
+  - MEDIUM: 1005
